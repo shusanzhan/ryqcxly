@@ -22,7 +22,6 @@
 <include file="/struts/struts-cw.xml"></include>
 <include file="/struts/struts-sta.xml"></include>
 <include file="/struts/struts-bussi.xml"></include>
-
 <include file="/struts/struts-qywx-stat.xml"></include>
 <package name="struts2" extends="struts-default">
 </package>
