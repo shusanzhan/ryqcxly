@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-2-13 17:26:22 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.qywx.model.QywxAccount" table="qywx_account">
+          <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="accountName" type="string">
+            <column name="accountName" length="200" />
+        </property>
+        <property name="accountIntro" type="string">
+            <column name="accountIntro" length="65535" />
+        </property>
+        <property name="groupId" type="string">
+            <column name="groupId" length="200" />
+        </property>
+        <property name="bandWeixin" type="string">
+            <column name="bandWeixin" length="500" />
+        </property>
+        <property name="accountEmail" type="string">
+            <column name="accountEmail" length="50" />
+        </property>
+        <property name="security" type="string">
+            <column name="security" length="50" />
+        </property>
+        <property name="code" type="string">
+            <column name="code" length="50" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+    </class>
+</hibernate-mapping>

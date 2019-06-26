@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="set"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="set-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="set-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="brand" class="brandAction">
+			<result name="edit">/pages/set/brand/edit.jsp</result>
+			<result name="editSelf">/pages/set/brand/editSelf.jsp</result>
+			<result name="list">/pages/set/brand/list.jsp</result>
+		</action>	
+		<action name="carSeriy" class="carSeriyAction">
+			<result name="edit">/pages/set/carSeriy/edit.jsp</result>
+			<result name="editSelf">/pages/set/carSeriy/editSelf.jsp</result>
+			<result name="list">/pages/set/carSeriy/list.jsp</result>
+		</action>	
+		<action name="carModel" class="carModelAction">
+			<result name="edit">/pages/set/carModel/edit.jsp</result>
+			<result name="editSelf">/pages/set/carModel/editSelf.jsp</result>
+			<result name="list">/pages/set/carModel/list.jsp</result>
+		</action>
+		<action name="carSeriyImage" class="carSeriyImageAction">
+			<result name="carSeriyImage">/pages/set/carSeriyImage/carSeriyImage.jsp</result>
+		</action>	
+		<action name="carColor" class="carColorAction">
+			<result name="edit">/pages/set/carColor/edit.jsp</result>
+			<result name="editSelf">/pages/set/carColor/editSelf.jsp</result>
+			<result name="list">/pages/set/carColor/list.jsp</result>
+		</action>	
+		<action name="loanType" class="loanTypeAction">
+        	 <result name="edit">/pages/set/loanType/edit.jsp</result>
+        	 <result name="list">/pages/set/loanType/list.jsp</result>
+        </action>
+        <action name="preferenceItem" class="preferenceItemAction">
+        	 <result name="edit">/pages/set/preferenceItem/edit.jsp</result>
+        	 <result name="list">/pages/set/preferenceItem/list.jsp</result>
+        </action>
+		<action name="chargeItem" class="chargeItemAction">
+        	 <result name="edit">/pages/set/chargeItem/edit.jsp</result>
+        	 <result name="list">/pages/set/chargeItem/list.jsp</result>
+        </action>
+       	<action name="salePolicy" class="salePolicyAction">
+       	 <result name="edit">/pages/set/salePolicy/edit.jsp</result>
+       	 <result name="list">/pages/set/salePolicy/list.jsp</result>
+       	 <result name="read">/pages/set/salePolicy/read.jsp</result>
+       	 <result name="salerList">/pages/set/salePolicy/salerList.jsp</result>
+       </action>
+    </package>
+</struts>

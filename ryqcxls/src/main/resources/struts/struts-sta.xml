@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">  
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="sta"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="sta-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="sta-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="staCustComp" class="staCustCompAction">
+			<result name="userList">/pages/sta/staCustComp/userList.jsp</result>
+			<result name="depList">/pages/sta/staCustComp/depList.jsp</result>
+			<result name="entList">/pages/sta/staCustComp/entList.jsp</result>
+		</action>
+		<action name="staAssessmentIndex" class="staAssessmentIndexAction">
+			<result name="edit">/pages/sta/staAssessmentIndex/edit.jsp</result>
+			<result name="list">/pages/sta/staAssessmentIndex/list.jsp</result>
+		</action>
+		<action name="staAssessmentIndexLevel" class="staAssessmentIndexLevelAction">
+			<result name="edit">/pages/sta/staAssessmentIndexLevel/edit.jsp</result>
+			<result name="list">/pages/sta/staAssessmentIndexLevel/list.jsp</result>
+		</action>
+		
+		<action name="statCustomerRecord" class="statCustomerRecordAction">
+			<result name="receptionStat">/pages/sta/customerRecord/receptionStat.jsp</result>
+			<result name="receptionStatYear">/pages/sta/customerRecord/receptionStatYear.jsp</result>
+		</action>
+		<action name="statCustomerRecordNet" class="statCustomerRecordNetAction">
+			<result name="netStaMonth">/pages/sta/statCustomerRecordNet/netStaMonth.jsp</result>
+			<result name="netStaYear">/pages/sta/statCustomerRecordNet/netStaYear.jsp</result>
+		</action>
+		<action name="customerInfromStaSet" class="customerInfromStaSetAction">
+			<result name="edit">/pages/sta/customerInfromStaSet/edit.jsp</result>
+		</action>
+		<action name="statCustomerInvitation" class="statCustomerInvitationAction">
+			<result name="invitationList">/pages/sta/statCustomerInvitation/invitationList.jsp</result>
+			<result name="invitationYearList">/pages/sta/statCustomerInvitation/invitationYearList.jsp</result>
+		</action>
+		<action name="staTryCar" class="staTryCarAction">
+			<result name="tryCarList">/pages/sta/staTryCar/tryCarList.jsp</result>
+			<result name="tryCarYearList">/pages/sta/staTryCar/tryCarYearList.jsp</result>
+		</action>
+		<action name="comeShop" class="comeShopAction">
+			<result name="comeShopList">/pages/sta/comeShop/comeShopList.jsp</result>
+			<result name="comeShopYearList">/pages/sta/comeShop/comeShopYearList.jsp</result>
+		</action>
+		<action name="twoComeShop" class="twoComeShopAction">
+			<result name="twoComeShopList">/pages/sta/twoComeShop/twoComeShopList.jsp</result>
+			<result name="twoComeShopYearList">/pages/sta/twoComeShop/twoComeShopYearList.jsp</result>
+		</action>
+		<action name="flow" class="flowAction">
+			<result name="flowList">/pages/sta/flow/flowList.jsp</result>
+			<result name="flowYearList">/pages/sta/flow/flowYearList.jsp</result>
+		</action>
+		<action name="track" class="trackAction">
+			<result name="flowList">/pages/sta/track/trackList.jsp</result>
+			<result name="flowYearList">/pages/sta/track/trackYearList.jsp</result>
+		</action>
+		<action name="wlbOrderFactRef" class="wlbOrderFactRefAction">
+			<result name="wlbOrderFactRef">/pages/sta/wlbOrderFactRef/wlbOrderFactRef.jsp</result>
+		</action>
+		<action name="order" class="orderAction">
+			<result name="orderList">/pages/sta/order/orderList.jsp</result>
+			<result name="orderYearList">/pages/sta/order/orderYearList.jsp</result>
+		</action>
+		<action name="cityCross" class="cityCrossAction">
+			<result name="cityCrossCount">/pages/sta/cityCross/cityCrossCount.jsp</result>
+		</action>
+		<action name="cust" class="custAction">
+			<result name="list">/pages/sta/cust/list.jsp</result>
+		</action>
+	</package>
+</struts>

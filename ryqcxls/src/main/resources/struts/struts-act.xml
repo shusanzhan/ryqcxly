@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="act"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="act-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="act-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		 <action name="saleActivity" class="saleActivityAction">
+        	<result name="edit">/pages/act/saleActivity/edit.jsp</result>
+        	<result name="editPublicBenefitActivity">/pages/act/saleActivity/publicBenefitActivity.jsp</result>
+        	<result name="editSchool">/pages/act/saleActivity/school.jsp</result>
+        	<result name="list">/pages/act/saleActivity/list.jsp</result>
+        </action>
+        <action name="saleRoom" class="saleRoomAction">
+        	<result name="edit">/pages/act/saleRoom/edit.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="system"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="ssz-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="ssz-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="swfUpload" class="swfUploadAction">
+		  	 <result name="invalid.token">/pages/cust/commons/token.jsp</result>
+        </action>
+          <action name="customerFlowReason" class="customerFlowReasonAction">
+         	<result name="edit">/pages/cust/customerFlowReason/edit.jsp</result>
+         	<result name="list">/pages/cust/customerFlowReason/list.jsp</result>
+         </action>  
+         
+         <action name="customerRecord" class="customerRecordAction">
+			<result name="add">/pages/cust/customerRecord/add.jsp</result>
+			<result name="editComeShop">/pages/cust/customerRecord/editComeShop.jsp</result>
+			<result name="editPhone">/pages/cust/customerRecord/editPhone.jsp</result>
+			<result name="list">/pages/cust/customerRecord/list.jsp</result>
+			<result name="leaderList">/pages/cust/customerRecord/leaderList.jsp</result>
+			<result name="leaderValidList">/pages/cust/customerRecord/leaderValidList.jsp</result>
+			<result name="invalidList">/pages/cust/customerRecord/invalidList.jsp</result>
+			<result name="invalid">/pages/cust/customerRecord/invalid.jsp</result>
+			<result name="bindCustomer">/pages/cust/customerRecord/bindCustomer.jsp</result>
+			<result name="view">/pages/cust/customerRecord/view.jsp</result>
+			<result name="importExcel">/pages/cust/customerRecord/importExcel.jsp</result>
+			<result name="salerEdit">/pages/cust/customerRecord/salerEdit.jsp</result>
+			<result name="error">/pages/cust/customerRecord/error.jsp</result>
+			<result name="success">/pages/cust/customerRecord/success.jsp</result>
+			<result name="salerList">/pages/cust/customerRecord/salerList.jsp</result>
+		</action>   
+         <action name="customerRecordTarget" class="customerRecordTargetAction">
+			<result name="edit">/pages/cust/customerRecordTarget/edit.jsp</result>
+			<result name="list">/pages/cust/customerRecordTarget/list.jsp</result>
+		</action>   
+         <action name="customerRecordClubInvalidReason" class="customerRecordClubInvalidReasonAction">
+			<result name="edit">/pages/cust/customerRecordClubInvalidReason/edit.jsp</result>
+			<result name="list">/pages/cust/customerRecordClubInvalidReason/list.jsp</result>
+		</action>   
+		<action name="customerRecordSet" class="customerRecordSetAction">
+        	 <result name="edit">/pages/cust/customerRecordSet/edit.jsp</result>
+        </action>
+		<action name="custMarketingAct" class="custMarketingActAction">
+			<result name="edit">/pages/cust/custMarketingAct/edit.jsp</result>
+			<result name="list">/pages/cust/custMarketingAct/list.jsp</result>
+			<result name="inviteDetail">/pages/cust/custMarketingAct/inviteDetail.jsp</result>
+		</action>
+		<action name="carModelSalePolicy" class="carModelSalePolicyAction">
+			<result name="edit">/pages/cust/carModelSalePolicy/edit.jsp</result>
+			<result name="list">/pages/cust/carModelSalePolicy/list.jsp</result>
+			<result name="updateBatch">/pages/cust/carModelSalePolicy/updateBatch.jsp</result>
+			<result name="redBagList">/pages/cust/carModelSalePolicy/redBagList.jsp</result>
+			<result name="redBagUpdateBatch">/pages/cust/carModelSalePolicy/redBagUpdateBatch.jsp</result>
+		</action>
+		<action name="trackingPhase" class="trackingPhaseAction">
+			<result name="edit">/pages/cust/trackingPhase/edit.jsp</result>
+			<result name="list">/pages/cust/trackingPhase/list.jsp</result>
+		</action>
+		<action name="educational" class="educationalAction">
+			<result name="edit">/pages/cust/educational/edit.jsp</result>
+			<result name="list">/pages/cust/educational/list.jsp</result>
+		</action>
+		<action name="industry" class="industryAction">
+			<result name="edit">/pages/cust/industry/edit.jsp</result>
+			<result name="list">/pages/cust/industry/list.jsp</result>
+		</action>
+		<action name="customerPhase" class="customerPhaseAction">
+			<result name="edit">/pages/cust/customerPhase/edit.jsp</result>
+			<result name="list">/pages/cust/customerPhase/list.jsp</result>
+		</action>
+		
+		<action name="profession" class="professionAction">
+			<result name="edit">/pages/cust/profession/edit.jsp</result>
+			<result name="list">/pages/cust/profession/list.jsp</result>
+		</action>
+		<action name="buyCarType" class="buyCarTypeAction">
+			<result name="edit">/pages/cust/buyCarType/edit.jsp</result>
+			<result name="list">/pages/cust/buyCarType/list.jsp</result>
+		</action>
+		<action name="cityCrossCustomer" class="cityCrossCustomerAction">
+			<result name="edit">/pages/cust/cityCrossCustomer/edit.jsp</result>
+			<result name="list">/pages/cust/cityCrossCustomer/list.jsp</result>
+		</action>
+		<action name="buyCarBudget" class="buyCarBudgetAction">
+			<result name="edit">/pages/cust/buyCarBudget/edit.jsp</result>
+			<result name="list">/pages/cust/buyCarBudget/list.jsp</result>
+		</action>
+		<action name="buyCarMainUse" class="buyCarMainUseAction">
+			<result name="edit">/pages/cust/buyCarMainUse/edit.jsp</result>
+			<result name="list">/pages/cust/buyCarMainUse/list.jsp</result>
+		</action>
+		<action name="buyCarCare" class="buyCarCareAction">
+			<result name="edit">/pages/cust/buyCarCare/edit.jsp</result>
+			<result name="list">/pages/cust/buyCarCare/list.jsp</result>
+		</action>
+		<action name="buyCarTarget" class="buyCarTargetAction">
+			<result name="edit">/pages/cust/buyCarTarget/edit.jsp</result>
+			<result name="list">/pages/cust/buyCarTarget/list.jsp</result>
+		</action>
+		<action name="paperwork" class="paperworkAction">
+			<result name="edit">/pages/cust/paperwork/edit.jsp</result>
+			<result name="list">/pages/cust/paperwork/list.jsp</result>
+		</action>
+		<action name="userSub" class="userSubAction">
+			<result name="edit">/pages/cust/userSub/edit.jsp</result>
+			<result name="list">/pages/cust/userSub/list.jsp</result>
+		</action>
+		<action name="receiveMessageUser" class="receiveMessageUserAction">
+			<result name="edit">/pages/cust/receiveMessageUser/edit.jsp</result>
+			<result name="list">/pages/cust/receiveMessageUser/list.jsp</result>
+		</action>
+		<!-- 系统内部通知信息 -->
+		<action name="message" class="messageAction">
+		</action>
+		
+		<action name="infoFrom" class="infoFromAction">
+			<result name="edit">/pages/cust/infoFrom/edit.jsp</result>
+			<result name="list">/pages/cust/infoFrom/list.jsp</result>
+		</action>
+		<action name="infoFromDetail" class="infoFromDetailAction">
+			<result name="edit">/pages/cust/infoFromDetail/edit.jsp</result>
+			<result name="list">/pages/cust/infoFromDetail/list.jsp</result>
+		</action>
+		<action name="productCategory" class="productCategoryAction">
+			<result name="edit">/pages/cust/productCategory/edit.jsp</result>
+			<result name="list">/pages/cust/productCategory/list.jsp</result>
+		</action>
+		<action name="customerInfrom" class="customerInfromAction">
+			<result name="edit">/pages/cust/customerInfrom/edit.jsp</result>
+			<result name="list">/pages/cust/customerInfrom/list.jsp</result>
+		</action>
+		<action name="product" class="productAction">
+			<result name="viewProduct">/pages/cust/product/viewProduct.jsp</result>
+			<result name="viewPackage">/pages/cust/product/viewPackage.jsp</result>
+			<result name="edit">/pages/cust/product/edit.jsp</result>
+			<result name="list">/pages/cust/product/list.jsp</result>
+			<result name="salerList">/pages/cust/product/salerList.jsp</result>
+			<result name="stopList">/pages/cust/product/stopList.jsp</result>
+			<result name="productSelect">/pages/cust/product/productSelect.jsp</result>
+			<result name="warmStockNum">/pages/cust/product/warmStockNum.jsp</result>
+		</action>
+		<action name="productPackage" class="productPackageAction">
+			<result name="edit">/pages/cust/productPackage/edit.jsp</result>
+			<result name="list">/pages/cust/productPackage/list.jsp</result>
+			<result name="stopList">/pages/cust/productPackage/stopList.jsp</result>
+		</action>
+		<!-- 客户管理 开始-->
+		<action name="customer" class="customerAction">
+			<!-- 客户登记记录 -->
+			<result name="addShoppingRecord">/pages/cust/customer/addShoppingRecord.jsp</result>
+			<result name="edit">/pages/cust/customer/edit.jsp</result>
+			<!-- 客户登记记录列表管理 -->
+			<result name="customerShoppingRecord">/pages/cust/customer/customerShoppingRecord.jsp</result>
+			<result name="leaderCustomerShoppingRecord">/pages/cust/customer/leaderCustomerShoppingRecord.jsp</result>
+			<result name="roomManageList">/pages/cust/customer/roomManageList.jsp</result>
+			<!-- 成交客户 -->
+			<result name="success">/pages/cust/customer/success.jsp</result>
+			<result name="outFlow">/pages/cust/customer/outFlow.jsp</result>
+			<result name="outLeaderFlow">/pages/cust/customer/outLeaderFlow.jsp</result>
+			<result name="outLeaderManageFlow">/pages/cust/customer/outLeaderManageFlow.jsp</result>
+			<result name="outRoomManageFlow">/pages/cust/customer/outRoomManageFlow.jsp</result>
+			<result name="list">/pages/cust/customer/list.jsp</result>
+			
+			<result name="customerFile">/pages/cust/customer/customerFile.jsp</result>
+			
+			<result name="testDriveAgreement">/pages/cust/customer/testDriveAgreement.jsp</result>
+			<result name="satisfactionAssessment">/pages/cust/customer/satisfactionAssessment.jsp</result>
+			<!-- 商谈报价表 -->
+			<result name="negotiationsQuote">/pages/cust/customer/negotiationsQuote.jsp</result>
+			<!-- 签定合同 -->
+			<result name="contract">/pages/cust/customer/contract.jsp</result>
+			<!-- 客户跟踪单 -->
+			<result name="trakingCard">/pages/cust/customer/trakingCard.jsp</result>
+			<result name="handerOverCar">/pages/cust/customer/handerOverCar.jsp</result>
+			<result name="customerFolderPer">/pages/cust/customer/customerFolderPer.jsp</result>
+			<result name="customerFolderDep">/pages/cust/customer/customerFolderDep.jsp</result>
+			<result name="customerSelect">/pages/cust/customer/customerSelect.jsp</result>
+			<result name="tenCoreSurver">/pages/cust/customer/tenCoreSurver.jsp</result>
+			<result name="validateMember">/pages/cust/customer/validateMember.jsp</result>
+			
+			<result name="comeShopRecord">/pages/cust/customer/comeShopRecord.jsp</result>
+			<result name="comeShopRecordSuccess">/pages/cust/customer/comeShopRecordSuccess.jsp</result>
+			<result name="invitationList">/pages/cust/customer/invitationList.jsp</result>
+			<result name="receptierList">/pages/cust/customer/receptierList.jsp</result>
+			<result name="glass">/pages/cust/customer/glass.jsp</result>
+			<result name="loveCarTrace">/pages/cust/customer/loveCarTrace.jsp</result>
+		</action>
+		<!-- 客户档案 -->
+		<action name="customerFile" class="customerFileAction">
+			<result name="geryCustomerFolderPer">/pages/cust/customerFile/geryCustomerFolderPer.jsp</result>
+			<result name="geryCustomerFolderDep">/pages/cust/customerFile/geryCustomerFolderDep.jsp</result>
+			<result name="kaiyiCustomerFolderPer">/pages/cust/customerFile/kaiyiCustomerFolderPer.jsp</result>
+			<result name="kaiyiCustomerFolderDep">/pages/cust/customerFile/kaiyiCustomerFolderDep.jsp</result>
+			<result name="index">/pages/cust/customerFile/index.jsp</result>
+			<result name="geryEditPer">/pages/cust/customerFile/geryEditPer.jsp</result>
+			<result name="geryEditDep">/pages/cust/customerFile/geryEditDep.jsp</result>
+			<result name="kaiyiEditPer">/pages/cust/customerFile/kaiyiEditPer.jsp</result>
+			<result name="kaiyiEditDep">/pages/cust/customerFile/kaiyiEditDep.jsp</result>
+		</action>
+		<action name="orderCoupon" class="orderCouponAction">
+			<!-- 客户订单管理 -->
+			<result name="edit">/pages/cust/orderCoupon/edit.jsp</result>
+			<result name="list">/pages/cust/orderCoupon/list.jsp</result>
+		</action>
+		<action name="orderCouponApply" class="orderCouponApplyAction">
+			<!-- 客户订单管理 -->
+			<result name="edit">/pages/cust/orderCouponApply/edit.jsp</result>
+			<result name="list">/pages/cust/orderCouponApply/list.jsp</result>
+		</action>
+		<action name="orderContract" class="orderContractAction">
+			<!-- 客户订单管理 -->
+			<result name="addOrderContract">/pages/cust/orderContract/addOrderContract.jsp</result>
+			<result name="editOrderContract">/pages/cust/orderContract/editOrderContract.jsp</result>
+			<result name="order">/pages/cust/orderContract/order.jsp</result>
+			<result name="managerOrder">/pages/cust/orderContract/managerOrder.jsp</result>
+			<result name="gmsManagerOrder">/pages/cust/orderContract/gmsManagerOrder.jsp</result>
+			<result name="viewApprovalRecord">/pages/cust/orderContract/viewApprovalRecord.jsp</result>
+			<result name="viewOrderContract">/pages/cust/orderContract/viewOrderContract.jsp</result>
+			<result name="approval">/pages/cust/orderContract/approval.jsp</result>
+			<result name="printContract">/pages/cust/orderContract/printContract.jsp</result>
+			<result name="printFjContract">/pages/cust/orderContract/printFjContract.jsp</result>
+			<result name="updateCustomerIdCard">/pages/cust/orderContract/updateCustomerIdCard.jsp</result>
+			<result name="roomManageList">/pages/cust/orderContract/roomManageList.jsp</result>
+			<result name="roomManageApproval">/pages/cust/orderContract/roomManageApproval.jsp</result>
+		</action>
+		
+		<action name="customerTrack" class="customerTrackAction">
+			<result name="view">/pages/cust/customerTrack/view.jsp</result>
+			<result name="personCustomerTrack">/pages/cust/customerTrack/personCustomerTrack.jsp</result>
+			<result name="personCustomerTrackRecord">/pages/cust/customerTrack/personCustomerTrackRecord.jsp</result>
+			<result name="dayCustomerTrack">/pages/cust/customerTrack/dayCustomerTrack.jsp</result>
+			<result name="edit">/pages/cust/customerTrack/edit.jsp</result>
+			<result name="leaderView">/pages/cust/customerTrack/leaderView.jsp</result>
+			<result name="list">/pages/cust/customerTrack/list.jsp</result>
+			<result name="leaderList">/pages/cust/customerTrack/leaderList.jsp</result>
+			<result name="roomManageList">/pages/cust/customerTrack/roomManageList.jsp</result>
+			<result name="readCustomerTrack">/pages/cust/customerTrack/readCustomerTrack.jsp</result>
+			<result name="watingReadCustomerTrack">/pages/cust/customerTrack/watingReadCustomerTrack.jsp</result>
+			<result name="dayRoomManageCustomerTrack">/pages/cust/customerTrack/dayRoomManageCustomerTrack.jsp</result>
+			<result name="leaderCustomerTrack">/pages/cust/customerTrack/leaderCustomerTrack.jsp</result>
+			<result name="leaderApproval">/pages/cust/customerTrack/leaderApproval.jsp</result>
+			<result name="waitingList">/pages/cust/customerTrack/waitingList.jsp</result>
+			<result name="customerTrackCountList">/pages/cust/customerTrack/customerTrackCountList.jsp</result>
+			<result name="tomorrwCustomerTrack">/pages/cust/customerTrack/tomorrwCustomerTrack.jsp</result>
+			<result name="salerCustomerTrackDetail">/pages/cust/customerTrack/salerCustomerTrackDetail.jsp</result>
+		</action>
+		  <action name="customerTrackStatic" class="customerTrackStaticAction">
+			<result name="today">/pages/cust/customerTrackStatic/today.jsp</result>
+		</action> 
+		<action name="customerLastBussi" class="customerLastBussiAction">
+			<result name="edit">/pages/cust/customerLastBussi/edit.jsp</result>
+			<result name="approvalLastResult">/pages/cust/customerLastBussi/approvalLastResult.jsp</result>
+			<result name="list">/pages/cust/customerLastBussi/list.jsp</result>
+			<result name="modify">/pages/cust/customerLastBussi/modify.jsp</result>
+			<result name="selectResult">/pages/cust/customerLastBussi/selectResult.jsp</result>
+			<result name="customerFlow">/pages/cust/customerLastBussi/customerFlow.jsp</result>
+		</action>
+		<action name="customerPidBookingRecord" class="customerPidBookingRecordAction">
+			<result name="edit">/pages/cust/customerPidBookingRecord/edit.jsp</result>
+			<result name="wlbList">/pages/cust/customerPidBookingRecord/wlbList.jsp</result>
+			<result name="wlbEdit">/pages/cust/customerPidBookingRecord/wlbEdit.jsp</result>
+			<result name="orderContractCancel">/pages/cust/customerPidBookingRecord/orderContractCancel.jsp</result>
+			<result name="customerSuccess">/pages/cust/customerPidBookingRecord/customerSuccess.jsp</result>
+			<result name="customerManageSuccess">/pages/cust/customerPidBookingRecord/customerManageSuccess.jsp</result>
+			<result name="serviceCustomerManageSuccess">/pages/cust/customerPidBookingRecord/serviceCustomerManageSuccess.jsp</result>
+			<result name="wlbCustomerManageSuccess">/pages/cust/customerPidBookingRecord/wlbCustomerSuccess.jsp</result>
+			<result name="manageCustomerSuccess">/pages/cust/customerPidBookingRecord/manageCustomerSuccess.jsp</result>
+			<result name="watingList">/pages/cust/customerPidBookingRecord/watingList.jsp</result>
+			<result name="watingApprovalList">/pages/cust/customerPidBookingRecord/watingApprovalList.jsp</result>
+			<result name="watingManageList">/pages/cust/customerPidBookingRecord/watingManageList.jsp</result>
+			<!-- 销售副总审批页面 -->
+			<result name="approvalOrderContractCancel">/pages/cust/customerPidBookingRecord/approvalOrderContractCancel.jsp</result>
+			<!-- 销售总经理审批页面 -->
+			<result name="approvalManageOrderContractCancel">/pages/cust/customerPidBookingRecord/approvalManageOrderContractCancel.jsp</result>
+			<result name="approvalDetail">/pages/cust/customerPidBookingRecord/approvalDetail.jsp</result>
+			<result name="viewWlbCus">/pages/cust/customerPidBookingRecord/viewWlbCus.jsp</result>
+			<result name="selectCustomerPidRecord">/pages/cust/customerPidBookingRecord/selectCustomerPidRecord.jsp</result>
+			<result name="wlbEditStock">/pages/cust/customerPidBookingRecord/wlbEditStock.jsp</result>
+			<result name="toCutomerFile">/pages/cust/customerPidBookingRecord/toCutomerFile.jsp</result>
+			<result name="decoreCustomerManageSuccess">/pages/cust/customerPidBookingRecord/decoreCustomerManageSuccess.jsp</result>
+			<result name="printHuimin">/pages/cust/customerPidBookingRecord/printHuimin.jsp</result>
+		</action>
+		<action name="customerImage" class="customerImageAction">
+			<result name="customerImage">/pages/cust/customerImage/customerImage.jsp</result>
+			<result name="customerImageSuccess">/pages/cust/customerImage/customerImageSuccess.jsp</result>
+			<result name="viewImage">/pages/cust/customerImage/viewImage.jsp</result>
+			<result name="downZip">/pages/cust/customerImage/downZip.jsp</result>
+			<result name="approve">/pages/cust/customerImage/approve.jsp</result>
+			<result name="approvalImage">/pages/cust/customerImage/approvalImage.jsp</result>
+			<result name="submit">/pages/cust/customerImage/submit.jsp</result>
+		</action>
+		<!-- 销售毛利 -->
+		<action name="salerProfit" class="salerProfitAction">
+			<result name="myList">/pages/cust/salerProfit/myList.jsp</result>
+			<result name="enterpriseList">/pages/cust/salerProfit/enterpriseList.jsp</result>
+		</action>
+		<!-- 交款确认单 装饰通知单 -->
+		<action name="paymentConfirmation" class="paymentConfirmationAction">
+			<result name="printPaymentConfirmation">/pages/cust/paymentConfirmation/printPaymentConfirmation.jsp</result>
+			<result name="printDecoreNotice">/pages/cust/paymentConfirmation/printDecoreNotice.jsp</result>
+		</action>
+		<action name="turnCustomerRecord" class="turnCustomerRecordAction">
+			<result name="view">/pages/cust/turnCustomerRecord/view.jsp</result>
+			<result name="addRoom">/pages/cust/turnCustomerRecord/addRoom.jsp</result>
+			<result name="addSaleDirector">/pages/cust/turnCustomerRecord/addSaleDirector.jsp</result>
+			<result name="edit">/pages/cust/turnCustomerRecord/edit.jsp</result>
+			<result name="list">/pages/cust/turnCustomerRecord/list.jsp</result>
+			<result name="leaderList">/pages/cust/turnCustomerRecord/leaderList.jsp</result>
+			<result name="saleDirectorList">/pages/cust/turnCustomerRecord/saleDirectorList.jsp</result>
+			<result name="customerSelect">/pages/cust/turnCustomerRecord/customerSelect.jsp</result>
+		</action>
+		
+		<action name="orderContractDecore" class="orderContractDecoreAction">
+			<result name="decoreNotice">/pages/cust/orderContractDecore/orderContractDecore.jsp</result>
+			<result name="printDecoreNotice">/pages/cust/orderContractDecore/printOrderContractDecore.jsp</result>
+			<result name="error">/pages/cust/orderContractDecore/error.jsp</result>
+		</action>
+		<action name="orderContractExpenses" class="orderContractExpensesAction">
+			<result name="addOrderContractExpenses">/pages/cust/orderContractExpenses/addOrderContractExpenses.jsp</result>
+			<result name="editOrderContractExpenses">/pages/cust/orderContractExpenses/editOrderContractExpenses.jsp</result>
+		</action>
+		<!-- 短信模板管理 -->
+		<action name="smsTemplate" class="smsTemplateAction">
+			<result name="edit">/pages/cust/smsTemplate/edit.jsp</result>
+			<result name="list">/pages/cust/smsTemplate/list.jsp</result>
+			<result name="smsTemplateSelect">/pages/cust/smsTemplate/smsTemplateSelect.jsp</result>
+		</action>
+		<!-- 发送短信 -->
+		<action name="sms" class="smsAction">
+			<result name="edit">/pages/cust/sms/edit.jsp</result>
+			<result name="list">/pages/cust/sms/list.jsp</result>
+			<result name="leaderList">/pages/cust/sms/leaderList.jsp</result>
+		</action>
+		<!-- 物流部vin码管理 -->
+		<action name="carVinCode" class="carVinCodeAction">
+			<result name="edit">/pages/cust/carVinCode/edit.jsp</result>
+			<result name="list">/pages/cust/carVinCode/list.jsp</result>
+		</action>
+		
+		<!-- 统计分析 -->
+		<action name="statistics" class="statisticsAction">
+			<result name="index">/pages/cust/statistics/index.jsp</result>
+			<result name="dataStatistics">/pages/cust/statistics/dataStatistics.jsp</result>
+			<result name="carStatistics">/pages/cust/statistics/carStatistics.jsp</result>
+			<result name="levelStatistics">/pages/cust/statistics/levelStatistics.jsp</result>
+			<result name="tradeStatistics">/pages/cust/statistics/tradeStatistics.jsp</result>
+			<result name="dayComeShopStatistics">/pages/cust/statistics/dayComeShopStatistics.jsp</result>
+			<result name="comeTypeStatistics">/pages/cust/statistics/comeTypeStatistics.jsp</result>
+			<result name="noCarStatistics">/pages/cust/statistics/noCarStatistics.jsp</result>
+			<result name="tryCarStatistics">/pages/cust/statistics/tryCarStatistics.jsp</result>
+			<result name="cityCrossCustomer">/pages/cust/statistics/cityCrossStatistics.jsp</result>
+			<result name="overTimeCount">/pages/cust/statistics/overTimeCount.jsp</result>
+		</action>		
+		<!-- 统计分析 -->
+		<action name="statisticsSaler" class="statisticsSalerAction">
+			<result name="index">/pages/cust/statisticsSaler/index.jsp</result>
+			<result name="dataStatistics">/pages/cust/statisticsSaler/dataStatistics.jsp</result>
+			<result name="carStatistics">/pages/cust/statisticsSaler/carStatistics.jsp</result>
+			<result name="levelStatistics">/pages/cust/statisticsSaler/levelStatistics.jsp</result>
+			<result name="tradeStatistics">/pages/cust/statisticsSaler/tradeStatistics.jsp</result>
+			<result name="dayComeShopStatistics">/pages/cust/statisticsSaler/dayComeShopStatistics.jsp</result>
+			<result name="comeTypeStatistics">/pages/cust/statisticsSaler/comeTypeStatistics.jsp</result>
+		</action>		
+		<action name="roomManage" class="roomManageAction">
+           <result name="index">/pages/cust/roomManage/index.jsp</result>
+           <result name="dayComeShopStatistics">/pages/cust/roomManage/dayComeShopStatistics.jsp</result>
+           <result name="carStatistics">/pages/cust/roomManage/carStatistics.jsp</result>
+           <result name="tradeStatistics">/pages/cust/roomManage/tradeStatistics.jsp</result>
+           <result name="cityCrossCustomer">/pages/cust/roomManage/cityCrossStatistics.jsp</result>
+           <result name="comeTypeStatistics">/pages/cust/roomManage/comeTypeStatistics.jsp</result>
+           <result name="tryCarStatistics">/pages/cust/roomManage/tryCarStatistics.jsp</result>
+           <result name="overTimeCount">/pages/cust/roomManage/overTimeCount.jsp</result>
+        </action>
+		<!-- 经销商管理模块 -->
+		<action name="distributor" class="distributorAction">
+			<result name="edit">/pages/cust/distributor/edit.jsp</result>
+			<result name="editEn">/pages/cust/distributor/editEn.jsp</result>
+			<result name="chocie">/pages/cust/distributor/chocie.jsp</result>
+			<result name="view">/pages/cust/distributor/view.jsp</result>
+			<result name="list">/pages/cust/distributor/list.jsp</result>
+			<result name="changeUser">/pages/cust/distributor/changeUser.jsp</result>
+		</action>   
+		<action name="distributorChargePerson" class="distributorChargePersonAction">
+			<result name="edit">/pages/cust/distributorChargePerson/edit.jsp</result>
+			<result name="list">/pages/cust/distributorChargePerson/list.jsp</result>
+		</action>   
+		<action name="distributorBrand" class="distributorBrandAction">
+			<result name="edit">/pages/cust/distributorBrand/edit.jsp</result>
+			<result name="list">/pages/cust/distributorBrand/list.jsp</result>
+		</action>   
+		<action name="distributorSuboutlet" class="distributorSuboutletAction">
+			<result name="edit">/pages/cust/distributorSuboutlet/edit.jsp</result>
+			<result name="list">/pages/cust/distributorSuboutlet/list.jsp</result>
+		</action>   
+		<action name="distributorBuff" class="distributorBuffAction">
+			<result name="edit">/pages/cust/distributorBuff/edit.jsp</result>
+			<result name="list">/pages/cust/distributorBuff/list.jsp</result>
+		</action>   
+		<action name="netTwoCustomer" class="netTwoCustomerAction">
+			<result name="edit">/pages/cust/netTwoCustomer/edit.jsp</result>
+			<result name="addOrderFee">/pages/cust/netTwoCustomer/addOrderFee.jsp</result>
+			<result name="editOrderFee">/pages/cust/netTwoCustomer/editOrderFee.jsp</result>
+			<result name="addCustomerPid">/pages/cust/netTwoCustomer/addCustomerPid.jsp</result>
+			<result name="addDecore">/pages/cust/netTwoCustomer/addDecore.jsp</result>
+			<result name="list">/pages/cust/netTwoCustomer/list.jsp</result>
+			<result name="customerFile">/pages/cust/netTwoCustomer/customerFile.jsp</result>
+			<result name="gatherCustomerFile">/pages/cust/netTwoCustomer/gatherCustomerFile.jsp</result>
+			<result name="gatherList">/pages/cust/netTwoCustomer/gatherList.jsp</result>
+			<result name="updateCustomerIdCard">/pages/cust/netTwoCustomer/updateCustomerIdCard.jsp</result>
+		</action>   
+		<action name="distributorType" class="distributorTypeAction">
+			<result name="edit">/pages/cust/distributorType/edit.jsp</result>			
+			<result name="list">/pages/cust/distributorType/list.jsp</result>
+		</action>
+    </package>
+</struts>

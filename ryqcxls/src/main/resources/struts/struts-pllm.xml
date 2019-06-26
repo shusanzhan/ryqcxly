@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="pllm"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="pllm-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="pllm-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		   <result name="error">/error500.jsp</result> 
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+ 		<action name="spread" class="spreadAction">
+           <result name="list">/pages/pllm/spread/list.jsp</result>
+           <result name="myList">/pages/pllm/spread/myList.jsp</result>
+           <result name="edit">/pages/pllm/spread/edit.jsp</result>
+           <result name="editSpreadGroup">/pages/pllm/spread/editSpreadGroup.jsp</result>
+           <result name="spreadGroupList">/pages/pllm/spread/spreadGroupList.jsp</result>
+           <result name="staticQrCode">/pages/pllm/spread/staticQrCode.jsp</result>
+        </action>
+        <action name="spreadDetail" class="spreadDetailAction">
+           <result name="list">/pages/pllm/spreadDetail/list.jsp</result>
+           <result name="edit">/pages/pllm/spreadDetail/edit.jsp</result>
+        </action>  
+        <action name="recPageUrl" class="recPageUrlAction">
+           <result name="list">/pages/pllm/recPageUrl/list.jsp</result>
+           <result name="edit">/pages/pllm/recPageUrl/edit.jsp</result>
+        </action>  
+        <action name="albumSet" class="albumSetAction">
+			<result name="edit">/pages/pllm/albumSet/edit.jsp</result>
+		</action>
+        <action name="proProductLog" class="proProductLogAction">
+			<result name="list">/pages/pllm/productLog/list.jsp</result>
+			<result name="edit">/pages/pllm/productLog/edit.jsp</result>
+			<result name="deployLog">/pages/pllm/productLog/deployLog.jsp</result>
+		</action>
+        <action name="productLogItem" class="productLogItemAction">
+			<result name="list">/pages/pllm/productLogItem/list.jsp</result>
+			<result name="add">/pages/pllm/productLogItem/add.jsp</result>
+			<result name="edit">/pages/pllm/productLogItem/edit.jsp</result>
+			<result name="uploadImage">/pages/pllm/productLogItem/uploadImage.jsp</result>
+		</action>
+		<action name="album" class="albumAction">
+			<result name="edit">/pages/pllm/album/edit.jsp</result>
+			<result name="editTop">/pages/pllm/album/editTop.jsp</result>
+			<result name="desiList">/pages/pllm/album/desiList.jsp</result>
+			<result name="list">/pages/pllm/album/list.jsp</result>
+		</action>
+		<action name="recShareRecord" class="recShareRecordAction">
+			<result name="list">/pages/pllm/recShareRecord/list.jsp</result>
+		</action>
+		<action name="recPageRecord" class="recPageRecordAction">
+			<result name="list">/pages/pllm/recPageRecord/list.jsp</result>
+		</action>
+		<action name="recVisitRecord" class="recVisitRecordAction">
+			<result name="list">/pages/pllm/recVisitRecord/list.jsp</result>
+		</action>
+    </package>
+</struts>

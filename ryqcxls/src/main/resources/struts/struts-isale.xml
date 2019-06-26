@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="isale"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="isale-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="isale-stack" />
+		<global-results>
+		     <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/strutsError.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+        <action name="supplier" class="supplierAction">
+        	 <result name="edit">/pages/isale/supplier/edit.jsp</result>
+        	 <result name="list">/pages/isale/supplier/list.jsp</result>
+        	 <result name="payment">/pages/isale/supplier/payment.jsp</result>
+        </action>
+        <action name="payment" class="paymentAction">
+        	 <result name="edit">/pages/isale/payment/edit.jsp</result>
+        	 <result name="list">/pages/isale/payment/list.jsp</result>
+        </action>
+        <action name="purchaseStorage" class="purchaseStorageAction">
+        	 <result name="edit">/pages/isale/purchaseStorage/edit.jsp</result>
+        	 <result name="cliList">/pages/isale/purchaseStorage/cliList.jsp</result>
+        	 <result name="prodcutItemList">/pages/isale/purchaseStorage/prodcutItemList.jsp</result>
+        	 <result name="printCli">/pages/isale/purchaseStorage/printCli.jsp</result>
+        	 <result name="list">/pages/isale/purchaseStorage/list.jsp</result>
+        	 <result name="purchaseSstorageSelect">/pages/isale/purchaseStorage/purchaseSstorageSelect.jsp</result>
+        </action>
+        <action name="purchaseProduct" class="purchaseProductAction">
+        	 <result name="list">/pages/isale/purchaseProduct/list.jsp</result>
+        </action>
+        <action name="decoreOutProduct" class="decoreOutProductAction">
+        	 <result name="list">/pages/isale/decoreOutProduct/list.jsp</result>
+        </action>
+        <action name="decoreOut" class="decoreOutAction">
+        	 <result name="edit">/pages/isale/decoreOut/edit.jsp</result>
+        	 <result name="decoreOutThree">/pages/isale/decoreOut/decoreOutThree.jsp</result>
+        	 <result name="add">/pages/isale/decoreOut/add.jsp</result>
+        	 <result name="list">/pages/isale/decoreOut/list.jsp</result>
+        	 <result name="cwList">/pages/isale/decoreOut/cwList.jsp</result>
+        	 <result name="decoreOut">/pages/isale/decoreOut/decoreOut.jsp</result>
+        	 <result name="orderContractDecore">/pages/isale/decoreOut/orderContractDecore.jsp</result>
+       	</action>
+       	<action name="saleDecoreOut" class="saleDecoreOutAction">
+        	 <result name="edit">/pages/isale/saleDecoreOut/edit.jsp</result>
+        	 <result name="preEdit">/pages/isale/saleDecoreOut/preEdit.jsp</result>
+        	 <result name="viewSale">/pages/isale/saleDecoreOut/viewSale.jsp</result>
+        	 <result name="printSale">/pages/isale/saleDecoreOut/printSale.jsp</result>
+        	 <result name="prePrintSale">/pages/isale/saleDecoreOut/prePrintSale.jsp</result>
+        	 <result name="printCustDecore">/pages/isale/saleDecoreOut/printCustDecore.jsp</result>
+        	 <result name="preViewSale">/pages/isale/saleDecoreOut/preViewSale.jsp</result>
+        	 <result name="preWashed">/pages/isale/saleDecoreOut/preWashed.jsp</result>
+        	 <result name="list">/pages/isale/saleDecoreOut/list.jsp</result>
+        	 <result name="cancelList">/pages/isale/saleDecoreOut/cancelList.jsp</result>
+       	</action>
+        <action name="profit" class="profitAction">
+        	 <result name="profit">/pages/isale/profit/profit.jsp</result>
+       	</action>
+        <action name="productWaitingOut" class="productWaitingOutAction">
+        	 <result name="productWaitingList">/pages/isale/productWatingOut/productWaitingList.jsp</result>
+        	 <result name="productOrderList">/pages/isale/productWatingOut/productOrderList.jsp</result>
+       	</action>
+        <action name="isaleDecoreType" class="isaleDecoreTypeAction">
+        	 <result name="edit">/pages/isale/isaleDecoreType/edit.jsp</result>
+       	</action>
+    </package>
+</struts>

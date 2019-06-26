@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="agent"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="agent-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="agent-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="agentSet" class="agentSetAction">
+			<result name="edit">/pages/agent/agentSet/edit.jsp</result>
+		</action>
+		<action name="agent" class="agentAction">
+			<result name="list">/pages/agent/agent/list.jsp</result>
+			<result name="bigAreaList">/pages/agent/agent/bigAreaList.jsp</result>
+			<result name="agentFile">/pages/agent/agent/agentFile.jsp</result>
+		</action>
+		<action name="recommendCustomer" class="recommendCustomerAction">
+			<result name="list">/pages/agent/recommentCustomer/list.jsp</result>
+			<result name="companyManageList">/pages/agent/recommentCustomer/companyManageList.jsp</result>
+			<result name="companySalerList">/pages/agent/recommentCustomer/companySalerList.jsp</result>
+			<result name="distribution">/pages/agent/recommentCustomer/distribution.jsp</result>
+			<result name="agentFile">/pages/agent/recommentCustomer/agentFile.jsp</result>
+			<result name="agentCompanyFile">/pages/agent/recommentCustomer/agentCompanyFile.jsp</result>
+			<result name="customerFile">/pages/agent/recommentCustomer/customerFile.jsp</result>
+			<result name="bigAreaList">/pages/agent/recommentCustomer/bigAreaList.jsp</result>
+			<result name="toCustomer">/pages/agent/recommentCustomer/toCustomer.jsp</result>
+			<result name="distriCompnay">/pages/agent/recommentCustomer/distriCompnay.jsp</result>
+			<result name="waitingList">/pages/agent/recommentCustomer/waitingList.jsp</result>
+			<result name="outFlow">/pages/agent/recommentCustomer/outFlow.jsp</result>
+			<result name="invalidList">/pages/agent/recommentCustomer/invalidList.jsp</result>
+			<result name="exportExcel">/pages/agent/recommentCustomer/exportExcel.jsp</result>
+			<result name="reward">/pages/agent/recommentCustomer/reward.jsp</result>
+		</action>	
+		<action name="flowReason" class="flowReasonAction">
+			<result name="edit">/pages/agent/flowReason/edit.jsp</result>
+			<result name="list">/pages/agent/flowReason/list.jsp</result>
+		</action>
+		<action name="agentType" class="agentTypeAction">
+			<result name="edit">/pages/agent/agentType/edit.jsp</result>
+			<result name="list">/pages/agent/agentType/list.jsp</result>
+		</action>
+		<action name="agentRecvier" class="wechatRecvierAction">
+			<result name="edit">/pages/agent/wechatRecvier/edit.jsp</result>
+			<result name="list">/pages/agent/wechatRecvier/list.jsp</result>
+		</action>
+		<action name="agentCompany" class="agentCompanyAction">
+			<result name="list">/pages/agent/agentCompany/list.jsp</result>
+			<result name="agentFile">/pages/agent/agentCompany/agentFile.jsp</result>
+			<result name="bigAreaList">/pages/agent/agentCompany/bigAreaList.jsp</result>
+		</action>	
+		<action name="carSeriyImage" class="carSeriyImageAction">
+			<result name="carSeriyImage">/pages/agent/carSeriyImage/carSeriyImage.jsp</result>
+		</action>	
+		<action name="agentSetLevel" class="agentSetLevelAction">
+			<result name="edit">/pages/agent/agentSetLevel/edit.jsp</result>
+		</action>	
+    </package>
+</struts>

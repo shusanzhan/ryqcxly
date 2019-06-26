@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="fin"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="fin-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="fin-stack" />
+		<global-results>
+		     <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/strutsError.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+        <action name="finYear" class="finYearAction">
+        	 <result name="edit">/pages/fin/finYear/edit.jsp</result>
+        	 <result name="list">/pages/fin/finYear/list.jsp</result>
+        </action>
+        <action name="finCal" class="finCalAction">
+        	 <result name="finCal">/pages/fin/finCal/finCal.jsp</result>
+        </action>
+        <action name="finSet" class="finSetAction">
+        	 <result name="edit">/pages/fin/finSet/edit.jsp</result>
+        </action>
+        <action name="carSeriySalerPlociy" class="carSeriySalerPlociyAction">
+        	 <result name="list">/pages/fin/carseriySalerPlociy/list.jsp</result>
+        	 <result name="updateBatch">/pages/fin/carseriySalerPlociy/updateBatch.jsp</result>
+        </action>
+        <action name="finProduct" class="finProductAction">
+        	 <result name="edit">/pages/fin/finProduct/edit.jsp</result>
+        	 <result name="list">/pages/fin/finProduct/list.jsp</result>
+        </action>
+        <action name="applyFailReason" class="applyFailReasonAction">
+        	 <result name="edit">/pages/fin/applyFailReason/edit.jsp</result>
+        	 <result name="list">/pages/fin/applyFailReason/list.jsp</result>
+        </action>
+        <action name="finCustomerLowReason" class="finCustomerLowReasonAction">
+        	 <result name="edit">/pages/fin/finCustomerLowReason/edit.jsp</result>
+        	 <result name="list">/pages/fin/finCustomerLowReason/list.jsp</result>
+        </action>
+        <action name="saleCompany" class="saleCompanyAction">
+        	 <result name="edit">/pages/fin/saleCompany/edit.jsp</result>
+        	 <result name="list">/pages/fin/saleCompany/list.jsp</result>
+        </action>
+        <action name="finCustomer" class="finCustomerAction">
+        	 <result name="edit">/pages/fin/finCustomer/edit.jsp</result>
+        	 <result name="editOther">/pages/fin/finCustomer/editOther.jsp</result>
+        	 <result name="list">/pages/fin/finCustomer/list.jsp</result>
+        	 <result name="mail">/pages/fin/finCustomer/mail.jsp</result>
+        	 <result name="result">/pages/fin/finCustomer/result.jsp</result>
+        	 <result name="successList">/pages/fin/finCustomer/successList.jsp</result>
+        	 <result name="flowList">/pages/fin/finCustomer/flowList.jsp</result>
+        	 <result name="flowCustomer">/pages/fin/finCustomer/flowCustomer.jsp</result>
+        	 <result name="finCustomerFile">/pages/fin/finCustomer/finCustomerFile.jsp</result>
+        	 <result name="toFinCustomerFile">/pages/fin/finCustomer/toFinCustomerFile.jsp</result>
+        	 <result name="updateFinCustomer">/pages/fin/finCustomer/updateFinCustomer.jsp</result>
+        	 <result name="exportExcel">/pages/fin/finCustomer/exportExcel.jsp</result>
+        	 <result name="checkFinCustomerList">/pages/fin/finCustomer/checkFinCustomerList.jsp</result>
+        	 <result name="checkCustomer">/pages/fin/finCustomer/checkCustomer.jsp</result>
+        	 <result name="cwMoreSuccessList">/pages/fin/finCustomer/cwMoreSuccessList.jsp</result>
+        </action>
+        <action name="finStaticalPer" class="finStaticalPerAction">
+        	 <result name="perMonth">/pages/fin/finStaticalPer/perMonth.jsp</result>
+        	 <result name="perQuarter">/pages/fin/finStaticalPer/perQuarter.jsp</result>
+        	 <result name="perYear">/pages/fin/finStaticalPer/perYear.jsp</result>
+        </action>
+        <action name="finProfitStatical" class="finProfitStaticalAction">
+        	 <result name="profit">/pages/fin/finProfitStatical/profit.jsp</result>
+        </action>
+        <action name="finCustomerStatical" class="finCustomerStaticalAction">
+        	<result name="index">/pages/fin/statical/index.jsp</result>
+        	<result name="grossProfit">/pages/fin/statical/grossProfit.jsp</result>
+        </action>
+        <action name="finCustomerRecodStatical" class="finCustomerRecodStaticalAction">
+        	<result name="todayStatic">/pages/fin/statical/record/todayStatic.jsp</result>
+        	<result name="customerMonth">/pages/fin/statical/record/customerMonth.jsp</result>
+        	<result name="customerWeek">/pages/fin/statical/record/customerWeek.jsp</result>
+        	<result name="customer7Day">/pages/fin/statical/record/customer7Day.jsp</result>
+        	<result name="customerYear">/pages/fin/statical/record/customerYear.jsp</result>
+        </action>
+        <action name="finCustomerSuccessStatical" class="finCustomerSuccessStaticalAction">
+        	<result name="todayStatic">/pages/fin/statical/success/todayStatic.jsp</result>
+        	<result name="customerMonth">/pages/fin/statical/success/customerMonth.jsp</result>
+        	<result name="customerWeek">/pages/fin/statical/success/customerWeek.jsp</result>
+        	<result name="customer7Day">/pages/fin/statical/success/customer7Day.jsp</result>
+        	<result name="customerYear">/pages/fin/statical/success/customerYear.jsp</result>
+        </action>
+        <action name="finCustomerFlowStatical" class="finCustomerFlowStaticalAction">
+        	<result name="todayStatic">/pages/fin/statical/flow/todayStatic.jsp</result>
+        	<result name="customerMonth">/pages/fin/statical/flow/customerMonth.jsp</result>
+        	<result name="customerWeek">/pages/fin/statical/flow/customerWeek.jsp</result>
+        	<result name="customer7Day">/pages/fin/statical/flow/customer7Day.jsp</result>
+        	<result name="customerYear">/pages/fin/statical/flow/customerYear.jsp</result>
+        </action>
+        <action name="finCustomerProfitStatical" class="finCustomerProfitStaticalAction">
+        	<result name="todayStatic">/pages/fin/statical/profit/todayStatic.jsp</result>
+        	<result name="customerMonth">/pages/fin/statical/profit/customerMonth.jsp</result>
+        	<result name="customerWeek">/pages/fin/statical/profit/customerWeek.jsp</result>
+        	<result name="customer7Day">/pages/fin/statical/profit/customer7Day.jsp</result>
+        	<result name="customerYear">/pages/fin/statical/profit/customerYear.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="cou"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="cou-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="cou-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		   <result name="error">/error500.jsp</result> 
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="share" class="shareAction">
+			<result name="editAdvert">/pages/cou/share/editAdvert.jsp</result>
+			<result name="edit">/pages/cou/share/edit.jsp</result>
+			<result name="list">/pages/cou/share/list.jsp</result>
+			<result name="shareRecord">/pages/cou/share/shareRecord.jsp</result>
+			<result name="shareAplay">/pages/cou/share/shareAplay.jsp</result>
+			<result name="editShareAplay">/pages/cou/share/editShareAplay.jsp</result>
+			<result name="viewShareAplay">/pages/cou/share/viewShareAplay.jsp</result>
+		</action>	
+		<action name="coupon" class="couponAction">
+			<result name="editDirectionalCoupon">/pages/cou/coupon/editDirectionalCoupon.jsp</result>			
+			<result name="edit">/pages/cou/coupon/edit.jsp</result>			
+			<result name="list">/pages/cou/coupon/list.jsp</result>
+			<result name="couponCode">/pages/cou/coupon/couponCode.jsp</result>
+			<result name="addCouponCode">/pages/cou/coupon/addCouponCode.jsp</result>
+			<result name="printCode">/pages/cou/coupon/printCode.jsp</result>
+		</action>
+		<action name="couponMember" class="couponMemberAction">
+			<result name="editDirectionalCoupon">/pages/cou/couponMember/editDirectionalCoupon.jsp</result>			
+			<result name="edit">/pages/cou/couponMember/edit.jsp</result>			
+			<result name="list">/pages/cou/couponMember/list.jsp</result>
+			<result name="memberCoupon">/pages/cou/couponMember/memberCoupon.jsp</result>
+			<result name="couponCode">/pages/cou/couponMember/couponCode.jsp</result>
+			<result name="addCouponCode">/pages/cou/couponMember/addCouponCode.jsp</result>
+			<result name="printCode">/pages/cou/couponMember/printCode.jsp</result>
+			<result name="export">/pages/cou/couponMember/export.jsp</result>
+		</action>
+		<action name="gameMoney" class="gameMoneyAction">
+           <result name="list">/pages/cou/gameMoney/list.jsp</result>
+           <result name="edit">/pages/cou/gameMoney/edit.jsp</result>
+           <result name="rewardSet">/pages/cou/gameMoney/rewardSet.jsp</result>
+           <result name="activitySet">/pages/cou/gameMoney/activitySet.jsp</result>
+           <result name="viewJion">/pages/cou/gameMoney/viewJion.jsp</result>
+        </action>
+		<action name="wordFace" class="wordFaceAction">
+           <result name="list">/pages/cou/cou/wordFace/list.jsp</result>
+           <result name="edit">/pages/cou/cou/wordFace/edit.jsp</result>
+        </action>
+		<action name="wordImage" class="wordImageAction">
+           <result name="list">/pages/cou/cou/wordImage/list.jsp</result>
+           <result name="edit">/pages/cou/cou/wordImage/edit.jsp</result>
+        </action>
+        <action name="couponMemberTemplate" class="couponMemberTemplateAction">
+			<result name="edit">/pages/cou/couponMemberTemplate/edit.jsp</result>			
+			<result name="list">/pages/cou/couponMemberTemplate/list.jsp</result>
+		</action>
+    </package>
+</struts>

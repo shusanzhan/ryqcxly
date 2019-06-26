@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="cw"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="cw-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="cw-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		 <action name="cwCustomer" class="cwCustomerAction">
+        	 <result name="detail">/pages/cw/cwCustomer/detail.jsp</result>
+        	 <result name="list">/pages/cw/cwCustomer/list.jsp</result>
+        </action>
+		 <action name="payType" class="payTypeAction">
+        	 <result name="edit">/pages/cw/payType/edit.jsp</result>
+        	 <result name="list">/pages/cw/payType/list.jsp</result>
+        </action>
+         <action name="childPayType" class="childPayTypeAction">
+        	 <result name="edit">/pages/cw/childPayType/edit.jsp</result>
+        	 <result name="list">/pages/cw/childPayType/list.jsp</result>
+        </action>
+         <action name="childBillingType" class="childBillingTypeAction">
+        	 <result name="edit">/pages/cw/childBillingType/edit.jsp</result>
+        	 <result name="list">/pages/cw/childBillingType/list.jsp</result>
+        </action>
+         <action name="childReceivablesType" class="childReceivablesTypeAction">
+        	 <result name="edit">/pages/cw/childReceivablesType/edit.jsp</result>
+        	 <result name="list">/pages/cw/childReceivablesType/list.jsp</result>
+        </action>
+		 <action name="cwAppmodifydata" class="cwAppmodifydataAction">
+        	 <result name="cpidApply">/pages/cw/cwAppmodifydata/cpidApplay.jsp</result>
+        	 <result name="cpidApproval">/pages/cw/cwAppmodifydata/cpidApproval.jsp</result>
+        	 <result name="finApplay">/pages/cw/cwAppmodifydata/finApplay.jsp</result>
+        	 <result name="finApproval">/pages/cw/cwAppmodifydata/finApproval.jsp</result>
+        	 <result name="decoreApplay">/pages/cw/cwAppmodifydata/decoreApplay.jsp</result>
+        	 <result name="decoreApproval">/pages/cw/cwAppmodifydata/decoreApproval.jsp</result>
+        	 <result name="insApply">/pages/cw/cwAppmodifydata/insApplay.jsp</result>
+        	 <result name="insApproval">/pages/cw/cwAppmodifydata/insApproval.jsp</result>
+        	 <result name="viewApproval">/pages/cw/cwAppmodifydata/viewApproval.jsp</result>
+        </action>
+         <action name="advancePayment" class="advancePaymentAction">
+        	 <result name="list">/pages/cw/advancePayment/list.jsp</result>
+        	 <result name="edit">/pages/cw/advancePayment/edit.jsp</result>
+        	 <result name="cashier">/pages/cw/advancePayment/cashier.jsp</result>
+        	 <result name="cashierDetail">/pages/cw/advancePayment/cashierDetail.jsp</result>
+        	 <result name="cashierList">/pages/cw/advancePayment/cashierList.jsp</result>
+        </action>
+        <action name="settlementReceipts" class="settlementReceiptsAction">
+        	 <result name="list">/pages/cw/settlementReceipts/list.jsp</result>
+        </action>
+            <action name="advanceCashier" class="advanceCashierAction">
+        	 <result name="list">/pages/cw/advanceCashier/list.jsp</result>
+        	 <result name="edit">/pages/cw/advanceCashier/edit.jsp</result>
+        </action>
+         <action name="cashReceipt" class="cashReceiptAction">
+        	 <result name="list">/pages/cw/cashReceipt/list.jsp</result>
+        	 <result name="add">/pages/cw/cashReceipt/addCashReceipts.jsp</result>
+        	 <result name="cashierList">/pages/cw/cashReceipt/cashierList.jsp</result>
+        	 <result name="cashierDetail">/pages/cw/cashReceipt/cashierDetail.jsp</result>
+        	  <result name="correct">/pages/cw/cashReceipt/correct.jsp</result>
+        </action>
+           <action name="rebateProject" class="rebateProjectAction">
+        	 <result name="edit">/pages/cw/rebateProject/edit.jsp</result>
+        	 <result name="list">/pages/cw/rebateProject/list.jsp</result>
+        </action>
+          <action name="openBillingType" class="openBillingTypeAction">
+        	 <result name="edit">/pages/cw/openBillingType/edit.jsp</result>
+        	 <result name="list">/pages/cw/openBillingType/list.jsp</result>
+        </action>
+        <action name="orderStatus" class="orderStatusAction">
+        	 <result name="edit">/pages/cw/orderStatus/edit.jsp</result>
+        	 <result name="list">/pages/cw/orderStatus/list.jsp</result>
+        </action>    
+        <action name="cashDecore" class="cashDecoreAction">
+        	 <result name="list">/pages/cw/cashDecore/list.jsp</result>
+        	 <result name="edit">/pages/cw/cashDecore/edit.jsp</result>
+        	 <result name="cashierList">/pages/cw/cashDecore/cashierList.jsp</result>
+        	 <result name="cashMoneyDetail">/pages/cw/cashDecore/cashMoneyDetail.jsp</result>
+        </action>
+        <action name="categoryOfReceipts" class="categoryOfReceiptsAction">
+        	 <result name="list">/pages/cw/categoryOfReceipts/list.jsp</result>
+        	 <result name="edit">/pages/cw/categoryOfReceipts/edit.jsp</result>
+        </action>
+        <action name="cashInsurance" class="cashInsuranceAction">
+        	 <result name="list">/pages/cw/cashInsurance/list.jsp</result>
+        	 <result name="batchCash">/pages/cw/cashInsurance/batchCash.jsp</result>
+        	 <result name="batchBill">/pages/cw/cashInsurance/batchBill.jsp</result>
+        	 <result name="billNull">/pages/cw/cashInsurance/billNull.jsp</result>
+        	 <result name="cashierDetail">/pages/cw/cashInsurance/cashierDetail.jsp</result>
+        	 <result name="cashierList">/pages/cw/cashInsurance/cashierList.jsp</result>
+        </action>
+        <action name="advanceMangement" class="advanceManagementAction">
+        	 <result name="list">/pages/cw/advanceManagement/list.jsp</result>
+        	 <result name="edit">/pages/cw/advanceManagement/expenditure.jsp</result>
+        </action>
+        <action name="cashFinance" class="cashFinanceAction">
+        	<result name="cashierList">/pages/cw/cashFinance/cashierList.jsp</result>
+        	<result name="cashierDetail">/pages/cw/cashFinance/cashierDetail.jsp</result>
+        	<result name="list">/pages/cw/cashFinance/list.jsp</result>
+        	<result name="edit">/pages/cw/cashFinance/edit.jsp</result>
+        	<result name="cashDiscount">/pages/cw/cashFinance/cashDiscount.jsp</result>
+        	<result name="batchDiscountCashList">/pages/cw/cashFinance/batchDiscountCashList.jsp</result>
+        	<result name="batchCash">/pages/cw/cashFinance/batchCash.jsp</result>
+        </action>
+        <action name="bill" class="billAction">
+        	<result name="list">/pages/cw/bill/list.jsp</result>
+        	<result name="insuranceBill">/pages/cw/bill/insuranceBill.jsp</result>
+        	<result name="financeBill">/pages/cw/bill/financeBill.jsp</result>
+        	<result name="carBill">/pages/cw/bill/carBill.jsp</result>
+        	<result name="decorateBillNoDepartment">/pages/cw/bill/decorateBillNoDepartment.jsp</result>
+        	<result name="partsBill">/pages/cw/bill/partsBill.jsp</result>
+        	<result name="factoryRebateBill">/pages/cw/bill/factoryRebateBill.jsp</result>
+        	<result name="decoretaBillHasDepartment">/pages/cw/bill/decoretaBillHasDepartment.jsp</result>
+        	<result name="billDetail">/pages/cw/bill/billDetail.jsp</result>
+        </action>
+        <action name="receiveDetial" class="receiveDetialAction">
+        	<result name="list">/pages/cw/receiveDetial/list.jsp</result>
+        </action>
+        <action name="rebateAndFinance" class="rebateAndFinanceAction">
+        	<result name="list">/pages/cw/rebateAndFinance/rebateList.jsp</result>
+        </action>
+        <action name="expenditureManagement" class="expenditureManagementAction">
+        	<result name="list">/pages/cw/expenditureManagement/list.jsp</result>
+        	<result name="advanceExpenditure">/pages/cw/expenditureManagement/advanceExpenditure.jsp</result>
+        	<result name="carCostExpenditure">/pages/cw/expenditureManagement/carCostExpenditure.jsp</result>
+        	<result name="decoreNoExpenditure">/pages/cw/expenditureManagement/decoreNoExpenditure.jsp</result>
+        	<result name="decoreHasExpenditure">/pages/cw/expenditureManagement/decoreHasExpenditure.jsp</result>
+        	<result name="decoreNoExpenditureList">/pages/cw/expenditureManagement/decoreNoExpenditureList.jsp</result>
+        	<result name="decoreHasExpenditureList">/pages/cw/expenditureManagement/decoreHasExpenditureList.jsp</result>
+        	<result name="decoreNoBatchExpenditure">/pages/cw/expenditureManagement/decoreNoBatchExpenditure.jsp</result>
+        	<result name="decoreHasBatchExpenditure">/pages/cw/expenditureManagement/decoreHasBatchExpenditure.jsp</result>
+        	<result name="expenditureDetail">/pages/cw/expenditureManagement/expenditureDetail.jsp</result>
+        </action>
+        <action name="advanceCashMoneyDetail" class="advanceCashMoneyDetailAction">
+        	<result name="list">/pages/cw/advanceCashMoneyDetail/list.jsp</result>
+        	<result name="cashMoneyDetail">/pages/cw/advanceCashMoneyDetail/cashMoneyDetail.jsp</result>
+        </action>
+        <action name="carCashMoneyDetail" class="carCashMoneyDetailAction">
+        	<result name="list">/pages/cw/carCashMoneyDetail/list.jsp</result>
+        </action>
+        <action name="insuranceCashRebateDetail" class="insuranceCashRebateDetail">
+        	<result name="list">/pages/cw/insuranceCashRebateDetail/list.jsp</result>
+        	<result name="cashDetail">/pages/cw/insuranceCashRebateDetail/cashDetail.jsp</result>
+        </action>
+        <action name="carReceiptsCashMoneyDetail" class="carReceiptsCashMoneyDetailAction">
+        	<result name="list">/pages/cw/carReceiptsCashMoneyDetail/list.jsp</result>
+        	<result name="cashCarReceiptsDetail">/pages/cw/carReceiptsCashMoneyDetail/cashCarReceiptsDetail.jsp</result>
+        </action>
+        <action name="cashMoneyDetail" class="cashMoneyDetailAction">
+        	<result name="list">/pages/cw/cashMoneyDetail/list.jsp</result>
+        </action>
+        <action name="paymentCashMoneyDetail" class="paymentCashMoneyDetailAction">
+        	<result name="list">/pages/cw/paymentCashMoneyDetail/list.jsp</result>
+        </action>
+        <action name="rebateType" class="rebateTypeAction">
+        	<result name="list">/pages/cw/rebateType/list.jsp</result>
+        	<result name="edit">/pages/cw/rebateType/edit.jsp</result>
+        	<result name="childrenTypeList">/pages/cw/rebateType/childrenTypeList.jsp</result>
+        	<result name="addChildType">/pages/cw/rebateType/addChildType.jsp</result>
+        	<result name="editChildrenType">/pages/cw/rebateType/editChildrenType.jsp</result>
+        </action>
+        <action name="childrenRebateType" class="childrenRebateTypeAction">
+        	<result name="list">/pages/cw/childrenRebateType/list.jsp</result>
+        	<result name="edit">/pages/cw/childrenRebateType/edit.jsp</result>
+        </action>
+        <action name="rebateManagement" class="rebateManagementAction">
+        	<result name="unEntryList">/pages/cw/rebateManagement/unEntryList.jsp</result>
+        	<result name="editRebate">/pages/cw/rebateManagement/editRebate.jsp</result>
+        	<result name="unCashList">/pages/cw/rebateManagement/unCashList.jsp</result>
+        	<result name="batchCash">/pages/cw/rebateManagement/batchCash.jsp</result>
+        	<result name="cashRebate">/pages/cw/rebateManagement/cashRebate.jsp</result>
+        	<result name="cashierList">/pages/cw/rebateManagement/cashierList.jsp</result>
+        	<result name="cashDetail">/pages/cw/rebateManagement/cashDetail.jsp</result>
+        	<result name="rebateEntryEntrance">/pages/cw/rebateManagement/rebateEntryEntrance.jsp</result>
+        	<result name="presaleEnteryList">/pages/cw/rebateManagement/presaleEnteryList.jsp</result>
+        	<result name="afterEntryList">/pages/cw/rebateManagement/afterEntryList.jsp</result>
+        	<result name="optionRebateType">/pages/cw/rebateManagement/optionRebateType.jsp</result>
+        	<result name="rebateTypeEntry">/pages/cw/rebateManagement/rebateTypeEntry.jsp</result>
+        	<result name="chooseCarList">/pages/cw/rebateManagement/chooseCarList.jsp</result>
+        	<result name="factoryRebateList">/pages/cw/rebateManagement/factoryRebateList.jsp</result>
+        	<result name="batchFactoryRebateCash">/pages/cw/rebateManagement/batchFactoryRebateCash.jsp</result>
+        	<result name="rebateDetailList">/pages/cw/rebateManagement/rebateDetailList.jsp</result>
+        	<result name="cashRebateDetail">/pages/cw/rebateManagement/cashRebateDetail.jsp</result>
+        	<result name="rebateRecordList">/pages/cw/rebateManagement/rebateRecordList.jsp</result>
+        	<result name="editRebateRecord">/pages/cw/rebateManagement/editRebateRecord.jsp</result>
+        	<result name="carRebateRecordList">/pages/cw/rebateManagement/carRebateRecordList.jsp</result>
+        	<result name="beforeRebateRecordList">/pages/cw/rebateManagement/beforeRebateRecordList.jsp</result>
+        	<result name="editBeforeRebateRecord">/pages/cw/rebateManagement/editBeforeRebateRecord.jsp</result>
+        </action>
+        <action name="carRepaymentManagement" class="carRepaymentManagementAction">
+        	<result name="carCostmentNoPayList">/pages/cw/carRepaymentManagement/carCostmentNoPayList.jsp</result>
+        	<result name="addSingleRegister">/pages/cw/carRepaymentManagement/addSingleRegister.jsp</result>
+        	<result name="finBillPayment">/pages/cw/carRepaymentManagement/finBillPayment.jsp</result>
+        	<result name="addSingleRepayment">/pages/cw/carRepaymentManagement/addSingleRepayment.jsp</result>
+        	<result name="batchRepayment">/pages/cw/carRepaymentManagement/batchRepayment.jsp</result>
+        	<result name="repaymentList">/pages/cw/carRepaymentManagement/repaymentList.jsp</result>
+        	<result name="repaymentDetial">/pages/cw/carRepaymentManagement/repaymentDetial.jsp</result>
+        	<result name="factoryOrderDetail">/pages/cw/carRepaymentManagement/factoryOrderDetail.jsp</result>
+        </action>
+        <action name="cwProfitStatical" class="cwProfitStaticalAction">
+        	<result name="profit">/pages/cw/cwProfitStatical/profit.jsp</result>
+        	<result name="dateCwStatic">/pages/cw/cwProfitStatical/dateCwStatic.jsp</result>
+        </action>
+    </package>
+</struts>

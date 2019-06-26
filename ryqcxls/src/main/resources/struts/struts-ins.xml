@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="ins"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="ins-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="ins-stack" />
+		<global-results>
+		     <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/strutsError.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="insuranceCompany" class="insuranceCompanyAction">
+        	 <result name="edit">/pages/ins/insuranceCompany/edit.jsp</result>
+        	 <result name="list">/pages/ins/insuranceCompany/list.jsp</result>
+        </action>
+		<action name="insuranceInfrom" class="insuranceInfromAction">
+        	 <result name="edit">/pages/ins/insuranceInfrom/edit.jsp</result>
+        	 <result name="list">/pages/ins/insuranceInfrom/list.jsp</result>
+        </action>
+		<action name="customerOutFlowReason" class="customerOutFlowReasonAction">
+        	 <result name="edit">/pages/ins/customerOutFlowReason/edit.jsp</result>
+        	 <result name="list">/pages/ins/customerOutFlowReason/list.jsp</result>
+        </action>
+		<action name="insuranceItem" class="insuranceItemAction">
+        	 <result name="edit">/pages/ins/insuranceItem/edit.jsp</result>
+        	 <result name="list">/pages/ins/insuranceItem/list.jsp</result>
+        </action>
+		<action name="insCustomer" class="insCustomerAction">
+        	 <result name="insCustomerDetail">/pages/ins/insCustomer/insCustomerDetail.jsp</result>
+        	 <result name="list">/pages/ins/insCustomer/list.jsp</result>
+        	 <result name="outFlow">/pages/ins/insCustomer/outFlow.jsp</result>
+        	 <result name="outFlowDetail">/pages/ins/insCustomer/outFlowDetail.jsp</result>
+        	 <result name="outFlowList">/pages/ins/insCustomer/outFlowList.jsp</result>
+        	 <result name="list">/pages/ins/insCustomer/list.jsp</result>
+        	 <result name="overTimeList">/pages/ins/insCustomer/overTimeList.jsp</result>
+        	 <result name="warmingList">/pages/ins/insCustomer/warmingList.jsp</result>
+        	 <result name="custList">/pages/ins/insCustomer/custList.jsp</result>
+        	 <result name="cwList">/pages/ins/insCustomer/cwList.jsp</result>
+        </action>
+        <action name="insuranceRecord" class="insuranceRecordAction">
+        	<result name="edit">/pages/ins/insuranceRecord/edit.jsp</result>
+        	<result name="add">/pages/ins/insuranceRecord/add.jsp</result>
+        	<result name="addOutInsCustomer">/pages/ins/insuranceRecord/addOutInsCustomer.jsp</result>
+        	<result name="list">/pages/ins/insuranceRecord/list.jsp</result>
+        	<result name="historyDetail">/pages/ins/insuranceRecord/historyDetail.jsp</result>
+        	<result name="insuranceRecordDetail">/pages/ins/insuranceRecord/insuranceRecordDetail.jsp</result>
+        	<result name="editInsuranceRecord">/pages/ins/insuranceRecord/editInsuranceRecord.jsp</result>
+        </action>
+        <action name="incidentalInterest" class="incidentalInterestAction">
+        	 <result name="edit">/pages/ins/incidentalInterest/edit.jsp</result>
+        	 <result name="list">/pages/ins/incidentalInterest/list.jsp</result>
+        </action>
+        <action name="insSet" class="insSetAction">
+        	 <result name="edit">/pages/ins/insSet/edit.jsp</result>
+        </action>
+        <action name="insStatical" class="insStaticalAction">
+        	 <result name="index">/pages/ins/statical/index.jsp</result>
+        	 <result name="insurancecompanyStatical">/pages/ins/statical/insurancecompanyStatical.jsp</result>
+        	 <result name="insuranceInfromStatical">/pages/ins/statical/insuranceInfromStatical.jsp</result>
+        	 <result name="outFlowStatical">/pages/ins/statical/outFlowStatical.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+<include file="/struts/struts-sys.xml"></include>
+<include file="/struts/struts-agent.xml"></include>
+<include file="/struts/struts-weixin.xml"></include>
+<include file="/struts/struts-cust.xml"></include>
+<include file="/struts/struts-wechat.xml"></include>
+<include file="/struts/struts-pllm.xml"></include>
+<include file="/struts/struts-mem.xml"></include>
+<include file="/struts/struts-cou.xml"></include>
+<include file="/struts/struts-set.xml"></include>
+<include file="/struts/struts-hf.xml"></include>
+<include file="/struts/struts-qywx.xml"></include>
+<include file="/struts/struts-fin.xml"></include>
+<include file="/struts/struts-carstock.xml"></include>
+<include file="/struts/struts-ins.xml"></include>
+<include file="/struts/struts-pro.xml"></include>
+<include file="/struts/struts-isale.xml"></include>
+<include file="/struts/struts-cw.xml"></include>
+<include file="/struts/struts-sta.xml"></include>
+<include file="/struts/struts-bussi.xml"></include>
+<include file="/struts/struts-qywx-stat.xml"></include>
+<package name="struts2" extends="struts-default">
+</package>
+</struts>

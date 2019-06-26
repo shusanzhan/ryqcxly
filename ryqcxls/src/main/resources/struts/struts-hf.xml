@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="hf"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="hf-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="hf-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		 <action name="questBigType" class="questBigTypeAction">
+        	 <result name="edit">/pages/hf/questBigType/edit.jsp</result>
+        	 <result name="list">/pages/hf/questBigType/list.jsp</result>
+        </action>
+		 <action name="interest" class="interestAction">
+        	 <result name="edit">/pages/hf/interest/edit.jsp</result>
+        	 <result name="list">/pages/hf/interest/list.jsp</result>
+        </action>
+		 <action name="specialPan" class="specialPanAction">
+        	 <result name="edit">/pages/hf/specialPan/edit.jsp</result>
+        	 <result name="list">/pages/hf/specialPan/list.jsp</result>
+        </action>
+		 <action name="aginReason" class="aginReasonAction">
+        	 <result name="edit">/pages/hf/aginReason/edit.jsp</result>
+        	 <result name="list">/pages/hf/aginReason/list.jsp</result>
+        </action>
+		 <action name="quest" class="questAction">
+        	 <result name="edit">/pages/hf/quest/edit.jsp</result>
+        	 <result name="list">/pages/hf/quest/list.jsp</result>
+        </action>
+		 <action name="yearFamilyIncome" class="yearFamilyIncomeAction">
+        	 <result name="edit">/pages/hf/yearFamilyIncome/edit.jsp</result>
+        	 <result name="list">/pages/hf/yearFamilyIncome/list.jsp</result>
+        </action>
+		 <action name="drivingAge" class="drivingAgeAction">
+        	 <result name="edit">/pages/hf/drivingAge/edit.jsp</result>
+        	 <result name="list">/pages/hf/drivingAge/list.jsp</result>
+        </action>
+		 <action name="carNatrue" class="carNatrueAction">
+        	 <result name="edit">/pages/hf/carNatrue/edit.jsp</result>
+        	 <result name="list">/pages/hf/carNatrue/list.jsp</result>
+        </action>
+		 <action name="replacementReason" class="replacementReasonAction">
+        	 <result name="edit">/pages/hf/replacementReason/edit.jsp</result>
+        	 <result name="list">/pages/hf/replacementReason/list.jsp</result>
+        </action>
+		 <action name="buyCarEmperise" class="buyCarEmperiseAction">
+        	 <result name="edit">/pages/hf/buyCarEmperise/edit.jsp</result>
+        	 <result name="list">/pages/hf/buyCarEmperise/list.jsp</result>
+        </action>
+		 <action name="familyNumber" class="familyNumberAction">
+        	 <result name="edit">/pages/hf/familyNumber/edit.jsp</result>
+        	 <result name="list">/pages/hf/familyNumber/list.jsp</result>
+        </action>
+		 <action name="depNature" class="depNatureAction">
+        	 <result name="edit">/pages/hf/depNature/edit.jsp</result>
+        	 <result name="list">/pages/hf/depNature/list.jsp</result>
+        </action>
+		 <action name="huiminTemplate" class="huiminTemplateAction">
+        	 <result name="edit">/pages/hf/huiminTemplate/edit.jsp</result>
+        	 <result name="list">/pages/hf/huiminTemplate/list.jsp</result>
+        </action>
+		 <action name="visitRecordReport" class="visitRecordReportAction">
+        	 <result name="edit">/pages/hf/visitRecordReport/edit.jsp</result>
+        	 <result name="monthReport">/pages/hf/visitRecordReport/monthReport.jsp</result>
+        	 <result name="monthReportDep">/pages/hf/visitRecordReport/monthReportDep.jsp</result>
+        	 <result name="monthReportUser">/pages/hf/visitRecordReport/monthReportUser.jsp</result>
+        	 <result name="monthReportDepManager">/pages/hf/visitRecordReport/monthReportDepManager.jsp</result>
+        	 <result name="monthReportDepDetail">/pages/hf/visitRecordReport/monthReportDepDetail.jsp</result>
+        	 <result name="monthReportSale">/pages/hf/visitRecordReport/monthReportSale.jsp</result>
+        	 <result name="viewMonthReportDep">/pages/hf/visitRecordReport/viewMonthReportDep.jsp</result>
+        	 <result name="viewMonthReportUser">/pages/hf/visitRecordReport/viewMonthReportUser.jsp</result>
+        	 <result name="viewMonthReportDepManager">/pages/hf/visitRecordReport/viewMonthReportDepManager.jsp</result>
+        	 <result name="viewMonthReportDepDetail">/pages/hf/visitRecordReport/viewMonthReportDepDetail.jsp</result>
+        	 <result name="viewMonthReportSale">/pages/hf/visitRecordReport/viewMonthReportSale.jsp</result>
+        	 <result name="viewMonthReport">/pages/hf/visitRecordReport/viewMonthReport.jsp</result>
+        	 <result name="list">/pages/hf/visitRecordReport/list.jsp</result>
+        	 <result name="index">/pages/hf/visitRecordReport/index.jsp</result>
+        	
+        </action>
+		 <action name="visitRecord" class="visitRecordAction">
+        	 <result name="customerHf">/pages/hf/visitRecord/customerHf.jsp</result>
+        	 <result name="customerSuccessHf">/pages/hf/visitRecord/customerSuccessHf.jsp</result>
+        	 <result name="add">/pages/hf/visitRecord/add.jsp</result>
+        	 <result name="edit">/pages/hf/visitRecord/edit.jsp</result>
+        	 <result name="view">/pages/hf/visitRecord/view.jsp</result>
+        	 <result name="updateCustomer">/pages/hf/visitRecord/updateCustomer.jsp</result>
+        	 <result name="exportExcel">/pages/hf/visitRecord/exportExcel.jsp</result>
+        </action>
+        <action name="staticHf" class="staticHfAction">
+        	 <result name="index">/pages/hf/static/index.jsp</result>
+        	 <result name="monthReport">/pages/hf/static/monthReport.jsp</result>
+        	 <result name="monthReportDep">/pages/hf/static/monthReportDep.jsp</result>
+        	 <result name="monthReportDepDetail">/pages/hf/static/monthReportDepDetail.jsp</result>
+        	 <result name="monthReportSale">/pages/hf/static/monthReportSale.jsp</result>
+        	 <result name="monthReportUser">/pages/hf/static/monthReportUser.jsp</result>
+        	 <result name="monthReportDepManager">/pages/hf/static/monthReportDepManager.jsp</result>
+        </action>
+        <action name="qywxFj" class="qywxFjAction">
+        	<result name="index">/pages/qywx/staticManage/fj/index.jsp</result>
+        </action>
+        <!-- 购车方式 -->
+        <action name="qywxHfLoanType" class="qywxHfLoanTypeAction">
+        	<result name="day">/pages/qywx/staticManage/fj/loanType/day.jsp</result>
+        	<result name="week">/pages/qywx/staticManage/fj/loanType/week.jsp</result>
+        	<result name="month">/pages/qywx/staticManage/fj/loanType/month.jsp</result>
+        	<result name="year">/pages/qywx/staticManage/fj/loanType/year.jsp</result>
+        </action>
+        <!-- 购车方式 -->
+        <action name="qywxFjSale" class="qywxFjSaleAction">
+        	<result name="day">/pages/qywx/staticManage/fj/saler/day.jsp</result>
+        	<result name="week">/pages/qywx/staticManage/fj/saler/week.jsp</result>
+        	<result name="month">/pages/qywx/staticManage/fj/saler/month.jsp</result>
+        	<result name="year">/pages/qywx/staticManage/fj/saler/year.jsp</result>
+        </action>
+        <!-- 购车部门 -->
+        <action name="qywxFjDep" class="qywxFjDepAction">
+        	<result name="day">/pages/qywx/staticManage/fj/dep/day.jsp</result>
+        	<result name="week">/pages/qywx/staticManage/fj/dep/week.jsp</result>
+        	<result name="month">/pages/qywx/staticManage/fj/dep/month.jsp</result>
+        	<result name="year">/pages/qywx/staticManage/fj/dep/year.jsp</result>
+        </action>
+        <!-- 购车方式 -->
+        <action name="qywxFjCarSeriy" class="qywxFjCarSeriyAction">
+        	<result name="day">/pages/qywx/staticManage/fj/carSeriy/day.jsp</result>
+        	<result name="week">/pages/qywx/staticManage/fj/carSeriy/week.jsp</result>
+        	<result name="month">/pages/qywx/staticManage/fj/carSeriy/month.jsp</result>
+        	<result name="year">/pages/qywx/staticManage/fj/carSeriy/year.jsp</result>
+        </action>
+    </package>
+</struts>

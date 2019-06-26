@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="mem"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="mem-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mem-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		   <result name="error">/error500.jsp</result> 
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+ 		<!-- 会员管理11 -->
+		<action name="member" class="memberAction">
+			<result name="edit">/pages/mem/member/edit.jsp</result>
+			<result name="list">/pages/mem/member/list.jsp</result>
+			<result name="view">/pages/mem/member/view.jsp</result>
+			<result name="duplicateData">/pages/mem/member/duplicateData.jsp</result>
+			<result name="memberSelect">/pages/mem/member/memberSelect.jsp</result>
+			<result name="pointRecordDetail">/pages/mem/member/pointRecordDetail.jsp</result>
+			<result name="birthday">/pages/mem/member/birthday.jsp</result>
+			<result name="information">/pages/mem/member/information.jsp</result>
+			<result name="storeList">/pages/mem/member/storeList.jsp</result>
+			<result name="addTag">/pages/mem/member/addTag.jsp</result>
+			<result name="staticMember">/pages/mem/member/staticMember.jsp</result>
+			<result name="authMember">/pages/mem/member/authMember.jsp</result>
+			<result name="agentTotalList">/pages/mem/member/agentTotalList.jsp</result>
+		</action>	
+		 <action name="reward" class="rewardAction">
+			<result name="edit">/pages/mem/reward/edit.jsp</result>
+			<result name="list">/pages/mem/reward/list.jsp</result>
+			<result name="viewWechat">/pages/mem/reward/viewWechat.jsp</result>
+		</action>	
+		 <action name="fanliSet" class="fanliSetAction">
+			<result name="edit">/pages/mem/fanliSet/edit.jsp</result>
+		</action>	
+		 <action name="memPointrecordSet" class="memPointrecordSetAction">
+			<result name="edit">/pages/mem/memPointrecordSet/edit.jsp</result>
+		</action>	
+		<action name="pointRecord" class="pointRecordAction">
+			<result name="edit">/pages/mem/pointRecord/edit.jsp</result>
+			<result name="list">/pages/mem/pointRecord/list.jsp</result>
+			<result name="report">/pages/mem/pointRecord/report.jsp</result>
+		</action>	
+		<action name="emergencyHelp" class="emergencyHelpAction">
+			<result name="edit">/pages/mem/emergencyHelp/edit.jsp</result>
+			<result name="list">/pages/mem/emergencyHelp/list.jsp</result>
+		</action>	
+		<action name="onlineBooking" class="onlineBookingAction">
+			<result name="edit">/pages/mem/onlineBooking/edit.jsp</result>
+			<result name="list">/pages/mem/onlineBooking/list.jsp</result>
+			<result name="view">/pages/mem/onlineBooking/view.jsp</result>
+			<result name="dealWithOnlineBooking">/pages/mem/onlineBooking/dealWithOnlineBooking.jsp</result>
+			<result name="addOnlineBookingToMember">/pages/mem/onlineBooking/addOnlineBookingToMember.jsp</result>
+		</action>
+		<action name="memTag" class="memTagAction">
+			<result name="edit">/pages/mem/memTag/edit.jsp</result>
+			<result name="list">/pages/mem/memTag/list.jsp</result>
+			<result name="selectTag">/pages/mem/memTag/selectTag.jsp</result>
+			<result name="spreadDetailTag">/pages/mem/memTag/spreadDetailTag.jsp</result>
+		</action>	
+		<action name="memberShipLevel" class="memberShipLevelAction">
+			<result name="edit">/pages/mem/memberShipLevel/edit.jsp</result>
+			<result name="list">/pages/mem/memberShipLevel/list.jsp</result>
+		</action>
+		<action name="memMemcar" class="memMemcarAction">
+			<result name="edit">/pages/mem/memcar/edit.jsp</result>
+			<result name="list">/pages/mem/memcar/list.jsp</result>
+		</action>	
+		<action name="storeMoneyRecord" class="storeMoneyRecordAction">
+			<result name="edit">/pages/mem/storeMoneyRecord/edit.jsp</result>
+			<result name="print">/pages/mem/storeMoneyRecord/print.jsp</result>
+			<result name="list">/pages/mem/storeMoneyRecord/list.jsp</result>
+		</action>
+		<action name="useCarArea" class="useCarAreaAction">
+			<result name="edit">/pages/mem/useCarArea/edit.jsp</result>
+			<result name="list">/pages/mem/useCarArea/list.jsp</result>
+		</action>
+    </package>
+</struts>

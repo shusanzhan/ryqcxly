@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="qywx"  extends="struts-default">
+		<interceptors>
+			<interceptor name="oAuth2" class="com.ystech.qywx.interceptor.OAuth2Interceptor"/>
+			<interceptor-stack name="qywxOAuth2Stack">
+				<interceptor-ref name="oAuth2"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="qywx-stack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="qywx-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		 <action name="enterpriseAssistant" class="enterpriseAssistantAction">
+        </action>
+		 <action name="enterpriseAuth" class="enterpriseAuthAction">
+        	 <result name="outhRemote">/pages/qywx/enterpriseAuth/outhRemote.jsp</result>
+        	 <result name="oAuth">/pages/qywx/enterpriseAuth/oAuth.jsp</result>
+        	 <result name="error">/pages/qywx/enterpriseAuth/error.jsp</result>
+        </action>
+		 <action name="address" class="addressAction">
+        	 <result name="list">/pages/qywx/address/list.jsp</result>
+        </action>
+		 <action name="account" class="qywxAccountAction">
+        	 <result name="list">/pages/qywx/account/edit.jsp</result>
+        </action>
+		 <action name="app" class="appAction">
+        	 <result name="list">/pages/qywx/app/list.jsp</result>
+        	 <result name="edit">/pages/qywx/app/edit.jsp</result>
+        </action>
+		 <action name="appUser" class="appUserAction">
+        	 <result name="list">/pages/qywx/appUser/list.jsp</result>
+        </action>
+		 <action name="appMenu" class="appMenuAction">
+        	 <result name="list">/pages/qywx/menu/list.jsp</result>
+        	 <result name="edit">/pages/qywx/menu/edit.jsp</result>
+        </action>
+		 <action name="messageTemplate" class="messageTemplateAction">
+        	 <result name="list">/pages/qywx/messageTemplate/list.jsp</result>
+        	 <result name="edit">/pages/qywx/messageTemplate/edit.jsp</result>
+        </action>
+		 <action name="messageTemplateType" class="messageTemplateTypeAction">
+        	 <result name="list">/pages/qywx/messageTemplateType/list.jsp</result>
+        	 <result name="edit">/pages/qywx/messageTemplateType/edit.jsp</result>
+        </action>
+		 <action name="qywxOrderContract" class="qywxOrderContractAction">
+        	 <result name="addOrderContract">/pages/qywx/ordercontract/addOrderContract.jsp</result>
+        	 <result name="viewApprovalOrderContractDetail">/pages/qywx/ordercontract/viewApprovalOrderContractDetail.jsp</result>
+        	 <result name="editOrderContract">/pages/qywx/ordercontract/editOrderContract.jsp</result>
+        	 <result name="index">/pages/qywx/ordercontract/index.jsp</result>
+        	 <result name="saleManageApprovalOrder">/pages/qywx/ordercontract/saleManageApprovalOrder.jsp</result>
+        	 <result name="generalManageApprovalOrder">/pages/qywx/ordercontract/generalManageApprovalOrder.jsp</result>
+        	 <result name="apprvoalSaleMangeOrder">/pages/qywx/ordercontract/apprvoalSaleMangeOrder.jsp</result>
+        	 <result name="apprvoalGeneralMangeOrder">/pages/qywx/ordercontract/apprvoalGeneralMangeOrder.jsp</result>
+        	 <result name="roomManageApprovalOrder">/pages/qywx/ordercontract/roomManageApprovalOrder.jsp</result>
+        	 <result name="apprvoalRoomMangeOrder">/pages/qywx/ordercontract/apprvoalRoomMangeOrder.jsp</result>
+        	 <result name="error">/pages/qywx/ordercontract/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+        </action>
+		 <action name="qywxCustomerPidRecord" class="qywxCustomerPidRecordAction">
+        	<result name="index">/pages/qywx/qywxCustomerPidRecord/index.jsp</result>
+        	 <result name="roomManagerList">/pages/qywx/qywxCustomerPidRecord/roomManagerList.jsp</result>
+        	 <result name="generalManagerList">/pages/qywx/qywxCustomerPidRecord/generalManagerList.jsp</result>
+        	 <result name="approvalRoomManager">/pages/qywx/qywxCustomerPidRecord/approvalRoomManager.jsp</result>
+        	 <result name="approvalGeneralManager">/pages/qywx/qywxCustomerPidRecord/approvalGeneralManager.jsp</result>
+        	 <result name="edit">/pages/qywx/qywxCustomerPidRecord/edit.jsp</result>
+        	  <result name="error">/pages/qywx/qywxCustomerPidRecord/error.jsp</result>
+        	  <result name="orderContractCancel">/pages/qywx/qywxCustomerPidRecord/orderContractCancel.jsp</result>
+        	  <result name="approvalDetail">/pages/qywx/qywxCustomerPidRecord/approvalDetail.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+        </action>
+		 <action name="qywxFacotoryOrder" class="qywxFacotoryOrderAction">
+        	 <result name="carSeriyList">/pages/qywx/carStock/carSeriyList.jsp</result>
+        	 <result name="carModelList">/pages/qywx/carStock/carModelList.jsp</result>
+        	 <result name="factoryOrderList">/pages/qywx/carStock/factoryOrderList.jsp</result>
+        	 <result name="orderCustomer">/pages/qywx/carStock/orderCustomer.jsp</result>
+        	 <result name="factoryOrderDetail">/pages/qywx/carStock/factoryOrderDetail.jsp</result>
+        	 <result name="viewProduct">/pages/qywx/carStock/viewProduct.jsp</result>
+        	 <result name="viewPackage">/pages/qywx/carStock/viewPackage.jsp</result>
+        	 <result name="factoryOrderLevel">/pages/qywx/carStock/factoryOrderLevel.jsp</result>
+        	 <result name="index">/pages/qywx/carStock/index.jsp</result>
+        </action>
+        <!-- 物流部 可以快速绑定车架号 -->
+		 <action name="qywxWlbFacotoryOrder" class="qywxWlbFacotoryOrderAction">
+        	 <result name="carSeriyList">/pages/qywx/wlbCarStock/carSeriyList.jsp</result>
+        	 <result name="addSpecialMotorPool">/pages/qywx/wlbCarStock/addSpecialMotorPool.jsp</result>
+        	 <result name="carModelList">/pages/qywx/wlbCarStock/carModelList.jsp</result>
+        	 <result name="factoryOrderList">/pages/qywx/wlbCarStock/factoryOrderList.jsp</result>
+        	 <result name="orderCustomer">/pages/qywx/wlbCarStock/orderCustomer.jsp</result>
+        	 <result name="factoryOrderDetail">/pages/qywx/wlbCarStock/factoryOrderDetail.jsp</result>
+        	 <result name="viewProduct">/pages/qywx/wlbCarStock/viewProduct.jsp</result>
+        	 <result name="viewPackage">/pages/qywx/wlbCarStock/viewPackage.jsp</result>
+        	 <result name="factoryOrderLevel">/pages/qywx/wlbCarStock/factoryOrderLevel.jsp</result>
+        	 <result name="index">/pages/qywx/wlbCarStock/index.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+        </action>
+		 <action name="qywxCustomerImage" class="qywxCustomerImageAction">
+		 	<result name="uploadImageWaitingCustomer">/pages/qywx/customerImage/uploadImageWaitingCustomer.jsp</result>
+        	 <result name="uploadImage">/pages/qywx/customerImage/uploadImage.jsp</result>
+        	 <result name="uploadImageDriving">/pages/qywx/customerImage/uploadImageDriving.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+		 </action>
+		    <action name="qywxCustomerFile" class="qywxCustomerFileAction">
+        	 <result name="fileDetail">/pages/qywx/customer/customer/fileDetail.jsp</result>
+        	 <result name="customerBussi">/pages/qywx/customer/customer/customerBussi.jsp</result>
+        	 <result name="customerBussiNeed">/pages/qywx/customer/customer/customerBussiNeed.jsp</result>
+        	 <result name="customerShoppingRecord">/pages/qywx/customer/customer/customerShoppingRecord.jsp</result>
+        	 <result name="cardInfo">/pages/qywx/customer/customer/cardInfo.jsp</result>
+        	 <result name="customerFile">/pages/qywx/customer/customer/customerFile.jsp</result>
+        </action>
+        <action name="qywxCustomerLastBussi" class="qywxCustomerLastBussiAction">
+        	 <result name="edit">/pages/qywx/customer/customerLastBussi/edit.jsp</result>
+        	 <result name="modify">/pages/qywx/customer/customerLastBussi/modify.jsp</result>
+        	 <result name="customerFlow">/pages/qywx/customer/customerLastBussi/customerFlow.jsp</result>
+        	 <result name="selectResult">/pages/qywx/customer/customerLastBussi/selectResult.jsp</result>
+        </action>
+         <action name="qywxCustomerRecord" class="qywxCustomerRecordAction">
+        	 <result name="salerEdit">/pages/qywx/customer/customerRecord/salerEdit.jsp</result>
+        	 <result name="salerList">/pages/qywx/customer/customerRecord/salerList.jsp</result>
+        	 <result name="view">/pages/qywx/customer/customerRecord/view.jsp</result>
+        	 <result name="invalid">/pages/qywx/customer/customerRecord/invalid.jsp</result>
+        	 <result name="index">/pages/qywx/customer/customerRecord/index.jsp</result>
+        	 <result name="editPhone">/pages/qywx/customer/customerRecord/editPhone.jsp</result>
+        	 <result name="add">/pages/qywx/customer/customerRecord/add.jsp</result>
+        	 <result name="editComeShop">/pages/qywx/customer/customerRecord/editComeShop.jsp</result>
+        	 <result name="list">/pages/qywx/customer/customerRecord/list.jsp</result>
+        	 <result name="invalidList">/pages/qywx/customer/customerRecord/invalidList.jsp</result>
+        	 <result name="validateCustomerRecord">/pages/qywx/customer/customerRecord/validateCustomerRecord.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+        </action>
+		 <action name="qywxCustomer" class="qywxCustomerAction">
+        	 <result name="add">/pages/qywx/customer/add.jsp</result>
+        	 <result name="list">/pages/qywx/customer/list.jsp</result>
+        	 <result name="leaderList">/pages/qywx/customer/leaderList.jsp</result>
+        	 <result name="outFlow">/pages/qywx/customer/outFlow.jsp</result>
+        	 <result name="leaderOutFlow">/pages/qywx/customer/leaderOutFlow.jsp</result>
+        	 <result name="orderCustomer">/pages/qywx/customer/orderCustomer.jsp</result>
+        	 <result name="leaderOrderCustomer">/pages/qywx/customer/leaderOrderCustomer.jsp</result>
+        	 <result name="customerDetail">/pages/qywx/customer/customerDetail.jsp</result>
+        	 <result name="index">/pages/qywx/customer/index.jsp</result>
+        	 <result name="orderDetail">/pages/qywx/customer/orderDetail.jsp</result>
+        	 <result name="viewCustomerTrack">/pages/qywx/customer/viewCustomerTrack.jsp</result>
+        	 <result name="waitingHandCar">/pages/qywx/customer/waitingHandCar.jsp</result>
+        	 <result name="leaderWaitingHandCar">/pages/qywx/customer/leaderWaitingHandCar.jsp</result>
+        	 <result name="factoryOrderDetail">/pages/qywx/customer/factoryOrderDetail.jsp</result>
+        	 <result name="successCustomer">/pages/qywx/customer/successCustomer.jsp</result>
+        	 <result name="leaderSuccessCustomer">/pages/qywx/customer/leaderSuccessCustomer.jsp</result>
+        	 <result name="querySuccess">/pages/qywx/customer/querySuccess.jsp</result>
+        	 <result name="comeShopRecordSuccess">/pages/qywx/customer/comeShopRecordSuccess.jsp</result>
+        	 <result name="comeShopRecord">/pages/qywx/customer/comeShopRecord.jsp</result>
+        	 <result name="edit">/pages/qywx/customer/edit.jsp</result>
+        	 <result name="test">/pages/qywx/customer/test.jsp</result>
+        	 <result name="invitationList">/pages/qywx/customer/invitationList.jsp</result>
+        	 <result name="receptierList">/pages/qywx/customer/receptierList.jsp</result>
+        	 <result name="receptier">/pages/qywx/customer/receptier.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+        </action>
+        <action name="qywxCustomerTrack" class="qywxCustomerTrackAction">
+       		<result name="index">/pages/qywx/customerTrack/index.jsp</result>
+       		<result name="edit">/pages/qywx/customerTrack/edit.jsp</result>
+       		<result name="customerTrackRecord">/pages/qywx/customerTrack/customerTrackRecord.jsp</result>
+       		<result name="customerTrackDetail">/pages/qywx/customerTrack/customerTrackDetail.jsp</result>
+       		<result name="tommorrowNeedTrackCustomer">/pages/qywx/customerTrack/tommorrowNeedTrackCustomer.jsp</result>
+       		<result name="needTrackCustomer">/pages/qywx/customerTrack/needTrackCustomer.jsp</result>
+       		<result name="salerTodayTrack">/pages/qywx/customerTrack/salerTodayTrack.jsp</result>
+       		<result name="salerTommorrowTrack">/pages/qywx/customerTrack/salerTommorrowTrack.jsp</result>
+       		<result name="compList">/pages/qywx/customerTrack/compList.jsp</result>
+       		<result name="salerThreeDayTrack">/pages/qywx/customerTrack/salerThreeDayTrack.jsp</result>
+       		<interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+       	</action>
+       	<action name="qywxComprehensiveStatic" class="qywxComprehensiveStaticAction">
+        	 <result name="customerTrackCountList">/pages/qywx/staticManage/qywxComprehensive/customerTrackCountList.jsp</result>
+        	 <result name="today">/pages/qywx/staticManage/qywxComprehensive/today.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action> 
+       <action name="qywxCustomerOutFlow" class="qywxCustomerOutFlowAction">
+       		<result name="outFlow">/pages/qywx/outFlow/outFlow.jsp</result>
+       		<result name="outFlowDetail">/pages/qywx/outFlow/outFlowDetail.jsp</result>
+       		 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+        <action name="qywxVisitRecord" class="qywxVisitRecordAction">
+        	 <result name="viewVisitRecord">/pages/qywx/visitRecord/viewVisitRecord.jsp</result>
+        	 <result name="list">/pages/qywx/visitRecord/list.jsp</result>
+        </action>
+        <action name="qywxProcessRun" class="qywxProcessRunAction">
+        	 <result name="list">/pages/qywx/processRun/list.jsp</result>
+        	 <result name="viewProcessFrom">/pages/qywx/processRun/viewProcessFrom.jsp</result>
+        	 <result name="viewCpidProcessFrom">/pages/qywx/processRun/viewCpidProcessFrom.jsp</result>
+        	 <result name="waitingTaskList">/pages/qywx/processRun/waitingTaskList.jsp</result>
+        	 <result name="historyTaskList">/pages/qywx/processRun/historyTaskList.jsp</result>
+        	 <result name="dealTask">/pages/qywx/processRun/dealTask.jsp</result>
+        	 <result name="dealCpidTask">/pages/qywx/processRun/dealCpidTask.jsp</result>
+        	 <result name="error">/pages/qywx/processRun/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+        </action>
+         <action name="qywxStatic" class="qywxStaticAction">
+        	 <result name="index">/pages/qywx/static/index.jsp</result>
+        	 <result name="customerStatic">/pages/qywx/static/customerStatic.jsp</result>
+        	 <result name="customerLevel">/pages/qywx/static/customerLevel.jsp</result>
+        	 <result name="successCustomerCar">/pages/qywx/static/successCustomerCar.jsp</result>
+        	 <result name="waitingCustomerCar">/pages/qywx/static/waitingCustomerCar.jsp</result>
+        	 <result name="visitRecord">/pages/qywx/static/visitRecord.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+         <action name="qywxStaticManage" class="qywxStaticManageAction">
+        	 <result name="index">/pages/qywx/staticManage/index.jsp</result>
+        	 <result name="customerStatic">/pages/qywx/staticManage/customerStatic.jsp</result>
+        	 <result name="customerLevel">/pages/qywx/staticManage/customerLevel.jsp</result>
+        	 <result name="successCustomerCar">/pages/qywx/staticManage/successCustomerCar.jsp</result>
+        	 <result name="waitingCustomerCar">/pages/qywx/staticManage/waitingCustomerCar.jsp</result>
+        	 <result name="todayStatic">/pages/qywx/staticManage/todayStatic.jsp</result>
+        	 <result name="noCarStock">/pages/qywx/staticManage/noCarStock.jsp</result>
+        	 <result name="customerSuccess">/pages/qywx/staticManage/customerSuccess.jsp</result>
+        	 <result name="stockStatic">/pages/qywx/staticManage/stockStatic.jsp</result>
+        	 <result name="customerList">/pages/qywx/staticManage/customerList.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+       	</action>
+         <action name="qywxSaleReport" class="qywxSaleReportAction">
+        	 <result name="todayStatic">/pages/qywx/staticManage/xsrb/todayStatic.jsp</result>
+        	 <result name="customerOrder">/pages/qywx/staticManage/xsrb/customerOrder.jsp</result>
+        	 <result name="customer7Day">/pages/qywx/staticManage/xsrb/customer7Day.jsp</result>
+        	 <result name="customerWeek">/pages/qywx/staticManage/xsrb/customerWeek.jsp</result>
+        	 <result name="customerMonth">/pages/qywx/staticManage/xsrb/customerMonth.jsp</result>
+        	 <result name="customerYear">/pages/qywx/staticManage/xsrb/customerYear.jsp</result>
+        	 <result name="waitingCustomerCar">/pages/qywx/staticManage/xsrb/waitingCustomerCar.jsp</result>
+        	 <result name="index">/pages/qywx/staticManage/xsrb/index.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+         <action name="qywxSuccessReport" class="qywxSuccessReportAction">
+        	 <result name="customerSuccess">/pages/qywx/staticManage/custsuccess/customerSuccess.jsp</result>
+        	 <result name="customerSuccess7Day">/pages/qywx/staticManage/custsuccess/customerSuccess7Day.jsp</result>
+        	 <result name="customerSuccessWeek">/pages/qywx/staticManage/custsuccess/customerSuccessWeek.jsp</result>
+        	 <result name="customerSuccessMonth">/pages/qywx/staticManage/custsuccess/customerSuccessMonth.jsp</result>
+        	 <result name="customerSuccessYear">/pages/qywx/staticManage/custsuccess/customerSuccessYear.jsp</result>
+       	</action>
+         <action name="qywxFlowReport" class="qywxFlowReportAction">
+        	 <result name="customerFlow">/pages/qywx/staticManage/custflow/customerFlow.jsp</result>
+        	 <result name="customerFlowWeek">/pages/qywx/staticManage/custflow/customerFlowWeek.jsp</result>
+        	 <result name="customerFlowMonth">/pages/qywx/staticManage/custflow/customerFlowMonth.jsp</result>
+        	 <result name="customerFlowYear">/pages/qywx/staticManage/custflow/customerFlowYear.jsp</result>
+       	</action>
+         <action name="qywxWlReport" class="qywxWlReportAction">
+        	 <result name="index">/pages/qywx/staticManage/wlbb/index.jsp</result>
+        	 <result name="areaFactoryOrder">/pages/qywx/staticManage/wlbb/areaFactoryOrder.jsp</result>
+        	 <result name="roomFactoryOrder">/pages/qywx/staticManage/wlbb/roomFactoryOrder.jsp</result>
+        	 <result name="carSeriyFactoryOrder">/pages/qywx/staticManage/wlbb/carSeriyFactoryOrder.jsp</result>
+        	 <result name="carmodelFactoryOrder">/pages/qywx/staticManage/wlbb/carmodelFactoryOrder.jsp</result>
+        	 <result name="facotryOrderList">/pages/qywx/staticManage/wlbb/facotryOrderList.jsp</result>
+        	 <result name="abnormal">/pages/qywx/staticManage/wlbb/abnormal.jsp</result>
+        	 <result name="abnormalFacotryOrderList">/pages/qywx/staticManage/wlbb/abnormalFacotryOrderList.jsp</result>
+        	 <result name="install">/pages/qywx/staticManage/wlbb/install.jsp</result>
+        	 <result name="installFacotryOrderList">/pages/qywx/staticManage/wlbb/installFacotryOrderList.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+       	</action>
+       	 <action name="qywxSalerProfit" class="qywxSalerProfitAction">
+        	 <result name="profit">/pages/qywx/staticManage/profit/profit.jsp</result>
+        </action>
+       	<!-- 回访客户部 统计功能模块 -->
+       	<action name="qywxHfIndex" class="qywxHfIndexAction">
+       		<result name="index">/pages/qywx/staticManage/hf/index.jsp</result>
+       		<result name="brandIndex">/pages/qywx/staticManage/hf/brandIndex.jsp</result>
+       	</action>
+       	<action name="qywxHfSaler" class="qywxHfSalerAction">
+       		<result name="month">/pages/qywx/staticManage/hf/saler/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/hf/saler/year.jsp</result>
+       	</action>
+       	<action name="qywxHfQuest" class="qywxHfQuestAction">
+       		<result name="month">/pages/qywx/staticManage/hf/quest/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/hf/quest/year.jsp</result>
+       	</action>
+       	<action name="qywxHfDep" class="qywxHfDepAction">
+       		<result name="month">/pages/qywx/staticManage/hf/dep/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/hf/dep/year.jsp</result>
+       	</action>
+       	<action name="qywxHfDep" class="qywxHfDepAction">
+       		<result name="month">/pages/qywx/staticManage/hf/dep/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/hf/dep/year.jsp</result>
+       	</action>
+       	<action name="qywxFj" class="qywxFjAction">
+       		<result name="index">/pages/qywx/staticManage/fj/index.jsp</result>
+       	</action>
+       	<action name="qywxFjBuyCarType" class="qywxFjBuyCarTypeAction">
+       		<result name="day">/pages/qywx/staticManage/fj/buyCarType/day.jsp</result>
+       		<result name="profits">/pages/qywx/staticManage/fj/buyCarType/profits.jsp</result>
+       		<interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxFjCarSeriy" class="qywxFjCarSeriyAction">
+       		<result name="day">/pages/qywx/staticManage/fj/carSeriy/day.jsp</result>
+       		<result name="week">/pages/qywx/staticManage/fj/carSeriy/week.jsp</result>
+       		<result name="month">/pages/qywx/staticManage/fj/carSeriy/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/fj/carSeriy/year.jsp</result>
+       	</action>
+       	<action name="qywxFjDep" class="qywxFjDepAction">
+       		<result name="day">/pages/qywx/staticManage/fj/dep/day.jsp</result>
+       		<result name="week">/pages/qywx/staticManage/fj/dep/week.jsp</result>
+       		<result name="month">/pages/qywx/staticManage/fj/dep/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/fj/dep/year.jsp</result>
+       	</action>
+       	<action name="qywxFjSale" class="qywxFjSaleAction">
+       		<result name="day">/pages/qywx/staticManage/fj/saler/day.jsp</result>
+       		<result name="week">/pages/qywx/staticManage/fj/saler/week.jsp</result>
+       		<result name="month">/pages/qywx/staticManage/fj/saler/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/fj/saler/year.jsp</result>
+       	</action>
+       	<action name="qywxHfLoanType" class="qywxHfLoanTypeAction">
+       		<result name="day">/pages/qywx/staticManage/fj/loanType/day.jsp</result>
+       		<result name="week">/pages/qywx/staticManage/fj/loanType/week.jsp</result>
+       		<result name="month">/pages/qywx/staticManage/fj/loanType/month.jsp</result>
+       		<result name="year">/pages/qywx/staticManage/fj/loanType/year.jsp</result>
+       	</action>
+       	
+       	<action name="qywxRoomManageSaleReport" class="qywxRoomManageSaleReportAction">
+        	 <result name="todayStatic">/pages/qywx/staticRoomManage/saleReport/todayStatic.jsp</result>
+        	 <result name="customerOrder">/pages/qywx/staticRoomManage/saleReport/customerOrder.jsp</result>
+        	 <result name="customer7Day">/pages/qywx/staticRoomManage/saleReport/customer7Day.jsp</result>
+        	 <result name="customerWeek">/pages/qywx/staticRoomManage/saleReport/customerWeek.jsp</result>
+        	 <result name="customerMonth">/pages/qywx/staticRoomManage/saleReport/customerMonth.jsp</result>
+        	 <result name="customerYear">/pages/qywx/staticRoomManage/saleReport/customerYear.jsp</result>
+        	 <result name="waitingCustomerCar">/pages/qywx/staticRoomManage/saleReport/waitingCustomerCar.jsp</result>
+        	 <result name="index">/pages/qywx/staticRoomManage/saleReport/index.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	 <action name="qywxRoomManageSuccessReport" class="qywxRoomManageSuccessReportAction">
+        	 <result name="customerSuccess">/pages/qywx/staticRoomManage/custsuccess/customerSuccess.jsp</result>
+        	 <result name="customerSuccess7Day">/pages/qywx/staticRoomManage/custsuccess/customerSuccess7Day.jsp</result>
+        	 <result name="customerSuccessWeek">/pages/qywx/staticRoomManage/custsuccess/customerSuccessWeek.jsp</result>
+        	 <result name="customerSuccessMonth">/pages/qywx/staticRoomManage/custsuccess/customerSuccessMonth.jsp</result>
+        	 <result name="customerSuccessYear">/pages/qywx/staticRoomManage/custsuccess/customerSuccessYear.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxRoomManageFlowReport" class="qywxRoomManageFlowReportAction">
+        	 <result name="customerFlow">/pages/qywx/staticRoomManage/custflow/customerFlow.jsp</result>
+        	 <result name="customerFlowWeek">/pages/qywx/staticRoomManage/custflow/customerFlowWeek.jsp</result>
+        	 <result name="customerFlowMonth">/pages/qywx/staticRoomManage/custflow/customerFlowMonth.jsp</result>
+        	 <result name="customerFlowYear">/pages/qywx/staticRoomManage/custflow/customerFlowYear.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxFinCal" class="qywxFinCalAction">
+        	 <result name="finCal">/pages/qywx/finCal/finCal.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
+       	</action>
+       	<action name="qywxOrderContractExpenses" class="qywxOrderContractExpensesAction">
+        	 <result name="edit">/pages/qywx/qywxOrderContractExpenses/edit.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxOrderContractDecore" class="qywxOrderContractDecoreAction">
+        	 <result name="edit">/pages/qywx/qywxOrderContractDecore/edit.jsp</result>
+        	  <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxRedBag" class="qywxRedBagAction">
+        	 <result name="myRedBag">/pages/qywx/qyredBag/myRedBag.jsp</result>
+        	 <result name="redBagSort">/pages/qywx/qyredBag/redBagSort.jsp</result>
+        	 <result name="sendBag">/pages/qywx/qyredBag/sendBag.jsp</result>
+        	 <result name="mySendBag">/pages/qywx/qyredBag/mySendBag.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action>
+      	<action name="qywxComplex" class="qywxComplexAction">
+        	 <result name="generalManager">/pages/qywx/staticManage/comlex/generalManager.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action> 
+      	<action name="qywxCustSuccess" class="qywxCustSuccessAction">
+        	 <result name="custSuccess">/pages/qywx/staticManage/custsuccess/custSuccess.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action> 
+      	<action name="qywxOrderStatic" class="qywxOrderStaticAction">
+        	 <result name="order">/pages/qywx/staticManage/order/order.jsp</result>
+        	 <result name="orderList">/pages/qywx/staticManage/order/orderList.jsp</result>
+        	 <result name="noCar">/pages/qywx/staticManage/order/noCar.jsp</result>
+        	 <result name="waitingCar">/pages/qywx/staticManage/order/waitingCar.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
+       	</action> 
+       	<!-- 红包模块 -->
+       	<action name="redBagSet" class="redBagSetAction">
+        	 <result name="edit">/pages/qywx/redBag/redBagSet/edit.jsp</result>
+       	</action>
+       	<action name="redBag" class="redBagAction">
+        	 <result name="viewWechat">/pages/qywx/redBag/redBag/viewWechat.jsp</result>
+        	 <result name="edit">/pages/qywx/redBag/redBag/edit.jsp</result>
+        	 <result name="report">/pages/qywx/redBag/redBag/report.jsp</result>
+        	 <result name="list">/pages/qywx/redBag/redBag/list.jsp</result>
+       	</action>
+       	<action name="appUserRole" class="appUserRoleAction">
+        	 <result name="list">/pages/qywx/redBag/appUserRole/list.jsp</result>
+        	 <result name="edit">/pages/qywx/redBag/appUserRole/edit.jsp</result>
+        	 <result name="editSingle">/pages/qywx/redBag/appUserRole/editSingle.jsp</result>
+        	 <result name="editSingleRole">/pages/qywx/redBag/appUserRole/editSingleRole.jsp</result>
+       	</action>
+       	<action name="act" class="actAction">
+        	 <result name="list">/pages/qywx/redBag/act/list.jsp</result>
+        	 <result name="edit">/pages/qywx/redBag/act/edit.jsp</result>
+       	</action>
+       	<action name="actEnterprise" class="actEnterpriseAction">
+        	 <result name="list">/pages/qywx/redBag/actEnterprise/list.jsp</result>
+        	 <result name="edit">/pages/qywx/redBag/actEnterprise/edit.jsp</result>
+       	</action>
+       	<action name="rewardStoreLevel" class="rewardStoreLevelAction">
+        	 <result name="list">/pages/qywx/redBag/rewardStoreLevel/list.jsp</result>
+        	 <result name="edit">/pages/qywx/redBag/rewardStoreLevel/edit.jsp</result>
+       	</action>
+       	<action name="qywxPReport" class="qywxPReportAction">
+        	 <result name="index">/pages/qywx/preport/index.jsp</result>
+       	</action>
+       	<action name="qywxCwProfitStatical" class="qywxCwProfitStaticalAction">
+       		<result name="qywxProfit">/pages/qywx/staticManage/cwStatic/profit.jsp</result>
+       		<result name="dateCwStatic">/pages/qywx/staticManage/cwStatic/dateCwStatic.jsp</result>
+       	</action>
+       	<action name="qywxOrder" class="qywxOrderAction">
+       		<result name="orderList">/pages/qywx/staticRoomManage/order/orderList.jsp</result>
+       	</action>
+       	
+    </package>
+</struts>

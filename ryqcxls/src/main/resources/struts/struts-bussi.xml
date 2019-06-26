@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">  
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="bussi"  extends="struts-default">
+		<interceptors>
+			<interceptor name="configdebug" class="com.configdebug.interceptor.ConfigDebugInterceptor"/>
+			<interceptor-stack name="bussi-stack">
+				<interceptor-ref name="configdebug"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="bussi-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="backGroundMusic" class="backGroundMusicAction">
+			<result name="edit">/pages/bussi/backGroundMusic/edit.jsp</result>
+			<result name="list">/pages/bussi/backGroundMusic/list.jsp</result>
+		</action>
+		<action name="bussiCard" class="bussiCardAction">
+			<result name="edit">/pages/bussi/bussiCard/edit.jsp</result>
+			<result name="list">/pages/bussi/bussiCard/list.jsp</result>
+			<result name="bussiCardDetail">/pages/bussi/bussiCard/bussiCardDetail.jsp</result>
+			<result name="backGroundMusic">/pages/bussi/bussiCard/backGroundMusic.jsp</result>
+		</action>
+		<action name="corporateCultureType" class="corporateCultureTypeAction">
+			<result name="edit">/pages/bussi/corporateCultureType/edit.jsp</result>
+			<result name="list">/pages/bussi/corporateCultureType/list.jsp</result>
+		</action>
+		<action name="corporateCulture" class="corporateCultureAction">
+			<result name="edit">/pages/bussi/corporateCulture/edit.jsp</result>
+			<result name="list">/pages/bussi/corporateCulture/list.jsp</result>
+			<result name="corporateCultureDetail">/pages/bussi/corporateCulture/corporateCultureDetail.jsp</result>
+		</action>
+		<action name="bussiLeaveMessageRecord" class="bussiLeaveMessageRecordAction">
+			<result name="detail">/pages/bussi/bussiLeaveMessageRecord/detail.jsp</result>
+			<result name="list">/pages/bussi/bussiLeaveMessageRecord/list.jsp</result>
+		</action>
+		<action name="bussiBanner" class="bussiBannerAction">
+			<result name="edit">/pages/bussi/bussiBanner/edit.jsp</result>
+			<result name="list">/pages/bussi/bussiBanner/list.jsp</result>
+		</action>
+		<action name="bussiVideo" class="bussiVideoAction">
+			<result name="edit">/pages/bussi/bussiVideo/edit.jsp</result>
+			<result name="list">/pages/bussi/bussiVideo/list.jsp</result>
+			<result name="play">/pages/bussi/bussiVideo/play.jsp</result>
+		</action>
+		<action name="bussiHandCarImage" class="bussiHandCarImageAction">
+			<result name="edit">/pages/bussi/bussiHandCarImage/edit.jsp</result>
+			<result name="list">/pages/bussi/bussiHandCarImage/list.jsp</result>
+		</action>
+	</package>
+</struts>

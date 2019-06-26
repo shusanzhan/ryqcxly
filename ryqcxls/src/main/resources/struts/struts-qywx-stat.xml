@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="qywxstat"  extends="struts-default">
+		<interceptors>
+			<interceptor name="oAuth2" class="com.ystech.qywx.interceptor.OAuth2Interceptor"/>
+			<interceptor-stack name="qywxstatOAuth2Stack">
+				<interceptor-ref name="oAuth2"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="qywxstat-stack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="qywxstat-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+       	<action name="qywxStat" class="qywxStatAction">
+       		<result name="index">/pages/qywx/stat/index.jsp</result>
+       		<interceptor-ref name="qywxstatOAuth2Stack"></interceptor-ref> 
+       	</action>
+       	<action name="qywxStatCustomerRecord" class="qywxStatCustomerRecordAction">
+			<result name="receptionStat">/pages/qywx/stat/customerRecord/receptionStat.jsp</result>
+			<result name="receptionStatYear">/pages/qywx/stat/customerRecord/receptionStatYear.jsp</result>
+		</action>
+		<action name="qywxStatCustomerRecordNet" class="qywxStatCustomerRecordNetAction">
+			<result name="netStaMonth">/pages/qywx/stat/statCustomerRecordNet/netStaMonth.jsp</result>
+			<result name="netStaYear">/pages/qywx/stat/statCustomerRecordNet/netStaYear.jsp</result>
+		</action>
+		<action name="qywxStatCustomerInvitation" class="qywxStatCustomerInvitationAction">
+			<result name="invitationList">/pages/qywx/stat/statCustomerInvitation/invitationList.jsp</result>
+			<result name="invitationYearList">/pages/qywx/stat/statCustomerInvitation/invitationYearList.jsp</result>
+		</action>
+		<action name="qywxStaTryCar" class="qywxStaTryCarAction">
+			<result name="tryCarList">/pages/qywx/stat/staTryCar/tryCarList.jsp</result>
+			<result name="tryCarYearList">/pages/qywx/stat/staTryCar/tryCarYearList.jsp</result>
+		</action>
+		<action name="qywxComeShop" class="qywxComeShopAction">
+			<result name="comeShopList">/pages/qywx/stat/comeShop/comeShopList.jsp</result>
+			<result name="comeShopYearList">/pages/qywx/stat/comeShop/comeShopYearList.jsp</result>
+		</action>
+		<action name="qywxTwoComeShop" class="qywxTwoComeShopAction">
+			<result name="twoComeShopList">/pages/qywx/stat/twoComeShop/twoComeShopList.jsp</result>
+			<result name="twoComeShopYearList">/pages/qywx/stat/twoComeShop/twoComeShopYearList.jsp</result>
+		</action>
+		<action name="qywxFlow" class="qywxFlowAction">
+			<result name="flowList">/pages/qywx/stat/flow/flowList.jsp</result>
+			<result name="flowYearList">/pages/qywx/stat/flow/flowYearList.jsp</result>
+		</action>
+		<action name="qywxTrack" class="qywxTrackAction">
+			<result name="flowList">/pages/qywx/stat/track/trackList.jsp</result>
+			<result name="flowYearList">/pages/qywx/stat/track/trackYearList.jsp</result>
+		</action>
+		<action name="wlbOrderFactRef" class="wlbOrderFactRefAction">
+			<result name="wlbOrderFactRef">/pages/qywx/stat/wlbOrderFactRef/wlbOrderFactRef.jsp</result>
+		</action>
+		<action name="qywxOrder" class="qywxOrderAction">
+			<result name="orderList">/pages/qywx/stat/order/orderList.jsp</result>
+			<result name="orderYearList">/pages/qywx/stat/order/orderYearList.jsp</result>
+		</action>
+		<action name="qywxCityCross" class="qywxCityCrossAction">
+			<result name="cityCrossCount">/pages/qywx/stat/cityCross/cityCrossCount.jsp</result>
+		</action>
+		<action name="qywxCust" class="qywxCustAction">
+			<result name="list">/pages/qywx/stat/cust/list.jsp</result>
+		</action>
+    </package>
+</struts>

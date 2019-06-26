@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       ">
+     <!-- 扫描注释ben -->
+    <context:annotation-config />
+	<context:component-scan base-package="com.ystech,com.xwqr" />
+    
+	 <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${connection.url}" />
+		<property name="username" value="${connection.username}" />
+		<property name="password" value="${connection.password}" />
+		<property name="filters" value="stat" />  
+   
+	    <property name="maxActive" value="20" />  
+	    <property name="initialSize" value="1" />  
+	    <property name="maxWait" value="60000" />  
+	    <property name="minIdle" value="1" />  
+	   
+	    <property name="timeBetweenEvictionRunsMillis" value="60000" />  
+	    <property name="minEvictableIdleTimeMillis" value="300000" />  
+	   
+	    <property name="testWhileIdle" value="true" />  
+	    <property name="testOnBorrow" value="false" />  
+	    <property name="testOnReturn" value="false" />  
+	       
+	    <property name="poolPreparedStatements" value="true" />  
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="50" /> 
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
+    	<property name="dataSource" ref="dataSource"/>
+    	<!-- <property name="configLocation">
+	   		<value>classpath:hibernate.cfg.xml</value>
+	  	</property> -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.query.substitutions">${hibernate.query.substitutions}</prop>
+                <prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+                <prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <prop key="hibernate.bytecode.use_reflection_optimizer">${hibernate.bytecode.use_reflection_optimizer}</prop>
+                
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">${net.sf.ehcache.configurationResourceName}</prop>
+                <prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+            </props>
+        </property>
+        <property name="mappingLocations">
+          <list>
+              <value>classpath*:com/ystech/xwqr/model/sys/*.hbm.xml</value>
+              <value>classpath*:com/ystech/xwqr/set/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/weixin/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/mem/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/pro/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/agent/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/pllm/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/coupon/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/cust/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/qywx/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/carstock/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/hf/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/fin/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/bussi/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/ins/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/isale/model/*.hbm.xml</value>
+              <value>classpath*:com/xwqr/cw/model/*.hbm.xml</value>
+              <value>classpath*:com/ystech/stat/model/*.hbm.xml</value>
+          </list>
+        </property>
+  	</bean>
+  	
+	<!-- 开启AOP监听 只对当前配置文件有效--> 
+	<aop:aspectj-autoproxy expose-proxy="true"/>
+	
+	<!-- 开启注解事务 只对当前配置文件有效 -->
+  	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="create*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="execute*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="page*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="query*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+     <aop:config proxy-target-class="true" >
+        <!-- 只对业务逻辑层实施事务 -->
+      	<aop:pointcut id="daoPointcut" expression="execution(* com.ystech.core.dao.*Dao.*(..))" />
+        <aop:pointcut id="txPointcut" expression="execution(* com.ystech.xwqr.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="corePointcut" expression="execution(* com.ystech.core.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="proPointcut" expression="execution(* com.ystech.pro.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="weixinPointcut" expression="execution(* com.ystech.weixin.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="memPointcut" expression="execution(* com.ystech.mem.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="couponPointcut" expression="execution(* com.ystech.coupon.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="sysPointcut" expression="execution(* com.ystech.xwqr.service.sys.*ManageImpl.*(..))" />
+        <aop:pointcut id="hfPointcut" expression="execution(* com.xwqr.hf.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="insPointcut" expression="execution(* com.xwqr.ins.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="isalePointcut" expression="execution(* com.xwqr.isale.service.*ManageImpl.*(..))" />
+        <aop:pointcut id="bussiPointcut" expression="execution(* com.xwqr.bussi.service.*ManageImpl.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="daoPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="corePointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="weixinPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="sysPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="memPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="couponPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="hfPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="insPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="isalePointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="bussiPointcut"/>
+    </aop:config>
+	<!-- <task:scheduled-tasks>
+		<task:scheduled ref="factoryOrderTask" method="updateLoanType" cron="0 35 * * * ?"/>
+		<task:scheduled ref="factoryOrderTask" method="updateCarAgeing" cron="0 30 * * * ?"/>
+		<task:scheduled ref="factoryOrderTask" method="updateCarTransferAge" cron="0 30 * * * ?"/>
+		<task:scheduled ref="factoryOrderTask" method="updateLoanXianType" cron="0 40 * * * ?"/>
+	</task:scheduled-tasks>
+   <task:scheduled-tasks>
+		<task:scheduled ref="sendRedBagTask" method="redBagRendTask" cron="0 0/1 * * * ?"/>
+		<task:scheduled ref="sendRedBagTask" method="redBagRendTaskDay" cron="0 0 10 * * ?"/>
+	</task:scheduled-tasks> 
+	<task:scheduled-tasks>
+		<task:scheduled ref="customerRecordTask" method="overTimeSet" cron="0 0/1 * * * ?"/>
+	</task:scheduled-tasks>
+	 <task:scheduled-tasks>
+		<task:scheduled ref="wechatSendMessageTask" method="sendMessage" cron="0 0/1 * * * ?"/>
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="custTrackStaticTask" method="updateOverTimeCustomerTrack" cron="0 52 17 * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="verificationCodeTask" method="clearVerificationCode" cron="0 0/1 * * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="sendMesgTask" method="sendMessageTask" cron="0/10 * * * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="staCustomerCopyTask" method="insertBatch" cron="0 01 16 * * ?" />
+	</task:scheduled-tasks>
+		<task:scheduled-tasks>
+		客户跟踪回访数据
+		<task:scheduled ref="customerTrackStaticTask" method="initCustomerTrackStatic" cron="0 30 0 * * ?" />
+		<task:scheduled ref="customerTrackStaticTask" method="updateTrackNotNum" cron="0 0/5 * * * ?" />
+		<task:scheduled ref="customerTrackStaticTask" method="updateTrackedNum" cron="0 0/5 * * * ?" />
+	</task:scheduled-tasks> -->
+</beans>

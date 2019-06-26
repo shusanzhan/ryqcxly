@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-28 15:11:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.qywx.model.ScanPayReqData" table="qywx_scanpayreqdata" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="nonce_str" type="string">
+            <column name="nonce_str" />
+        </property>
+        <property name="sign" type="string">
+            <column name="sign" />
+        </property>
+        <property name="mch_billno" type="string">
+            <column name="mch_billno" />
+        </property>
+        <property name="mch_id" type="string">
+            <column name="mch_id" />
+        </property>
+        <property name="wxappid" type="string">
+            <column name="wxappid" />
+        </property>
+        <property name="send_name" type="string">
+            <column name="send_name" />
+        </property>
+        <property name="re_openid" type="string">
+            <column name="re_openid" />
+        </property>
+        <property name="total_amount" type="java.lang.Integer">
+            <column name="total_amount" />
+        </property>
+        <property name="total_num" type="java.lang.Integer">
+            <column name="total_num" />
+        </property>
+        <property name="wishing" type="string">
+            <column name="wishing" length="2000" />
+        </property>
+        <property name="client_ip" type="string">
+            <column name="client_ip" />
+        </property>
+        <property name="act_name" type="string">
+            <column name="act_name" />
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="2000" />
+        </property>
+        <property name="redBagId" type="java.lang.Integer">
+            <column name="redBagId" />
+        </property>
+    </class>
+</hibernate-mapping>

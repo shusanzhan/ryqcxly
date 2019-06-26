@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">    	
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<package name="wechat"  extends="struts-default">
+		<interceptors>
+			<interceptor name="oAuth2" class="com.ystech.wechat.action.OAuth2Interceptor"/>
+			<interceptor name="oAuth2Base" class="com.ystech.weixin.core.util.OAuth2BaseInterceptor"/>
+			<interceptor-stack name="oAuth2Stack">
+				<interceptor-ref name="oAuth2"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="oAuth2BaseStack">
+				<interceptor-ref name="oAuth2Base"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="wechat-stack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="wechat-stack" />
+		<global-results>
+			 <result name="login" type="redirect">/main/login</result>
+		     <result name="error">/error500.jsp</result>
+		     <result name="weixinNullError">/pages/wechat/weixinNullError.jsp</result>
+		     <result name="invalid.token">/token.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+		    <exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+		<action name="wechat" class="wechatAction">
+			<result name="index">/pages/wechat/index.jsp</result>
+		</action>
+		<action name="agentWechat" class="agentWechatAction">
+			<result name="index">/pages/wechat/agent/index.jsp</result>
+			<result name="jionIn" type="redirect">/memberWechat/memAuth?url=${url}</result>
+			<result name="info">/pages/wechat/agent/info.jsp</result>
+			<result name="memberCenter">/pages/wechat/agent/memberCenter.jsp</result>
+			<result name="myMoney">/pages/wechat/agent/myMoney.jsp</result>
+			<result name="recommendCustomer">/pages/wechat/agent/recommendCustomer.jsp</result>
+			<result name="recommendCustomerDetial">/pages/wechat/agent/recommendCustomerDetial.jsp</result>
+			<result name="customerDetial">/pages/wechat/agent/customerDetial.jsp</result>
+			<result name="myPoint">/pages/wechat/agent/myPoint.jsp</result>
+			<result name="mySpreadDetail">/pages/wechat/agent/mySpreadDetail.jsp</result>
+			<result name="shareSpreadDetail">/pages/wechat/agent/shareSpreadDetail.jsp</result>
+			<result name="myAgent">/pages/wechat/agent/myAgent.jsp</result>
+			<interceptor-ref name="oAuth2Stack"></interceptor-ref>
+		</action>
+		<action name="recommendCustomerWechat" class="recommendCustomerWechatAction">
+			<result name="recommendCustomer">/pages/wechat/recommendCustomer/recommendCustomer.jsp</result>
+			<result name="editRecom">/pages/wechat/recommendCustomer/editRecom.jsp</result>
+			<result name="error">/pages/wechat/recommendCustomer/error.jsp</result>
+			<result name="jionIn" type="redirect">/memberWechat/memAuth?url=${url}</result>
+			<interceptor-ref name="oAuth2Stack"></interceptor-ref>
+		</action>
+		<action name="memberWechat" class="memberWechatAction">
+			<result name="receiveMemberCard">/pages/wechat/member/receiveMemberCard.jsp</result>
+			<result name="applyMemberCard">/pages/wechat/member/applyMemberCard.jsp</result>
+			<result name="memberCardCenter">/pages/wechat/member/memberCard.jsp</result>
+			<result name="memberCenter">/pages/wechat/member/memberCenter.jsp</result>
+			<result name="myOnlineBooking">/pages/wechat/member/myOnlineBooking.jsp</result>
+			<result name="memberInfo">/pages/wechat/member/memberInfo.jsp</result>
+			<result name="myScoreRecord">/pages/wechat/member/myScoreRecord.jsp</result>
+			<result name="coupon">/pages/wechat/member/coupon.jsp</result>
+     		<result name="myCoupon">/pages/wechat/member/myCoupon.jsp</result>
+     		<result name="myTrading">/pages/wechat/member/myTrading.jsp</result>
+     		<result name="modifyPhone">/pages/wechat/member/modifyPhone.jsp</result>
+     		<result name="memAuth">/pages/wechat/member/memAuth.jsp</result>
+     		<result name="carMasterAuth">/pages/wechat/agent/carMasterAuth.jsp</result>
+     		<interceptor-ref name="oAuth2Stack"></interceptor-ref>
+		</action>
+		<action name="onlineBookingWechat" class="onlineBookingWechatAction">
+			<result name="onlineBooking">/pages/wechat/onlineBooking/onlineBooking.jsp</result>
+			<result name="onlineBookingExamined">/pages/wechat/onlineBooking/onlineBookingExamined.jsp</result>
+			<result name="onlineBookingOldCarChanage">/pages/wechat/onlineBooking/onlineBookingOldCarChanage.jsp</result>
+			<result name="onlineBookingSafetyMaintenance">/pages/wechat/onlineBooking/onlineBookingSafetyMaintenance.jsp</result>
+			<result name="selectCarMaster">/pages/wechat/onlineBooking/selectCarMaster.jsp</result>
+			<result name="selectSMMethold">/pages/wechat/onlineBooking/selectSMMethold.jsp</result>
+			<result name="agreenment">/pages/wechat/onlineBooking/agreenment.jsp</result>
+			<result name="selectAddress">/pages/wechat/onlineBooking/selectAddress.jsp</result>
+			<result name="success">/pages/wechat/onlineBooking/success.jsp</result>
+			<result name="error">/pages/wechat/onlineBooking/error.jsp</result>
+			<result name="jionIn" type="redirect">/memberWechat/memAuth?url=${url}</result>
+			<interceptor-ref name="oAuth2Stack"></interceptor-ref>
+		</action>
+		<action name="emergencyHelpWechat" class="emergencyHelpWechatAction">
+			<result name="emergencyHelp">/pages/wechat/emergencyHelp/emergencyHelp.jsp</result>
+			<result name="jionIn" type="redirect">/memberWechat/memAuth?url=${url}</result>
+			<result name="success">/pages/wechat/emergencyHelp/success.jsp</result>
+     		<interceptor-ref name="oAuth2Stack"></interceptor-ref>
+		</action>
+		<action name="weixinDataInterface" class="weixinDataInterfaceAction">
+			<result name="test">/pages/wechat/test.jsp</result>
+			<result name="queryByWechatId">/pages/wechat/queryByWechatId.jsp</result>
+		</action>
+		<action name="shareWechat" class="shareWechatAction">
+			<result name="share">/pages/wechat/share/share.jsp</result>
+			<result name="advert">/pages/wechat/advert/advert.jsp</result>
+			<result name="advertRead">/pages/wechat/advert/advertRead.jsp</result>
+			<result name="shareRead">/pages/wechat/wechat/share/shareRead.jsp</result>
+			<result name="aplay">/pages/wechat/advert/aplay.jsp</result>
+		</action>
+		<action name="fiwaWeixin" class="fiwaWeixinAction">
+			<result name="fiwa">/pages/wechat/fiwa/fiwa.jsp</result>
+		</action>
+		<action name="orderCouponWeixin" class="orderCouponWeixinAction">
+			<result name="index">/pages/wechat/orderCoupon/index.jsp</result>
+		</action>
+		<action name="testWeixin" class="testWeixinAction">
+		</action>
+		<action name="gameMoneyWeixin" class="gameMoneyWeixinAction">
+			<result name="index">/pages/wechat/gameMoney/index.jsp</result>
+			<result name="auth" type="redirect">/gameMoneyWeixin/index?gameMoneyId=${gameMoneyId}</result>
+			<result name="temp">/pages/wechat/gameMoney/temp.jsp</result>
+			<result name="error">/pages/wechat/gameMoney/error.jsp</result>
+		</action>	
+		<action name="gameHmkWeixin" class="gameHmkWeixinAction">
+			<result name="index">/pages/wechat/hmk/index.jsp</result>
+		</action>
+		<action name="wordFaceWeixin" class="wordFaceWeixinAction">
+			<result name="index">/pages/wechat/wordFace/index.jsp</result>
+			<result name="shareRead">/pages/wechat/wordFace/shareRead.jsp</result>
+			<result name="error">/pages/wechat/wordFace/error.jsp</result>
+			<result name="temp">/pages/wechat/wordFace/temp.jsp</result>
+			<result name="authIndex" type="redirect">/wordFaceWeixin/index</result>
+			<result name="authShareRead" type="redirect">/wordFaceWeixin/shareRead?dbid=${dbid}</result>
+		</action>
+		<action name="carModelWechat" class="carModelWechatAction">
+			<result name="carModelList">/pages/wechat/carModel/carModelList.jsp</result>
+			<result name="policy">/pages/wechat/carModel/policy.jsp</result>
+			<result name="carModel">/pages/wechat/carModel/carModel.jsp</result>
+			<!--<interceptor-ref name="oAuth2Stack"></interceptor-ref>-->
+		</action>
+		<action name="verificationCodeWechat" class="verificationCodeWechatAction">
+		</action>
+		<action name="newsItemWechat" class="newsItemWechatAction">
+			<result name="readNewsItem">/pages/wechat/newsItem/readNewsItem.jsp</result>
+		</action>
+		<action name="bussiCardWechat" class="bussiCardWechatAction">
+			<result name="bussiCard">/pages/wechat/bussiCard/bussiCard.jsp</result>
+			<result name="leaveMessage">/pages/wechat/bussiCard/leaveMessage.jsp</result>
+			<result name="onlineBooking">/pages/wechat/bussiCard/onlineBooking.jsp</result>
+			<result name="play">/pages/wechat/bussiCard/play.jsp</result>
+			<interceptor-ref name="oAuth2BaseStack"></interceptor-ref>
+		</action>
+		<action name="corporateCultureWechat" class="corporateCultureWechatAction">
+			<result name="corporateCulture">/pages/wechat/corporateCulture/corporateCulture.jsp</result>
+			<result name="corporateCultureType">/pages/wechat/corporateCulture/corporateCultureType.jsp</result>
+			<result name="read">/pages/wechat/corporateCulture/read.jsp</result>
+			<interceptor-ref name="oAuth2BaseStack"></interceptor-ref>
+		</action>
+    </package>
+</struts>
