@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-28 15:11:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.qywx.model.ScanPayRespData" table="qywx_scanpayrespdata" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="scanPayReqData" class="com.ystech.qywx.model.ScanPayReqData" fetch="select" not-found="ignore">
+            <column name="reqId" />
+        </many-to-one>
+        <property name="return_code" type="string">
+            <column name="return_code" />
+        </property>
+        <property name="return_msg" type="string">
+            <column name="return_msg" />
+        </property>
+        <property name="result_code" type="string">
+            <column name="result_code" />
+        </property>
+        <property name="err_code" type="string">
+            <column name="err_code" />
+        </property>
+        <property name="err_code_des" type="string">
+            <column name="err_code_des" length="2555" />
+        </property>
+        <property name="mch_billno" type="string">
+            <column name="mch_billno" />
+        </property>
+        <property name="mch_id" type="string">
+            <column name="mch_id" />
+        </property>
+        <property name="wxappid" type="string">
+            <column name="wxappid" />
+        </property>
+        <property name="re_openid" type="string">
+            <column name="re_openid" />
+        </property>
+        <property name="total_amount" type="java.lang.Integer">
+            <column name="total_amount" />
+        </property>
+        <property name="send_listid" type="string">
+            <column name="send_listid" />
+        </property>
+        <property name="send_time" type="timestamp">
+            <column name="send_time" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>
