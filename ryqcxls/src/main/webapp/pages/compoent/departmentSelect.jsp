@@ -27,7 +27,6 @@
 	src="${ctx }/widgets/ztree/jquery.ztree.exhide-3.4.min.js"></script>
 <title>部门选择择器</title>
 <SCRIPT type="text/javascript">
-<!--
 	var setting = {
 		view : {
 			selectedMulti : false,
@@ -131,7 +130,6 @@
 					}
 				});
 			});
-//-->
 </SCRIPT>
 <style type="text/css">
 .ztree li span.button.switch.level0 {

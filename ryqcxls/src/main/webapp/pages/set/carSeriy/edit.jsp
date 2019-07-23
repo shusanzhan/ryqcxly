@@ -166,7 +166,7 @@
 		</table>
 	</form>
 	<div class="formButton">
-			<a href="javascript:void()"	onclick="$.utile.submitForm('frmId','${ctx}/carSeriy/save',true)"	class="but butSave">保&nbsp;&nbsp;存</a> 
+			<a href="javascript:void()" id="submitForm"	onclick="$.utile.submitForm('frmId','${ctx}/carSeriy/save',true)"	class="but butSave">保&nbsp;&nbsp;存</a> 
 	    <a href="javascript:void(-1)"	onclick="goBack()" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 </div>

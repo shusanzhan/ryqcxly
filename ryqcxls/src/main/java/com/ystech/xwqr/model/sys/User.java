@@ -54,6 +54,7 @@ public class User implements UserDetails, java.io.Serializable {
 	private Integer dbid;
 	private String userId;
 	private String realName;
+	private String sex;
 	private String password;
 	private String email;
 	private String mobilePhone;
@@ -443,6 +444,14 @@ public class User implements UserDetails, java.io.Serializable {
 
 	public void setBussiType(Integer bussiType) {
 		this.bussiType = bussiType;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	
     

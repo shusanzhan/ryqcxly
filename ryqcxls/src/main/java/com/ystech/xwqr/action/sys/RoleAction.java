@@ -2,6 +2,7 @@ package com.ystech.xwqr.action.sys;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +47,7 @@ public class RoleAction extends BaseController{
 	public void setResourceManageImpl(ResourceManageImpl resourceManageImpl) {
 		this.resourceManageImpl = resourceManageImpl;
 	}
-	public String queryList() throws Exception {
+	public String queryList(){
 		HttpServletRequest request = this.getRequest();
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
@@ -58,16 +59,28 @@ public class RoleAction extends BaseController{
 				sql=sql+" AND name like ? ";
 				params.add("%"+name+"%");
 			}
+			sql=sql+" order by createTime ";
 			Page<Role> page = roleManageImpl.pagedQuerySql(pageNo, pageSize,Role.class,sql, params.toArray());
 			request.setAttribute("page", page);
 		}catch (Exception e) {
-			// TODO: handle exception
 		}
 		return "list";
 	}
 	public void save() throws Exception {
 		try{
-			roleManageImpl.save(role);
+			Integer dbid = role.getDbid();
+			if(dbid==null){
+				role.setCreateTime(new Date());
+				role.setModifyTime(new Date());
+				roleManageImpl.save(role);
+			}else{
+				Role role2 = roleManageImpl.get(dbid);
+				role2.setModifyTime(new Date());
+				role2.setName(role.getName());
+				role2.setRoleType(role.getRoleType());
+				role2.setState(role.getState());
+				roleManageImpl.save(role2);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			renderErrorMsg(e, "");
@@ -86,14 +99,21 @@ public class RoleAction extends BaseController{
 	}
 	public void delete() throws Exception {
 		HttpServletRequest request = this.getRequest();
-		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		Integer[] dbids = ParamUtil.getIntArraryByDbids(request,"dbids");
 		try {
-			roleManageImpl.deleteById(dbid);
+			if(null==dbids||dbids.length<=0){
+				renderErrorMsg(new Throwable("删除失败，请选择删除数据！"), "");
+				return ;
+			}
+			for (Integer dbid : dbids) {
+				roleManageImpl.deleteById(dbid);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			renderErrorMsg(e, "");
 		}
-		renderMsg("/role/queryList", "保存数据成功！");
+		String paramquery = ParamUtil.getQueryUrl(request);
+		renderMsg("/role/queryList"+paramquery, "保存数据成功！");
 		return ;
 	}
 	//权限分配跳转页面

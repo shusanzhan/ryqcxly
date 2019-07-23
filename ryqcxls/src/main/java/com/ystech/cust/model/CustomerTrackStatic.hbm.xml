@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-5-24 17:24:07 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerTrackStatic" table="cust_customertrackstatic">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="entId" type="java.lang.Integer">
+            <column name="entId" />
+        </property>
+        <property name="entName" type="string">
+            <column name="entName" />
+        </property>
+        <property name="depId" type="java.lang.Integer">
+            <column name="depId" />
+        </property>
+        <property name="depName" type="string">
+            <column name="depName" />
+        </property>
+        <property name="salerId" type="java.lang.Integer">
+            <column name="salerId" />
+        </property>
+        <property name="salerName" type="string">
+            <column name="salerName" />
+        </property>
+        <property name="dayDate" type="date">
+            <column name="dayDate" length="10" />
+        </property>
+        <property name="trackTotalNum" type="java.lang.Integer">
+            <column name="trackTotalNum" />
+        </property>
+        <property name="trackedTotalNum" type="java.lang.Integer">
+            <column name="trackedTotalNum" />
+        </property>
+        <property name="trackNotNum" type="java.lang.Integer">
+            <column name="trackNotNum" />
+        </property>
+    </class>
+</hibernate-mapping>

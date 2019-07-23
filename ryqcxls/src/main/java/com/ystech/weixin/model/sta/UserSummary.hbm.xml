@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-20 12:04:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.weixin.model.sta.UserSummary" table="weixin_sta_usersummary">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="refDate" type="date">
+            <column name="ref_date" length="10" />
+        </property>
+        <property name="userSource" type="java.lang.Integer">
+            <column name="user_source" />
+        </property>
+        <property name="newUser" type="java.lang.Integer">
+            <column name="new_user" />
+        </property>
+        <property name="cancelUser" type="java.lang.Integer">
+            <column name="cancel_user" />
+        </property>
+        <property name="accountId" type="java.lang.Integer">
+            <column name="accountId" />
+        </property>
+    </class>
+</hibernate-mapping>

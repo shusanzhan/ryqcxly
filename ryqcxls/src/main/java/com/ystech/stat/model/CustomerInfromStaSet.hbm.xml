@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-11-19 14:29:07 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.stat.model.CustomerInfromStaSet" table="sta_customerinfromstaset">
+         <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customerInfrom" class="com.ystech.cust.model.CustomerInfrom" column="customerInfromId" not-found="ignore"></many-to-one>
+        <property name="staStatus" type="java.lang.Integer">
+            <column name="staStatus" />
+        </property>
+        <property name="codeNum" type="java.lang.Integer">
+            <column name="codeNum" />
+        </property>
+        <property name="alias" type="string">
+            <column name="alias" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

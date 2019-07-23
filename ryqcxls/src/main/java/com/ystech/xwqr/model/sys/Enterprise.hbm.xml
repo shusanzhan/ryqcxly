@@ -71,5 +71,23 @@
         <property name="bussiType" type="java.lang.Integer">
             <column name="bussiType"  />
         </property>
+        <property name="backNetStatus" type="java.lang.Integer">
+            <column name="backNetStatus"  />
+        </property>
+           <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="backNetDate" type="timestamp">
+            <column name="backNetDate" length="19" />
+        </property>
+        <property name="beginDate" type="date">
+            <column name="beginDate" length="11" />
+        </property>
+        <property name="endDate" type="date">
+            <column name="endDate" length="11" />
+        </property>
     </class>
 </hibernate-mapping>

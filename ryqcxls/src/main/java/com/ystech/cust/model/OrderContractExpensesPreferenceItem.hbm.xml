@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-1-9 15:36:47 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.OrderContractExpensesPreferenceItem" table="cust_ordercontractexpensespreferenceitem">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="ordercontractexpenses" class="com.ystech.cust.model.OrderContractExpenses" fetch="select">
+            <column name="orderContractExpensesId" />
+        </many-to-one>
+        <property name="preferenceItemName" type="string">
+            <column name="PreferenceItemName" length="50" />
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="price" precision="22" scale="0" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="500" />
+        </property>
+        <property name="preferenceItemId" type="java.lang.Integer">
+            <column name="PreferenceItemId" />
+        </property>
+    </class>
+</hibernate-mapping>

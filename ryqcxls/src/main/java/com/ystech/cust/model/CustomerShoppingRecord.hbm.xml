@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-27 13:48:52 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerShoppingRecord" table="cust_customershoppingrecord">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="comeInDate" type="date">
+            <column name="comeInDate" length="10" />
+        </property>
+        <property name="comeInTime" type="string">
+            <column name="comeInTime" />
+        </property>
+        <property name="farwayTime" type="string">
+            <column name="farwayTime" />
+        </property>
+        <property name="waitingTime" type="java.lang.Integer">
+            <column name="waitingTime" />
+        </property>
+        <property name="receptionExperience" type="string">
+            <column name="ReceptionExperience" length="2000" />
+        </property>
+        <property name="isTryDriver" type="java.lang.Integer">
+            <column name="isTryDriver" />
+        </property>
+        <property name="tryDriver" type="string">
+            <column name="tryDriver" length="50" />
+        </property>
+        <property name="isFirst" type="java.lang.Boolean">
+            <column name="isFirst" />
+        </property>
+        <property name="isGetCar" type="java.lang.Boolean">
+            <column name="isGetCar" />
+        </property>
+        <property name="carModel" type="string">
+            <column name="carModel" length="200" />
+        </property>
+        <property name="customerNum" type="java.lang.Integer">
+            <column name="customerNum" />
+        </property>
+        <many-to-one name="customer" class="com.ystech.cust.model.Customer" column="customerId" not-found="ignore"></many-to-one>
+        <property name="comeType" type="java.lang.Integer">
+            <column name="comeType" />
+        </property>
+    </class>
+</hibernate-mapping>

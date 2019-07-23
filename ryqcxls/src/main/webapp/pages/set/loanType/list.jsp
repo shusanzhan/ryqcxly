@@ -26,17 +26,6 @@
   		<form name="searchPageForm" id="searchPageForm" action="${ctx}/profession/queryList" metdod="get">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
-		<table cellpadding="0" cellspacing="0" class="searchTable" >
-  			<tr>
-				<td>
-					名称&nbsp;
-				</td>
-				<td>
-					<input type="text" class="largeX text" name="name"	id="name" value="${param.name }"   />
-				</td>
-				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
-			</tr>
-		</table>
    		</form>
    	</div>
    		<div style="clear: both;"></div>

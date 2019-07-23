@@ -44,20 +44,9 @@
 			<result name="serviceContent">/pages/index/serviceContent.jsp</result>
 			<result name="modifyPassword">/pages/login/modifyPassword.jsp</result>
 		</action>     
-		<action name="user" class="userAction">
-           <result name="add">/pages/sys/user/add.jsp</result>
-           <result name="list">/pages/sys/user/list.jsp</result>
-           <result name="edit">/pages/sys/user/edit.jsp</result>
-           <result name="userRole">/pages/sys/user/userRole.jsp</result>
-           <result name="editSelf">/pages/sys/user/editSelf.jsp</result>
-           <result name="modifyPassword">/pages/sys/user/modifyPassword.jsp</result>
-        </action>
          <action name="userBussi" class="userBussiAction">
            <result name="bussiList">/pages/sys/userBussi/bussiList.jsp</result>
            <result name="edit">/pages/sys/userBussi/edit.jsp</result>
-           <result name="add">/pages/sys/userBussi/add.jsp</result>
-           <result name="editComm">/pages/sys/userBussi/editComm.jsp</result>
-           <result name="addComm">/pages/sys/userBussi/addComm.jsp</result>
            <result name="userRole">/pages/sys/userBussi/userRole.jsp</result>
            <result name="userRoleAdd">/pages/sys/userBussi/userRoleAdd.jsp</result>
            <result name="wechatRole">/pages/sys/userBussi/wechatRole.jsp</result>
@@ -85,6 +74,7 @@
            <action name="enterprise" class="enterpriseAction">
          	<result name="edit">/pages/sys/enterprise/edit.jsp</result>
          	<result name="list">/pages/sys/enterprise/list.jsp</result>
+         	<result name="backNetCompany">/pages/sys/enterprise/backNetCompany.jsp</result>
          	<result name="enterprise">/pages/sys/enterprise/enterprise.jsp</result>
          </action>  
            <action name="systemInfo" class="systemInfoAction">

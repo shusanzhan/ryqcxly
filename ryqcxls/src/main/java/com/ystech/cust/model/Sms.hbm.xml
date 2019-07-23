@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-7-26 17:16:01 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.Sms" table="cust_sms">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="sendPersonName" type="string">
+            <column name="sendPersonName" length="60000" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId"  />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="60000"  />
+        </property>
+        <property name="customerName" type="string">
+            <column name="customerName" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="500" />
+        </property>
+        <property name="sendStatus" type="java.lang.Integer">
+            <column name="sendStatus" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

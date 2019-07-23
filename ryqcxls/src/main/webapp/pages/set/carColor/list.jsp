@@ -11,13 +11,13 @@
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/plugins/iframeTools.source.js"></script>
-<title>车型颜色管理</title>
+<title>颜色管理</title>
 </head>
 <body class="bodycolor">
 <div class="location">
 	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
 	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="">车型颜色管理</a>
+	<a href="javascript:void(-1);" onclick="">颜色管理</a>
 </div>
  <!--location end-->
 <div class="line"></div>
@@ -32,15 +32,6 @@
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<tr>
-  				<td><label>车系：</label></td>
-  				<td>
-  					<select id="carSeriesId" name="carSeriesId"  class="text midea" onchange="$('#searchPageForm')[0].submit()">
-						<option value="">请选择...</option>
-						<c:forEach var="carSeriy" items="${carSeriys }">
-							<option value="${carSeriy.dbid }" ${param.carSeriesId==carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
-						</c:forEach>
-					</select>
-				</td>
   				<td><label>名称：</label></td>
   				<td>
   					<input type="text" class="text midea" id="name" name="name" value="${param.name }">
@@ -62,7 +53,6 @@
 	<thead  class="TableHeader">
 		<tr>
 			<td class="sn"><input type='checkbox' id="selectAllCheck" onclick="selectAll(this,'id')" /></td>
-			<td class="span2">车系</td>
 			<td class="span2">名称</td>
 			<td class="span4">备注</td>
 			<td class="span4">启用状态</td>
@@ -72,7 +62,6 @@
 	<c:forEach var="carColor" items="${page.result }">
 		<tr height="32" align="center">
 			<td><input type='checkbox' name="id" id="id1" value="${carColor.dbid }"/></td>
-			<td>${carColor.carseries.name }</td>
 			<td>${carColor.name }</td>
 			<td style="text-align: left;">${carColor.note} </td>
 			<td>

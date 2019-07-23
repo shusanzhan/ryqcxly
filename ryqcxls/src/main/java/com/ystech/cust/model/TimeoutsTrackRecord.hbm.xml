@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-28 22:58:54 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.TimeoutsTrackRecord" table="cust_timeoutstrackrecord">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.ystech.cust.model.Customer" column="customerId" fetch="select" not-found="ignore"></many-to-one>
+        <property name="isNewlyAdd" type="java.lang.Boolean">
+            <column name="isNewlyAdd" />
+        </property>
+        <property name="isContrackReturn" type="java.lang.Boolean">
+            <column name="isContrackReturn" />
+        </property>
+        <property name="contrackReturnDate" type="timestamp">
+            <column name="contrackReturnDate" length="19" />
+        </property>
+        <property name="isOutFlowReturn" type="java.lang.Boolean">
+            <column name="isOutFlowReturn" />
+        </property>
+        <property name="outFlowReturnDate" type="timestamp">
+            <column name="outFlowReturnDate" length="19" />
+        </property>
+        <property name="theNextDayTimeOutNum" type="java.lang.Integer">
+            <column name="theNextDayTimeOutNum" />
+        </property>
+        <property name="trackingTimeoutNum" type="java.lang.Integer">
+            <column name="trackingTimeoutNum" />
+        </property>
+        <property name="trackingTotalNum" type="java.lang.Integer">
+            <column name="trackingTotalNum" />
+        </property>
+    </class>
+</hibernate-mapping>

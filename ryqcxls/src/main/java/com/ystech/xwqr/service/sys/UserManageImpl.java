@@ -3,13 +3,12 @@ package com.ystech.xwqr.service.sys;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
 
 import com.ystech.core.dao.HibernateEntityDao;
 import com.ystech.core.dao.Page;
 import com.ystech.core.security.SecurityUserHolder;
+import com.ystech.core.util.CommState;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 @Component("userManageImpl")
@@ -100,5 +99,21 @@ public class UserManageImpl extends HibernateEntityDao<User>{
 			buff.append(dbid);
 		}
 		return buff.toString();
+	}
+	/**
+	 * 停用经销商账号
+	 * @param enterprise
+	 */
+	public void updateStopUser(Enterprise enterprise){
+		String uselSql="UPDATE sys_user SET userState="+CommState.STATE_STOP+" WHERE enterpriseId="+enterprise.getDbid();
+		executeSql(uselSql);
+	}
+	/**
+	 * 功能描述：
+	 * @param enterprise
+	 */
+	public void updateStartUser(Enterprise enterprise){
+		String uselSql="UPDATE sys_user SET userState="+CommState.STATE_NORMAL+" WHERE enterpriseId="+enterprise.getDbid();
+		executeSql(uselSql);
 	}
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-9-21 14:52:38 by Hibernate Tools 4.0.0.Final -->
+<hibernate-mapping>
+    <class name="com.ystech.stat.model.StaCustomerCopy" table="sta_customerCopy" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="customerId" type="java.lang.Integer">
+            <column name="customerId" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

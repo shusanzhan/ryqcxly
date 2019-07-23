@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-1-9 15:36:47 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.OrderContractExpenses" table="cust_ordercontractexpenses">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="buyCarType" type="java.lang.Integer">
+            <column name="buyCarType" />
+        </property>
+        <property name="payWay" type="java.lang.Integer">
+            <column name="payWay" />
+        </property>
+        <property name="salePrice" type="java.lang.Double">
+            <column name="salePrice" precision="22" scale="0" />
+        </property>
+        <property name="cashBenefit" type="java.lang.Double">
+            <column name="cashBenefit" precision="22" scale="0" />
+        </property>
+        <property name="totalPrice" type="java.lang.Double">
+            <column name="totalPrice" precision="22" scale="0" />
+        </property>
+        <property name="preferentialTogether" type="java.lang.Double">
+            <column name="preferentialTogether" precision="22" scale="0" />
+        </property>
+        <property name="decoreMoney" type="java.lang.Double">
+            <column name="decoreMoney" precision="22" scale="0" />
+        </property>
+        <property name="carGrofitPrice" type="java.lang.Double">
+            <column name="carGrofitPrice" precision="22" scale="0" />
+        </property>
+        <property name="sfk" type="java.lang.Double">
+            <column name="sfk" precision="22" scale="0" />
+        </property>
+        <property name="daikuan" type="java.lang.Double">
+            <column name="daikuan" precision="22" scale="0" />
+        </property>
+         <property name="specialPermNote" type="string">
+            <column name="specialPermNote"  />
+        </property>
+        <property name="specialPermPrice" type="java.lang.Double">
+            <column name="specialPermPrice"  />
+        </property>
+        <property name="orderMoney" type="java.lang.Double">
+            <column name="orderMoney" precision="22" scale="0" />
+        </property>
+        <property name="fjzje" type="java.lang.Double">
+            <column name="fjzje" precision="22" scale="0" />
+        </property>
+        <property name="ajsxf" type="java.lang.Double">
+            <column name="ajsxf" precision="22" scale="0" />
+        </property>
+        <property name="carTotalPrice" type="java.lang.Double">
+            <column name="carTotalPrice" precision="22" scale="0" />
+        </property>
+        <property name="lowInvoicePrice" type="java.lang.Double">
+            <column name="lowInvoicePrice" precision="22" scale="0" />
+        </property>
+        <property name="revenuePrice" type="java.lang.Double">
+            <column name="revenuePrice" precision="22" scale="0" />
+        </property>
+        <property name="advanceTotalPrice" type="java.lang.Double">
+            <column name="advanceTotalPrice" precision="22" scale="0" />
+        </property>
+        <property name="carSalerPrice" type="java.lang.Double">
+            <column name="carSalerPrice" precision="22" scale="0" />
+        </property>
+        <property name="carActurePrice" type="java.lang.Double">
+            <column name="carActurePrice" precision="22" scale="0" />
+        </property>
+        <property name="decoreCostMoney" type="java.lang.Double">
+            <column name="decoreCostMoney" precision="22" scale="0" />
+        </property>
+        <property name="decoreGrofitPrice" type="java.lang.Double">
+            <column name="decoreGrofitPrice" precision="22" scale="0" />
+        </property>
+        <property name="otherFeePrice" type="java.lang.Double">
+            <column name="otherFeePrice" precision="22" scale="0" />
+        </property>
+        <property name="otherCostFeePrice" type="java.lang.Double">
+            <column name="otherCostFeePrice" precision="22" scale="0" />
+        </property>
+        <property name="totalGrofitPrice" type="java.lang.Double">
+            <column name="totalGrofitPrice" precision="22" scale="0" />
+        </property>
+        <property name="ajsxfGrofit" type="java.lang.Double">
+            <column name="ajsxfGrofit" precision="22" scale="0" />
+        </property>
+        <property name="noWllowancePrice" type="java.lang.Double">
+            <column name="noWllowancePrice" precision="22" scale="0" />
+        </property>
+        <property name="colorPrice" type="java.lang.Double">
+            <column name="colorPrice" precision="22" scale="0" />
+        </property>
+        <property name="masterDecoreMoney" type="java.lang.Double">
+            <column name="masterDecoreMoney" precision="22" scale="0" />
+        </property>
+        <property name="attachDecoreMoney" type="java.lang.Double">
+            <column name="attachDecoreMoney" precision="22" scale="0" />
+        </property>
+        <property name="trailerPrice" type="java.lang.Double">
+            <column name="trailerPrice" precision="22" scale="0" />
+        </property>
+        <property name="loanPaymentPrice" type="java.lang.Double">
+            <column name="loanPaymentPrice" precision="22" scale="0" />
+        </property>
+        <property name="loanPaymentInterest" type="java.lang.Double">
+            <column name="loanPaymentInterest" precision="22" scale="0" />
+        </property>
+        <property name="loanPaybackMonthMoney" type="java.lang.Double">
+            <column name="loanPaybackMonthMoney" precision="22" scale="0" />
+        </property>
+        <property name="preInsMoney" type="java.lang.Double">
+            <column name="preInsMoney" precision="22" scale="0" />
+        </property>
+        <property name="trailerSalerPrice" type="java.lang.Double">
+            <column name="trailerSalerPrice" precision="22" scale="0" />
+        </property>
+        <property name="paymentPer" type="java.lang.Double">
+            <column name="paymentPer" precision="22" scale="0" />
+        </property>
+        <property name="actureCollectedPrice" type="java.lang.Double">
+            <column name="actureCollectedPrice" precision="22" scale="0" />
+        </property>
+        <property name="insaranceRenewalDepositPrice" type="java.lang.Double">
+            <column name="insaranceRenewalDepositPrice" precision="22" scale="0" />
+        </property>
+        <property name="loanPaymentTerm" type="string">
+            <column name="loanPaymentTerm"  />
+        </property>
+        <property name="decorePriceOrderStatus" type="java.lang.Integer">
+            <column name="decorePriceOrderStatus" precision="22" scale="0" />
+        </property>
+        <property name="loanPaymentType" type="java.lang.Integer">
+            <column name="loanPaymentType" precision="22" scale="0" />
+        </property>
+        <property name="loanCarPrice" type="java.lang.Double">
+            <column name="loanCarPrice" precision="22" scale="0" />
+        </property>
+        <property name="ajsxBase" type="java.lang.Double">
+            <column name="ajsxBase" precision="22" scale="0" />
+        </property>
+        <property name="insMoney" type="java.lang.Double">
+            <column name="insMoney" precision="22" scale="0" />
+        </property>
+        <property name="insMoneyGrofit" type="java.lang.Double">
+            <column name="insMoneyGrofit" precision="22" scale="0" />
+        </property>
+        <property name="insMoneyBase" type="java.lang.Double">
+            <column name="insMoneyBase" precision="22" scale="0" />
+        </property>
+        <property name="finProductName" type="string">
+            <column name="finProductName" length="500" />
+        </property>
+        <property name="finProductItemName" type="string">
+            <column name="finProductItemName" length="500" />
+        </property>
+        <property name="bigOrderMoney" type="string">
+            <column name="bigOrderMoney" length="500" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="5000" />
+        </property>
+        <many-to-one name="orderContract" class="com.ystech.cust.model.OrderContract" column="orderContractId" not-found="ignore" fetch="select"></many-to-one>
+        <many-to-one name="customer" class="com.ystech.cust.model.Customer" fetch="select">
+            <column name="customerId" />
+        </many-to-one>
+        <set name="ordercontractexpensespreferenceitems" table="cust_ordercontractexpensespreferenceitem" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PreferenceItemId" />
+            </key>
+            <one-to-many class="com.ystech.cust.model.OrderContractExpensesPreferenceItem" />
+        </set>
+        <set name="ordercontractexpenseschargeitems" table="cust_ordercontractexpenseschargeitem" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="orderContractExpressId" />
+            </key>
+            <one-to-many class="com.ystech.cust.model.OrderContractExpensesChargeItem" />
+        </set>
+    </class>
+</hibernate-mapping>

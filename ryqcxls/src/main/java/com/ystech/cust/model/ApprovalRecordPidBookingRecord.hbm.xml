@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-5 16:55:28 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.ApprovalRecordPidBookingRecord" table="cust_approvalrecordPidBookingRecord">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="approvalId" type="java.lang.Integer">
+            <column name="approvalId" />
+        </property>
+       
+        <property name="approvalName" type="string">
+            <column name="approvalName" length="200" />
+        </property>
+        <property name="approvalTime" type="timestamp">
+            <column name="approvalTime" length="19" />
+        </property>
+        <property name="result" type="java.lang.Integer">
+            <column name="result" />
+        </property>
+        <property name="sugg" type="string">
+            <column name="sugg" length="65535" />
+        </property>
+         <many-to-one name="customerPidCancel" class="com.ystech.cust.model.CustomerPidCancel" column="pidCancelId" not-found="ignore" ></many-to-one>
+    </class>
+</hibernate-mapping>

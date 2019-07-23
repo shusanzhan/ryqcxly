@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-1-8 16:56:38 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.xwqr.set.model.PreferenceItem" table="set_preferenceitem">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="50" />
+        </property>
+        <property name="netTowType" type="java.lang.Integer">
+            <column name="netTowType" />
+        </property>
+        <property name="defaultPrice" type="java.lang.Integer">
+            <column name="defaultPrice" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="500" />
+        </property>
+        <property name="jym" type="string">
+            <column name="jym" length="50" />
+        </property>
+        <property name="orderNum" type="java.lang.Integer">
+            <column name="orderNum" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

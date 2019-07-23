@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-23 13:31:11 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerBussi" table="cust_customerbussi" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.ystech.cust.model.Customer" fetch="select">
+            <column name="customerId" />
+        </many-to-one>
+        
+        <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" column="brandId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="infoFrom" class="com.ystech.cust.model.InfoFrom" column="infoFromId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="infoFromDetail" class="com.ystech.cust.model.InfoFromDetail" column="infoFromDetailId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="buyCarCare" class="com.ystech.cust.model.BuyCarCare" column="buyCarCareId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="buyCarTarget" class="com.ystech.cust.model.BuyCarTarget" column="buyCarTargetId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="buyCarType" class="com.ystech.cust.model.BuyCarType" column="buyCarTypeId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="carModel" class="com.ystech.xwqr.set.model.CarModel" column="carModelId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="carSeriy" class="com.ystech.xwqr.set.model.CarSeriy" column="carSeriyId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="buyCarBudget" class="com.ystech.cust.model.BuyCarBudget" column="buyCarBudgetId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="buyCarMainUse" class="com.ystech.cust.model.BuyCarMainUse" column="buyCarMainUseId" fetch="select" not-found="ignore"></many-to-one>
+        
+        <property name="customerSpecification" type="string">
+            <column name="customerSpecification" length="2000" />
+        </property>
+        <property name="customerNeed" type="string">
+            <column name="customerNeed" length="2000" />
+        </property>
+        <property name="customerCareAbout" type="string">
+            <column name="customerCareAbout" length="2000" />
+        </property>
+        <property name="otherMainDescription" type="string">
+            <column name="otherMainDescription" length="2000" />
+        </property>
+        <property name="afterPlan" type="string">
+            <column name="afterPlan" length="2000" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

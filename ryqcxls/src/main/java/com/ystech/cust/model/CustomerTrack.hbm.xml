@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-23 13:31:11 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerTrack" table="cust_customertrack" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.ystech.cust.model.Customer" fetch="select">
+            <column name="customerId" />
+        </many-to-one>
+        <many-to-one name="beforeCustomerPhase" class="com.ystech.cust.model.CustomerPhase" fetch="select" not-found="ignore">
+            <column name="beforeCustomerPhaseId" />
+        </many-to-one>
+        <many-to-one name="afterCustomerPhase" class="com.ystech.cust.model.CustomerPhase" fetch="select" not-found="ignore">
+            <column name="afterCustomerPhaseId" />
+        </many-to-one>
+        <many-to-one name="custMarketingAct" class="com.ystech.cust.model.CustMarketingAct" fetch="select" not-found="ignore">
+            <column name="custMarketingActId" />
+        </many-to-one>
+        <property name="trackDate" type="timestamp">
+            <column name="trackDate" length="19" />
+        </property>
+        <property name="trackMethod" type="java.lang.Integer">
+            <column name="trackMethod" />
+        </property>
+        <property name="trackType" type="java.lang.Integer">
+            <column name="trackType" />
+        </property>
+        <property name="turnBackResult" type="java.lang.Integer">
+            <column name="turnBackResult" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="trackContent" type="string">
+            <column name="trackContent" length="65535" />
+        </property>
+        <property name="result" type="string">
+            <column name="result" length="65535" />
+        </property>
+        <property name="feedBackResult" type="string">
+            <column name="feedBackResult" length="65535" />
+        </property>
+        <property name="dealMethod" type="string">
+            <column name="dealMethod" length="65535" />
+        </property>
+        <property name="nextReservationTime" type="timestamp">
+            <column name="nextReservationTime" length="19" />
+        </property>
+        <property name="showroomManagerSuggested" type="string">
+            <column name="showroomManagerSuggested" length="65535" />
+        </property>
+         <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+         <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+         <property name="readStatus" type="java.lang.Integer">
+            <column name="readStatus"  />
+        </property>
+         <property name="taskCreateType" type="java.lang.Integer">
+            <column name="taskCreateType"  />
+        </property>
+         <property name="taskFinishType" type="java.lang.Integer">
+            <column name="taskFinishType"  />
+        </property>
+         <property name="taskDealStatus" type="java.lang.Integer">
+            <column name="taskDealStatus"  />
+        </property>
+         <property name="taskOverTimeStatus" type="java.lang.Integer">
+            <column name="taskOverTimeStatus"  />
+        </property>
+         <property name="taskOverTimeNum" type="java.lang.Integer">
+            <column name="taskOverTimeNum"  />
+        </property>
+         <property name="taskType" type="java.lang.Integer">
+            <column name="taskType"  />
+        </property>
+         <property name="customerPhaseType" type="java.lang.Integer">
+            <column name="customerPhaseType"  />
+        </property>
+          <property name="taskCreateTime" type="timestamp">
+            <column name="taskCreateTime" length="19" />
+        </property>
+          <property name="taskOverTimeAssementState" type="java.lang.Integer">
+            <column name="taskOverTimeAssementState"  />
+        </property>
+          <property name="finishDate" type="timestamp">
+            <column name="finishDate" length="19" />
+        </property>
+           <property name="salesReadStatus" type="java.lang.Integer">
+            <column name="salesReadStatus"  />
+        </property>
+        <property name="salesManager" type="string">
+        	<column name="salesManager"></column>
+        </property>
+        <property name="salesDate" type="timestamp">
+        	<column name="salesDate"></column>
+        </property>
+          <property name="salesNote" type="string">
+        	<column name="salesNote"></column>
+        </property>
+    </class>
+</hibernate-mapping>

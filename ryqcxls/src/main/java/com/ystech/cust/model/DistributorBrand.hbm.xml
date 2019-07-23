@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-8-16 10:45:55 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.DistributorBrand" table="cust_distributorbrand" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" fetch="select" not-found="ignore">
+        	<column name="brandId"></column>
+        </many-to-one>
+        <property name="brandName" type="string">
+            <column name="brandName" length="50" />
+        </property>
+        <property name="contactName" type="string">
+            <column name="contactName" length="50" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="50" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="50" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="50" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="4000" />
+        </property>
+        <property name="distributorId" type="java.lang.Integer">
+            <column name="distributorId" />
+        </property>
+    </class>
+</hibernate-mapping>

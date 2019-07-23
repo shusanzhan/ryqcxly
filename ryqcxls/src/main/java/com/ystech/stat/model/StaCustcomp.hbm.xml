@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-9-21 14:52:38 by Hibernate Tools 4.0.0.Final -->
+<hibernate-mapping>
+    <class name="com.ystech.stat.model.StaCustComp" table="sta_custcomp" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="entId" type="java.lang.Integer">
+            <column name="entId" />
+        </property>
+        <property name="entName" type="string">
+            <column name="entName" />
+        </property>
+        <property name="depId" type="java.lang.Integer">
+            <column name="depId" />
+        </property>
+        <property name="userName" type="string">
+            <column name="userName" />
+        </property>
+        <property name="depName" type="string">
+            <column name="depName" />
+        </property>
+        <property name="itemType" type="java.lang.Integer">
+            <column name="itemType" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="recordNum" type="java.lang.Integer">
+            <column name="recordNum" />
+        </property>
+        <property name="recordMonthNum" type="java.lang.Integer">
+            <column name="recordMonthNum" />
+        </property>
+        <property name="recordOverplusNum" type="java.lang.Integer">
+            <column name="recordOverplusNum" />
+        </property>
+        <property name="recordMonthAddNum" type="java.lang.Integer">
+            <column name="recordMonthAddNum" />
+        </property>
+        <property name="flowNum" type="java.lang.Integer">
+            <column name="flowNum" />
+        </property>
+        <property name="flowPer" type="java.lang.Float">
+            <column name="flowPer" precision="12" scale="0" />
+        </property>
+        <property name="flowMonthNum" type="java.lang.Integer">
+            <column name="flowMonthNum" />
+        </property>
+        <property name="flowMonthPer" type="java.lang.Float">
+            <column name="flowMonthPer" precision="12" scale="0" />
+        </property>
+        <property name="comeShopNum" type="java.lang.Integer">
+            <column name="comeShopNum" />
+        </property>
+        <property name="comeShopPer" type="java.lang.Float">
+            <column name="comeShopPer" precision="12" scale="0" />
+        </property>
+        <property name="comeShopMonthNum" type="java.lang.Integer">
+            <column name="comeShopMonthNum" />
+        </property>
+        <property name="comeShopMonthPer" type="java.lang.Float">
+            <column name="comeShopMonthPer" precision="12" scale="0" />
+        </property>
+        <property name="comeShopSucessNum" type="java.lang.Integer">
+            <column name="comeShopSucessNum" />
+        </property>
+        <property name="comeShopSucessPer" type="java.lang.Float">
+            <column name="comeShopSucessPer" precision="12" scale="0" />
+        </property>
+        <property name="comeShopMonthSuccessNum" type="java.lang.Integer">
+            <column name="comeShopMonthSuccessNum" />
+        </property>
+        <property name="comeShopMonthSuccessPer" type="java.lang.Float">
+            <column name="comeShopMonthSuccessPer" precision="12" scale="0" />
+        </property>
+        <property name="twoTimesComeShopNum" type="java.lang.Integer">
+            <column name="twoTimesComeShopNum" />
+        </property>
+        <property name="twoTimesComeShopPer" type="java.lang.Float">
+            <column name="twoTimesComeShopPer" precision="12" scale="0" />
+        </property>
+        <property name="twoTimesComeShopMonthNum" type="java.lang.Integer">
+            <column name="twoTimesComeShopMonthNum" />
+        </property>
+        <property name="twoTimesComeShopMonthPer" type="java.lang.Float">
+            <column name="twoTimesComeShopMonthPer" precision="12" scale="0" />
+        </property>
+        <property name="twoTimesComeShopSucessNum" type="java.lang.Integer">
+            <column name="twoTimesComeShopSucessNum" />
+        </property>
+        <property name="twoTimesComeShopSucessPer" type="java.lang.Float">
+            <column name="twoTimesComeShopSucessPer" precision="12" scale="0" />
+        </property>
+        <property name="twoTimesComeShopMonthSucessNum" type="java.lang.Integer">
+            <column name="twoTimesComeShopMonthSucessNum" />
+        </property>
+        <property name="twoTimesComeShopMonthSucessPer" type="java.lang.Float">
+            <column name="twoTimesComeShopMonthSucessPer" precision="12" scale="0" />
+        </property>
+        <property name="tryCarNum" type="java.lang.Integer">
+            <column name="tryCarNum" />
+        </property>
+        <property name="tryCarPer" type="java.lang.Float">
+            <column name="tryCarPer" precision="12" scale="0" />
+        </property>
+        <property name="tryCarMonthNum" type="java.lang.Integer">
+            <column name="tryCarMonthNum" />
+        </property>
+        <property name="tryCarMonthPer" type="java.lang.Float">
+            <column name="tryCarMonthPer" precision="12" scale="0" />
+        </property>
+        <property name="tryCarSuccessNum" type="java.lang.Integer">
+            <column name="tryCarSuccessNum" />
+        </property>
+        <property name="tryCarSucessPer" type="java.lang.Float">
+            <column name="tryCarSucessPer" precision="12" scale="0" />
+        </property>
+        <property name="tryCarMonthSuccessNum" type="java.lang.Integer">
+            <column name="tryCarMonthSuccessNum" />
+        </property>
+        <property name="tryCarMonthSuccessPer" type="java.lang.Float">
+            <column name="tryCarMonthSuccessPer" precision="12" scale="0" />
+        </property>
+        <property name="customerSuccessNum" type="java.lang.Integer">
+            <column name="customerSuccessNum" />
+        </property>
+        <property name="customerSuccessPer" type="java.lang.Float">
+            <column name="customerSuccessPer" precision="12" scale="0" />
+        </property>
+        <property name="customerMonthSuccessNum" type="java.lang.Integer">
+            <column name="customerMonthSuccessNum" />
+        </property>
+        <property name="customerMonthSuccessPer" type="java.lang.Float">
+            <column name="customerMonthSuccessPer" precision="12" scale="0" />
+        </property>
+        <property name="trackNum" type="java.lang.Integer">
+            <column name="trackNum" />
+        </property>
+        <property name="trackAva" type="java.lang.Float">
+            <column name="trackAva" precision="12" scale="0" />
+        </property>
+        <property name="trackOverTimeNum" type="java.lang.Integer">
+            <column name="trackOverTimeNum" />
+        </property>
+        <property name="trackOverTimePer" type="java.lang.Float">
+            <column name="trackOverTimePer" precision="12" scale="0" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="trackMonthNum" type="java.lang.Integer">
+            <column name="trackMonthNum" />
+        </property>
+        <property name="trackMonthOverTimeNum" type="java.lang.Integer">
+            <column name="trackMonthOverTimeNum" />
+        </property>
+        <property name="trackMonthOverTimePer" type="java.lang.Float">
+            <column name="trackMonthOverTimePer" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-2-29 21:39:10 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.Agent" table="agent_agent">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+         <many-to-one name="area" class="com.ystech.xwqr.model.sys.Area" fetch="select" not-found="ignore">
+            <column name="areaId" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="500" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="200" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="500" />
+        </property>
+        <property name="province" type="string">
+            <column name="province" length="500" />
+        </property>
+        <property name="provinceId" type="java.lang.Integer">
+            <column name="provinceId"  />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="50" />
+        </property>
+        <property name="areaStr" type="string">
+            <column name="areaStr" length="500" />
+        </property>
+        <property name="sex" type="string">
+            <column name="sex" length="20" />
+        </property>
+        <property name="bank" type="string">
+            <column name="bank" length="200" />
+        </property>
+        <property name="bankNo" type="string">
+            <column name="bankNo" length="200" />
+        </property>
+        <property name="icard" type="string">
+            <column name="icard" length="200" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+        <property name="applyDate" type="date">
+            <column name="applyDate" length="10" />
+        </property>
+        <property name="birthday" type="date">
+            <column name="birthday" length="10" />
+        </property>
+        <property name="agentNum" type="java.lang.Integer">
+            <column name="agentNum" />
+        </property>
+        <property name="pointNum" type="java.lang.Integer">
+            <column name="pointNum" />
+        </property>
+        <property name="agentSuccessNum" type="java.lang.Integer">
+            <column name="agentSuccessNum" />
+        </property>
+        <property name="turnBackMoney" type="java.lang.Float">
+            <column name="turnBackMoney" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+        <property name="approvePerson" type="string">
+            <column name="approvePerson" length="50" />
+        </property>
+        <property name="openId" type="string">
+            <column name="openId" length="50" />
+        </property>
+        <property name="approveDate" type="date">
+            <column name="approveDate" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

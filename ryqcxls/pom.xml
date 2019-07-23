@@ -19,7 +19,6 @@
 			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -224,6 +223,22 @@
 			    <artifactId>xstream</artifactId>
 			    <version>1.4.9</version>
 			</dependency>
+			<dependency>
+			  <groupId>tkfilter</groupId>
+			  <artifactId>tkfilter</artifactId>
+			  <version>1.0</version>
+			</dependency>
+			<dependency>
+				  <groupId>strutsconfigdebug</groupId>
+				  <artifactId>strutsconfigdebug</artifactId>
+				  <version>1.0</version>
+				</dependency>
+			<dependency>
+			    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi</artifactId>
+			    <version>3.9</version>
+			</dependency>
+						
 			<!-- Common Dependency End -->
 
 

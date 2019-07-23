@@ -17,7 +17,7 @@
 <div class="location">
      	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
      	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/paperwork/queryList'">证件类型管理</a>-
+<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/custPaperwork/queryList'">证件类型管理</a>-
 <a href="javascript:void(-1);">
 	<c:if test="${empty(paperwork) }">添加证件类型</c:if>
 	<c:if test="${!empty(paperwork) }">编辑证件类型</c:if>
@@ -43,7 +43,7 @@
 		</table>
 	</form>
 	<div class="formButton">
-		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/paperwork/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
+		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/custPaperwork/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
 	    <a href="javascript:void(-1)"	onclick="window.history.go(-1)" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 	</div>

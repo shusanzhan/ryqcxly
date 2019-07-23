@@ -14,11 +14,17 @@
         <property name="state" type="java.lang.Integer">
             <column name="state" />
         </property>
-        <property name="userType" type="java.lang.Integer">
-            <column name="userType" />
+        <property name="roleType" type="java.lang.Integer">
+            <column name="roleType" />
         </property>
         <property name="note" type="string">
             <column name="note" length="200" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
         </property>
         <set name="resources" table="sys_roleResource" lazy="false">
             <key column="roleId"></key>

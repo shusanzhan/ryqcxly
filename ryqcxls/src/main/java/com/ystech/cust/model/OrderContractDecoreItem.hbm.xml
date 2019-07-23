@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-31 19:07:12 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.OrderContractDecoreItem" table="cust_OrderContractDecoreItem">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="type" type="java.lang.Integer">
+            <column name="type" />
+        </property>
+        <property name="quality" type="java.lang.Integer">
+            <column name="quality" />
+        </property>
+        <property name="serNo" type="string">
+            <column name="serNo" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="itemName" length="50" />
+        </property>
+        <property name="price" type="java.lang.Long">
+            <column name="price" precision="10" scale="0" />
+        </property>
+         <many-to-one name="orderContractDecore" class="com.ystech.cust.model.OrderContractDecore" fetch="select" not-found="ignore">
+            <column name="orderContractDecoreId" />
+        </many-to-one>
+         <many-to-one name="product" class="com.ystech.cust.model.Product" fetch="select" not-found="ignore">
+            <column name="productId" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

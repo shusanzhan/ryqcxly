@@ -11,16 +11,16 @@
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
-<title>用户车型颜色</title>
+<title>颜色</title>
 </head>
 <body class="bodycolor">
 <div class="location">
      	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
      	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/carColor/queryList'">车型颜色管理</a>-
+<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/carColor/queryList'">颜色管理</a>-
 <a href="javascript:void(-1);">
-	<c:if test="${empty(carColor) }">添加车型颜色</c:if>
-	<c:if test="${!empty(carColor) }">编辑车型颜色</c:if>
+	<c:if test="${empty(carColor) }">添加颜色</c:if>
+	<c:if test="${!empty(carColor) }">编辑颜色</c:if>
 </a>
 </div>
 <div class="line"></div>
@@ -30,17 +30,6 @@
 		<input type="hidden" name="carColor.dbid" id="dbid" value="${carColor.dbid }">
 		<input type="hidden" name="carColor.status" id="status" value="${carColor.status }">
 		<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
-		<tr>
-				<td class="formTableTdLeft">车系：</td>
-				<td>
-					<select id="type" class="large text" name="carSeriyId" >
-						<option value="">请选择...</option>
-						<c:forEach var="carSeriy" items="${carSeriys }">
-							<option value="${carSeriy.dbid }" ${carSeriy.dbid==carColor.carseries.dbid?'selected="selected"':'' }>${carSeriy.name }</option>
-						</c:forEach>
-					</select>
-				</td>
-			</tr>
 			<tr height="42">
 				<td class="formTableTdLeft">名称:&nbsp;</td>
 				<td ><input type="text" name="carColor.name" id="name"
@@ -60,4 +49,18 @@
 	</div>
 	</div>
 </body>
+<script type="text/javascript">
+function ajaxCarSeriy(val){
+	if(null==val||val==''){
+		alert("请选择品牌");
+		return false;
+	}
+	$("#carSeriyId").remove();
+	$.post("${ctx}/carSeriy/ajaxCarSeriyByStatus?brandId="+val+"&dateTime="+new Date(),{},function (data){
+		if(data!="error"){
+			$("#carModelLabel").append(data);
+		}
+	});
+}
+</script>
 </html>

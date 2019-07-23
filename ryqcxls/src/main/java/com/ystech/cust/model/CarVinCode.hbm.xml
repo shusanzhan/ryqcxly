@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-7-2 0:03:26 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CarVinCode" table="cust_carvincode">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="vinCode" type="string">
+            <column name="vinCode" length="50" />
+        </property>
+        <property name="customerName" type="string">
+            <column name="customerName" length="50" />
+        </property>
+        <property name="buffName" type="string">
+            <column name="buffName" length="50" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="car" type="string">
+            <column name="car" length="50" />
+        </property>
+        <many-to-one name="enterprise" class="com.ystech.xwqr.model.sys.Enterprise" fetch="select" not-found="ignore">
+            <column name="enterpriseId" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

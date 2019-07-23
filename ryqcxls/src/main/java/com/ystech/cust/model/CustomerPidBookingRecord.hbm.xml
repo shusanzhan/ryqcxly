@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-28 10:59:50 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerPidBookingRecord" table="cust_customerpidbookingrecord">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="carModelContent" type="string">
+            <column name="carModelContent" length="50" />
+        </property>
+        <property name="spec" type="string">
+            <column name="spec" length="4000" />
+        </property>
+  		 <many-to-one name="carColor" class="com.ystech.xwqr.set.model.CarColor" fetch="select" not-found="ignore">
+            <column name="carColorId" />
+        </many-to-one>       
+  		 <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" fetch="select" not-found="ignore">
+            <column name="brandId" />
+        </many-to-one>       
+         <property name="orderDate" type="timestamp">
+            <column name="orderDate" length="10" />
+        </property>
+        <property name="incompleteData" type="java.lang.Boolean">
+            <column name="incompleteData" />
+        </property>
+        <property name="approvaling" type="java.lang.Boolean">
+            <column name="approvaling" />
+        </property>
+        <property name="approvalNotOther" type="java.lang.Boolean">
+            <column name="approvalNotOther" />
+        </property>
+        <property name="approvalNot" type="java.lang.Boolean">
+            <column name="approvalNot" />
+        </property>
+        <property name="hasCarOrder" type="java.lang.Integer">
+        	<column name="hasCarOrder"></column>
+        </property>
+        <property name="noCarOrder" type="java.lang.Boolean">
+            <column name="noCarOrder" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+        	<column name="userId"></column>
+        </property>
+        <property name="pidStatus" type="java.lang.Integer">
+        	<column name="pidStatus"></column>
+        </property>
+        <property name="bookingDate" type="timestamp">
+            <column name="bookingDate" length="10" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+       
+        <property name="note" type="string">
+            <column name="note" length="4000" />
+        </property>
+        
+        <!-- 物流部填写信心 -->
+        <property name="hasCarWl" type="java.lang.Integer">
+            <column name="hasCarWl" />
+        </property>
+        <property name="webSite" type="string">
+            <column name="webSite" length="200" />
+        </property>
+        <property name="carSource" type="string">
+            <column name="carSource" length="5000" />
+        </property>
+        <property name="vinCode" type="string">
+            <column name="vinCode" length="50" />
+        </property>
+        <property name="wlNote" type="string">
+            <column name="wlNote" length="4000" />
+        </property>
+        <property name="wlCreator" type="string">
+            <column name="wlCreator" length="50" />
+        </property>
+        <property name="cartrialerVinCode" type="string">
+            <column name="cartrialerVinCode" length="250" />
+        </property>
+        <property name="cartrialerWlNote" type="string">
+            <column name="cartrialerWlNote" length="500" />
+        </property>
+        <property name="wlCreateTime" type="timestamp">
+            <column name="wlCreateTime"  />
+        </property>
+          <property name="wlStatus" type="java.lang.Integer">
+        	<column name="wlStatus"></column>
+        </property>
+          <property name="rewardMoney" type="java.lang.Integer">
+        	<column name="rewardMoney"></column>
+        </property>
+          <property name="outStockCheckStatus" type="java.lang.Integer">
+        	<column name="outStockCheckStatus"></column>
+        </property>
+          <property name="hfStatus" type="java.lang.Integer">
+        	<column name="hfStatus"></column>
+        </property>
+          <property name="kdStatus" type="java.lang.Integer">
+        	<column name="kdStatus"></column>
+        </property>
+          <property name="cartrialerWlStatus" type="java.lang.Integer">
+        	<column name="cartrialerWlStatus"></column>
+        </property>
+          <property name="cartrialerHasCarOrder" type="java.lang.Integer">
+        	<column name="cartrialerHasCarOrder"></column>
+        </property>
+        <many-to-one name="customer" column="customerId" class="com.ystech.cust.model.Customer" not-found="ignore"></many-to-one>
+        <many-to-one name="carModel" column="carModelid" class="com.ystech.xwqr.set.model.CarModel" not-found="ignore"></many-to-one>
+        <many-to-one name="carSeriy" column="carSeriyId" class="com.ystech.xwqr.set.model.CarSeriy" not-found="ignore"></many-to-one>
+        
+           <property name="cwStatus" type="java.lang.Integer">
+            <column name="cwStatus" />
+        </property>
+        <property name="cwAppStatus" type="java.lang.Integer">
+            <column name="cwAppStatus" />
+        </property>
+         <property name="cwDate" type="timestamp">
+            <column name="cwDate" length="19" />
+        </property>
+         <property name="cartrialerWlCreateTime" type="timestamp">
+            <column name="cartrialerWlCreateTime" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

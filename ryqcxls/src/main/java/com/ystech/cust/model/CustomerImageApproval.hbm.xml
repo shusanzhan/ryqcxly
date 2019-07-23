@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-10 17:56:18 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerImageApproval" table="cust_customerimageapproval">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" column="customerId" class="com.ystech.cust.model.Customer" not-found="ignore"></many-to-one>
+        <property name="handCarStatus" type="java.lang.Integer">
+            <column name="handCarStatus">
+                <comment>
+                1&#161;&#162;&#206;&#180;&#201;&#207;&#180;&#171;&#163;&#187;2&#161;&#162;&#201;&#207;&#180;&#171;&#205;&#234;&#179;&#201;&#163;&#168;&#180;&#253;&#201;&#243;&#197;&#250;&#163;&#169;&#163;&#187;3&#161;&#162;&#201;&#243;&#197;&#250;&#178;&#181;&#187;&#216;&#163;&#187;4&#161;&#162;&#201;&#243;&#197;&#250;&#205;&#168;&#185;&#253;</comment>
+            </column>
+        </property>
+        <property name="handCarApproval" type="string">
+            <column name="handCarApproval" length="500" />
+        </property>
+        <property name="drivingStatus" type="java.lang.Integer">
+            <column name="drivingStatus">
+                <comment>
+                1&#161;&#162;&#206;&#180;&#201;&#207;&#180;&#171;&#163;&#187;2&#161;&#162;&#201;&#207;&#180;&#171;&#205;&#234;&#179;&#201;&#163;&#168;&#180;&#253;&#201;&#243;&#197;&#250;&#163;&#169;&#163;&#187;3&#161;&#162;&#201;&#243;&#197;&#250;&#178;&#181;&#187;&#216;&#163;&#187;4&#161;&#162;&#201;&#243;&#197;&#250;&#205;&#168;&#185;&#253;</comment>
+            </column>
+        </property>
+        <property name="drivingApproval" type="string">
+            <column name="drivingApproval" length="500" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status">
+                <comment>
+                1&#161;&#162;&#206;&#180;&#201;&#207;&#180;&#171;&#163;&#187;2&#161;&#162;&#201;&#207;&#180;&#171;&#214;&#208;&#163;&#187;3&#161;&#162;&#201;&#207;&#180;&#171;&#205;&#234;&#179;&#201;</comment>
+            </column>
+        </property>
+        <property name="successApplayDate" type="timestamp">
+            <column name="successApplayDate" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

@@ -411,8 +411,7 @@
 	<div style="left: 15%;position: absolute;width: 85%;bottom: 0;top: 40px;">
 		<div class="listOperate">
 			<div class="operate">
-				<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/userBussi/add'">添加管理员</a>
-				<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/userBussi/addComm'">普通用户</a>
+				<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/userBussi/edit'">创建用户</a>
 				<a class="but butCancle" href="javascript:void(-1);" onclick="$.utile.deleteIds('${ctx }/userBussi/delete','searchPageForm')">删除</a>
 		   </div>
 		  	<div class="seracrhOperate">
@@ -462,7 +461,6 @@
 				<td class="span2">用户Id</td>
 				<td class="span3">姓名</td>
 				<td class="span2">角色</td>
-				<td class="span2">用户类型</td>
 				<td class="span2">业务类型</td>
 				<td class="span2">部门</td>
 				<td class="span2">分店</td>
@@ -481,14 +479,6 @@
 					<c:forEach var="role" items="${user.roles }">
 						${role.name },
 					</c:forEach>
-				</td>
-				<td>
-					<c:if test="${user.adminType==1 }">
-						管理员用户
-					</c:if>
-					<c:if test="${user.adminType==2 }">
-						普通用户
-					</c:if>
 				</td>
 				<td>
 					<c:if test="${user.bussiType==1 }">
@@ -527,13 +517,7 @@
 					</c:if>
 				</td>
 				<td>
-					<c:if test="${user.adminType==1 }">
-						<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/userBussi/edit?dbid=${user.dbid}'">编辑</a>
-					</c:if>
-					<c:if test="${user.adminType==2 }">
-						<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/userBussi/editComm?dbid=${user.dbid}'">编辑</a>
-					</c:if>
-					<%-- <a href="javascript:void(-1)"  class="aedit"	onclick="$.utile.deleteById('${ctx }/stopOrStartUser?dbid=${user.dbid}','searchPageForm')">删除</a> --%>
+					<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/userBussi/edit?dbid=${user.dbid}'">编辑</a>
 					<c:if test="${user.userState==1}">
 						<a href="javascript:void(-1)"  class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/userBussi/stopOrStartUser?dbid=${user.dbid}&type=2','searchPageForm','您确定【${user.realName}】停用该用吗')">停用</a>
 					</c:if>

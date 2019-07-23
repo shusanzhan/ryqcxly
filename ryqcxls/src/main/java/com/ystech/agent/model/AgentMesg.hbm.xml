@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-31 10:37:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.AgentMesg" table="agent_mesg">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="mesg" type="string">
+            <column name="mesg" length="2000" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="realName" type="string">
+            <column name="realName" />
+        </property>
+        <property name="openId" type="string">
+            <column name="openId" />
+        </property>
+        <property name="msgType" type="string">
+            <column name="msgType" />
+        </property>
+        <property name="sendStatus" type="java.lang.Integer">
+            <column name="sendStatus" />
+        </property>
+        <property name="sendNum" type="java.lang.Integer">
+            <column name="sendNum" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="createDate" />
+        </property>
+        <property name="modifyDate" type="timestamp">
+            <column name="modifyDate" />
+        </property>
+        <many-to-one name="weixinKeyAutoresponse" class="com.ystech.weixin.model.WeixinKeyAutoresponse" column="weixinKeyAutoresponseId" not-found="ignore"></many-to-one>
+    </class>
+</hibernate-mapping>

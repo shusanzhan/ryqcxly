@@ -18,7 +18,6 @@
 <script type="text/javascript" src="${ctx }/widgets/ztree/jquery.ztree.exedit-3.4.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/ztree/jquery.ztree.exhide-3.4.min.js"></script>
 <SCRIPT type="text/javascript">
-		<!--
 		var setting = {
 				edit: {
 					drag: {
@@ -372,7 +371,6 @@
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.setting.edit.drag.autoExpandTrigger = $("#callbackTrigger").attr("checked");
 		}
-		//-->
 	</SCRIPT>
 	<style type="text/css">
 	.ztree li span.button.switch.level0 {visibility:hidden; width:1px;line-height: 24px;}

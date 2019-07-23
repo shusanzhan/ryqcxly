@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-10-24 11:13:36 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustMarketingAct" table="cust_marketingact" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="500" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="65535" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+        <property name="actStartDate" type="date">
+            <column name="actStartDate" length="10" />
+        </property>
+        <property name="actEndDate" type="date">
+            <column name="actEndDate" length="10" />
+        </property>
+        <property name="inviteNum" type="java.lang.Integer">
+            <column name="inviteNum" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="intentionCustNum" type="java.lang.Integer">
+            <column name="intentionCustNum" />
+        </property>
+        <property name="targetPersonNum" type="java.lang.Integer">
+            <column name="targetPersonNum" />
+        </property>
+    </class>
+</hibernate-mapping>

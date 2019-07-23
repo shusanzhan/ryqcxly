@@ -111,12 +111,12 @@ public class UserAction extends BaseController{
 			String departmentIds=null;
 			if(departmentId>0){
 				Department department = departmentManageImpl.get(departmentId);
-				/*String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDepartment());
+				/*String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
 				r*/
 				//request.setAttribute("departmentSelect", departmentSelect);
 				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 			}else{
-				//String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDepartment());
+				//String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
 				//request.setAttribute("departmentSelect", departmentSelect);
 			}
 			Page<User> page=null;

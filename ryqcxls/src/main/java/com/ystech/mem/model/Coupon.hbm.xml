@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-4-10 18:03:40 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.mem.model.Coupon" table="cou_coupon" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="20" not-null="true" />
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type" />
+        </property>
+        <property name="image" type="string">
+            <column name="image" />
+        </property>
+        <property name="conditions" type="java.lang.Float">
+            <column name="conditions" precision="12" scale="0" />
+        </property>
+        <property name="moneyOrRabatt" type="float">
+            <column name="moneyOrRabatt" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="ausgabeCount" type="java.lang.Integer">
+            <column name="ausgabeCount" />
+        </property>
+        <property name="userReceiveNum" type="java.lang.Integer">
+            <column name="userReceiveNum" />
+        </property>
+        <property name="receivedNum" type="java.lang.Integer">
+            <column name="receivedNum" />
+        </property>
+        <property name="startTime" type="timestamp">
+            <column name="startTime" length="19" not-null="true" />
+        </property>
+        <property name="stopTime" type="timestamp">
+            <column name="stopTime" length="19" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="isExchange" type="boolean">
+            <column name="isExchange" not-null="true" />
+        </property>
+        <property name="exchangeNum" type="java.lang.Integer">
+            <column name="exchangeNum" />
+        </property>
+        <property name="enabled" type="boolean">
+            <column name="enabled" not-null="true" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="reason" type="string">
+        	<column name="reason"></column>
+        </property>
+        <property name="showHiden" type="java.lang.Boolean">
+            <column name="showHiden" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <set name="couponcodes" table="cou_couponcode" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="couponId" />
+            </key>
+            <one-to-many class="com.ystech.mem.model.CouponCode" />
+        </set>
+    </class>
+</hibernate-mapping>

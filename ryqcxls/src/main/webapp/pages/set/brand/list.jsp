@@ -18,11 +18,11 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a class="but button" href="${ctx }/brand/add?parentMenu=1">添加</a>
-		<a class="but butCancle" href="javascript:void(-1)" onclick="$.utile.deleteIds('${ctx }/brand/delete','searchPageForm')">删除</a>
+		<a class="but button" href="${ctx }/userBrand/add?parentMenu=1">添加</a>
+		<a class="but butCancle" href="javascript:void(-1)" onclick="$.utile.deleteIds('${ctx }/userBrand/delete','searchPageForm')">删除</a>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/brand/queryList" method="post">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/userBrand/queryList" method="post">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table  cellpadding="0" cellspacing="0" class="searchTable">
@@ -70,8 +70,9 @@
 				<td><a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx}${brand.url }')">${brand.url }</a></td>
 				<td>${brand.orderNum }</td>
 				<td style="text-align: center;">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/brand/edit?dbid=${brand.dbid}&parentMenu=1'">编辑</a> | 
-				<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/brand/delete?dbids=${brand.dbid}','searchPageForm')" title="删除">删除</a></td>
+					<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/userBrand/edit?dbid=${brand.dbid}&parentMenu=1'">编辑</a> 
+					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/userBrand/delete?dbids=${brand.dbid}','searchPageForm')" title="删除">删除</a>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

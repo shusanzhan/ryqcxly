@@ -24,6 +24,7 @@
 <div class="listOperate">
 	<div class="operate">
 		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/role/edit'">添加</a>
+		 <a href="javascript:void(-1)"	onclick="$.utile.deleteIds('${ctx }/role/delete','searchPageForm')" class="but butCancle">批量删除</a>
    </div>
   	<div class="seracrhOperate">
   		<form name="searchPageForm" id="searchPageForm" action="${ctx}/role/queryList" method="post">
@@ -45,9 +46,10 @@
 	<thead  class="TableHeader">
 		<tr>
 			<td class="sn"><input type='checkbox' id="selectAllCheck" onclick="selectAll(this,'id')" /></td>
-			<td class="span2">角色名称</td>
-			<td class="span2">适用用户类型</td>
+			<td class="span2">名称</td>
+			<td class="span2">类型</td>
 			<td class="span2">状态</td>
+			<td class="span2">创建时间</td>
 			<td class="span4">备注</td>
 			<td class="span2">操作</td>
 		</tr>
@@ -57,20 +59,23 @@
 			<td><input type='checkbox' name="id" id="id1" value="${role.dbid }"/></td>
 			<td>${role.name }</td>
 			<td>
-				<c:if test="${role.userType==1 }">管理员</c:if>
-				<c:if test="${role.userType==2 }">普通用户</c:if>
+				<c:if test="${role.roleType==1 }">系统默认</c:if>
+				<c:if test="${role.roleType==2 }">普通角色</c:if>
 			</td>
 			<td>
 				<c:if test="${role.state==1 }"><span style="color: blue;">启用</span></c:if>
 				<c:if test="${role.state==0 }"><span style="color: red;">未启用</span></c:if>
 			</td>
+			<td style="">
+				<fmt:formatDate value="${role.createTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+			</td>
 			<td style="text-align: left;">${role.note} </td>
-			<td><a href="#" class="aedit"
-				onclick="window.location.href='${ctx }/role/edit?dbid=${role.dbid}'">编辑</a>
-				<a href="#" class="aedit"
-				onclick="$.utile.deleteById('${ctx }/role/delete?dbid=${role.dbid}')">删除</a>
-				<a href="#" class="aedit"
-				onclick="window.location.href='${ctx }/role/roleResource?dbid=${role.dbid}'">分配权限</a>
+			<td>
+				<c:if test="${role.roleType==2 }">
+					<a href="#" class="aedit"	onclick="window.location.href='${ctx }/role/edit?dbid=${role.dbid}'">编辑</a> |
+					<a href="#" class="aedit"	onclick="$.utile.deleteById('${ctx }/role/delete?dbids=${role.dbid}')">删除</a> |
+				</c:if>
+				<a href="#" class="aedit"	onclick="window.location.href='${ctx }/role/roleResource?dbid=${role.dbid}'">分配权限</a>
 		</tr>
 	</c:forEach>
 </table>

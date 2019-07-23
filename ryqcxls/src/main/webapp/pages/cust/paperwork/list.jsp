@@ -23,10 +23,10 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/paperwork/edit'">添加</a>
+		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/custPaperwork/edit'">添加</a>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/paperwork/queryList" metdod="get">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/custPaperwork/queryList" metdod="get">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
    		</form>
@@ -48,9 +48,9 @@
 			<td>${paperwork.name }</td>
 			<td style="text-align: left;">${paperwork.note} </td>
 			<td><a href="#" class="aedit"
-				onclick="window.location.href='${ctx }/paperwork/edit?dbid=${paperwork.dbid}'">编辑</a>
+				onclick="window.location.href='${ctx }/custPaperwork/edit?dbid=${paperwork.dbid}'">编辑</a>
 				<a href="#" class="aedit"
-				onclick="$.utile.deleteById('${ctx }/paperwork/delete?dbids=${paperwork.dbid}')">删除</a>
+				onclick="$.utile.deleteById('${ctx }/custPaperwork/delete?dbids=${paperwork.dbid}')">删除</a>
 		</tr>
 	</c:forEach>
 </table>

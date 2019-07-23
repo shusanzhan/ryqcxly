@@ -34,8 +34,17 @@
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
   		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<tr>
+  				<td><label>经销商类型：</label></td>
+  				<td>
+  					<select id="bussiType" class="text small" name="bussiType" onchange="$('#searchPageForm')[0].submit()">
+						<option value="-1">请选择业务类型</option>
+						<option value="1" ${param.bussiType=='1'?'selected="selected"':'' } >小车业务</option>
+						<option value="2" ${param.bussiType=='2'?'selected="selected"':'' }>卡车业务</option>
+						<option value="3" ${param.bussiType=='3'?'selected="selected"':'' }>多品牌</option>
+					</select>
+  				</td>
   				<td><label>经销商：</label></td>
-  				<td><input type="text" id="enterpriseName" name="enterpriseName" class="text small" value="${param.enterpriseName}"></input></td>
+  				<td><input type="text" id="name" name="name" class="text small" value="${param.name}"></input></td>
   				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
    			</tr>
    		</table>
@@ -59,8 +68,8 @@
 		<td class="span1">邮编</td>
 		<td class="span2">联系电话</td>
 		<td class="span2">座机</td>
-		<td class="span2">银行</td>
-		<td class="span2">账号</td>
+		<td class="span2">到期时间</td>
+		<td class="span2">状态</td>
 		<td class="span2" >操作</td>
 	</tr>
 </thead>
@@ -69,24 +78,30 @@
 		<td><input type='checkbox' name="id" id="id1" value="${enterprise.dbid }"/></td>
 		<td align="left" style="text-align: left;">${enterprise.name }</td>
 		<td align="left" style="text-align: left;">
-			<c:if test="${enterprise.bussiType==1 }">
-				小车业务	
-			</c:if>
-			<c:if test="${enterprise.bussiType==2 }">
-				大卡车业务	
-			</c:if>
-			<c:if test="${enterprise.bussiType==3 }">
-				多品牌	
-			</c:if>
+			${enterprise.bussiTypeName}
 		</td>
 		<td align="left" style="text-align: left;">${enterprise.address }</td>
 		<td>${enterprise.zipCode }</td>
 		<td>${enterprise.phone }</td>
 		<td>${enterprise.fax }</td>
-		<td>${enterprise.bank }</td>
-		<td>${enterprise.account }</td>
+		<td>${enterprise.endDate }</td>
 		<td>
-			<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/enterprise/edit?dbid=${enterprise.dbid}&redirectType=2'">编辑</a> |
+			${enterprise.backNetStatusName }
+			<c:if test="${enterprise.backNetStatus==1 }">
+				<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/enterprise/stopOrStart?dbid=${enterprise.dbid}','searchPageForm','停用经销商将关闭经销商所有用户，您确定【${enterprise.name}】停用该经销商吗')">停用</a>
+			</c:if>
+			<c:if test="${enterprise.backNetStatus==2 }">
+				<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/enterprise/stopOrStart?dbid=${enterprise.dbid}','searchPageForm','启用经销商将开启经销商所有用户，您确定【${enterprise.name}】开启该经销商吗')">启用</a>				
+			</c:if>
+			<c:if test="${enterprise.backNetStatus==10 }">
+				<span style="color: red">退网</span>
+			</c:if>
+		</td>
+		<td>
+			<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/enterprise/edit?dbid=${enterprise.dbid}&redirectType=2'">编辑</a>|
+			<c:if test="${enterprise.backNetStatus!=10 }">
+				<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/enterprise/backNetCompany?dbid=${enterprise.dbid}&redirectType=2'">退网</a> |
+			</c:if>
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/enterprise/delete?dbids=${enterprise.dbid}','searchPageForm')" title="删除">删除</a>
 		</td>
 	</tr>

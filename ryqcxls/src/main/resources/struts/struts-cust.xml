@@ -70,10 +70,6 @@
 			<result name="redBagList">/pages/cust/carModelSalePolicy/redBagList.jsp</result>
 			<result name="redBagUpdateBatch">/pages/cust/carModelSalePolicy/redBagUpdateBatch.jsp</result>
 		</action>
-		<action name="trackingPhase" class="trackingPhaseAction">
-			<result name="edit">/pages/cust/trackingPhase/edit.jsp</result>
-			<result name="list">/pages/cust/trackingPhase/list.jsp</result>
-		</action>
 		<action name="educational" class="educationalAction">
 			<result name="edit">/pages/cust/educational/edit.jsp</result>
 			<result name="list">/pages/cust/educational/list.jsp</result>
@@ -115,13 +111,9 @@
 			<result name="edit">/pages/cust/buyCarTarget/edit.jsp</result>
 			<result name="list">/pages/cust/buyCarTarget/list.jsp</result>
 		</action>
-		<action name="paperwork" class="paperworkAction">
+		<action name="custPaperwork" class="custPaperworkAction">
 			<result name="edit">/pages/cust/paperwork/edit.jsp</result>
 			<result name="list">/pages/cust/paperwork/list.jsp</result>
-		</action>
-		<action name="userSub" class="userSubAction">
-			<result name="edit">/pages/cust/userSub/edit.jsp</result>
-			<result name="list">/pages/cust/userSub/list.jsp</result>
 		</action>
 		<action name="receiveMessageUser" class="receiveMessageUserAction">
 			<result name="edit">/pages/cust/receiveMessageUser/edit.jsp</result>

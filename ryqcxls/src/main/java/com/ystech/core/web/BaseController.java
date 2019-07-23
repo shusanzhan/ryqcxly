@@ -22,7 +22,6 @@ import org.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import com.ystech.core.ip.IPSeeker;
 import com.ystech.core.util.ZipUtils;
 import com.ystech.weixin.core.util.WeixinCommon;
 import com.ystech.weixin.core.util.WeixinSignUtil;

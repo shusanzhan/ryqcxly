@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-15 16:14:00 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerImageApprove" table="cust_customerimageapprove" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="customerId" type="java.lang.Integer">
+            <column name="customerId" />
+        </property>
+        <property name="appDate" type="date">
+            <column name="appDate" length="10" />
+        </property>
+        <property name="appPerson" type="string">
+            <column name="appPerson" length="500" />
+        </property>
+        <property name="dis" type="string">
+            <column name="dis" length="2000" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-1-6 15:19:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ystech.xwqr.set.model.Brand" table="set_brand" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="50" />
+        </property>
+        <property name="type" type="string">
+            <column name="type" length="20" />
+        </property>
+        <property name="logo" type="string">
+            <column name="logo" length="50" />
+        </property>
+        <property name="url" type="string">
+            <column name="url" length="50" />
+        </property>
+        <property name="introduction" type="string">
+            <column name="introduction" length="65535" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="orderNum" type="java.lang.Integer">
+            <column name="orderNum" />
+        </property>
+         <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-25 9:44:51 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.CustomerLastBussi" table="cust_customerlastbussi">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" column="brandId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="carModel" class="com.ystech.xwqr.set.model.CarModel" column="lastBuyCarModelId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="carSeriy" class="com.ystech.xwqr.set.model.CarSeriy" column="carSeriyId" fetch="select" not-found="ignore"></many-to-one>
+        <property name="isCarPlate" type="java.lang.Boolean">
+            <column name="isCarPlate" />
+        </property>
+        <property name="carPlateNo" type="string">
+            <column name="carPlateNo" length="20" />
+        </property>
+        <property name="isBuySafe" type="java.lang.Boolean">
+            <column name="isBuySafe" />
+        </property>
+        <property name="isBoutique" type="java.lang.Boolean">
+            <column name="isBoutique" />
+        </property>
+         <many-to-one name="customer" class="com.ystech.cust.model.Customer" fetch="select" not-found="ignore">
+            <column name="customerId" />
+        </many-to-one>
+         <many-to-one name="carColor" class="com.ystech.xwqr.set.model.CarColor" fetch="select" not-found="ignore">
+            <column name="carColor" />
+        </many-to-one>
+        <many-to-one name="customerFlowReason" class="com.ystech.cust.model.CustomerFlowReason" fetch="select" not-found="ignore">
+            <column name="customerFlowReasonId" />
+        </many-to-one>
+        <property name="note" type="string">
+            <column name="note" length="2000" />
+        </property>
+        <property name="approvalStatus" type="java.lang.Integer">
+        	 <column name="approvalStatus"  />
+        </property>
+        <property name="approvalPersonId" type="java.lang.Integer">
+        	 <column name="approvalPersonId"  />
+        </property>
+        <property name="approvalPersonName" type="string">
+        	 <column name="approvalPersonName"  />
+        </property>
+        <property name="approvalDate" type="timestamp">
+        	 <column name="approvalDate"  />
+        </property>
+        <property name="createTime" type="timestamp">
+        	 <column name="createTime"  />
+        </property>
+        
+    </class>
+</hibernate-mapping>

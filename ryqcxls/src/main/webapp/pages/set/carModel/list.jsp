@@ -19,7 +19,9 @@
 <div class="listOperate">
 	<div class="operate">
 		<a class="but button" href="${ctx }/carModel/add?parentMenu=1">添加</a>
-		<a class="but butCancle" href="javascript:void(-1)" onclick="$.utile.deleteIds('${ctx }/carModel/delete','searchPageForm')">删除</a>
+		<c:if test="${fn:contains(sessionScope.user.userId,'super') }">
+			<a class="but butCancle" href="javascript:void(-1)" onclick="$.utile.deleteIds('${ctx }/carModel/delete','searchPageForm')">删除</a>
+		</c:if>
    </div>
   	<div class="seracrhOperate">
   		<form name="searchPageForm" id="searchPageForm" action="${ctx}/carModel/queryList" method="post">
@@ -111,8 +113,11 @@
 					</c:if>
 					<c:if test="${carModel.status==2}">
 						<a href="javascript:void(-1)"  class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/carModel/stopOrStart?dbid=${carModel.dbid}','searchPageForm','您确定【${carModel.name}】启用该车型吗')">启用</a>
-					</c:if>|
-					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/carModel/delete?dbids=${carModel.dbid}','searchPageForm')" title="删除">删除</a>
+					</c:if>
+					<c:if test="${fn:contains(sessionScope.user.userId,'super') }">
+						|
+						<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/carModel/delete?dbids=${carModel.dbid}','searchPageForm')" title="删除">删除</a>
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>

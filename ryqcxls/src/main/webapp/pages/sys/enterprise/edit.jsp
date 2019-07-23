@@ -11,7 +11,7 @@
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
-<script type="text/javascript" src="${ctx }/widgets/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/My97DatePicker/WdatePicker.js"></script>
 <title>经销商管理</title>
 </head>
 <body class="bodycolor">
@@ -64,30 +64,12 @@
 				<td ><input type="text" name="enterprise.webAddress" id="webAddress"
 					value="${enterprise.webAddress }" class="largeX text" checkType="string" canEmpty="Y" tip="必须输入数字" title="网址"></td>
 			</tr>
-			<%-- <tr height="42">
-				<td class="formTableTdLeft">试乘试驾电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.tryCarPhone" id="tryCarPhone"
-					value="${enterprise.tryCarPhone }" class="largeX text" title="试乘试驾电话" checkType="phone" canEmpty="Y" tip="请输入正确的传真格式"></td>
-				<td class="formTableTdLeft">维修保养电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.maintCarPhone" id="maintCarPhone"
-					value="${enterprise.maintCarPhone }" class="largeX text" checkType="phone" canEmpty="Y" tip="维修保养电话" title="维修保养电话"></td>
-			</tr>
 			<tr height="42">
-				<td class="formTableTdLeft">旧车评估电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.oldCarPhone" id="oldCarPhone"
-					value="${enterprise.oldCarPhone }" class="largeX text" title="旧车评估电话" checkType="phone" canEmpty="Y" tip="请输入正确的传真格式"></td>
-				<td class="formTableTdLeft">年审预约电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.eaxminPhone" id="eaxminPhone"
-					value="${enterprise.eaxminPhone }" class="largeX text" checkType="phone" canEmpty="Y" tip="年审预约电话" title="年审预约电话"></td>
+				<td class="formTableTdLeft">到期时间:&nbsp;</td>
+				<td>
+					<input type="text" name="enterprise.endDate" id="endDate" value="${enterprise.endDate}"  class="largeX text" checkType="string,1" tip="到期时间不能为空" onFocus="WdatePicker({isShowClear:false,readOnly:true})">
+				</td>
 			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">紧急救援电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.emergencyPhone" id="emergencyPhone"
-					value="${enterprise.emergencyPhone }" class="largeX text" title="紧急救援电话" checkType="mobilePhone" canEmpty="Y" tip="请输入正确的手机号码"></td>
-				<td class="formTableTdLeft">销售电话:&nbsp;</td>
-				<td ><input type="text" name="enterprise.salerPhone" id="salerPhone"
-					value="${enterprise.salerPhone }" class="largeX text" checkType="phone" canEmpty="Y" tip="销售电话" title="销售电话"></td>
-			</tr> --%>
 			<tr height="42">
 				<td class="formTableTdLeft">开户银行:&nbsp;</td>
 				<td ><input type="text" name="enterprise.bank" id="bank"

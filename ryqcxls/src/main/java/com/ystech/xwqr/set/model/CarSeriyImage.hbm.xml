@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-9 23:29:06 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.xwqr.set.model.CarSeriyImage" table="set_CarSeriyImage" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="carSeriyId" type="java.lang.Integer">
+            <column name="carSeriyId" />
+        </property>
+        <property name="url" type="string">
+            <column name="url" />
+        </property>
+        <property name="orderNum" type="java.lang.Integer">
+            <column name="orderNum" />
+        </property>
+    </class>
+</hibernate-mapping>

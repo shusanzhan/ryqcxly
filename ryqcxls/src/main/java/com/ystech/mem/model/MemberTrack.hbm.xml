@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-28 9:31:46 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.mem.model.MemberTrack" table="mem_membertrack" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="trackDate" type="timestamp">
+            <column name="trackDate" length="19" />
+        </property>
+        <property name="trackMethod" type="java.lang.Integer">
+            <column name="trackMethod" />
+        </property>
+        <property name="trackContent" type="string">
+            <column name="trackContent" length="65535" />
+        </property>
+        <property name="result" type="string">
+            <column name="result" length="65535" />
+        </property>
+        <property name="feedBackResult" type="string">
+            <column name="feedBackResult" length="65535" />
+        </property>
+        <property name="dealMethod" type="string">
+            <column name="dealMethod" length="65535" />
+        </property>
+        <property name="nextReservationTime" type="timestamp">
+            <column name="nextReservationTime" length="19" />
+        </property>
+        <property name="showroomManagerSuggested" type="string">
+            <column name="showroomManagerSuggested" length="65535" />
+        </property>
+        <many-to-one name="member" column="memberId" class="com.ystech.mem.model.Member" not-found="ignore" fetch="select"></many-to-one>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+         <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+         <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

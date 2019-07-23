@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-8-16 10:45:55 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.DistributorSuboutlet" table="cust_distributorsuboutlet">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="200" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="200" />
+        </property>
+        <property name="contactPerson" type="string">
+            <column name="contactPerson" length="20" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="20" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="20" />
+        </property>
+        <property name="otherBrand" type="string">
+            <column name="otherBrand" length="2000" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="4000" />
+        </property>
+        <property name="distributorId" type="java.lang.Integer">
+            <column name="distributorId" />
+        </property>
+    </class>
+</hibernate-mapping>

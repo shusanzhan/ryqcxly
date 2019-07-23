@@ -1,5 +1,9 @@
 package com.ystech.xwqr.model.sys;
 
+import java.util.Date;
+
+import com.ystech.core.util.CommState;
+
 // Generated 2013-6-2 23:21:11 by Hibernate Tools 4.0.0
 
 /**
@@ -22,7 +26,6 @@ public class Enterprise implements java.io.Serializable {
 	private String content;
 	private Integer userId;
 	private String allName;
-	
 	//试乘试驾专线
 	private String tryCarPhone;
 	//维修修保养
@@ -35,13 +38,19 @@ public class Enterprise implements java.io.Serializable {
 	private String emergencyPhone;
 	//销售电话
 	private String salerPhone;
-	
 	//微信红包发送状态：1、为默认；2、可发送
 	private Integer payStatus;
 	private String point;
 	//公司业务类型： 1、为小车；2、卡车业务；3、多品牌
 	private Integer bussiType;
-
+	private Date createTime;
+	private Date modifyTime;
+	private Date beginDate;//系统开通有效期
+	private Date endDate;//系统开通有效期
+	//退网状态1、正常；2、停用;10、退网；
+	private Integer backNetStatus;
+	//退网时间
+	private Date backNetDate;
 	public Enterprise() {
 	}
 
@@ -235,6 +244,58 @@ public class Enterprise implements java.io.Serializable {
 	public void setBussiType(Integer bussiType) {
 		this.bussiType = bussiType;
 	}
-	
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public Date getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Integer getBackNetStatus() {
+		return backNetStatus;
+	}
+
+	public void setBackNetStatus(Integer backNetStatus) {
+		this.backNetStatus = backNetStatus;
+	}
+
+	public Date getBackNetDate() {
+		return backNetDate;
+	}
+
+	public void setBackNetDate(Date backNetDate) {
+		this.backNetDate = backNetDate;
+	}
+	public String getBackNetStatusName(){
+		return CommState.getStateName(this.backNetStatus);
+	}
+	public String getBussiTypeName(){
+		return CommState.getBussTypeName(this.bussiType);
+	}
 }

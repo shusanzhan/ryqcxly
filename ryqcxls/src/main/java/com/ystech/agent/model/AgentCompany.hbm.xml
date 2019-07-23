@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-3-22 23:04:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.AgentCompany" table="agent_agentcompany">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="companyId" type="java.lang.Integer">
+            <column name="companyId" />
+        </property>
+        <many-to-one name="agent" column="agentId" class="com.ystech.agent.model.Agent" not-found="ignore" fetch="select"></many-to-one>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+         <property name="successNum" type="java.lang.Integer">
+            <column name="successNum" />
+        </property>
+         <property name="agentNum" type="java.lang.Integer">
+            <column name="agentNum" />
+        </property>
+    </class>
+</hibernate-mapping>

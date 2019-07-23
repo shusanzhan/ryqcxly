@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-8-16 14:22:22 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.AgentSetLevel" table="agent_agentsetlevel">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="agentSetId" type="java.lang.Integer">
+            <column name="agentSetId" />
+        </property>
+        <property name="beginNum" type="java.lang.Integer">
+            <column name="beginNum" />
+        </property>
+        <property name="endNum" type="java.lang.Integer">
+            <column name="endNum" />
+        </property>
+        <property name="rewardMoney" type="java.lang.Float">
+            <column name="rewardMoney" precision="12" scale="0" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

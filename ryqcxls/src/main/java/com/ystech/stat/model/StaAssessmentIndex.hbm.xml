@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-9-28 11:54:13 by Hibernate Tools 4.0.0.Final -->
+<hibernate-mapping>
+    <class name="com.ystech.stat.model.StaAssessmentIndex" table="sta_assessmentindex" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type">
+                <comment>1&#161;&#162;&#207;&#181;&#205;&#179;&#196;&#172;&#200;&#207;&#163;&#187;2&#161;&#162;&#215;&#212;&#214;&#250;&#204;&#237;&#188;&#211;</comment>
+            </column>
+        </property>
+        <property name="indexNum" type="java.lang.Integer">
+            <column name="indexNum" />
+        </property>
+         <set name= "staAssessmentIndexLevels" order-by="dbid"> 
+			<key column="indexId "/> 
+			<one-to-many class="com.ystech.stat.model.StaAssessmentIndexLevel"/> 
+		</set>
+    </class>
+</hibernate-mapping>

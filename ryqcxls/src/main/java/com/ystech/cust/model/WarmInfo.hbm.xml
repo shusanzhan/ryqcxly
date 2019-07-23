@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-28 9:43:53 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.WarmInfo" table="cust_warmInfo">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="mainTitle" type="string">
+            <column name="mainTitle" length="500" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="4000" />
+        </property>
+        <property name="warmType" type="java.lang.Integer">
+            <column name="warmType">
+                <comment>
+                &#204;&#225;&#202;&#190;&#183;&#214;&#192;&#224;&#163;&#187;&#183;&#214;&#206;&#170;&#187;&#225;&#212;&#177;&#186;&#205;&#191;&#205;&#187;&#167;&#204;&#225;&#202;&#190;</comment>
+            </column>
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="warmDate" type="timestamp">
+            <column name="warmDate" length="19" />
+        </property>
+        <property name="method" type="java.lang.Integer">
+            <column name="method" />
+        </property>
+        <property name="finishContent" type="string">
+            <column name="finishContent" length="4000" />
+        </property>
+        <property name="finishStatus" type="java.lang.Boolean">
+            <column name="finishStatus" />
+        </property>
+        <property name="cusOrMemId" type="java.lang.Integer">
+            <column name="cusOrMemId" />
+        </property>
+    </class>
+</hibernate-mapping>

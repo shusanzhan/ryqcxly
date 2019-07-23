@@ -142,7 +142,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		bindClick();
-		 setInterval('showMessageBox()',5000);
 	})
 	function leftMenu(){
 		var cla=$("#sidebar").attr("class");

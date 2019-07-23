@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-23 13:31:11 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.Customer" table="cust_customer">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="sn" type="string">
+            <column name="sn" length="50" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="50" />
+        </property>
+        <property name="sex" type="string">
+            <column name="sex" length="50" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="20" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="50" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" />
+        </property>
+        <property name="qq" type="string">
+            <column name="qq" length="50" />
+        </property>
+        <property name="family" type="string">
+            <column name="family" length="2000" />
+        </property>
+        <property name="companyName1" type="string">
+            <column name="companyName1" length="2000" />
+        </property>
+        <property name="hobby" type="string">
+            <column name="hobby" length="2000" />
+        </property>
+        <property name="icard" type="string">
+            <column name="icard" length="20" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="50" />
+        </property>
+        <property name="zipCode" type="string">
+            <column name="zipCode" length="50" />
+        </property>
+         <property name="age" type="java.lang.Integer">
+            <column name="age" />
+        </property>
+        <property name="gbirthday" type="timestamp">
+            <column name="gbirthday" length="19" />
+        </property>
+        <property name="nbirthday" type="timestamp">
+            <column name="nbirthday" length="19" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="8000" />
+        </property>
+        <property name="bussiStaff" type="string">
+            <column name="bussiStaff" length="50" />
+        </property>
+        <property name="lastResult" type="java.lang.Integer">
+            <column name="lastResult" />
+        </property>
+        <property name="tryCarStatus" type="java.lang.Integer">
+            <column name="tryCarStatus" />
+        </property>
+        <property name="comeShopStatus" type="java.lang.Integer">
+            <column name="comeShopStatus" />
+        </property>
+        <property name="createFolderTime" type="timestamp">
+            <column name="createFolderTime" length="19" />
+        </property>
+        <property name="comeShopDate" type="date">
+            <column name="comeShopDate" length="11" />
+        </property>
+        <property name="twoComeShopDate" type="date">
+            <column name="twoComeShopDate" length="11" />
+        </property>
+        <property name="tryCarDate" type="date">
+            <column name="tryCarDate" length="11" />
+        </property>
+        
+        <property name="salesConsultant" type="string">
+            <column name="salesConsultant" length="200" />
+        </property>
+        <property name="receptierSalerName" type="string">
+            <column name="receptierSalerName" length="200" />
+        </property>
+        <property name="invitationSalerName" type="string">
+            <column name="invitationSalerName" length="200" />
+        </property>
+        <property name="interests" type="string">
+            <column name="interests" length="4000" />
+        </property>
+        <property name="showRoomManager" type="string">
+            <column name="showRoomManager" length="200" />
+        </property>
+         <property name="orderContractStatus" type="java.lang.Integer">
+            <column name="orderContractStatus" />
+        </property>
+         <property name="dmsStatus" type="java.lang.Integer">
+            <column name="dmsStatus" />
+        </property>
+         <property name="kdStatus" type="java.lang.Integer">
+            <column name="kdStatus" />
+        </property>
+         <property name="comeShopNum" type="java.lang.Integer">
+            <column name="comeShopNum" />
+        </property>
+         <property name="trackNum" type="java.lang.Integer">
+            <column name="trackNum" />
+        </property>
+         <property name="recordType" type="java.lang.Integer">
+            <column name="recordType" />
+        </property>
+        <many-to-one name="customerType" class="com.ystech.cust.model.CustomerType" column="customerTypeId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="sourceEnterprise" class="com.ystech.xwqr.model.sys.Enterprise" column="sourceEnterpriseId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="enterprise" class="com.ystech.xwqr.model.sys.Enterprise" column="enterpriseId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="user" class="com.ystech.xwqr.model.sys.User" column="bussiStaffId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="customerPhase" class="com.ystech.cust.model.CustomerPhase" column="customerPhaseId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="firstCustomerPhase" class="com.ystech.cust.model.CustomerPhase" column="firstCustomerPhaseId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="department" class="com.ystech.xwqr.model.sys.Department" column="departmentId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="successDepartment" class="com.ystech.xwqr.model.sys.Department" column="successDepartmentId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="area" class="com.ystech.xwqr.model.sys.Area" column="areaId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="paperwork" class="com.ystech.cust.model.Paperwork" column="paperworkId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="profession" class="com.ystech.cust.model.Profession" column="professionId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="industry" class="com.ystech.cust.model.Industry" column="industryId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="educational" class="com.ystech.cust.model.Educational" column="educationalId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="infoFrom" class="com.ystech.cust.model.InfoFrom" column="infoFromId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="distributor" class="com.ystech.cust.model.Distributor" column="distributorId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="customerInfrom" class="com.ystech.cust.model.CustomerInfrom" column="customerInfromId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="recommendCustomer" class="com.ystech.agent.model.RecommendCustomer" column="recommendCustomerId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="receptierSaler" class="com.ystech.xwqr.model.sys.User" column="receptierSalerId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="invitationSaler" class="com.ystech.xwqr.model.sys.User" column="invitationSalerId" fetch="select" not-found="ignore"></many-to-one>
+        <set name="customertracks" table="cust_customertrack" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customerId" />
+            </key>
+            <one-to-many class="com.ystech.cust.model.CustomerTrack" />
+        </set>
+        <set name="customerbussis" table="cust_customerbussi" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customerId" />
+            </key>
+            <one-to-many class="com.ystech.cust.model.CustomerBussi" />
+        </set>
+         <one-to-one  name="customerBussi" property-ref="customer"  ></one-to-one>
+         <one-to-one  name="customerLastBussi" property-ref="customer"  ></one-to-one>
+         <one-to-one  name="customerShoppingRecord" property-ref="customer"  ></one-to-one>
+         <one-to-one  name="customerPidBookingRecord" property-ref="customer"  ></one-to-one>
+         <one-to-one  name="orderContract" property-ref="customer"  ></one-to-one>
+         <one-to-one name="timeoutsTrackRecord" property-ref="customer"></one-to-one>
+         <one-to-one name="customerImageApproval" property-ref="customer"></one-to-one>
+        <property name="carModelStr" type="string">
+            <column name="carModelStr" length="2000" />
+        </property>
+        <property name="carColorStr" type="string">
+            <column name="carColorStr" length="2000" />
+        </property>
+         <property name="navPrice" type="string">
+            <column name="navPrice" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

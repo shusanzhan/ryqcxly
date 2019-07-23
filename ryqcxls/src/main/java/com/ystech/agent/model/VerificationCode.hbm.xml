@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-1-5 19:21:46 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.VerificationCode" table="agent_verificationcode">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="mobile" type="string">
+            <column name="mobile" not-null="true" />
+        </property>
+        <property name="verificationCode" type="string">
+            <column name="verificationCode" not-null="true" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" />
+        </property>
+    </class>
+</hibernate-mapping>

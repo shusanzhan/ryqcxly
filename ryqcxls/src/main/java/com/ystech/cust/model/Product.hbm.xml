@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-20 10:08:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.Product" table="cust_product" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="productcategory" class="com.ystech.cust.model.ProductCategory" fetch="select" not-found="ignore">
+            <column name="productCategoryId" />
+        </many-to-one>
+        <property name="sn" type="string">
+            <column name="sn" length="200" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="500" />
+        </property>
+        <property name="brandIds" type="string">
+            <column name="brandIds" length="500" />
+        </property>
+        <property name="brandNames" type="string">
+            <column name="brandNames" length="1500" />
+        </property>
+        <property name="price" type="big_decimal">
+            <column name="price" precision="22" scale="0" />
+        </property>
+        <property name="costPrice" type="big_decimal">
+            <column name="costPrice" precision="22" scale="0" />
+        </property>
+        <property name="salerCostPrice" type="big_decimal">
+            <column name="salerCostPrice" precision="22" scale="0" />
+        </property>
+        <property name="constructCostPrice" type="big_decimal">
+            <column name="constructCostPrice" precision="22" scale="0" />
+        </property>
+        <property name="discount" type="java.lang.Float">
+            <column name="discount" precision="12" scale="0" />
+        </property>
+        <property name="unit" type="string">
+            <column name="unit" length="50" />
+        </property>
+        <property name="integral" type="java.lang.Integer">
+            <column name="integral" length="50" />
+        </property>
+        <property name="specification" type="string">
+            <column name="specification" length="50" />
+        </property>
+        <property name="isStock" type="java.lang.Boolean">
+            <column name="isStock" />
+        </property>
+        <property name="isTrack" type="java.lang.Boolean">
+            <column name="isTrack" />
+        </property>
+        <property name="trackTimeLong" type="java.lang.Integer">
+            <column name="trackTimeLong" />
+        </property>
+        <property name="stockNum" type="java.lang.Integer">
+            <column name="stockNum" />
+        </property>
+        <property name="minStockNum" type="java.lang.Integer">
+            <column name="minStockNum" />
+        </property>
+        <property name="maxStockNum" type="java.lang.Integer">
+            <column name="maxStockNum" />
+        </property>
+        <property name="startStockNum" type="java.lang.Integer">
+            <column name="startStockNum" />
+        </property>
+        <property name="stockStatus" type="java.lang.Integer">
+            <column name="stockStatus" />
+        </property>
+        <property name="isDeductPercentage" type="java.lang.Boolean">
+            <column name="isDeductPercentage" />
+        </property>
+        <property name="deductPercert" type="java.lang.Float">
+            <column name="deductPercert" precision="12" scale="0" />
+        </property>
+        <property name="isGift" type="java.lang.Boolean">
+            <column name="isGift" />
+        </property>
+        <property name="deductionScore" type="java.lang.Integer">
+            <column name="deductionScore" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="commType" type="java.lang.Integer">
+            <column name="commType" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="2000" />
+        </property>
+        <property name="pingyin" type="string">
+            <column name="pingyin" length="50" />
+        </property>
+             <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        
+        <property name="type" type="java.lang.Integer">
+            <column name="type" />
+        </property>
+        <property name="stopStatus" type="java.lang.Integer">
+            <column name="stopStatus" />
+        </property>
+         <many-to-one name="carSeriy" class="com.ystech.xwqr.set.model.CarSeriy" fetch="select" not-found="ignore">
+            <column name="carSeriyId" />
+        </many-to-one>
+          <property name="packageIds" type="string">
+            <column name="packageIds"  />
+        </property>
+          <property name="packageDetail" type="string">
+            <column name="packageDetail"  />
+        </property>
+          <property name="enterpriseIds" type="string">
+            <column name="enterpriseIds"  />
+        </property>
+    </class>
+</hibernate-mapping>

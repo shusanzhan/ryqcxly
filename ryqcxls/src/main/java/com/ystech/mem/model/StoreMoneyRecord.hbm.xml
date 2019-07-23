@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-9-5 16:44:00 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.mem.model.StoreMoneyRecord" table="mem_storemoneyrecord">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="actMoney" type="string">
+            <column name="actMoney" length="500" />
+        </property>
+        <property name="rechargeMoney" type="string">
+            <column name="rechargeMoney" length="500" />
+        </property>
+        <property name="rechargeTime" type="timestamp">
+            <column name="rechargeTime" length="19" />
+        </property>
+        <many-to-one name="member" class="com.ystech.mem.model.Member" column="memberid" fetch="select"></many-to-one>
+        <property name="rechargeExplain" type="string">
+            <column name="rechargeExplain" length="65535" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="65535" />
+        </property>
+        <many-to-one name="user" class="com.ystech.xwqr.model.sys.User" column="creatorId" fetch="select"></many-to-one>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="payWay" type="java.lang.Integer">
+            <column name="payWay" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+    </class>
+</hibernate-mapping>

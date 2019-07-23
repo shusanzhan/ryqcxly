@@ -18,8 +18,6 @@ import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.Md5;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
-import com.ystech.xwqr.model.sys.Department;
-import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.SystemInfo;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.DepartmentManageImpl;
@@ -56,6 +54,10 @@ public class MainAction extends BaseController{
 	@Resource
 	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
 		this.systemInfoMangeImpl = systemInfoMangeImpl;
+	}
+	@Resource
+	public void setUserManageImpl(UserManageImpl userManageImpl) {
+		this.userManageImpl = userManageImpl;
 	}
 	/**
 	 * 功能描述：

@@ -100,7 +100,6 @@ public class DepartmentAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer parentId = ParamUtil.getIntParam(request, "parentId", -1);
 		Integer manager = ParamUtil.getIntParam(request,"managerId", -1);
-		Integer enterpriseId = ParamUtil.getIntParam(request,"enterpriseId", -1);
 		try {
 			if(parentId<0){
 				renderErrorMsg(new Throwable("请选择上级部门"), "");
@@ -324,13 +323,6 @@ public class DepartmentAction extends BaseController{
 				Department parent = departmentManageImpl.get(parentId);
 				department2.setParent(parent);
 				departmentManageImpl.save(department2);
-				/*Set<Department> children = department2.getChildren();
-				if (children.size()>0) {
-					for (Department chi : children) {
-						chi.setMenu(resource2.getMenu()+1);
-						resourceManageImpl.save(chi);
-					}
-				}*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -347,226 +339,13 @@ public class DepartmentAction extends BaseController{
 	 */
 	public void editResourceJson() {
 		try {
-			JSONObject jsonObject=null;
-			JSONArray array=new JSONArray();
 			User currentUser = SecurityUserHolder.getCurrentUser();
 			Enterprise company = SecurityUserHolder.getEnterprise();
-			if(null==currentUser.getDepartment()||currentUser.getDepartment().getDbid()==1){
-				Department department2 = departmentManageImpl.get(1);
-				jsonObject=new JSONObject();
-				jsonObject = makeJSONSuperObject(department2);
-				if(jsonObject!=null){
-					array.put(jsonObject);
-				}
-			}else{
-				/*Department department2 = departmentManageImpl.findUnique("from Department where dbid=?", company.getDepartment().getDbid());
-				if(null!=department2){
-					jsonObject=new JSONObject();
-					jsonObject = makeJSONObject(department2);
-					if(jsonObject!=null){
-						array.put(jsonObject);
-					}
-				}*/
-			}
-			renderJson(array.toString());
-			
+			JSONObject jsonObject = departmentManageImpl.makeJSONSuperObject(company);
+			renderJson(jsonObject.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return;
-	}
-	/**
-	 *功能描述： 将传入的对象转化为JSON数据格式
-	 * 部门树：根节点，具有子结构节点，子节点
-	 * @throws JSONException
-	 */
-	private JSONObject makeJSONObject(Department department) throws JSONException {
-		JSONObject jObject = new JSONObject();
-		List<Department> children = departmentManageImpl.find("from Department where parent.dbid=? order by suqNo",	new Object[] { department.getDbid() });
-		if (null != children && children.size() > 0) {// 如果子部门不空
-			if (department.getParent() != null&&department.getParent().getDbid()>0) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			} else{
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}
-			
-			jObject.put("id", department.getDbid());
-			jObject.put("name", department.getName());
-			jObject.put("open", true);
-			jObject.put("children", makeJSONChildren(children));
-			return jObject;
-		} else {
-			if (department.getParent() != null&&department.getParent().getDbid()>0) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}
-			jObject.put("id", department.getDbid());
-			jObject.put("name", department.getName());
-			jObject.put("children", "");
-			return jObject;
-		}
-	}
-	/**
-	 * 将部门数据生成可以编辑的JSON格式
-	 * **/
-	private JSONArray makeJSONChildren(List<Department> children)throws JSONException {
-		JSONArray jsonArray = new JSONArray();
-		for (Department department : children) {
-			JSONObject subJSONjObject = makeJSONObject(department);
-			jsonArray.put(subJSONjObject);
-		}
-		return jsonArray;
-	}
-	/**
-	 *功能描述： 将传入的对象转化为JSON数据格式
-	 * 部门树：根节点，具有子结构节点，子节点
-	 * @throws JSONException
-	 */
-	private JSONObject makeJSONSuperObject(Department department) throws JSONException {
-		JSONObject jObject = new JSONObject();
-		List<Department> children = departmentManageImpl.find("from Department where parent.dbid=?  order by suqNo",	new Object[] { department.getDbid()});
-		if (null != children && children.size() > 0) {// 如果子部门不空
-			if (department.getParent() ==null) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/1_open.png");// 菜单阶段
-				jObject.put("root", "root");
-				jObject.put("open", true);
-			} else{
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-				jObject.put("open", false);
-			}
-			
-			jObject.put("id", department.getDbid());
-			jObject.put("name", department.getName());
-			jObject.put("children", makeJSONSuperChildren(children));
-			return jObject;
-		} else {
-			if (department.getParent() ==null) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/1_open.png");// 根节点
-				jObject.put("root", "root");
-			}else{
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}
-			jObject.put("id", department.getDbid());
-			jObject.put("name", department.getName());
-			jObject.put("children", "");
-			return jObject;
-		}
-	}
-	/**
-	 * 将部门数据生成可以编辑的JSON格式
-	 * **/
-	private JSONArray makeJSONSuperChildren(List<Department> children)throws JSONException {
-		JSONArray jsonArray = new JSONArray();
-		for (Department department : children) {
-			JSONObject subJSONjObject = makeJSONSuperObject(department);
-			jsonArray.put(subJSONjObject);
-		}
-		return jsonArray;
-	}
-	//////////////////////////////////////////////////////生成人员数/////////////////////////////////////////////////
-	/**
-	 * 功能描述：
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public String departmentUser() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer departmentId = ParamUtil.getIntParam(request, "departmentId", -1);
-		try {
-				Department department2 = departmentManageImpl.get(1);
-				JSONObject userJson = getJsonUser(department2);
-				System.out.println("======="+userJson.toString());
-				request.setAttribute("userJson", userJson);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "departmentUser";
-	}
-	/**
-	 * 功能描述：
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void updateUser() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
-		Integer parentId = ParamUtil.getIntParam(request, "parentId", -1);
-		try {
-			User parent = userManageImpl.get(parentId);
-			User user = userManageImpl.get(dbid);
-			user.setParent(parent);
-			userManageImpl.save(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return;
-	}
-	private JSONObject getJsonUser(Department department2) throws JSONException{
-		JSONObject jObject=new JSONObject();
-		if (department2.getParent() ==null) {
-			jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/1_open.png");// 根节点
-			jObject.put("root", "root");
-		}else{
-			jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-		}
-		jObject.put("id", department2.getDbid()+"d");
-		jObject.put("name", department2.getName());
-		jObject.put("open", true);
-		JSONArray array2=new JSONArray();
-		List<User> users = userManageImpl.find("from User where userState=1 and parent.dbid is null ",null);
-		for (User user : users) {
-			JSONObject makeJSONUser = makeJSONUser(user);
-			array2.put(makeJSONUser);
-		}
-		jObject.put("children",array2);
-		return jObject;
-	}
-	/**
-	 *功能描述： 将传入的对象转化为JSON数据格式
-	 * 部门树：根节点，具有子结构节点，子节点
-	 * @throws JSONException
-	 */
-	private JSONObject makeJSONUser(User user) throws JSONException {
-		JSONObject jObject = new JSONObject();
-		List<User> children = userManageImpl.find("from User where parent.dbid=? and userState=1",	new Object[] {user.getDbid()});
-		if (null != children && children.size() > 0) {// 如果子部门不空
-			if (user.getParent() ==null) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			} else{
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}
-			
-			jObject.put("id", user.getDbid());
-			jObject.put("name", user.getRealName());
-			jObject.put("open", true);
-			jObject.put("children", makeJSONUserChild(children));
-			return jObject;
-		} else {
-			if (user.getParent() ==null) {
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}else{
-				jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/2.png");// 菜单阶段
-			}
-			jObject.put("id", user.getDbid());
-			jObject.put("name", user.getRealName());
-			jObject.put("children", "");
-			return jObject;
-		}
-	}
-	/**
-	 * 将部门数据生成可以编辑的JSON格式
-	 * **/
-	private JSONArray makeJSONUserChild(List<User> children)throws JSONException {
-		JSONArray jsonArray = new JSONArray();
-		for (User user : children) {
-			JSONObject subJSONjObject = makeJSONUser(user);
-			jsonArray.put(subJSONjObject);
-		}
-		return jsonArray;
 	}
 }

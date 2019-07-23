@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-3-11 9:08:48 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.OrderContractProduct" table="cust_ordercontractproduct" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="ordercontract" class="com.ystech.cust.model.OrderContract" fetch="select" not-found="ignore">
+            <column name="orderContractId" />
+        </many-to-one>
+        <many-to-one name="carseriy" class="com.ystech.xwqr.set.model.CarSeriy" fetch="select" not-found="ignore">
+            <column name="carseriyId" />
+        </many-to-one>
+        <many-to-one name="carModel" class="com.ystech.xwqr.set.model.CarModel" fetch="select" not-found="ignore">
+            <column name="carModelId" />
+        </many-to-one>
+         <many-to-one name="carColor" class="com.ystech.xwqr.set.model.CarColor" fetch="select" not-found="ignore">
+            <column name="carColorId" />
+        </many-to-one>
+        <property name="price" type="big_decimal">
+            <column name="price" />
+        </property>
+        <property name="num" type="string">
+            <column name="num" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="2000" />
+        </property>
+    </class>
+</hibernate-mapping>

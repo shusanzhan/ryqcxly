@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-9-28 11:54:13 by Hibernate Tools 4.0.0.Final -->
+<hibernate-mapping>
+    <class name="com.ystech.stat.model.StaAssessmentIndexLevel" table="sta_assessmentindexlevel">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" />
+        </property>
+        <property name="beginNum" type="java.lang.Integer">
+            <column name="beginNum" />
+        </property>
+        <property name="endnum" type="java.lang.Integer">
+            <column name="endnum" />
+        </property>
+        <property name="entSugg" type="string">
+            <column name="entSugg" length="2000" />
+        </property>
+        <property name="depSugg" type="string">
+            <column name="depSugg" length="2000" />
+        </property>
+        <property name="salSugg" type="string">
+            <column name="salSugg" length="2000" />
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type">
+                <comment>
+                1&#161;&#162;&#211;&#197;&#208;&#227;&#163;&#187;2&#161;&#162;&#180;&#239;&#177;&#234;&#163;&#187;3&#161;&#162;&#206;&#180;&#180;&#239;&#177;&#234;</comment>
+            </column>
+        </property>
+        <many-to-one name="staAssessmentIndex" class="com.ystech.stat.model.StaAssessmentIndex" column="indexId" not-found="ignore"></many-to-one>
+        <property name="scoreNum" type="java.lang.Integer">
+            <column name="scoreNum">
+                <comment>
+                1&#161;&#162;&#211;&#197;&#208;&#227;2&#183;&#214;&#163;&#187;2&#161;&#162;&#180;&#239;&#177;&#234;1&#183;&#214;&#163;&#187;3&#161;&#162;&#206;&#180;&#180;&#239;&#177;&#234;0&#183;&#214;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

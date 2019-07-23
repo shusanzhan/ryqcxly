@@ -35,12 +35,11 @@
 					value="${role.name }" class="largeX text" title="名称"	checkType="string,1,50" tip="名称不能为空"><span style="color: red;">*</span></td>
 			</tr>
 			<tr height="42">
-				<td class="formTableTdLeft">适用用户类型:&nbsp;</td>
+				<td class="formTableTdLeft">类型:&nbsp;</td>
 				<td >
-					<select id="userType" name="role.userType" class="largeX text" checkType="integer,1" tip="请选择适用用户类型">
+					<select id="roleType" name="role.roleType" class="largeX text" checkType="integer,1" tip="请选择适用用户类型">
 						<option value="">请选择....</option>
-						<option value="1"  ${role.userType==1?'selected="selected"':''}>管理员</option>
-						<option  value="2" ${role.userType==2?'selected="selected"':''}>普通用户</option>
+						<option value="2" ${role.roleType==2?'selected="selected"':''}>普通角色</option>
 					</select>
 				<span style="color: red;">*</span></td>
 			</tr>

@@ -19,12 +19,8 @@
 		     <result name="invalid.token">/token.jsp</result>
 		</global-results>
 		
-		<global-exception-mappings>
-		    <exception-mapping exception="java.lang.Exception" result="error"/>
-		</global-exception-mappings>
-		<action name="brand" class="brandAction">
+		<action name="userBrand" class="userBrandAction">
 			<result name="edit">/pages/set/brand/edit.jsp</result>
-			<result name="editSelf">/pages/set/brand/editSelf.jsp</result>
 			<result name="list">/pages/set/brand/list.jsp</result>
 		</action>	
 		<action name="carSeriy" class="carSeriyAction">
@@ -57,11 +53,5 @@
         	 <result name="edit">/pages/set/chargeItem/edit.jsp</result>
         	 <result name="list">/pages/set/chargeItem/list.jsp</result>
         </action>
-       	<action name="salePolicy" class="salePolicyAction">
-       	 <result name="edit">/pages/set/salePolicy/edit.jsp</result>
-       	 <result name="list">/pages/set/salePolicy/list.jsp</result>
-       	 <result name="read">/pages/set/salePolicy/read.jsp</result>
-       	 <result name="salerList">/pages/set/salePolicy/salerList.jsp</result>
-       </action>
     </package>
 </struts>

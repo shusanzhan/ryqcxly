@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-8-9 16:04:11 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.Distributor" table="cust_distributor">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" />
+        </property>
+        <property name="shortName" type="string">
+            <column name="shortName" length="50" />
+        </property>
+        <property name="legalRep" type="string">
+            <column name="legalRep" length="50" />
+        </property>
+        <property name="icard" type="string">
+            <column name="icard" length="50" />
+        </property>
+        <property name="birthday" type="timestamp">
+            <column name="birthday" length="19" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="50" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="50" />
+        </property>
+        <property name="bond" type="string">
+            <column name="bond" length="500" />
+        </property>
+        <property name="companyAddress" type="string">
+            <column name="companyAddress" />
+        </property>
+        <property name="companyAttr" type="java.lang.Integer">
+            <column name="companyAttr" />
+        </property>
+        <property name="startCooperation" type="timestamp">
+            <column name="startCooperation" length="19" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19" />
+        </property>
+        <property name="creatorId" type="java.lang.Integer">
+            <column name="creatorId" />
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type" />
+        </property>
+        <property name="creatorName" type="string">
+            <column name="creatorName" length="50" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="2000" />
+        </property>
+        <property name="billingName" type="string">
+            <column name="billingName" length="2000" />
+        </property>
+        <property name="taxtpaperIdentifactionNumber" type="string">
+            <column name="taxtpaperIdentifactionNumber" length="2000" />
+        </property>
+        <property name="addressPhone" type="string">
+            <column name="addressPhone" length="2000" />
+        </property>
+        <property name="bankAccountNo" type="string">
+            <column name="bankAccountNo" length="2000" />
+        </property>
+        <property name="pinYin" type="string">
+            <column name="pinYin" length="2000" />
+        </property>
+        <many-to-one name="legalArea" class="com.ystech.xwqr.model.sys.Area" column="legalAreaId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="companyArea" class="com.ystech.xwqr.model.sys.Area" column="companyAreaId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="distributorType" class="com.ystech.cust.model.DistributorType" column="distributorTypeId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="enterprise" class="com.ystech.xwqr.model.sys.Enterprise" column="enterpriseId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="user" class="com.ystech.xwqr.model.sys.User" column="userId" fetch="select" not-found="ignore"></many-to-one>
+        <many-to-one name="department" class="com.ystech.xwqr.model.sys.Department" column="departmentId" fetch="select" not-found="ignore"></many-to-one>
+        
+    </class>
+</hibernate-mapping>

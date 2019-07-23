@@ -24,7 +24,6 @@ import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.PathUtil;
 import com.ystech.core.util.ZipUtils;
 import com.ystech.core.web.BaseController;
-import com.ystech.xwqr.model.sys.Department;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.DepartmentManageImpl;
@@ -219,7 +218,7 @@ public class CompoentController extends BaseController{
 	//部门信息	
 	public void getDepartment() {
 		Enterprise enterprise = SecurityUserHolder.getEnterprise();
-		/*Department parent=enterprise.getDepartment();
+		/*Department parent=enterprise.getDbid();
 		String departmentSelect = departmentManageImpl.getDepartmentComSelect(null,parent);
 		renderText(departmentSelect);*/
 	}

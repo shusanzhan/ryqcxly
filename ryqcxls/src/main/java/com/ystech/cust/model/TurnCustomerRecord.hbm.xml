@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-12 9:48:36 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.cust.model.TurnCustomerRecord" table="cust_turncustomerrecord" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="customerIds" type="string">
+            <column name="customerIds" length="65535" />
+        </property>
+        <property name="customerName" type="string">
+            <column name="customerName" length="65535" />
+        </property>
+        <property name="reBussiStaff" type="string">
+            <column name="reBussiStaff" length="50" />
+        </property>
+        <property name="tarBussiStaff" type="string">
+            <column name="tarBussiStaff" length="50" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="5000" />
+        </property>
+        <property name="operatorId" type="java.lang.Integer">
+            <column name="operatorId" />
+        </property>
+        <property name="operatorName" type="string">
+            <column name="operatorName" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

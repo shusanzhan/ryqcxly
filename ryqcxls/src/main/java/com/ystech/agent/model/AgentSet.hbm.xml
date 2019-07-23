@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 11:56:43 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.AgentSet" table="agent_agentset" >
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="authAgentStatus" type="java.lang.Integer">
+            <column name="authAgentStatus" />
+        </property>
+        <property name="regParentRewardStatus" type="java.lang.Integer">
+            <column name="regParentRewardStatus" />
+        </property>
+        <property name="regParentRewardNum" type="java.lang.Integer">
+            <column name="regParentRewardNum" />
+        </property>
+        <property name="regRewardStatus" type="java.lang.Integer">
+            <column name="regRewardStatus" />
+        </property>
+        <property name="regRewardNum" type="java.lang.Integer">
+            <column name="regRewardNum" />
+        </property>
+        <property name="agentRewardStatus" type="java.lang.Integer">
+            <column name="agentRewardStatus" />
+        </property>
+        <property name="agentRewardNum" type="java.lang.Integer">
+            <column name="agentRewardNum" />
+        </property>
+        <property name="agentRewardParentStatus" type="java.lang.Integer">
+            <column name="agentRewardParentStatus" />
+        </property>
+        <property name="agentRewardParentNum" type="java.lang.Integer">
+            <column name="agentRewardParentNum" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="agentRewardModel" type="java.lang.Integer">
+            <column name="agentRewardModel" />
+        </property>
+        <property name="spreadId" type="java.lang.Integer">
+            <column name="spreadId" />
+        </property>
+        <property name="createTime" type="timestamp" length="19">
+            <column name="createTime" />
+        </property>
+        <property name="modifyTime" type="timestamp" length="19">
+            <column name="modifyTime" />
+        </property>
+    </class>
+</hibernate-mapping>

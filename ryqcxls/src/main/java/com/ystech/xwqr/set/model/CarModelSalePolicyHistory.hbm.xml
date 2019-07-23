@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-26 14:07:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.xwqr.set.model.CarModelSalePolicyHistory" table="set_carmodelsalepolicyhistory">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="saleCsprice" type="java.lang.Long">
+            <column name="saleCSPrice" precision="10" scale="0" />
+        </property>
+        <property name="netSaleCsprice" type="java.lang.Long">
+            <column name="netSaleCSPrice" precision="10" scale="0" />
+        </property>
+        <property name="areaSaleCsprice" type="java.lang.Long">
+            <column name="areaSaleCSPrice" precision="10" scale="0" />
+        </property>
+        <property name="carModelSalePolicyId" type="java.lang.Integer">
+            <column name="carModelSalePolicyId" />
+        </property>
+    </class>
+</hibernate-mapping>

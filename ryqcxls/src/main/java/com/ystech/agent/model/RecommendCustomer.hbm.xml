@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-2-29 21:39:10 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.agent.model.RecommendCustomer" table="agent_recommendcustomer">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="member" class="com.ystech.mem.model.Member" fetch="select" not-found="ignore">
+            <column name="memberId" />
+        </many-to-one>
+        <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" fetch="select" not-found="ignore">
+            <column name="brandId" />
+        </many-to-one>
+        <many-to-one name="carSeriy" class="com.ystech.xwqr.set.model.CarSeriy" fetch="select" not-found="ignore">
+            <column name="carSeriyId" />
+        </many-to-one>
+        <many-to-one name="carModel" class="com.ystech.xwqr.set.model.CarModel" fetch="select" not-found="ignore">
+            <column name="carModelId" />
+        </many-to-one>
+        <many-to-one name="saler" class="com.ystech.xwqr.model.sys.User" fetch="select" not-found="ignore">
+            <column name="salerId" />
+        </many-to-one>
+        <many-to-one name="area" class="com.ystech.xwqr.model.sys.Area" fetch="select" not-found="ignore">
+            <column name="areaId" />
+        </many-to-one>
+        <many-to-one name="flowReason" class="com.ystech.agent.model.FlowReason" fetch="select" not-found="ignore">
+            <column name="flowReasonId" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="500" />
+        </property>
+        <property name="sex" type="string">
+            <column name="sex" length="50" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobilePhone" length="50" />
+        </property>
+        <property name="budgetMoney" type="string">
+            <column name="budgetMoney" length="50" />
+        </property>
+        <property name="recommendDate" type="date">
+            <column name="recommendDate" length="10" />
+        </property>
+        <property name="agentName" type="string">
+            <column name="agentName" length="50" />
+        </property>
+        <property name="agentPhone" type="string">
+            <column name="agentPhone" length="50" />
+        </property>
+        <property name="province" type="string">
+            <column name="province" length="500" />
+        </property>
+        <property name="compnayName" type="string">
+            <column name="compnayName" length="500" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="50" />
+        </property>
+        <property name="openId" type="string">
+            <column name="openId" length="50" />
+        </property>
+        <property name="carModelName" type="string">
+            <column name="carModelName" length="50" />
+        </property>
+        <property name="areaStr" type="string">
+            <column name="areaStr" length="500" />
+        </property>
+        <property name="carriageType" type="java.lang.Integer">
+            <column name="carriageType" />
+        </property>
+        <property name="tradeStatus" type="java.lang.Integer">
+            <column name="tradeStatus" />
+        </property>
+        <property name="approvalStatus" type="java.lang.Integer">
+            <column name="approvalStatus" />
+        </property>
+        <property name="shopId" type="java.lang.Integer">
+            <column name="shopId" />
+        </property>
+        <property name="approvalDate" type="date">
+            <column name="approvalDate" length="10" />
+        </property>
+        <property name="approvalUser" type="string">
+            <column name="approvalUser" length="500" />
+        </property>
+        <property name="distDate" type="date">
+            <column name="distDate" length="10" />
+        </property>
+        <property name="distStatus" type="java.lang.Integer">
+            <column name="distStatus"  />
+        </property>
+        <property name="rewardMoney" type="java.lang.Float">
+            <column name="rewardMoney"  />
+        </property>
+        <property name="point" type="java.lang.Float">
+            <column name="point"  />
+        </property>
+        <property name="customerStatus" type="java.lang.Integer">
+            <column name="customerStatus"  />
+        </property>
+         <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+         <property name="rewardStatus" type="java.lang.Integer">
+            <column name="rewardStatus" />
+        </property>
+         <property name="rewardTime" type="timestamp">
+            <column name="rewardTime" length="19"/>
+        </property>
+        <property name="rewardNote" type="string">
+            <column name="rewardNote" length="500" />
+        </property>
+        <property name="distUser" type="string">
+            <column name="distUser" length="500" />
+        </property>
+        <property name="flowNote" type="string">
+            <column name="flowNote" length="500" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="createDate" length="10" />
+        </property>
+        <property name="modifyDate" type="date">
+            <column name="modifyDate" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

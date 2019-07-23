@@ -1,8 +1,5 @@
 package com.ystech.core.util;
 
-import java.util.Properties;
-
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

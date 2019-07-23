@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-26 14:07:29 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.ystech.xwqr.set.model.CarModelSalePolicy" table="set_carmodelsalepolicy">
+        <id name="dbid" type="java.lang.Integer">
+            <column name="dbid" />
+            <generator class="identity" />
+        </id>
+          <many-to-one name="carSeriy" class="com.ystech.xwqr.set.model.CarSeriy" fetch="select">
+            <column name="carSeriesId" />
+        </many-to-one>
+        <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" fetch="select" not-found="ignore">
+            <column name="brandId" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="50" not-null="true" />
+        </property>
+        <property name="yearModel" type="string">
+            <column name="yearModel" length="50" />
+        </property>
+        <property name="navPrice" type="java.lang.Long">
+            <column name="navPrice" precision="10" scale="0" />
+        </property>
+        <property name="salePrice" type="java.lang.Long">
+            <column name="salePrice" precision="10" scale="0" />
+        </property>
+        <property name="saleCsprice" type="java.lang.Long">
+            <column name="saleCSPrice" precision="10" scale="0">
+                <comment>&#207;&#250;&#202;&#219;&#185;&#203;&#206;&#202;&#189;&#225;&#203;&#227;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="historyCsprice" type="java.lang.Long">
+            <column name="historyCSPrice" precision="10" scale="0" />
+        </property>
+         <property name="netSaleCsprice" type="java.lang.Long">
+            <column name="netSaleCsprice" precision="10" scale="0">
+            </column>
+        </property>
+        <property name="netHsitoryCsprice" type="java.lang.Long">
+            <column name="netHsitoryCsprice" precision="10" scale="0" />
+        </property>
+         <property name="areaSaleCsprice" type="java.lang.Long">
+            <column name="areaSaleCsprice" precision="10" scale="0">
+            </column>
+        </property>
+        <property name="areaHsitoryCsprice" type="java.lang.Long">
+            <column name="areaHsitoryCsprice" precision="10" scale="0" />
+        </property>
+        <property name="orderNum" type="java.lang.Integer">
+            <column name="orderNum" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
+        <property name="ageRewardStatus" type="java.lang.Integer">
+            <column name="ageRewardStatus" />
+        </property>
+        <property name="finRewardStatus" type="java.lang.Integer">
+            <column name="finRewardStatus" />
+        </property>
+        <property name="carModelRewarStatus" type="java.lang.Integer">
+            <column name="carModelRewarStatus" />
+        </property>
+        <property name="carModelPrice" type="java.lang.Integer">
+            <column name="carModelPrice" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+        <many-to-one name="carModel" class="com.ystech.xwqr.set.model.CarModel" column="carModelId" not-found="ignore"></many-to-one>
+    </class>
+</hibernate-mapping>

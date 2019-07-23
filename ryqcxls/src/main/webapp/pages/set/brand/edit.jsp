@@ -15,7 +15,7 @@
 <div class="location">
    	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
    	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-   	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/brand/queryList'">品牌管理</a>-
+   	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/userBrand/queryList'">品牌管理</a>-
    	<a href="javascript:void(-1)" class="current">
 		<c:if test="${brand.dbid>0 }" var="status">编辑品牌</c:if>
 		<c:if test="${status==false }">添加品牌</c:if>
@@ -94,7 +94,7 @@
 		</table>
 	</form>
 	<div class="formButton">
-			<a href="javascript:void()"	onclick="$.utile.submitForm('frmId','${ctx}/brand/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
+			<a href="javascript:void()"	onclick="$.utile.submitForm('frmId','${ctx}/userBrand/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
 	    <a href="javascript:void(-1)"	onclick="goBack()" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 </div>

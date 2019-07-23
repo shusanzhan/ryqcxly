@@ -10,8 +10,6 @@ import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.log4j.Logger;
 
-import com.ystech.core.web.BaseController;
-
 public class SecurityHelper {
 	protected Logger log = Logger.getLogger(SecurityHelper.class);
 	private final static int ITERATIONS = 20;
