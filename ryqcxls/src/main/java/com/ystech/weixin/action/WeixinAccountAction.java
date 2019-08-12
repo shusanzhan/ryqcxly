@@ -82,20 +82,7 @@ public class WeixinAccountAction extends BaseController{
 	public String editSelf() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try{
-			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
-			if(null==systemInfos||systemInfos.isEmpty()){
-				return "error";
-			}
-			SystemInfo systemInfo = systemInfos.get(0);
-			Integer wechatType = systemInfo.getWechatType();
-			WeixinAccount weixinAccount=null;
-			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
-				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
-			}
-			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
-				Enterprise enterprise = SecurityUserHolder.getEnterprise();
-				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
-			}
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
 			if(null!=weixinAccount){
 				request.setAttribute("weixinAccount", weixinAccount);
 				if(null==weixinAccount.getCode()||weixinAccount.getCode().trim().length()<=0){

@@ -67,13 +67,9 @@ public class WeixinNewsItemAction extends BaseController{
 	@SuppressWarnings("unchecked")
 	public String queryList() throws Exception {
 		HttpServletRequest request = this.getRequest();
-		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
-		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				List<WeixinNewstemplate> weixinNewstemplates = weixinNewstemplateManageImpl.find("from WeixinNewstemplate where accountid="+weixinAccount.getDbid(), new Object[]{});
 				request.setAttribute("weixinNewstemplates", weixinNewstemplates);
 			}
@@ -165,10 +161,8 @@ public class WeixinNewsItemAction extends BaseController{
 		Integer type = ParamUtil.getIntParam(request, "type", 1);
 		Integer weixinNewstemplateDbid = ParamUtil.getIntParam(request, "weixinNewstemplateDbid", -1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				String contentArea = request.getParameter("contentArea");
 				WeixinNewstemplate weixinNewstemplate=null;
 				if(weixinNewstemplateDbid>0){
@@ -237,9 +231,8 @@ public class WeixinNewsItemAction extends BaseController{
 				return ;
 			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				WeixinNewstemplate weixinNewstemplate=null;
 				if(weixinNewstemplateDbid>0){
 					weixinNewstemplate=weixinNewstemplateManageImpl.get(weixinNewstemplateDbid);
@@ -332,10 +325,8 @@ public class WeixinNewsItemAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		String title = request.getParameter("title");
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				 String sql="select * from weixin_newstemplate where 1=1 and accountid="+weixinAccount.getDbid();
 				 List params=new ArrayList();
 				 if(null!=title){

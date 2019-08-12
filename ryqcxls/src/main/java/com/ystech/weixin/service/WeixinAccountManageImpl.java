@@ -1,17 +1,50 @@
 package com.ystech.weixin.service;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Component;
 
 import com.ystech.core.dao.HibernateEntityDao;
+import com.ystech.core.security.SecurityUserHolder;
 import com.ystech.weixin.core.util.WeixinUtil;
 import com.ystech.weixin.model.WeixinAccount;
+import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.SystemInfo;
+import com.ystech.xwqr.service.sys.SystemInfoMangeImpl;
 
 @Component("weixinAccountManageImpl")
 public class WeixinAccountManageImpl extends HibernateEntityDao<WeixinAccount>{
+	private SystemInfoMangeImpl systemInfoMangeImpl;
+	@Resource
+	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
+		this.systemInfoMangeImpl = systemInfoMangeImpl;
+	}
+	/**
+	 * 功能描述：获取微信账号
+	 * @return
+	 */
+	public WeixinAccount findByWeixinAccount(){
+		List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+		if(null==systemInfos||systemInfos.isEmpty()){
+			return null;
+		}
+		SystemInfo systemInfo = systemInfos.get(0);
+		Integer wechatType = systemInfo.getWechatType();
+		WeixinAccount weixinAccount=null;
+		if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+			weixinAccount=get(SystemInfo.ROOT);
+		}
+		if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			weixinAccount= findUniqueBy("enterpriseId", enterprise.getDbid());
+		}
+		return weixinAccount;
+	}
 	public String getAccessToken(String accountId) {
 		WeixinAccount weixinAccountEntity = findUniqueBy("weixinAccountid", accountId);
 		String token = weixinAccountEntity.getAccountaccesstoken();

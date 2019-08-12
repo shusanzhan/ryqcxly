@@ -119,9 +119,8 @@ public class WeixinGzUserInfoAction extends BaseController{
 			 
 			 List params=new ArrayList();
 			 Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			 WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				 String sql="select * from Weixin_Gzuserinfo gzu,mem_member memb where gzu.dbid=memb.weixinGzuserinfoId and gzu.accountid="+weixinAccount.getDbid();
 				 String sql2="select memb.dbid as dbid from Weixin_Gzuserinfo gzu,mem_member memb where gzu.dbid=memb.weixinGzuserinfoId and gzu.accountid="+weixinAccount.getDbid();
 				 if(null!=key&&key.trim().length()>0){

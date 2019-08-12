@@ -65,9 +65,8 @@ public class WeixinGroupAction extends BaseController{
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		try{
 			 Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				Page<WeixinGroup> page=weixinGroupManageImpl.pagedQuerySql(pageNo, pageSize,WeixinGroup.class, "select * from Weixin_Group   where accountId=? ", new Object[]{weixinAccount.getDbid()});
 				request.setAttribute("page", page);
 			}
@@ -119,14 +118,12 @@ public class WeixinGroupAction extends BaseController{
 	public void save() throws Exception {
 		HttpServletRequest request = getRequest();
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			Integer dbid = weixinGroup.getDbid();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null==weixinAccount){
 				renderErrorMsg(new Throwable("保存错误，无公众号信息"), "");
 				return ;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			 if(null==weixinGroup.getIsCommon()||weixinGroup.getIsCommon()<=0){
 				 weixinGroup.setIsCommon(2);
 			 }
@@ -195,13 +192,11 @@ public class WeixinGroupAction extends BaseController{
 		String query = ParamUtil.getQueryUrl(request);
 		if(null!=dbids&&dbids.length>0){
 			try {
-				Enterprise enterprise = SecurityUserHolder.getEnterprise();
-				List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-				if(null==weixinAccounts||weixinAccounts.size()<=0){
+				WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+				if(null==weixinAccount){
 					renderErrorMsg(new Throwable("删除错误，无公众号信息"), "");
 					return ;
 				}
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
 				WeixinAccesstoken accessToken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 				for (Integer dbid : dbids) {
 					WeixinGroup weixinGroup2 = weixinGroupManageImpl.get(dbid);

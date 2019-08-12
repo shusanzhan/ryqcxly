@@ -21,6 +21,7 @@ import com.ystech.weixin.model.WeixinTexttemplate;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
 import com.ystech.weixin.service.WeixinTexttemplateManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.SystemInfo;
 
 @Component("weixinTexttemplateAction")
 @Scope("prototype")
@@ -58,10 +59,8 @@ public class WeixinTexttemplateAction extends BaseController{
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		String name = request.getParameter("name");
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				String sql="select * from Weixin_Texttemplate where accountid="+weixinAccount.getDbid();
 				Page<WeixinTexttemplate> page=null;
 				if(null!=name&&name.trim().length()>0){
@@ -89,10 +88,8 @@ public class WeixinTexttemplateAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		String title = request.getParameter("title");
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				 String sql="select * from weixin_texttemplate where accountid="+weixinAccount.getDbid();
 				 List params=new ArrayList();
 				 if(null!=title){
@@ -179,10 +176,8 @@ public class WeixinTexttemplateAction extends BaseController{
 	public void save() throws Exception {
 		HttpServletRequest request = getRequest();
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				Integer dbid = weixinTexttemplate.getDbid();
 				if(dbid==null||dbid<=0){
 					weixinTexttemplate.setAccountid(weixinAccount.getDbid()+"");

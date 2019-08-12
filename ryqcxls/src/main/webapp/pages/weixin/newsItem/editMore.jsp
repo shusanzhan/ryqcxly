@@ -159,12 +159,7 @@
     </div>
 </div>
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.ui.custom.js"></script>
-<script src="${ctx }/widgets/bootstrap3/bootstrap.min.js"></script>
 <script src="${ctx }/widgets/bootstrap3/jquery.cookie.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.uniform.js"></script>
-<script src="${ctx }/widgets/bootstrap3/select2.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/unicorn.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack2.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
