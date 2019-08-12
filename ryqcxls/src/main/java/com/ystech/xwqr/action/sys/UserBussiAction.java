@@ -529,6 +529,35 @@ public class UserBussiAction extends BaseController{
 		return jsonArray;
 	}
 	/**
+	 * 功能描述：
+	 * 参数描述：
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public void resetPassword() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		try{
+			if(dbid>0){
+				User user2 = userManageImpl.get(dbid);
+				String password = Md5.calcMD5("123456{"+user2.getUserId()+"}");
+				user2.setPassword(password);
+				userManageImpl.save(user2);
+			}else{
+				renderErrorMsg(new Throwable("请选择操作数据"), "");
+				return ;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+			renderErrorMsg(e, "");
+			return ;
+		}
+		String query = ParamUtil.getQueryUrl(request);
+		renderMsg("/userBussi/queryBussiList"+query, "设置成功！");
+	}
+	/**
 	 * @param memberInfo2
 	 */
 	private String areaSelect(Area area) {
@@ -628,5 +657,157 @@ public class UserBussiAction extends BaseController{
 		}
 		
 		renderMsg("/userBussi/queryBussiList"+query, "设置成功！");
+	}
+	/**
+	 * 功能描述：修改密码
+	 * @return
+	 * @throws Exception
+	 */
+	public String modifyPassword() throws Exception {
+		User user = SecurityUserHolder.getCurrentUser();
+		HttpServletRequest request = this.getRequest();
+		if(null!=user&&user.getDbid()>0){
+			User user2 = userManageImpl.get(user.getDbid());
+			request.setAttribute("user", user2);
+		}
+		return "modifyPassword";
+	}
+	/**
+	 * 功能描述：修改密码
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateModifyPassword() throws Exception {
+		HttpServletRequest request = getRequest();
+		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		String oldPassword = request.getParameter("oldPassword");
+		String password = request.getParameter("password");
+		if(null==oldPassword||oldPassword.trim().length()<=0){
+			renderErrorMsg(new Throwable("输入旧密码错误！"), "");
+			return ;
+		}
+		if(null==password||password.trim().length()<=0){
+			renderErrorMsg(new Throwable("密码输入错误！"), "");
+			return ;
+		}
+		try{
+			if (dbid>0) {
+				User user2 = userManageImpl.get(dbid);
+				String password2 = user2.getPassword();
+				String calcMD5 = Md5.calcMD5(oldPassword+"{"+user2.getUserId()+"}");
+				if(password2.equals(calcMD5)){
+					user2.setPassword(Md5.calcMD5(password+"{"+user2.getUserId()+"}"));
+					userManageImpl.save(user2);
+				}else{
+					renderErrorMsg(new Throwable("旧密码输入错误！"), "");
+					return ;	
+				}
+			} else {
+				renderErrorMsg(new Throwable("操作数据错误！"), "");
+				return ;
+			}	
+		}catch (Exception e) {
+			e.printStackTrace();
+			renderErrorMsg(new Throwable("操作数据错误！"), "");
+			return ;
+		}
+		renderMsg("/userBussi/modifyPassword", "修改密码成功！");
+		return ;
+	}
+	/**
+	 * 功能描述：个人设置-设置用户信息
+	 * @return
+	 * @throws Exception
+	 */
+	public String editSelf() throws Exception {
+		User user = SecurityUserHolder.getCurrentUser();
+		HttpServletRequest request = this.getRequest();
+		if(null!=user&&user.getDbid()>0){
+			User user2 = userManageImpl.get(user.getDbid());
+			request.setAttribute("user", user2);
+		}
+		return "editSelf";
+	}
+	/**
+	 * 功能描述：保存用户信息
+	 * @throws Exception
+	 */
+	public void saveEditSelf() throws Exception {
+		try{
+			//保存用户信息
+			Integer dbid = user.getDbid();
+			User user2 = userManageImpl.get(dbid);
+			user2.setEmail(user.getEmail());
+			user2.setMobilePhone(user.getMobilePhone());
+			user2.setPhone(user.getPhone());
+			user2.setRealName(user.getRealName());
+			user2.setQq(user.getQq());
+			user2.setWechatId(user.getWechatId());
+			user2.setUserId(user.getUserId());
+			userManageImpl.save(user2);
+			this.getRequest().getSession().setAttribute("user", user2);
+		}catch (Exception e) {
+			e.printStackTrace();
+			renderErrorMsg(e, "");
+			return ;
+		}
+		renderMsg("/userBussi/editSelf", "保存数据成功！");
+		return ;
+	}
+	/**
+	 * 功能描述：
+	 * 参数描述：
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public void ajaxUser(){
+		HttpServletRequest request = this.getRequest();
+		try{
+			String pingyin = request.getParameter("q");
+			Integer limit = ParamUtil.getIntParam(request, "limit", 10);
+			if(null==pingyin||pingyin.trim().length()<0){
+				pingyin="";
+			}else{
+			}
+			List<User> users=new ArrayList<User>();
+			User currentUser = SecurityUserHolder.getCurrentUser();
+			if(null==currentUser){
+				currentUser = getSessionUser();
+			}
+			if(null==currentUser){
+				return ;
+			}
+			String sql="select * from sys_user where 1=1 ";
+			Enterprise enterprise2 = currentUser.getEnterprise();
+			if(null!=enterprise2){
+				sql=sql+" and enterpriseId="+enterprise.getDbid();
+			}
+			sql=sql+" and (userId like ?  or realName like ? ) limit "+limit;
+			users= userManageImpl.executeSql(sql, new Object[]{"%"+pingyin+"%","%"+pingyin+"%"});
+			if(null==users||users.size()<=0){
+				users = userManageImpl.getAll();
+			}
+			JSONArray  array=new JSONArray();
+			if(null!=users&&users.size()>0){
+				for (User user : users) {
+					JSONObject object=new JSONObject();
+					object.put("dbid", user.getDbid());
+					object.put("name", user.getRealName());
+					object.put("userId", user.getUserId());
+					object.put("mobilePhone", user.getMobilePhone());
+					array.put(object);
+				}
+				renderJson(array.toString());
+			}else{
+				renderJson("1");
+			}
+			
+			return ;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return;
 	}
 }

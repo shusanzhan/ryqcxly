@@ -91,22 +91,20 @@
 				<td align="center" width="70">分公司</td>
 				<td align="center" width="40">数量</td>
 				<td align="center" width="40">合同总额</td>
-				<td align="center" width="40">车辆结算价</td>
+				<td align="center" width="40">结算价</td>
 				<td align="center" width="40">预收款</td>
-				<td align="center" width="40">装饰金额</td>
-				<td align="center" width="40">咨询服务费</td>
-				<td align="center" width="40">按揭结算</td>
-				<td align="center" width="40">保险利润</td>
+				<td align="center" width="40">装饰毛利</td>
+				<td align="center" width="40">金融毛利</td>
+				<td align="center" width="40">保险毛利</td>
 				<td align="center" width="40">利润</td>
 				<td align="center" width="40">平均</td>
 			</tr>
 		<c:set value="0.0" var="stotalPrice"></c:set>
 		<c:set value="0.0" var="scarSalerPrice"></c:set>
 		<c:set value="0.0" var="sadvanceTotalPrice"></c:set>
-		<c:set value="0.0" var="ssalerTotalPrice"></c:set>
-		<c:set value="0.0" var="sajsxf"></c:set>
-		<c:set value="0.0" var="ssalerPrice"></c:set>
-		<c:set value="0.0" var="sinsSalerPrice"></c:set>
+		<c:set value="0.0" var="sdecoreGrofitPrice"></c:set>
+		<c:set value="0.0" var="sajsxfGrofit"></c:set>
+		<c:set value="0.0" var="sinsMoneyGrofit"></c:set>
 		<c:set value="0.0" var="sprofitMoney"></c:set>
 		<c:set value="0" var="snum"></c:set>
 		<!-- 编辑时展示页面 结束 -->
@@ -135,20 +133,16 @@
 					<c:set value="${sadvanceTotalPrice+salerProfit.advanceTotalPrice }" var="sadvanceTotalPrice"></c:set>
 				</td>
 				<td style="text-align: center;padding-left: 0px;" >
-					<fmt:formatNumber value="${salerProfit.salerTotalPrice }" pattern="#,##0"></fmt:formatNumber>
-					<c:set value="${ssalerTotalPrice+salerProfit.salerTotalPrice }" var="ssalerTotalPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.decoreGrofitPrice }" pattern="#,##0"></fmt:formatNumber>
+					<c:set value="${sdecoreGrofitPrice+salerProfit.decoreGrofitPrice }" var="sdecoreGrofitPrice"></c:set>
 				</td>
 				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.ajsxf }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sajsxf+salerProfit.ajsxf }" var="sajsxf"></c:set>
-				</td> 
-				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.salerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${ssalerPrice+salerProfit.salerPrice }" var="ssalerPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.ajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
+					<c:set value="${sajsxfGrofit+salerProfit.ajsxfGrofit }" var="sajsxfGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<fmt:formatNumber value="${salerProfit.insSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sinsSalerPrice+salerProfit.insSalerPrice }" var="sinsSalerPrice"></c:set>
+					<c:set value="${sinsMoneyGrofit+salerProfit.insSalerPrice }" var="sinsMoneyGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<c:if test="${salerProfit.profitMoney<0 }">
@@ -187,16 +181,13 @@
 				<fmt:formatNumber value="${sadvanceTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sdecoreGrofitPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${sajsxf }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-			</td>
-			<td style="text-align: right;">
-				<fmt:formatNumber value="${sinsSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sinsMoneyGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
 				<fmt:formatNumber value="${sprofitMoney }" pattern="###,###,##0"></fmt:formatNumber>
@@ -208,7 +199,7 @@
 		</tbody>
 	</table>
 </div>
-<div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">
+ <div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">
 	<h5 style="text-align: left;font-size: 16px">
 		${title }分公司部门毛利
 	</h5>
@@ -225,22 +216,20 @@
 				<td align="center" width="70">部门</td>
 				<td align="center" width="40">数量</td>
 				<td align="center" width="40">合同总额</td>
-				<td align="center" width="40">车辆结算价</td>
+				<td align="center" width="40">结算价</td>
 				<td align="center" width="40">预收款</td>
-				<td align="center" width="40">装饰金额</td>
-				<td align="center" width="40">咨询服务费</td>
-				<td align="center" width="40">按揭结算</td>
-				<td align="center" width="40">保险利润</td>
+				<td align="center" width="40">装饰毛利</td>
+				<td align="center" width="40">金融毛利</td>
+				<td align="center" width="40">保险毛利</td>
 				<td align="center" width="40">利润</td>
 				<td align="center" width="40">平均</td>
 			</tr>
 		<c:set value="0.0" var="stotalPrice"></c:set>
 		<c:set value="0.0" var="scarSalerPrice"></c:set>
 		<c:set value="0.0" var="sadvanceTotalPrice"></c:set>
-		<c:set value="0.0" var="ssalerTotalPrice"></c:set>
-		<c:set value="0.0" var="sajsxf"></c:set>
-		<c:set value="0.0" var="ssalerPrice"></c:set>
-		<c:set value="0.0" var="sinsSalerPrice"></c:set>
+		<c:set value="0.0" var="sdecoreGrofitPrice"></c:set>
+		<c:set value="0.0" var="sajsxfGrofit"></c:set>
+		<c:set value="0.0" var="sinsMoneyGrofit"></c:set>
 		<c:set value="0.0" var="sprofitMoney"></c:set>
 		<c:set value="0" var="snum"></c:set>
 		<!-- 编辑时展示页面 结束 -->
@@ -269,20 +258,16 @@
 					<c:set value="${sadvanceTotalPrice+salerProfit.advanceTotalPrice }" var="sadvanceTotalPrice"></c:set>
 				</td>
 				<td style="text-align: center;padding-left: 0px;" >
-					<fmt:formatNumber value="${salerProfit.salerTotalPrice }" pattern="#,##0"></fmt:formatNumber>
-					<c:set value="${ssalerTotalPrice+salerProfit.salerTotalPrice }" var="ssalerTotalPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.decoreGrofitPrice }" pattern="#,##0"></fmt:formatNumber>
+					<c:set value="${sdecoreGrofitPrice+salerProfit.decoreGrofitPrice }" var="sdecoreGrofitPrice"></c:set>
 				</td>
 				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.ajsxf }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sajsxf+salerProfit.ajsxf }" var="sajsxf"></c:set>
-				</td> 
-				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.salerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${ssalerPrice+salerProfit.salerPrice }" var="ssalerPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.ajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
+					<c:set value="${sajsxfGrofit+salerProfit.ajsxfGrofit }" var="sajsxfGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<fmt:formatNumber value="${salerProfit.insSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sinsSalerPrice+salerProfit.insSalerPrice }" var="sinsSalerPrice"></c:set>
+					<c:set value="${sinsMoneyGrofit+salerProfit.insSalerPrice }" var="sinsMoneyGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<c:if test="${salerProfit.profitMoney<0 }">
@@ -321,16 +306,13 @@
 				<fmt:formatNumber value="${sadvanceTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sdecoreGrofitPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${sajsxf }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-			</td>
-			<td style="text-align: right;">
-				<fmt:formatNumber value="${sinsSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sinsMoneyGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
 				<fmt:formatNumber value="${sprofitMoney }" pattern="###,###,##0"></fmt:formatNumber>
@@ -343,7 +325,6 @@
 	</table>
 </div>
 </c:forEach>
-
 <div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">
 	<h5 style="text-align: left;font-size: 16px">
 		${title }车型毛利
@@ -361,22 +342,20 @@
 				<td align="center" width="70">车型</td>
 				<td align="center" width="40">数量</td>
 				<td align="center" width="40">合同总额</td>
-				<td align="center" width="40">车辆结算价</td>
+				<td align="center" width="40">结算价</td>
 				<td align="center" width="40">预收款</td>
-				<td align="center" width="40">装饰金额</td>
-				<td align="center" width="40">咨询服务费</td>
-				<td align="center" width="40">按揭结算</td>
-				<td align="center" width="40">保险利润</td>
+				<td align="center" width="40">装饰毛利</td>
+				<td align="center" width="40">金融毛利</td>
+				<td align="center" width="40">保险毛利</td>
 				<td align="center" width="40">利润</td>
 				<td align="center" width="40">平均</td>
 			</tr>
 		<c:set value="0.0" var="stotalPrice"></c:set>
 		<c:set value="0.0" var="scarSalerPrice"></c:set>
 		<c:set value="0.0" var="sadvanceTotalPrice"></c:set>
-		<c:set value="0.0" var="ssalerTotalPrice"></c:set>
-		<c:set value="0.0" var="sajsxf"></c:set>
-		<c:set value="0.0" var="ssalerPrice"></c:set>
-		<c:set value="0.0" var="sinsSalerPrice"></c:set>
+		<c:set value="0.0" var="sdecoreGrofitPrice"></c:set>
+		<c:set value="0.0" var="sajsxfGrofit"></c:set>
+		<c:set value="0.0" var="sinsMoneyGrofit"></c:set>
 		<c:set value="0.0" var="sprofitMoney"></c:set>
 		<c:set value="0" var="snum"></c:set>
 		<!-- 编辑时展示页面 结束 -->
@@ -405,20 +384,16 @@
 					<c:set value="${sadvanceTotalPrice+salerProfit.advanceTotalPrice }" var="sadvanceTotalPrice"></c:set>
 				</td>
 				<td style="text-align: center;padding-left: 0px;" >
-					<fmt:formatNumber value="${salerProfit.salerTotalPrice }" pattern="#,##0"></fmt:formatNumber>
-					<c:set value="${ssalerTotalPrice+salerProfit.salerTotalPrice }" var="ssalerTotalPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.decoreGrofitPrice }" pattern="#,##0"></fmt:formatNumber>
+					<c:set value="${sdecoreGrofitPrice+salerProfit.decoreGrofitPrice }" var="sdecoreGrofitPrice"></c:set>
 				</td>
 				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.ajsxf }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sajsxf+salerProfit.ajsxf }" var="sajsxf"></c:set>
-				</td> 
-				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.salerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${ssalerPrice+salerProfit.salerPrice }" var="ssalerPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.ajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
+					<c:set value="${sajsxfGrofit+salerProfit.ajsxfGrofit }" var="sajsxfGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<fmt:formatNumber value="${salerProfit.insSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sinsSalerPrice+salerProfit.insSalerPrice }" var="sinsSalerPrice"></c:set>
+					<c:set value="${sinsMoneyGrofit+salerProfit.insSalerPrice }" var="sinsMoneyGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<c:if test="${salerProfit.profitMoney<0 }">
@@ -457,16 +432,13 @@
 				<fmt:formatNumber value="${sadvanceTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sdecoreGrofitPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${sajsxf }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-			</td>
-			<td style="text-align: right;">
-				<fmt:formatNumber value="${sinsSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sinsMoneyGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
 				<fmt:formatNumber value="${sprofitMoney }" pattern="###,###,##0"></fmt:formatNumber>
@@ -496,22 +468,20 @@
 				<td align="center" width="70">销售顾问</td>
 				<td align="center" width="40">数量</td>
 				<td align="center" width="40">合同总额</td>
-				<td align="center" width="40">车辆结算价</td>
+				<td align="center" width="40">结算价</td>
 				<td align="center" width="40">预收款</td>
-				<td align="center" width="40">装饰金额</td>
-				<td align="center" width="40">咨询服务费</td>
-				<td align="center" width="40">按揭结算</td>
-				<td align="center" width="40">保险利润</td>
+				<td align="center" width="40">装饰毛利</td>
+				<td align="center" width="40">金融毛利</td>
+				<td align="center" width="40">保险毛利</td>
 				<td align="center" width="40">利润</td>
 				<td align="center" width="40">平均</td>
 			</tr>
 		<c:set value="0.0" var="stotalPrice"></c:set>
 		<c:set value="0.0" var="scarSalerPrice"></c:set>
 		<c:set value="0.0" var="sadvanceTotalPrice"></c:set>
-		<c:set value="0.0" var="ssalerTotalPrice"></c:set>
-		<c:set value="0.0" var="sajsxf"></c:set>
-		<c:set value="0.0" var="ssalerPrice"></c:set>
-		<c:set value="0.0" var="sinsSalerPrice"></c:set>
+		<c:set value="0.0" var="sdecoreGrofitPrice"></c:set>
+		<c:set value="0.0" var="sajsxfGrofit"></c:set>
+		<c:set value="0.0" var="sinsMoneyGrofit"></c:set>
 		<c:set value="0.0" var="sprofitMoney"></c:set>
 		<c:set value="0" var="snum"></c:set>
 		<!-- 编辑时展示页面 结束 -->
@@ -540,20 +510,16 @@
 					<c:set value="${sadvanceTotalPrice+salerProfit.advanceTotalPrice }" var="sadvanceTotalPrice"></c:set>
 				</td>
 				<td style="text-align: center;padding-left: 0px;" >
-					<fmt:formatNumber value="${salerProfit.salerTotalPrice }" pattern="#,##0"></fmt:formatNumber>
-					<c:set value="${ssalerTotalPrice+salerProfit.salerTotalPrice }" var="ssalerTotalPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.decoreGrofitPrice }" pattern="#,##0"></fmt:formatNumber>
+					<c:set value="${sdecoreGrofitPrice+salerProfit.decoreGrofitPrice }" var="sdecoreGrofitPrice"></c:set>
 				</td>
 				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.ajsxf }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sajsxf+salerProfit.ajsxf }" var="sajsxf"></c:set>
-				</td> 
-				<td style="text-align: center;">
-					<fmt:formatNumber value="${salerProfit.salerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${ssalerPrice+salerProfit.salerPrice }" var="ssalerPrice"></c:set>
+					<fmt:formatNumber value="${salerProfit.ajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
+					<c:set value="${sajsxfGrofit+salerProfit.ajsxfGrofit }" var="sajsxfGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<fmt:formatNumber value="${salerProfit.insSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-					<c:set value="${sinsSalerPrice+salerProfit.insSalerPrice }" var="sinsSalerPrice"></c:set>
+					<c:set value="${sinsMoneyGrofit+salerProfit.insSalerPrice }" var="sinsMoneyGrofit"></c:set>
 				</td> 
 				<td style="text-align: center;">
 					<c:if test="${salerProfit.profitMoney<0 }">
@@ -592,16 +558,13 @@
 				<fmt:formatNumber value="${sadvanceTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerTotalPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sdecoreGrofitPrice }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${sajsxf }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sajsxfGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
-				<fmt:formatNumber value="${ssalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
-			</td>
-			<td style="text-align: right;">
-				<fmt:formatNumber value="${sinsSalerPrice }" pattern="###,###,##0"></fmt:formatNumber>
+				<fmt:formatNumber value="${sinsMoneyGrofit }" pattern="###,###,##0"></fmt:formatNumber>
 			</td>
 			<td style="text-align: right;">
 				<fmt:formatNumber value="${sprofitMoney }" pattern="###,###,##0"></fmt:formatNumber>

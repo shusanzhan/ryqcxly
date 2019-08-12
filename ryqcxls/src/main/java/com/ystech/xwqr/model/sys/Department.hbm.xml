@@ -34,10 +34,5 @@
         </property>
         <many-to-one name="manager" column="manager" class="com.ystech.xwqr.model.sys.User" not-found="ignore"></many-to-one>
         <many-to-one name="enterprise" class="com.ystech.xwqr.model.sys.Enterprise" column="enterpriseId"  not-found="ignore"></many-to-one>
-        <many-to-one name= "parent"  not-found="ignore"  column= "parentId"	class= "com.ystech.xwqr.model.sys.Department" 	/> 
-        <set name= "children" > 
-			<key   column= "parentId "/> 
-			<one-to-many   class= "com.ystech.xwqr.model.sys.Department"/> 
-		</set> 
     </class>
 </hibernate-mapping>

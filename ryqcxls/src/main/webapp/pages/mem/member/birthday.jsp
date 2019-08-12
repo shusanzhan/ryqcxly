@@ -23,7 +23,7 @@
 <div class="line"></div>
 <div class="listOperate">
   	<div class="seracrhOperate">
-  	<form name="searchPageForm" id="searchPageForm" action="${ctx}/member/queryMemberBirthday" metdod="post">
+  	<form name="searchPageForm" id="searchPageForm" action="${ctx}/memMember/queryMemberBirthday" metdod="post">
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<tr>
   				<td><label>会员级别：</label></td>

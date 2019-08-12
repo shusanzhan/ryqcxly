@@ -76,7 +76,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）
@@ -115,8 +115,8 @@
 				<c:if test="${customer.customerPidBookingRecord.wlStatus==2 }">
 					<span class="dropDownContent" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/viewWlbCustomerPidRecord?customerId=${customer.dbid }','查看处理记录',1024,380)">已经处理</span>
 				</c:if>
+				<br>
 				<c:if test="${customer.customerPidBookingRecord.wlStatus==2 }">
-					<br>
 					车辆状态：
 					<c:if test="${customer.customerPidBookingRecord.hasCarOrder==1 }">
 						<span style="color: blue;">现车订单</span>
@@ -131,23 +131,12 @@
 					vin码:
 					<a href="${ctx }/qywxCustomer/factoryOrderDetail?vinCode=${customer.customerPidBookingRecord.vinCode}&type=1">${customer.customerPidBookingRecord.vinCode}</a>
 				</c:if>
-				<c:if test="${customer.orderContractExpenses.cashierStatus>1 }">
-					<br>
-					<c:if test="${customer.orderContractExpenses.cashierStatus==2}">
-						<span style="color: red">财务已收款:【${customer.orderContractExpenses.totalCollection }】</span>
-					</c:if>
-					<c:if test="${customer.orderContractExpenses.cashierStatus==3}">
-						<span style="color: red">财务已收款:【${customer.orderContractExpenses.totalCollection }】</span>
-					</c:if>
-				</c:if>
 			</div>
 			</div>
 			<div class="line"></div>
 			<div style="margin: 0 auto;margin: 5px;height: 30px;line-height: 30px;">
-				<c:if test="${customer.orderContractExpenses.cashierStatus==1 }">
-					<c:if test="${customer.customerPidBookingRecord.pidStatus==1||customer.customerPidBookingRecord.pidStatus==5 }">
-						<a href="${ctx}/qywxCustomerPidRecord/orderContractCancel?customerId=${customer.dbid }" class="aedit" >合同流失申请</a>|
-					</c:if>
+				<c:if test="${customer.customerPidBookingRecord.pidStatus==1||customer.customerPidBookingRecord.pidStatus==5 }">
+					<a href="${ctx}/qywxCustomerPidRecord/orderContractCancel?customerId=${customer.dbid }" class="aedit" >合同流失申请</a>|
 				</c:if>
 				<c:if test="${customer.customerPidBookingRecord.pidStatus>3 }">
 					<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxProcessRun/viewCpidProcessFrom?customerId=${customer.dbid }'" title="查看审批记录">审批记录</a>|

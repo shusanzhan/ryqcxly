@@ -321,9 +321,6 @@ public class CustomerToExcel {
 			//明细渠道
 			Cell mxqd = row.createCell(11);
 			mxqd.setCellStyle(cellStyle);
-			if(null!=customerBussi&&null!=customerBussi.getInfoFromDetail()){
-				mxqd.setCellValue(customerBussi.getInfoFromDetail().getName());
-			}
 			//意向级别及购买周期
 			Cell yxjbjgmzq = row.createCell(12);
 			String xj="";

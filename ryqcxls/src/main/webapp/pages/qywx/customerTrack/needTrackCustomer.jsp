@@ -45,9 +45,11 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">今日待回访客户</span>
-      <a class="go_home" href="${ctx }/qywxCustomerTrack/index">
-    	<img src="${ctx }/images/jm/go_home.png" alt="">
-    </a>
+    <c:if test="${empty(param.type) }">
+	      <a class="go_home" href="${ctx }/qywxCustomerTrack/index">
+	    	<img src="${ctx }/images/jm/go_home.png" alt="">
+	      </a>
+    </c:if>
 </div>
 <br>
 <br>

@@ -116,14 +116,32 @@
 	</c:if>
 	<c:if test="${empty(customerRecord) }">
 		<div class="form-group" >
-	  	<label class="control-label" for="inputWarning1">品牌</label>
-	  	<select class="form-control"  onchange="ajaxCarSeriy(this.value)" id="brandId" name="brandId" checkType="integer,1" error='请选择品牌'>
-	  		<option value="">请选择...</option>
-	  		<c:forEach var="brand" items="${brands }">	  	
-	  			<option value="${brand.dbid }">${brand.name }</option>
-	  		</c:forEach>
-		</select>
-	</div>
+		  	<label class="control-label" for="inputWarning1">品牌</label>
+		  	<select class="form-control"  onchange="ajaxCarSeriy(this.value)" id="brandId" name="brandId" checkType="integer,1" error='请选择品牌'>
+		  		<option value="">请选择...</option>
+		  		<c:forEach var="brand" items="${brands }">	  	
+		  			<option value="${brand.dbid }">${brand.name }</option>
+		  		</c:forEach>
+			</select>
+		</div>
+		<div class="form-group" id="carSeriyDiv">
+		  	<label class="control-label" for="inputWarning1">车系</label>
+		  	<select class="form-control"  onchange="ajaxCarModel('carSeriyId')" id="carSeriyId" name="carSeriyId" checkType="integer,1" error='请选择车系'>
+		  		<option value="">请选择...</option>
+		  		<c:forEach var="carSeriy" items="${carSeriys }">	  	
+		  			<option value="${carSeriy.dbid }" ${carSeriy.dbid==customerRecord.carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
+		  		</c:forEach>
+			</select>
+		</div>
+		<div class="form-group" id="carModelDiv">
+		  	<label class="control-label" for="inputWarning1">车型</label>
+		  	<select class="form-control"  id="carModelId" name="carModelId" checkType="integer,1" error='请选择车型'>
+		  		<option value="">请选择...</option>
+		  		<c:forEach var="carModel" items="${carModels }">	  	
+		  			<option value="${carModel.dbid }" ${carModel.dbid==customerRecord.carModel.dbid?'selected="selected"':'' } >${carModel.name }</option>
+		  		</c:forEach>
+			</select>
+		</div>
 	</c:if>
 	<c:if test="${!empty(customerRecord) }">
 		<div class="form-group" >
@@ -225,25 +243,40 @@
 		}
 	}
 	function ajaxCarSeriy(val){
-		$("#carModelDiv").remove();
-		$("#carSeriyDiv").remove();
-		$.post("${ctx}/qywxCustomer/ajaxCarSeriy?brandId="+val+"&dateTime="+new Date(),{},function (data){
+		var op="<option>请选择车系...</option>";
+		$("#carSeriyId").empty();
+		$("#carModelId").empty();
+		$("#carSeriyId").append(op);
+		$("#carModelId").append(op);
+		$.post("${ctx}/qywxCustomer/ajaxCarSeriy?brandId="+val+"&dateTime="+new Date()+"&type=2",{},function (data){
 			if(data!="error"){
-				$("#frmId").append(data);
+				$("#carSeriyId").empty();
+				$("#carSeriyId").append(data);
 			}
 		});
 	}
-
 	function ajaxCarModel(sel){
 		var options=$("#"+sel+" option:selected");
 		var value=options[0].value;
-		$("#carModelDiv").remove();
 		if(value==''||value<=0){
 			return;
 		}
-		$.post("${ctx}/qywxCustomer/ajaxCarModelBySeriy?carSeriyId="+value+"&dateTime="+new Date(),{},function (data){
+		$.post("${ctx}/qywxCustomer/ajaxCarModelBySeriy?carSeriyId="+value+"&dateTime="+new Date()+"&type=2",{},function (data){
 			if(data!="error"){
-				$("#frmId").append(data);
+				$("#carModelId").empty();
+				$("#carModelId").append(data);
+			}
+		});
+	}
+	function ajaxArea(sel){
+		var value=$(sel).val();
+		$("#areaId").val(value);
+		var sle= $(sel).nextAll();
+		$(sle).remove();
+		$.post("${ctx}/area/ajaxArea?parentId="+value+"&dateTime="+new Date(),{},function (data){
+			if(data!="error"){
+				var data=data.replace(/midea text/g,'weui_select');
+				$("#areaLabel").append(data);
 			}
 		});
 	}

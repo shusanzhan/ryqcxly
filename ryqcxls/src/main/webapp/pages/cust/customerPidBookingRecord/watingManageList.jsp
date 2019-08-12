@@ -144,12 +144,12 @@
 				${customer.mobilePhone}
 			</td>
 			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td title="${carModel}  ${customer.carModelStr}">
+			<td title="${carModel }${customer.carModelStr}">
 				<%-- <c:if test="${fn:length(carModel)>8 }" var="status">
 					${fn:substring(carModel,0,8) }...
 				</c:if>
 				<c:if test="${ status==false}"> --%>
-					${carModel}  ${customer.carModelStr}
+					${carModel }${customer.carModelStr}
 				<%-- </c:if> --%>
 			</td>
 			<td>${customer.department.name }</td>

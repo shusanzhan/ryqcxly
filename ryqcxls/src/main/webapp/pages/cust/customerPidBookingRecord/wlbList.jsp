@@ -182,7 +182,6 @@ document.onkeydown=function(event){
 				</div></td>
 			<td style="width: 60px;">姓名</td>
 			<td style="width:160px;">车型</td>
-			<td style="width:60px;">指导价</td>
 			<td style="width: 60px;">部门</td>
 			<td style="width: 60px;">经销商类型</td>
 			<td style="width: 60px;">业务员</td>
@@ -213,6 +212,9 @@ document.onkeydown=function(event){
 						</a>
 					</td>	
 				</c:if>
+			</c:if>
+			<c:if test="${enterprise.bussiType==2 }">
+				<td style="width: 80px;">挂车状态</td>	
 			</c:if>
 			<td style="width: 80px;">处理状态</td>
 			<td style="width: 60px;">车源状态</td>
@@ -279,24 +281,21 @@ document.onkeydown=function(event){
 				</div>
 			</td>
 			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td title="${carModel}  ${customer.carModelStr}" style="text-align: left;">
-				${customer.customerBussi.brand.name } ${carModel}  ${customer.carModelStr}
+			<td title="${carModel }${customer.carModelStr}" style="text-align: left;">
+				${customer.customerBussi.brand.name } ${carModel }${customer.carModelStr}
 				<c:if test="${!empty(customer.customerPidBookingRecord.carColor) }">
-					${customer.customerPidBookingRecord.carColor.name }	
+					${customer.customerPidBookingRecord.carColor.name }${customer.carColorStr}	
 				</c:if>
-				${customer.carColorStr}
-			</td>
-			<td>
-				${customer.customerBussi.carModel.navPrice }
+				<span style="color: red;">${customer.customerBussi.carModel.navPrice }${customer.navPrice }</span>
 			</td>
 			<td>
 				${customer.department.name }
 			</td>
 			<td>
-				<c:if test="${customer.customerType==1 }">
+				<c:if test="${customer.recordType==1 }">
 					自有店
 				</c:if>
-				<c:if test="${customer.customerType==2 }">
+				<c:if test="${customer.recordType==2 }">
 					<br>
 					${customer.distributor.shortName }
 					<c:if test="${customer.distributor.type==1 }">
@@ -333,6 +332,24 @@ document.onkeydown=function(event){
 			<td style="text-align: left;">
 				<fmt:formatDate value="${customer.customerPidBookingRecord.bookingDate }" pattern="yyyy-MM-dd"/>
 			</td>
+			<c:if test="${enterprise.bussiType==2 }">
+				<td>
+					<c:if test="${customer.custCartrialerStatus==1||empty(customer.custCartrialerStatus) }">
+						<span >正常</span>
+					</c:if>
+					<c:if test="${customer.custCartrialerStatus==2 }">
+						<span style="color:blue;">加挂</span>
+						<br>
+						<c:if test="${customer.customerPidBookingRecord.cartrialerWlStatus==1 }">
+							<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customerPidBookingRecord/wlbCartrialerEdit?customerId=${customer.dbid }'">绑车架号</a>
+						</c:if>
+						<c:if test="${customer.customerPidBookingRecord.cartrialerWlStatus==2 }">
+							<a class="aedit" style="color: #2b7dbc" href="${ctx }/factoryOrder/factoryOrderDetail?vinCode=${customer.customerPidBookingRecord.cartrialerVinCode}&type=1">${customer.customerPidBookingRecord.cartrialerVinCode }</a>
+							<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/customerPidBookingRecord/cancelCartrialerVinCode?pidDbid=${customer.customerPidBookingRecord.dbid}','searchPageForm','确定释放【${customer.customerPidBookingRecord.cartrialerVinCode }】车架号码？释放后该订单将转为无车订单状态，如需分配车辆请重新绑定！${message }')">释放车架号</a>
+						</c:if>
+					</c:if>
+				</td>
+			</c:if>
 			<td>
 				<c:if test="${customer.customerPidBookingRecord.wlStatus==1 }">
 					<span style="color: red;">等待处理</span>

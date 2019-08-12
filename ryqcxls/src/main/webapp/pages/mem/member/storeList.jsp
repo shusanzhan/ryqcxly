@@ -25,7 +25,7 @@
 	<div class="operate">
      </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/member/queryList" method="post">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/memMember/queryList" method="post">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -78,7 +78,7 @@
 		<tr height="32" align="center">
 			<td><input type='checkbox' name="id" id="id1" value="${member.dbid }"/></td>
 			<td>
-					<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/member/information?dbid=${member.dbid}&type=1'" >${member.name }</a>
+					<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memMember/information?dbid=${member.dbid}&type=1'" >${member.name }</a>
 			</td>
 			<td>${member.memberShipLevel.name }</td>
 			<td>${member.mobilePhone }</td>
@@ -95,15 +95,15 @@
 			</td>
 			<td><fmt:formatDate value="${member.createTime }" pattern="yyyy年MM月dd日 HH:mm"/> </td>
 			<td>
-				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/member/information?dbid=${member.dbid}&type=4'" >${member.overagePiont }</a>
+				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memMember/information?dbid=${member.dbid}&type=4'" >${member.overagePiont }</a>
 			</td>
 			<td>
-				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/member/information?dbid=${member.dbid}&type=3'" >
+				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memMember/information?dbid=${member.dbid}&type=3'" >
 					<ystech:couponMemberCountTag memberId="${member.dbid }"/>
 				</a>
 			</td>
 			<td>
-				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/member/information?dbid=${member.dbid}&type=2'" >
+				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memMember/information?dbid=${member.dbid}&type=2'" >
 					<ystech:urlEncrypt enCode="${member.balance}"/> 
 				</a>
 			</td>

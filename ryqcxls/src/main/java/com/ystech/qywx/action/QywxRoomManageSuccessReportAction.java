@@ -111,7 +111,7 @@ public class QywxRoomManageSuccessReportAction extends BaseController{
 					"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 					"WHERE" +
 					" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.customerType=1 And "+selSql;
+					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.recordType=1 And "+selSql;
 			Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 			request.setAttribute("selfShopTotal", selfShopTotal);
 			

@@ -14,8 +14,6 @@ public class CustomerBussi implements java.io.Serializable {
 
 	private Integer dbid;
 	private Customer customer;
-	private InfoFrom infoFrom;
-	private InfoFromDetail infoFromDetail;
 	private BuyCarCare buyCarCare;
 	private BuyCarTarget buyCarTarget;
 	private BuyCarType buyCarType;
@@ -72,15 +70,6 @@ public class CustomerBussi implements java.io.Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-	public InfoFrom getInfoFrom() {
-		return infoFrom;
-	}
-
-	public void setInfoFrom(InfoFrom infoFrom) {
-		this.infoFrom = infoFrom;
-	}
-
 
 
 	public String getCustomerSpecification() {
@@ -179,14 +168,6 @@ public class CustomerBussi implements java.io.Serializable {
 
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	public InfoFromDetail getInfoFromDetail() {
-		return infoFromDetail;
-	}
-
-	public void setInfoFromDetail(InfoFromDetail infoFromDetail) {
-		this.infoFromDetail = infoFromDetail;
 	}
 
 	public CarSeriy getCarSeriy() {

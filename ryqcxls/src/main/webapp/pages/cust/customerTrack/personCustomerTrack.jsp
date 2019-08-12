@@ -67,16 +67,6 @@
 					${member.cityCrossmember.name }
 				</td>
 			</tr>
-			<tr>
-				<td class="formTableTdLeft">预计成交时间：</td>
-				<td id="areaLabel">
-					${member.memberBussi.trackingPhase.name }
-				</td>
-				<td class="formTableTdLeft">客户来源：</td>
-				<td id="areaLabel"> 
-					${member.memberBussi.infoFrom.name }
-				</td>
-			</tr>
 		</table>
 <c:if test="${empty(memberTracks)}" var="status">
 	<div class="alert alert-info">

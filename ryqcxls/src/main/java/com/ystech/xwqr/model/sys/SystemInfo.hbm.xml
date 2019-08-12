@@ -32,5 +32,8 @@
          <property name="dccInvationAndRecpStatus" type="java.lang.Integer">
             <column name="dccInvationAndRecpStatus" />
         </property>
+         <property name="wechatType" type="java.lang.Integer">
+            <column name="wechatType" />
+        </property>
     </class>
 </hibernate-mapping>

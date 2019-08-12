@@ -44,7 +44,7 @@
 	 <a id="back" href="javascript:history.back()">
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
-    <span id="page_title">流失客户审批</span>
+    <span id="page_title">流失客户审批${fn:length(customers) }</span>
 </div>
 <br>
 <br>
@@ -53,10 +53,11 @@
 	无待流失客户信息！
 </c:if>
 <c:if test="${status==false }">
-	<c:forEach items="${customers }" var="customer">
+	<c:forEach items="${customers }" var="customer" varStatus="i">
 		<c:set value="${customer.customerLastBussi }" var="customerLastBussi"></c:set>
 		<div class="orderContrac">
 			<div class="title" align="left">
+	  			序号：${i.index+1 }<br/>
 	  			客户：${customer.name }<br/>
 	  			电话：<a href="tel:${customer.mobilePhone }">${customer.mobilePhone }</a>
   			</div>
@@ -69,7 +70,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）<br>

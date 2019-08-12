@@ -137,9 +137,6 @@
 </div>
 </body>
 <script type="text/javascript">
-/*
- * 1、删除一条数据 2、url格式为：${ctx}/user/deleteById?dbid=1
- */
 $.utile.operatorDataByDbid = function(url,searchFrm,conf) {
 	var content="您确定删除选择数据吗？";
 	if(null!=conf&&conf!=undefined){

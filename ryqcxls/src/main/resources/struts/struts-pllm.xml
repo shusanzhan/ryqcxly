@@ -22,18 +22,6 @@
 		<global-exception-mappings>
 		    <exception-mapping exception="java.lang.Exception" result="error"/>
 		</global-exception-mappings>
- 		<action name="spread" class="spreadAction">
-           <result name="list">/pages/pllm/spread/list.jsp</result>
-           <result name="myList">/pages/pllm/spread/myList.jsp</result>
-           <result name="edit">/pages/pllm/spread/edit.jsp</result>
-           <result name="editSpreadGroup">/pages/pllm/spread/editSpreadGroup.jsp</result>
-           <result name="spreadGroupList">/pages/pllm/spread/spreadGroupList.jsp</result>
-           <result name="staticQrCode">/pages/pllm/spread/staticQrCode.jsp</result>
-        </action>
-        <action name="spreadDetail" class="spreadDetailAction">
-           <result name="list">/pages/pllm/spreadDetail/list.jsp</result>
-           <result name="edit">/pages/pllm/spreadDetail/edit.jsp</result>
-        </action>  
         <action name="recPageUrl" class="recPageUrlAction">
            <result name="list">/pages/pllm/recPageUrl/list.jsp</result>
            <result name="edit">/pages/pllm/recPageUrl/edit.jsp</result>

@@ -34,9 +34,6 @@
 					<td class="formTableTdLeft">商品类型：
 						${product.productcategory.name }
 					</td>
-					<td class="formTableTdLeft">品牌：
-						${product.brand.name }
-					</td>
 				</tr>
 				<tr>
 					<td class="formTableTdLeft">编码：

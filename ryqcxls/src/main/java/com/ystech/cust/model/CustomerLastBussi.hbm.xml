@@ -44,6 +44,9 @@
         <property name="approvalPersonName" type="string">
         	 <column name="approvalPersonName"  />
         </property>
+        <property name="notReason" type="string">
+        	 <column name="notReason"  />
+        </property>
         <property name="approvalDate" type="timestamp">
         	 <column name="approvalDate"  />
         </property>

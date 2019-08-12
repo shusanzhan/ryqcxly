@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.ystech.core.security.SecurityUserHolder;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
 import com.ystech.cust.model.ApprovalRecord;
@@ -19,6 +18,7 @@ import com.ystech.cust.model.Customer;
 import com.ystech.cust.model.CustomerBussi;
 import com.ystech.cust.model.CustomerLastBussi;
 import com.ystech.cust.model.CustomerPhase;
+import com.ystech.cust.model.CustomerTrack;
 import com.ystech.cust.model.OrderContract;
 import com.ystech.cust.model.OrderContractDecore;
 import com.ystech.cust.model.OrderContractExpenses;
@@ -30,6 +30,7 @@ import com.ystech.cust.service.CustomerLastBussiManageImpl;
 import com.ystech.cust.service.CustomerMangeImpl;
 import com.ystech.cust.service.CustomerOperatorLogManageImpl;
 import com.ystech.cust.service.CustomerPhaseManageImpl;
+import com.ystech.cust.service.CustomerTractUtile;
 import com.ystech.cust.service.OrderContractDecoreManageImpl;
 import com.ystech.cust.service.OrderContractExpensesChargeItemManageImpl;
 import com.ystech.cust.service.OrderContractExpensesManageImpl;
@@ -69,6 +70,7 @@ public class QywxOrderContractAction extends BaseController{
 	private BrandManageImpl brandManageImpl;
 	private CustomerLastBussi customerLastBussi;
 	private CustomerOperatorLogManageImpl customerOperatorLogManageImpl;
+	private CustomerTractUtile customerTractUtile;
 	public OrderContract getOrderContract() {
 		return orderContract;
 	}
@@ -156,6 +158,10 @@ public class QywxOrderContractAction extends BaseController{
 			CustomerOperatorLogManageImpl customerOperatorLogManageImpl) {
 		this.customerOperatorLogManageImpl = customerOperatorLogManageImpl;
 	}
+	@Resource
+	public void setCustomerTractUtile(CustomerTractUtile customerTractUtile) {
+		this.customerTractUtile = customerTractUtile;
+	}
 	/**
 	 * 功能描述：销售人员添加客户订单
 	 * 参数描述：
@@ -166,8 +172,8 @@ public class QywxOrderContractAction extends BaseController{
 	public String addOrderContract() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try{
-			User user = getSessionUser();
-			Enterprise enterprise = user.getEnterprise();
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
 			request.setAttribute("enterprise", enterprise);
 			Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 			Customer customer2 = customerMangeImpl.get(customerId);
@@ -176,8 +182,9 @@ public class QywxOrderContractAction extends BaseController{
 			CustomerLastBussi customerLastBussi2 = customer2.getCustomerLastBussi();
 			request.setAttribute("customerLastBussi", customerLastBussi2);
 			//品牌
-			List<Brand> brands = brandManageImpl.getAll();
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
+			
 			
 			List<OrderContract> orderContracts = orderContractManageImpl.findBy("customer.dbid", customerId);
 			//第一次添加订单
@@ -188,15 +195,15 @@ public class QywxOrderContractAction extends BaseController{
 				Brand brand = customerBussi.getBrand();
 				if(null!=brand){
 					//意向车型
-					List<CarSeriy>  carSeriys= carSeriyManageImpl.find("from CarSeriy where brand.dbid=? and status=?", new Object[]{brand.getDbid(),CarSeriy.STATUSCOMM});
+					List<CarSeriy>  carSeriys= carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(), brand.getDbid());
 					request.setAttribute("carSeriys", carSeriys);
 				}
 				CarSeriy carSeriy = customerBussi.getCarSeriy();
 				if(null!=carSeriy){
-					List<CarModel> carModels = carModelManageImpl.find("from CarModel where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
+					List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brand.getDbid(),carSeriy.getDbid());
 					request.setAttribute("carModels", carModels);
 					
-					List<CarColor> carColors = carColorManageImpl.find("from CarColor where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
+					List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 					request.setAttribute("carColors", carColors);
 				}
 			}
@@ -237,15 +244,15 @@ public class QywxOrderContractAction extends BaseController{
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		Integer editType = ParamUtil.getIntParam(request, "editType", -1);
+		Integer orderContractDbid=orderContract.getDbid();
 		try {
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
 			if(customerId<0){
 				renderErrorMsg(new Throwable("请选择客户后在提报订单！"),"");
 				return ;
 			}
 			Customer customer = customerMangeImpl.get(customerId);
-			User sessionUser = getSessionUser();
-			
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
 			Integer carColor = ParamUtil.getIntParam(request, "carColor", -1);
 			Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
@@ -276,7 +283,7 @@ public class QywxOrderContractAction extends BaseController{
 				renderErrorMsg(new Throwable("请选择车型"), "");
 				return ;
 			}
-			if(null!=enterprise&&enterprise.getBussiType()!=3){
+			if(enterprise.getBussiType()!=3){
 				if(carColor>0){
 					CarColor carColor2 = carColorManageImpl.get(carColor);
 					customerLastBussi.setCarColor(carColor2);
@@ -299,7 +306,6 @@ public class QywxOrderContractAction extends BaseController{
 				//删除重复数据
 				customerLastBussiManageImpl.deleteDuplicateDataByCustomerId(customerId);
 			}
-			
 			orderContract.setCustomer(customer);
 			
 			if(null!=orderContract.getDbid()&&orderContract.getDbid()>0){
@@ -311,8 +317,6 @@ public class QywxOrderContractAction extends BaseController{
 					}
 				}
 				OrderContract orderContract2 = orderContractManageImpl.get(orderContract.getDbid());
-				
-				
 				orderContract2.setAddress(orderContract.getAddress());
 				orderContract2.setContactPhone(orderContract.getContactPhone());
 				orderContract2.setBank(orderContract.getBank());
@@ -336,10 +340,10 @@ public class QywxOrderContractAction extends BaseController{
 				//删除重复数
 				orderContractManageImpl.deleteDuplicateDataByCustomerId(customerId);
 				
-				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "编辑客户合同", "",sessionUser);
+				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "编辑客户合同", "");
 			}else{
 				//设置订单未草稿
-				orderContract.setStatus(OrderContract.WATINGDECORE);
+				orderContract.setStatus(OrderContract.PRINT);
 				orderContract.setCreateTime(new Date());
 				orderContract.setModifyTime(new Date());
 				//保存订单信息
@@ -347,7 +351,7 @@ public class QywxOrderContractAction extends BaseController{
 				//删除重复数
 				orderContractManageImpl.deleteDuplicateDataByCustomerId(customerId);
 				
-				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "创建客户合同", "",sessionUser);
+				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "创建客户合同", "");
 			}
 			//保存订单商品信息
 			saveOrderContractProduct(request,orderContract);
@@ -368,18 +372,26 @@ public class QywxOrderContractAction extends BaseController{
 			if(null!=navPrice){
 				customer.setNavPrice(navPrice);
 			}
-			
 			//客户成交购车
 			//更新客户订单状态信息
 			customer.setShowRoomManager(orderContract.getShowRoomManager());
+			//更新客户订单状态信息
+			customer.setOrderContractStatus(Customer.ORDERYEAS);
 			customerMangeImpl.save(customer);
+			
+			//提交订单关闭任务
+			customerTractUtile.colseAbnormalTask(customer, CustomerTrack.TASKFINISHTYPEORDER);
 		} catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/qywxOrderContractExpenses/orderContractExpenses?customerId="+customerId+"&editType="+editType, "保存订单数据成功，正在跳转到费用明细页面！");
+		if(null!=orderContractDbid&&orderContractDbid>0){
+			renderMsg("/qywxCustomer/orderCustomer", "保存订单数据成功!");
+		}else{
+			renderMsg("/qywxCustomer/list", "保存订单数据成功！");
+		}
 		
 		return ;
 	}
@@ -393,6 +405,10 @@ public class QywxOrderContractAction extends BaseController{
 		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
 		Integer carColorId = ParamUtil.getIntParam(request, "carColor", -1);
 		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		List<OrderContractProduct> orderContractProducts = orderContractProductManageImpl.findBy("ordercontract.dbid", orderContract.getDbid());
+		for (OrderContractProduct orderContractProduct2 : orderContractProducts) {
+			orderContractProductManageImpl.delete(orderContractProduct2);
+		}
 		OrderContractProduct orderContractProduct=new OrderContractProduct();
 		CarSeriy carSeriy = carSeriyManageImpl.get(carSeriyId);
 		orderContractProduct.setCarseriy(carSeriy);
@@ -450,6 +466,7 @@ public class QywxOrderContractAction extends BaseController{
 					//删除收费明细
 					orderContractExpensesChargeItemManageImpl.deleteByOrderId(orderContractExpenses.getDbid());
 				}
+				
 			}else{
 				renderErrorMsg(new Throwable("请选择操作数据！"),"");
 				return ;
@@ -499,7 +516,7 @@ public class QywxOrderContractAction extends BaseController{
 			}
 			
 			String sql="select * from cust_orderContract as orderc, cust_Customer as cu  where "+selSql+"  " +
-					"and orderc.customerId=cu.dbid and orderc.status=? ";
+					" and orderc.customerId=cu.dbid and orderc.status=? ";
 			
 			List param= new ArrayList();
 			sql=sql+" order by createTime DESC";
@@ -807,6 +824,7 @@ public class QywxOrderContractAction extends BaseController{
 				//审批记录
 				List<ApprovalRecord> approvalRecords = approvalRecordManageImpl.findBy("orderContract.dbid", orderContract2.getDbid());
 				request.setAttribute("approvalRecords", approvalRecords);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

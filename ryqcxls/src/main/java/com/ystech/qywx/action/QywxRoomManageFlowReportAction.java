@@ -98,7 +98,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1"+
-					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.customerType=1 AND clb.approvalStatus=1 And "+selSql+" ";
+					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.recordType=1 AND clb.approvalStatus=1 And "+selSql+" ";
 			Object todayTotalNum = statisticalSalerManageImpl.queryCount(todayTotalNumSql);
 			request.setAttribute("todayTotalNum", todayTotalNum);
 			
@@ -115,7 +115,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM	cust_customer cust,cust_customerlastbussi clb,sys_department dep " +
 					"WHERE" +
 					" cust.dbid=clb.customerId AND cust.lastResult>1 AND dep.dbid=cust.departmentId AND dep.parentId=paramDepId"+
-					"  AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.customerType=1 AND clb.approvalStatus=1 And "+selSql+"  GROUP BY dep.dbid";
+					"  AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.recordType=1 AND clb.approvalStatus=1 And "+selSql+"  GROUP BY dep.dbid";
 			request.setAttribute("countUserByDepId", countUserByDepId);
 			
 			
@@ -125,7 +125,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.BUYOTHER+"  AND clb.approvalStatus=1 "+
-					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.customerType=1 AND clb.approvalStatus=1 And "+selSql+" ";
+					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.recordType=1 AND clb.approvalStatus=1 And "+selSql+" ";
 			Object buyOther = statisticalSalerManageImpl.queryCount(buyOtherSql);
 			request.setAttribute("buyOther", buyOther);
 			//购买计划取消
@@ -134,7 +134,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.CANCCEL+"  AND clb.approvalStatus=1 "+
-					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.customerType=1 AND clb.approvalStatus=1 And "+selSql+" ";
+					" AND clb.approvalDate>='"+DateUtil.format(start)+"' AND clb.approvalDate<'"+DateUtil.format(end)+"' and cust.recordType=1 AND clb.approvalStatus=1 And "+selSql+" ";
 			Object buyPlan = statisticalSalerManageImpl.queryCount(buyPlanSql);
 			request.setAttribute("buyPlan", buyPlan);
 			
@@ -187,7 +187,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 "+
-					"and DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' AND cust.customerType=1 "+" And "+selSql+
+					"and DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' AND cust.recordType=1 "+" And "+selSql+
 					" GROUP BY DATE_FORMAT(clb.approvalDate,'%d')";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			int param=0;
@@ -228,7 +228,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 "+
-					"and DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' AND cust.customerType=1  And "+selSql;
+					"and DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' AND cust.recordType=1  And "+selSql;
 			Object todayTotalNum = statisticalSalerManageImpl.queryCount(todayTotalNumSql);
 			request.setAttribute("todayTotalNum", todayTotalNum);
 			
@@ -245,7 +245,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM	cust_customer cust,cust_customerlastbussi clb,sys_department dep " +
 					"WHERE" +
 					" cust.dbid=clb.customerId AND cust.lastResult>1 AND dep.dbid=cust.departmentId AND dep.parentId=paramDepId  And "+selSql+
-					"  AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.customerType=1 GROUP BY dep.dbid";
+					"  AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.recordType=1 GROUP BY dep.dbid";
 			request.setAttribute("countUserByDepId", countUserByDepId);
 			
 			
@@ -255,7 +255,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.BUYOTHER+"  AND clb.approvalStatus=1 And "+selSql+
-					" AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.customerType=1";
+					" AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.recordType=1";
 			Object buyOther = statisticalSalerManageImpl.queryCount(buyOtherSql);
 			request.setAttribute("buyOther", buyOther);
 			//购买计划取消
@@ -264,7 +264,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.CANCCEL+"  AND clb.approvalStatus=1 And "+selSql+
-					" AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.customerType=1";
+					" AND DATE_FORMAT(clb.approvalDate,'%Y-%m')='"+start+"' and cust.recordType=1";
 			Object buyPlan = statisticalSalerManageImpl.queryCount(buyPlanSql);
 			request.setAttribute("buyPlan", buyPlan);
 			
@@ -319,7 +319,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 And "+selSql+
-					" and YEAR(clb.approvalDate)='"+start+"' AND cust.customerType=1 "+
+					" and YEAR(clb.approvalDate)='"+start+"' AND cust.recordType=1 "+
 					"GROUP BY MONTH(clb.approvalDate)";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			int i=0;
@@ -367,7 +367,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 And "+selSql+
-					" and YEAR(clb.approvalDate)='"+start+"' AND cust.customerType=1";
+					" and YEAR(clb.approvalDate)='"+start+"' AND cust.recordType=1";
 			Object todayTotalNum = statisticalSalerManageImpl.queryCount(todayTotalNumSql);
 			request.setAttribute("todayTotalNum", todayTotalNum);
 			
@@ -379,7 +379,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.BUYOTHER+"  AND clb.approvalStatus=1 And "+selSql+
-					" AND YEAR(clb.approvalDate)='"+start+"' and cust.customerType=1";
+					" AND YEAR(clb.approvalDate)='"+start+"' and cust.recordType=1";
 			Object buyOther = statisticalSalerManageImpl.queryCount(buyOtherSql);
 			request.setAttribute("buyOther", buyOther);
 			//购买计划取消
@@ -388,7 +388,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.CANCCEL+"  AND clb.approvalStatus=1 And "+selSql+
-					" AND YEAR(clb.approvalDate)='"+start+"' and cust.customerType=1";
+					" AND YEAR(clb.approvalDate)='"+start+"' and cust.recordType=1";
 			Object buyPlan = statisticalSalerManageImpl.queryCount(buyPlanSql);
 			request.setAttribute("buyPlan", buyPlan);
 			
@@ -445,7 +445,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 "+
-					"and (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) AND cust.customerType=1 And "+selSql+
+					"and (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) AND cust.recordType=1 And "+selSql+
 					" GROUP BY WEEKOFYEAR(clb.approvalDate) ORDER BY WEEKOFYEAR(clb.approvalDate)";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			int param=0;
@@ -487,7 +487,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult>"+Customer.SUCCESS+"  AND clb.approvalStatus=1 "+
-					"and (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) AND cust.customerType=1 And "+selSql;;
+					"and (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) AND cust.recordType=1 And "+selSql;;
 			Object todayTotalNum = statisticalSalerManageImpl.queryCount(todayTotalNumSql);
 			request.setAttribute("todayTotalNum", todayTotalNum);
 			
@@ -504,7 +504,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM	cust_customer cust,cust_customerlastbussi clb,sys_department dep " +
 					"WHERE" +
 					" cust.dbid=clb.customerId AND cust.lastResult>1 AND dep.dbid=cust.departmentId AND dep.parentId=paramDepId"+
-					"  AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.customerType=1 And "+selSql+" GROUP BY dep.dbid";
+					"  AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.recordType=1 And "+selSql+" GROUP BY dep.dbid";
 			request.setAttribute("countUserByDepId", countUserByDepId);
 			
 			
@@ -514,7 +514,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.BUYOTHER+"  AND clb.approvalStatus=1 "+
-					" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.customerType=1 And "+selSql;
+					" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.recordType=1 And "+selSql;
 			Object buyOther = statisticalSalerManageImpl.queryCount(buyOtherSql);
 			request.setAttribute("buyOther", buyOther);
 			//购买计划取消
@@ -523,7 +523,7 @@ public class QywxRoomManageFlowReportAction extends BaseController{
 					"FROM cust_customer cust,cust_customerlastbussi clb " +
 					"WHERE " +
 					"cust.dbid=clb.customerId AND cust.lastResult="+Customer.CANCCEL+"  AND clb.approvalStatus=1 "+
-					" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.customerType=1 And "+selSql;
+					" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(clb.approvalDate))<7 AND  YEAR(CURDATE())=YEAR(clb.approvalDate) and cust.recordType=1 And "+selSql;
 			Object buyPlan = statisticalSalerManageImpl.queryCount(buyPlanSql);
 			request.setAttribute("buyPlan", buyPlan);
 			

@@ -21,7 +21,6 @@ import com.ystech.weixin.core.util.SignUtil;
 import com.ystech.weixin.core.util.WeixinUtil;
 import com.ystech.weixin.model.WeixinAccount;
 import com.ystech.weixin.model.WeixinGzuserinfo;
-import com.ystech.weixin.service.MemberGzUserUtil;
 import com.ystech.weixin.service.WechatService;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
 import com.ystech.weixin.service.WeixinGzuserinfoManageImpl;
@@ -32,7 +31,6 @@ public class WechatAuthAction extends BaseController{
 	private WeixinAccountManageImpl weixinAccountManageImpl;
 	private WechatService wechatService;
 	private WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl;
-	private MemberGzUserUtil memberGzUserUtil;
 	@Resource
 	public void setWeixinAccountManageImpl(
 			WeixinAccountManageImpl weixinAccountManageImpl) {
@@ -46,10 +44,6 @@ public class WechatAuthAction extends BaseController{
 	public void setWeixinGzuserinfoManageImpl(
 			WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl) {
 		this.weixinGzuserinfoManageImpl = weixinGzuserinfoManageImpl;
-	}
-	@Resource
-	public void setMemberGzUserUtil(MemberGzUserUtil memberGzUserUtil) {
-		this.memberGzUserUtil = memberGzUserUtil;
 	}
 	/**
 	 * 功能描述：
@@ -176,7 +170,7 @@ public class WechatAuthAction extends BaseController{
 							WeixinGzuserinfo weixinGzuserinfo2 = weixinGzuserinfoManageImpl.saveWeixinGzuserinfo(openId, accessToken,weixinAccount);
 							session.setAttribute("weixinGzuserinfo", weixinGzuserinfo2);
 							//对关注微信用户创建会员信息
-							memberGzUserUtil.saveMember(weixinGzuserinfo,0);
+							weixinGzuserinfoManageImpl.saveMember(weixinGzuserinfo,0);
 							
 							Cookie addCookie =CookieUtile.addCookie(weixinGzuserinfo2);
 							response.addCookie(addCookie);

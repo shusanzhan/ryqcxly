@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-11-18 11:04:34 by Hibernate Tools 4.0.0.Final -->
 <hibernate-mapping>
-    <class name="com.ystech.mem.model.SpreadDetailRecord" table="pllm_s_spreaddetailrecord" >
+    <class name="com.ystech.mem.model.SpreadDetailRecord" table="mem_spreaddetailrecord" >
         <id name="dbid" type="java.lang.Integer">
             <column name="dbid" />
             <generator class="identity" />

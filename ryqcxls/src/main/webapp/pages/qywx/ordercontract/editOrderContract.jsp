@@ -40,7 +40,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			登记时间：<fmt:formatDate value="${customer.createFolderTime }"/> <br/>
@@ -73,6 +73,39 @@
 		</div>
 	</div>
 </div>
+<c:if test="${customer.bussiType==2 }">
+<div class="orderContrac detail">
+	<div class="title" align="left">
+		<span>挂车信息</span>
+		<c:if test="${empty(custCartrialer) }">
+			<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/qywxCustCartrialer/edit?customerId=${customer.dbid}&editType=${param.editType}'" class="aedit">添加挂车信息</a>
+		</c:if>
+		<c:if test="${!empty(custCartrialer) }">
+			<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/qywxCustCartrialer/edit?customerId=${customer.dbid }&dbid=${custCartrialer.dbid }&editType=${param.editType}'" class="aedit">更改挂车信息</a> |
+			<a href="javascript:void(-1)" onclick="deleteA('${ctx }/qywxCustCartrialer/delete?dbid=${custCartrialer.dbid}&customerId=${customer.dbid }&editType=${param.editType}')" class="aedit">删除</a>
+		</c:if>
+	</div>
+	<div class="line"></div>
+	<div style="margin: 0 auto;margin: 5px;">
+		<div style="color:#8a8a8a;padding-left: 5px; ">
+			<table>
+				<tr>
+					<td colspan="2">挂车车型：${custCartrialer.brand.name }${custCartrialer.carSeriy.name }${custCartrialer.carModel.name }&#12288;</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						挂车颜色：${custCartrialer.carColor.name }
+					</td>
+				</tr>
+				<tr >
+					<td colspan="2">备注：${custCartrialer.note }
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</c:if>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 	<div class="alert alert-error">
 			<strong>提示:</strong>
@@ -182,19 +215,19 @@
 				</div>
 				<div class="form-group" >
 				  <label class="control-label" for="inputWarning1">颜色</label  >
-				  <input type="text" class="form-control" id="carColorStr"  name="carColorStr" value="${customerLastBussi.carColor.name}${customer.carColorStr}" checkType="string,1" >
+				  <input type="text" class="form-control" id="carColorStr"  name="carColorStr" value="${customer.carColorStr}" checkType="string,1" >
 				</div>
 				<div class="form-group" >
 				  <label class="control-label" for="inputWarning1">指导价</label  >
 				  <input type="text" class="form-control" id="navPrice"  name="navPrice" value="${customer.navPrice }" checkType="float" >
 				</div>
 			</c:if>
-			<div class="form-group">
+			<div class="form-group" style="display: none;">
 					<label><input type="checkbox" id="isCarPlate" name="customerLastBussi.isCarPlate" value="true" ${customerLastBussi.isCarPlate==true?'checked="checked"':'' } >&nbsp;&nbsp;是否上牌</label>&nbsp;&nbsp;&nbsp;&nbsp;
 					<label><input type="checkbox" id="isBuySafe" name="customerLastBussi.isBuySafe" ${customerLastBussi.isBuySafe==true?'checked="checked"':'' }  value="true">&nbsp;&nbsp;是否购买保险</label>&nbsp;&nbsp;&nbsp;&nbsp;
 					<label><input type="checkbox" id="isBoutique" name="customerLastBussi.isBoutique" ${customerLastBussi.isBoutique==true?'checked="checked"':'' }  value="true">&nbsp;&nbsp;是否加装精品</label>
 			</div>
-		<div class="form-group">
+		<div class="form-group" style="display: none;">
  			<label class="control-label" for="isShowNote" style="color: red;cursor: pointer;">
 			   	 <input type="checkbox" name="orderContract.isShowNote" id="isShowNote" value="true" ${orderContract.isShowNote==true?'checked="checked"':'' } />
 			   	（勾选显示备注信息）
@@ -203,17 +236,26 @@
 			  车型颜色不换,定金不退只用于冲抵车款		
 		</div>
 		<div class="form-group">
-				<label class="control-label" for="name">交货日期：</label>
+				<label class="control-label" for="name">定金：</label>
+				<input  class="form-control" id="orderMoney" name="orderContract.orderMoney" value="${orderContract.orderMoney }"  onfocus="target32(this.value)"  checkType="float,0" tip="请输入合同定金" ></input>
+					<input type="hidden" readonly="readonly" name="orderContract.bigOrderMoney" id="bigOrderMoney" value="${orderContract.bigOrderMoney }" class="largeX text" ></input>
+		</div>
+		<div class="form-group">
+				<label class="control-label" for="name">合同金额：</label>
+				<input  class="form-control" id="totalPrice" name="orderContract.totalPrice" value="${orderContract.totalPrice }"   checkType="float,0" tip="请输入合同金额" ></input>
+		</div>
+		<div class="form-group">
+				<label class="control-label" for="name">交车备注：</label>
 				<input  class="form-control" id="handerOverCarDate" name="orderContract.handerOverCarDate" value="${orderContract.handerOverCarDate }"   checkType="string,1,20000" tip="请输入交货日期信息" ></input>
 		</div>
 		<div class="form-group">
-				<label class="control-label" for="name">主合同备注：</label>
+				<label class="control-label" for="name">合同备注：</label>
 				<textarea  class="form-control" style="height: 50px;"  name="orderContract.note"  id="note" placeholder="装饰信息及特别约定">${orderContract.note }</textarea>
 		</div>
-		<div class="form-group">
+	<%-- 	<div class="form-group">
 				<label class="control-label" for="name">附加合同备注：</label>
 				<textarea  class="form-control" style="height: 50px;"  name="orderContract.additionalNote"  id="additionalNote" placeholder="贴息信息等说明">${orderContract.additionalNote }</textarea>
-		</div>
+		</div> --%>
 		<c:if test="${empty(orderContract) }">
 			<div class="form-group">
 			<label class="control-label" for="name">需方：</label>
@@ -227,7 +269,6 @@
 		<c:if test="${!empty(orderContract) }">
 			<div class="form-group">
 				<label class="control-label" for="name">需方：</label>
-			
 					<input readonly="readonly" type="text" class="form-control" name="" id=""  value="${customer.name }" />
 			</div>
 			<div class="form-group">
@@ -245,6 +286,8 @@
 <script src="${ctx }/widgets/easyvalidator/js/easy_validator.pack3.js?n=${now}"></script>
 <script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${ctx }/widgets/utile/wechat.js"></script>
+<link rel="stylesheet" href="${ctx }/widgets/auto/jquery.autocomplete.css" />
+<script type="text/javascript"	src="${ctx}/widgets/auto/jquery.autocomplete.js"></script>
 <script type="text/javascript">
 function submitFrm(frmId,url){
 	var address=$("#address").val();
@@ -374,7 +417,7 @@ function validateFrmBeforeSmb(){
 		return false;
 	}
 	if(null==ajsxf||ajsxf==''){
-		alert("请填写咨询服务费！");
+		alert("请填写按揭手续费！");
 		$("#ajsxf").focus();
 		return false;
 	}
@@ -476,6 +519,63 @@ function ajaxCarModel(sel){
 			$("#carColor").append(data);
 		}
 	});
+}
+
+function deleteA(url){
+	if(confirm("确定删除挂车信息")){
+		$.post(url,{},function (data){
+			var obj;
+			if(data.message!=undefined){
+				obj=$.parseJSON(data.message);
+			}else{
+				obj=data;
+			}
+			if(obj[0].mark==1){
+				//错误
+				showMo(data[0].message,false);
+				return ;
+			}else if(obj[0].mark==0){
+				showMo(data[0].message,true);
+				setTimeout(
+						function() {
+							window.location.href = obj[0].url
+						}, 1000);
+			}
+		})
+	}
+}
+function ajaxCarModel2(id){
+	var id1 = "#"+id;
+		$(id1).autocomplete("${ctx}/qywxCustomer/ajaxCarModel",{
+			max: 20,      
+	        width: 130,    
+	        matchSubset:false,   
+	        matchContains: true,  
+			dataType: "json",
+			parse: function(data) {   
+		    	var rows = [];      
+		        for(var i=0; i<data.length; i++){      
+		           rows[rows.length] = {       
+		               data:data[i]       
+		           };       
+		        }       
+		   		return rows;   
+		    }, 
+			formatItem: function(row, i, total) {   
+		       return "<span>&nbsp;&nbsp;&nbsp;简称："+row.name+"&nbsp;&nbsp全称："+row.fullName+";</span>";   
+		    },   
+		    formatMatch: function(row, i, total) {   
+		       return row.name;   
+		    },   
+		    formatResult: function(row) {   
+		       return row.name;   
+		    }		
+		});
+	$(id1).result(onCarModel);
+	//计算总金额
+}
+function onCarModel(event, data, formatted) {
+		$("#carModelStr").val(data.fullName);
 }
 </script>
 </body>

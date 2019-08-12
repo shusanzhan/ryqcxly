@@ -14,6 +14,7 @@ public class AccessToken implements java.io.Serializable {
 	private Date addtime;
 	private Integer expiresIn;
 	private String jsapiTicket;
+	private Integer appId;
 
 	public AccessToken() {
 	}
@@ -62,6 +63,14 @@ public class AccessToken implements java.io.Serializable {
 
 	public void setJsapiTicket(String jsapiTicket) {
 		this.jsapiTicket = jsapiTicket;
+	}
+
+	public Integer getAppId() {
+		return appId;
+	}
+
+	public void setAppId(Integer appId) {
+		this.appId = appId;
 	}
 	
 }

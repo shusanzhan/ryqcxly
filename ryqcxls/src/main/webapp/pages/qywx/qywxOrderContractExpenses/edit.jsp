@@ -91,7 +91,7 @@ table th, table td {
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			登记时间：<fmt:formatDate value="${customer.createFolderTime }"/> <br/>
@@ -132,7 +132,7 @@ table th, table td {
 		<c:if test="${empty(orderContractExpenses) }">
 				<div class="form-group">
 					<label class="control-label" for="name">经销商报价：</label>
-						<c:if test="${enterprise.bussiType==3 }">
+					<c:if test="${enterprise.bussiType==3 }">
 						<input readonly="readonly" type="text" class="form-control" value="${customer.navPrice}" onkeyup="countActMoney()" id="salePrice" name="orderContractExpenses.salePrice"  />
 					</c:if>
 					<c:if test="${enterprise.bussiType!=3 }">
@@ -141,7 +141,7 @@ table th, table td {
 				</div>
 				<div class="form-group">
 						<label class="control-label" for="name">颜色溢价：</label>
-						<input  class="form-control" type="number"  name="orderContractExpenses.colorPrice"  id="colorPrice" value="0.0" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
+						<input  class="form-control" type="number"  name="orderContractExpenses.colorPrice"  id="colorPrice" value="0.0" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" checkType="float,0,"></input>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="name">裸车销售顾问结算价：</label>
@@ -156,7 +156,7 @@ table th, table td {
 			<c:if test="${!empty(orderContractExpenses) }">
 				<div class="form-group">
 					<label class="control-label" for="name">经销商报价：</label>
-						<c:if test="${enterprise.bussiType==3 }">
+					<c:if test="${enterprise.bussiType==3 }">
 						<input readonly="readonly" type="text" class="form-control" value="${customer.navPrice }" onkeyup="countActMoney()" id="salePrice" name="orderContractExpenses.salePrice"  />
 					</c:if>
 					<c:if test="${enterprise.bussiType!=3 }">
@@ -165,7 +165,7 @@ table th, table td {
 				</div>
 				<div class="form-group">
 						<label class="control-label" for="name">颜色溢价：</label>
-						<input  class="form-control" type="number"  name="orderContractExpenses.colorPrice"  id="colorPrice" value="${orderContractExpenses.colorPrice }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
+						<input  class="form-control" type="number"  name="orderContractExpenses.colorPrice"  id="colorPrice" value="${orderContractExpenses.colorPrice }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" checkType="float,0,"></input>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="name">裸车销售顾问结算价：</label>
@@ -184,16 +184,16 @@ table th, table td {
 			</c:if>
 		<div class="form-group">
 				<label class="control-label" for="name">裸车现金优惠：</label>
-				<input  class="form-control" type="number"  name="orderContractExpenses.cashBenefit"  id="cashBenefit" value="${orderContractExpenses.cashBenefit }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
+				<input  class="form-control" type="number"  name="orderContractExpenses.cashBenefit"  id="cashBenefit" value="${orderContractExpenses.cashBenefit }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" checkType="float,0,"></input>
 				<span style="color: red">*</span>说明：不包含大客户、自有车等特殊权限优惠
 		</div>
 		<div class="form-group">
 				<label class="control-label" for="name">特殊权限优惠：</label>
 				<c:if test="${empty(orderContractExpenses) }">
-					<input  class="form-control" name="orderContractExpenses.specialPermPrice" id="specialPermPrice" value="0.0" checkType="float,0," onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" ></input>
+					<input  class="form-control" name="orderContractExpenses.specialPermPrice" id="specialPermPrice" value="0.0" checkType="float,0," onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" ></input>
 				</c:if>
 				<c:if test="${!empty(orderContractExpenses) }">
-					<input  class="form-control" name="orderContractExpenses.specialPermPrice" id="specialPermPrice" value="${orderContractExpenses.specialPermPrice }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"  checkType="float,0,"></input>
+					<input  class="form-control" name="orderContractExpenses.specialPermPrice" id="specialPermPrice" value="${orderContractExpenses.specialPermPrice }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();"  checkType="float,0,"></input>
 				</c:if>
 		</div>
 		<div class="form-group">
@@ -201,21 +201,23 @@ table th, table td {
 				<input  class="form-control"  name="orderContractExpenses.specialPermNote" id="specialPermNote" value="${orderContractExpenses.specialPermNote }" placeholder="如：大客户、二手车置换等特殊优惠政策"></input>
 		</div>
 		<div class="form-group">
+			<label class="control-label" for="name"><span style="color: red">*</span>预收保费：</label>
+			<input  class="form-control" type="number"   name="orderContractExpenses.preInsMoney" id="preInsMoney" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.preInsMoney }" onfocus="orderContranctTotalPrice();loanPaymentPer();" onkeyup="orderContranctTotalPrice();loanPaymentPer();"  style="color: red;" checkType="float,0" canEmpty="Y" style="color: red;"></input>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="name"><span style="color: red">*</span>续保押金：</label>
+			<input  class="form-control" type="number"  name="orderContractExpenses.insaranceRenewalDepositPrice" id="insaranceRenewalDepositPrice" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.insaranceRenewalDepositPrice }" onfocus="orderContranctTotalPrice();loanPaymentPer();" onkeyup="orderContranctTotalPrice();loanPaymentPer();"></input>
+		</div>
+		<div class="form-group">
 				<label class="control-label" for="name">购车定金：</label>
 				<input  class="form-control" type="number" name="orderContractExpenses.orderMoney" id="orderMoney" value="${orderContractExpenses.orderMoney }" onfocus="target32(this.value)" onkeyup="target32(this.value)"  checkType="float,0,"  ></input>
 				<input type="hidden"  class="form-control" readonly="readonly" name="orderContractExpenses.bigOrderMoney" id="bigOrderMoney" value="${orderContractExpenses.bigOrderMoney }" ></input>
 		</div>
 		<div class="form-group">
-				<label class="control-label" for="name">装饰款计入主合同：</label>
-				<input  class="form-control" type="number"  name="orderContractExpenses.masterDecoreMoney"  id="masterDecoreMoney" value="${orderContractExpenses.masterDecoreMoney }" onkeyup="decoreTotal();orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
-		</div>
-		<div class="form-group">
-				<label class="control-label" for="name">装饰款计入附加合同：</label>
-				<input  class="form-control" type="number"  name="orderContractExpenses.attachDecoreMoney"  id="attachDecoreMoney" value="${orderContractExpenses.attachDecoreMoney }" onkeyup="decoreTotal();orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
-		</div>
-		<div class="form-group">
-				<label class="control-label" for="name">装饰款合计：</label>
-				<input  class="form-control" type="number"  readonly="readonly" name="orderContractExpenses.decoreMoney"  id="decoreMoney" value="${orderContractExpenses.decoreMoney }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,0,"></input>
+				<label class="control-label" for="name">装饰款：</label>
+				<input  class="form-control" type="number"  name="orderContractExpenses.masterDecoreMoney"  id="masterDecoreMoney" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.masterDecoreMoney }" onkeyup="decoreTotal();orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" ></input>
+				<input  class="form-control" type="hidden"  name="orderContractExpenses.attachDecoreMoney"  id="attachDecoreMoney" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.attachDecoreMoney }" onkeyup="decoreTotal();orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" ></input>
+				<input  class="form-control" type="hidden"  readonly="readonly" name="orderContractExpenses.decoreMoney"  id="decoreMoney" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.decoreMoney }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" ></input>
 		</div>
 		
 		<c:if test="${empty(orderContractExpenses) }">
@@ -253,101 +255,46 @@ table th, table td {
 			</div>
 		</c:if>
 		
-		<c:if test="${empty(orderContractExpenses) }">
+		<c:if test="${orderContractExpenses.buyCarType==1||empty(orderContractExpenses.buyCarType) }">
 			<div id="ajsxfDiv" style="display: none;">
 				<div class="form-group">
-						<label class="control-label" for="name">咨询服务费：</label>
-						<input  class="form-control" type="number" id="ajsxf" name="orderContractExpenses.ajsxf" class="largeX text" value="0.0" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" ></input>
+						<label class="control-label" for="name">按揭手续费：</label>
+						<input  class="form-control" type="number" id="ajsxf" name="orderContractExpenses.ajsxf" class="largeX text" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.ajsxf}" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" ></input>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="name">首付比例：</label>
+					<input type="text"   id="paymentPer" name="orderContractExpenses.paymentPer" class="form-control" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.paymentPer }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" checkType="float,0,10" canEmpty="Y" style="color: red;" tip="请输入首付比例"></input>
 				</div>
 				<div class="form-group">
 						<label class="control-label" for="name">首付款：</label>
-						<input  class="form-control" type="number" id="sfk" name="orderContractExpenses.sfk" class="largeX text" value="0.0" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
+						<input  class="form-control"  type="number" id="sfk" name="orderContractExpenses.sfk" class="largeX text" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.sfk}" onkeyup="orderContranctTotalPrice();loanSfk()" onfocus="orderContranctTotalPrice();;loanSfk()"></input>
 				</div>
 				<div class="form-group">
 						<label class="control-label" for="name">贷款金额：</label>
-						<input  class="form-control" type="number" id="daikuan" name="orderContractExpenses.daikuan" class="largeX text" value="0.0" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
+						<input  class="form-control" readonly="readonly" type="number" id="daikuan" name="orderContractExpenses.daikuan" class="largeX text" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.daikuan}" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
 				</div>
 			</div>
 		</c:if>
-		<c:if test="${!empty(orderContractExpenses) }">
-			<c:if test="${orderContractExpenses.buyCarType==1 }">
-				<div id="ajsxfDiv" style="display:none; ">
-					<div class="form-group">
-							<label class="control-label" for="name">咨询服务费：</label>
-							<input  class="form-control" type="number" id="ajsxf" name="orderContractExpenses.ajsxf" class="largeX text" value="${orderContractExpenses.ajsxf }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" ></input>
-					</div>
-					<div class="form-group">
-							<label class="control-label" for="name">首付款：</label>
-							<input  class="form-control" type="number" id="sfk" name="orderContractExpenses.sfk" class="largeX text" value="${orderContractExpenses.sfk }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
-					</div>
-					<div class="form-group">
-							<label class="control-label" for="name">贷款金额：</label>
-							<input  class="form-control" type="number" id="daikuan" name="orderContractExpenses.daikuan" class="largeX text" value="${orderContractExpenses.daikuan }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
-					</div>
+		<c:if test="${orderContractExpenses.buyCarType>=2 }">
+			<div id="ajsxfDiv">
+				<div class="form-group">
+						<label class="control-label" for="name">按揭手续费：</label>
+						<input  class="form-control" type="number" id="ajsxf" name="orderContractExpenses.ajsxf" class="largeX text" value="${orderContractExpenses.ajsxf }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" ></input>
 				</div>
-			</c:if>
-			<c:if test="${orderContractExpenses.buyCarType==2 }">
-				<div id="ajsxfDiv">
-					<div class="form-group">
-							<label class="control-label" for="name">咨询服务费：</label>
-							<input  class="form-control" type="number" id="ajsxf" name="orderContractExpenses.ajsxf" class="largeX text" value="${orderContractExpenses.ajsxf }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" ></input>
-					</div>
-					<div class="form-group">
-							<label class="control-label" for="name">首付款：</label>
-							<input  class="form-control" type="number" id="sfk" name="orderContractExpenses.sfk" class="largeX text" value="${orderContractExpenses.sfk }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
-					</div>
-					<div class="form-group">
-							<label class="control-label" for="name">贷款金额：</label>
-							<input  class="form-control" type="number" id="daikuan" name="orderContractExpenses.daikuan" class="largeX text" value="${orderContractExpenses.daikuan }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
-					</div>
+				<div class="form-group">
+					<label class="control-label" for="name">首付比例：</label>
+					<input type="text"   id="paymentPer" name="orderContractExpenses.paymentPer" class="form-control" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.paymentPer }" onkeyup="orderContranctTotalPrice();loanPaymentPer();" onfocus="orderContranctTotalPrice();loanPaymentPer();" checkType="float,0,10" canEmpty="Y" style="color: red;" tip="请输入首付比例"></input>
 				</div>
-			</c:if>
+				<div class="form-group">
+						<label class="control-label" for="name">首付款：</label>
+						<input  class="form-control"  type="number" id="sfk" name="orderContractExpenses.sfk" class="largeX text" value="${orderContractExpenses.sfk }" onkeyup="orderContranctTotalPrice();loanSfk()" onfocus="orderContranctTotalPrice();;loanSfk()"></input>
+				</div>
+				<div class="form-group">
+						<label class="control-label" for="name">贷款金额：</label>
+						<input  class="form-control" readonly="readonly" type="number" id="daikuan" name="orderContractExpenses.daikuan" class="largeX text" value="${orderContractExpenses.daikuan }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();"></input>
+				</div>
+			</div>
 		</c:if>
-		<c:if test="${empty(orderContractExpenses) }">
-				<div class="form-group">
-					<label class="control-label" for="name">未折让权限：</label>
-						<input readonly="readonly" type="text" class="form-control" id="noWllowancePrice" name="orderContractExpenses.noWllowancePrice" class="largeX text enable" value="0.0" />
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">其它收费总额：</label>
-						<input readonly="readonly" type="text" class="form-control" id="otherFeePrice" name="orderContractExpenses.otherFeePrice" class="largeX text enable" value="0.0" />
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">预收款总额：</label>
-						<input readonly="readonly" type="text" class="form-control" id="advanceTotalPrice" name="orderContractExpenses.advanceTotalPrice" class="largeX text enable" value="0.0" />
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">裸车销售价：</label>
-						<input readonly="readonly" type="text" class="form-control" id="carActurePrice" name="orderContractExpenses.carActurePrice"  class="largeX text enable" value="0.0" />
-				</div>
-			</c:if>
-			<c:if test="${!empty(orderContractExpenses) }">
-				<div class="form-group">
-					<label class="control-label" for="name">未折让权限：</label>
-						<input readonly="readonly" type="text" class="form-control" id="noWllowancePrice" name="orderContractExpenses.noWllowancePrice" class="largeX text enable" value="${orderContractExpenses.noWllowancePrice }" />
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">其它收费总额：</label>
-						<input readonly="readonly" type="text" class="form-control" id="otherFeePrice" name="orderContractExpenses.otherFeePrice" class="largeX text enable" value="${orderContractExpenses.otherFeePrice }" />
-						说明：其他收费合计
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">预收款总额：</label>
-						<input readonly="readonly" type="text" class="form-control" id="advanceTotalPrice" name="orderContractExpenses.advanceTotalPrice" class="largeX text enable" value="${orderContractExpenses.advanceTotalPrice }" />
-						说明：预收款项合计
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="name">裸车销售价：</label>
-						<input readonly="readonly" type="text" class="form-control" id="carActurePrice" name="orderContractExpenses.carActurePrice"  class="largeX text enable" value="${orderContractExpenses.carActurePrice }" />
-						裸车销售价=经销商报价+颜色溢价-裸车现金优惠-特殊政策优惠
-				</div>
-			</c:if>
-			
-		<div class="form-group">
-			<label class="control-label" for="name">合同总金额：</label>
-			<input  class="form-control" readonly="readonly" type="number" name="orderContractExpenses.totalPrice" id="totalPrice" value="${orderContractExpenses.totalPrice }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,1," ></input>
-			说明：合同总金额=经销商报价-裸车现金优惠-特殊政策优惠+其它收费总额+预收款总额+装饰款+咨询服务费
-		</div>
 		<div class="form-group">
 			<label class="control-label" for="name">备注：</label>
 				<input type="text" class="form-control" id="note" name="orderContractExpenses.note"  class="largeX text" value="${orderContractExpenses.note }" />
@@ -506,6 +453,42 @@ table th, table td {
 					</tr>
 				</table>
 			</div>
+		<div class="form-group">
+				<label class="control-label" for="name">其它收费总额：</label>
+					<input readonly="readonly" type="text" class="form-control" id="otherFeePrice" name="orderContractExpenses.otherFeePrice" class="largeX text enable" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.otherFeePrice }" />
+					说明：其他收费合计
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">预收款总额：</label>
+					<input readonly="readonly" type="text" class="form-control" id="advanceTotalPrice" name="orderContractExpenses.advanceTotalPrice" class="largeX text enable" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.advanceTotalPrice }" />
+					说明：预收款项合计
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="name">未折让权限：</label>
+					<input readonly="readonly" type="text" class="form-control" id="noWllowancePrice" name="orderContractExpenses.noWllowancePrice" class="largeX text enable" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.noWllowancePrice }" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">裸车销售价：</label>
+					<input readonly="readonly" type="text" class="form-control" id="carActurePrice" name="orderContractExpenses.carActurePrice"  class="largeX text enable" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.carActurePrice }" />
+					<input readonly="readonly" type="hidden" class="form-control" id="carTotalPrice" name="orderContractExpenses.carTotalPrice"   value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.carTotalPrice }"></input>
+					裸车销售价=经销商报价+颜色溢价-裸车现金优惠-特殊政策优惠
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">贷款车价：</label>
+					<input readonly="readonly" type="text" class="form-control" id="loanCarPrice" name="orderContractExpenses.loanCarPrice"  class="largeX text enable" value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.loanCarPrice }" />
+					贷款车价=裸车销售价
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">合同总金额：</label>
+				<input  class="form-control" readonly="readonly" type="number" name="orderContractExpenses.totalPrice" id="totalPrice" value="${orderContractExpenses.totalPrice }" onkeyup="orderContranctTotalPrice();" onfocus="orderContranctTotalPrice();" checkType="float,1," ></input>
+				合同总金额=车辆总价+其它收费总额+预收款总额+装饰款+按揭手续费+预收保费+续保押金
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">实收金额：</label>
+				<input  class="form-control" readonly="readonly" type="number" id="actureCollectedPrice" name="orderContractExpenses.actureCollectedPrice"   value="${empty(orderContractExpenses)==true?'0.0':'' }${orderContractExpenses.actureCollectedPrice }"></input>
+				实收金额=合同总金额-定金-贷款总额
+			</div>
 			
 		</form>
 	<div class="formButton">
@@ -585,7 +568,7 @@ function submitFrm(frmId,url){
 function autoPreferenceItemByName(id){
 	var id1 = "#"+id;
 		$(id1).autocomplete("${ctx}/preferenceItem/autoPreferenceItem",{
-			extraParams:{customerType:"${customer.customerType}"},
+			extraParams:{customerType:"${customer.recordType}"},
 			max: 20,      
 	        width: 130,    
 	        matchSubset:false,   
@@ -655,7 +638,7 @@ function preferenceItemPrice(){
 	}
 	$("#advanceTotalPrice").val(formatFloat(totalA));
 	$("#advanceTotalPriceText").text(formatFloat(totalA));
-	orderContranctTotalPrice();
+	orderContranctTotalPrice();loanPaymentPer();
 }
 //删除表格行
 function deletePreferenceTr(tr) {
@@ -717,7 +700,7 @@ function createPreferenceItemTr() {
 function autoCharegeItemByName(id){
 	var id1 = "#"+id;
 		$(id1).autocomplete("${ctx}/chargeItem/autoChargeItem",{
-			extraParams:{customerType:"${customer.customerType}"},
+			extraParams:{customerType:"${customer.recordType}"},
 			max: 20,      
 	        width: 130,    
 	        matchSubset:false,   
@@ -791,7 +774,7 @@ function chargePrice(){
 	
 	$("#otherFeePrice").val(formatFloat(totalA));
 	$("#otherFeePriceText").text(formatFloat(totalA));
-	orderContranctTotalPrice();
+	orderContranctTotalPrice();loanPaymentPer();
 }
 function deleteChareTr(tr) {
 	// 删除规格值
@@ -872,7 +855,18 @@ function decoreTotal(){
 	   $("#decoreMoney").val(decoreMoney);
 }
 //计算合同金额
+//计算合同金额
 function orderContranctTotalPrice(){
+	   //按揭成数
+	   var paymentPer=$("#paymentPer").val();
+	   if(null!=paymentPer&&paymentPer!=''){
+		   paymentPer=parseFloat(paymentPer);
+		   if(isNaN(paymentPer)){
+			   paymentPer=0; 
+		   }
+	   }else{
+		   paymentPer=0;
+	   }
 	//经销商报价
 	   var salePrice=$("#salePrice").val();
 	   if(null!=salePrice&&salePrice!=''){
@@ -882,6 +876,26 @@ function orderContranctTotalPrice(){
 		   }
 	   }else{
 		   salePrice=0;
+	   }
+	   //挂车价
+	   var trailerPrice=$("#trailerPrice").val();
+	   if(null!=trailerPrice&&trailerPrice!=''){
+		   trailerPrice=parseFloat(trailerPrice);
+		   if(isNaN(trailerPrice)){
+			   trailerPrice=0; 
+		   }
+	   }else{
+		   trailerPrice=0;
+	   }
+	   //挂车结算价
+	   var trailerSalerPrice=$("#trailerSalerPrice").val();
+	   if(null!=trailerSalerPrice&&trailerSalerPrice!=''){
+		   trailerSalerPrice=parseFloat(trailerSalerPrice);
+		   if(isNaN(trailerSalerPrice)){
+			   trailerSalerPrice=0; 
+		   }
+	   }else{
+		   trailerSalerPrice=0;
 	   }
 		//现金优惠金额
 	   var cashBenefit=$("#cashBenefit").val();
@@ -893,7 +907,37 @@ function orderContranctTotalPrice(){
 	   }else{
 		   cashBenefit=0;
 	   }
-	 //颜色溢价
+		//定金
+	   var orderMoney=$("#orderMoney").val();
+	   if(null!=orderMoney&&orderMoney!=''){
+		   orderMoney=parseFloat(orderMoney);
+		   if(isNaN(orderMoney)){
+			   orderMoney=0; 
+		   }
+	   }else{
+		   orderMoney=0;
+	   }
+		 //贷款额度
+	   var daikuan=$("#daikuan").val();
+	   if(null!=daikuan&&daikuan!=''){
+		   daikuan=parseFloat(daikuan);
+		   if(isNaN(daikuan)){
+			   daikuan=0; 
+		   }
+	   }else{
+		   daikuan=0;
+	   }
+		 //贷款额度
+	   var loanPaymentPrice=$("#loanPaymentPrice").val();
+	   if(null!=loanPaymentPrice&&loanPaymentPrice!=''){
+		   loanPaymentPrice=parseFloat(loanPaymentPrice);
+		   if(isNaN(loanPaymentPrice)){
+			   loanPaymentPrice=0; 
+		   }
+	   }else{
+		   loanPaymentPrice=0;
+	   }
+	   //颜色溢价
 	   var colorPrice=$("#colorPrice").val();
 	   if(null!=colorPrice&&colorPrice!=''){
 		   colorPrice=parseFloat(colorPrice);
@@ -913,6 +957,26 @@ function orderContranctTotalPrice(){
 	   }else{
 		   decoreMoney=0;
 	   }
+	   //预收保费
+	   var preInsMoney=$("#preInsMoney").val();
+	   if(null!=preInsMoney&&preInsMoney!=''){
+		   preInsMoney=parseFloat(preInsMoney);
+		   if(isNaN(preInsMoney)){
+			   preInsMoney=0; 
+		   }
+	   }else{
+		   preInsMoney=0;
+	   }
+		//续保押金
+	   var insaranceRenewalDepositPrice=$("#insaranceRenewalDepositPrice").val();
+	   if(null!=insaranceRenewalDepositPrice&&insaranceRenewalDepositPrice!=''){
+		   insaranceRenewalDepositPrice=parseFloat(insaranceRenewalDepositPrice);
+		   if(isNaN(insaranceRenewalDepositPrice)){
+			   insaranceRenewalDepositPrice=0; 
+		   }
+	   }else{
+		   insaranceRenewalDepositPrice=0;
+	   }
 	   //特殊权限
 	   var specialPermPrice=$("#specialPermPrice").val();
 	   if(null!=specialPermPrice&&specialPermPrice!=''){
@@ -923,7 +987,7 @@ function orderContranctTotalPrice(){
 	   }else{
 		   specialPermPrice=0;
 	   }
-	   //咨询服务费
+	   //按揭手续费
 	   var ajsxf=$("#ajsxf").val();
 	   if(null!=ajsxf&&ajsxf!=''){
 		   ajsxf=parseFloat(ajsxf);
@@ -967,55 +1031,84 @@ function orderContranctTotalPrice(){
 	   //合同总金额
 	   var totalPrice=0;
 	   //车辆实际销售价格:carActurePrice,营收金额:revenuePrice,车辆盈利预估:carGrofitPrice
-	   var carActurePrice=0,revenuePrice=0,carGrofitPrice=0;
+	   var carActurePrice=0,revenuePrice=0,carGrofitPrice=0,actureCollectedPrice=0,carTotalPrice=0;
 	   //车辆实际销售价(指导价-现金优惠-特殊政策优惠）   
 	   carActurePrice=salePrice-cashBenefit-specialPermPrice+colorPrice;
 	   $("#carActurePrice").val(formatFloat(carActurePrice));
 	   
-	   //合同总金额 （经销商报价-裸车现金优惠-特殊政策优惠+其它收费总额+预收款总额+装饰款+咨询服务费）
-	   totalPrice=carActurePrice+otherFeePrice+advanceTotalPrice+ajsxf+decoreMoney;
+	   //车辆总价=车辆实际销售价+挂车价
+	   carTotalPrice=carActurePrice+trailerPrice
+	   $("#carTotalPrice").val(carTotalPrice);
+	   
+	   //合同总金额 （车辆总价+其它收费总额+预收款总额+装饰款+按揭手续费+预收保费+续保押金）
+	   totalPrice=carTotalPrice+otherFeePrice+advanceTotalPrice+ajsxf+decoreMoney+preInsMoney+insaranceRenewalDepositPrice;
 	   $("#totalPrice").val(formatFloat(totalPrice));
+	   
+	   //实收金额=合同总金额-定金-贷款总额
+	   actureCollectedPrice=totalPrice-orderMoney-daikuan;
+	   $("#actureCollectedPrice").val(formatFloat(actureCollectedPrice));
 	   
 	   //车辆盈利预估(车款-销售顾问结算价）
 	   carGrofitPrice=carActurePrice-carSalerPrice;
-	   $("#carGrofitPrice").val(formatFloat(carGrofitPrice));
+	   
 	  
-	   //营收金额=合同总额-预收总额
-	   revenuePrice=totalPrice-advanceTotalPrice;
+	   //营收金额=合同总额-预收总额-续保押金
+	   revenuePrice=totalPrice-advanceTotalPrice-insaranceRenewalDepositPrice;
 	   $("#revenuePrice").val(formatFloat(revenuePrice));
-	   var hiscarSalerPrice;
-	   var sts="${empty(orderContractExpenses)}";
-	   if(sts==true||sts=="true"){
-		   hiscarSalerPrice="${carModelSalePolicy.saleCsprice }";
-		   carSalerPrice=hiscarSalerPrice-specialPermPrice;
-		   $("#carSalerPrice").val(formatFloat(carSalerPrice));
+	   
+	   //计算车辆贷款额
+	   loanCarPriceFun();
+	   
+	   //计算贷款额度信息（以系数）
+	   
+	   
+   var hiscarSalerPrice="${orderContractExpenses.carSalerPrice }";
+   if(null!=hiscarSalerPrice&&hiscarSalerPrice!=''){
+	   if(hiscarSalerPrice=="0.0"){
+		   hiscarSalerPrice="${carModelSalePolicy.saleCsprice}";
 	   }
-	   if(sts==false||sts=='false'){
-		   hiscarSalerPrice="${orderContractExpenses.carSalerPrice }";
-		   if(null!=hiscarSalerPrice&&hiscarSalerPrice!=''){
-			   if(hiscarSalerPrice=="0.0"){
-				   hiscarSalerPrice="${carModelSalePolicy.saleCsprice}";
-			   }
-		   }
-		   var hisspecialPermPrice="${orderContractExpenses.specialPermPrice }";
-		   if(null!=hisspecialPermPrice&&hisspecialPermPrice!=''){
-			   hisspecialPermPrice=parseFloat(hisspecialPermPrice);
-			   if(isNaN(hisspecialPermPrice)){
-				   hisspecialPermPrice=0; 
-			   }
-		   }else{
-			   hisspecialPermPrice=0;
-		   }
-		   if(specialPermPrice!=hisspecialPermPrice){
-			   carSalerPrice=hiscarSalerPrice-specialPermPrice;
-			   $("#carSalerPrice").val(formatFloat(carSalerPrice));
-		   }
+   }
+   var hisspecialPermPrice="${orderContractExpenses.specialPermPrice }";
+   if(null!=hisspecialPermPrice&&hisspecialPermPrice!=''){
+	   hisspecialPermPrice=parseFloat(hisspecialPermPrice);
+	   if(isNaN(hisspecialPermPrice)){
+		   hisspecialPermPrice=0; 
 	   }
-	   //未折让权限=裸车实际销售价-销售顾问结算价
-	   var noWllowancePrice=carActurePrice-carSalerPrice;
-	   $("#noWllowancePrice").val(noWllowancePrice);
+   }else{
+	   hisspecialPermPrice=0;
+   }
+   if(specialPermPrice!=hisspecialPermPrice){
+	   carSalerPrice=hiscarSalerPrice-specialPermPrice;
+	   $("#carSalerPrice").val(formatFloat(carSalerPrice));
+   }
+   
+   //未折让权限=裸车实际销售价-销售顾问结算价
+   var noWllowancePrice=carActurePrice-carSalerPrice;
+    $("#noWllowancePrice").val(noWllowancePrice);
+    
+   
 }
-
+function loanCarPriceFun(){
+	var loanCarPrice=0;
+	//计算贷款车价
+   var buyCarType=$('input:radio[name="orderContractExpenses.buyCarType"]:checked').val();
+    if(buyCarType>1){
+    	  var carActurePrice=$("#carActurePrice").val();
+	  	   if(null!=carActurePrice&&carActurePrice!=''){
+	  		 carActurePrice=parseFloat(carActurePrice);
+	  		   if(isNaN(carActurePrice)){
+	  			 carActurePrice=0; 
+	  		   }
+	  	   }else{
+	  		 carActurePrice=0;
+	  	   }
+    	 loanCarPrice=carActurePrice;
+    }else{
+    	loanCarPrice=0;
+    }
+    loanCarPrice=parseFloat(loanCarPrice);
+	$("#loanCarPrice").val(loanCarPrice);
+}
 
 function formatFloat(x) {
     var f_x = parseFloat(x);
@@ -1043,11 +1136,85 @@ function showOrHideBuyCarWay(value){
 	}
 	if(value==1){
 		$("#ajsxfDiv").hide();
-		$("#sfk").val("0.0");
 		$("#ajsxf").val("0.0");
+		$("#sfk").val("0.0");
 		$("#daikuan").val("0.0");
+		$("#paymentPer").val("0.0");
 	}
+	orderContranctTotalPrice();
 }
+function loanPaymentPer(){
+	   var loanCarPrice=$("#loanCarPrice").val();
+	   if(null!=loanCarPrice&&loanCarPrice!=''){
+		   loanCarPrice=parseFloat(loanCarPrice);
+		   if(isNaN(loanCarPrice)){
+			   loanCarPrice=0; 
+		   }
+	   }else{
+		   loanCarPrice=0;
+	   }
+	   var paymentPer=$("#paymentPer").val();
+	   if(null!=paymentPer&&paymentPer!=''){
+		   paymentPer=parseFloat(paymentPer);
+		   if(isNaN(paymentPer)){
+			   paymentPer=0; 
+		   }
+	   }else{
+		   paymentPer=0;
+	   }
+		//计算按揭数据
+	    var buyCarType=$('input:radio[name="orderContractExpenses.buyCarType"]:checked').val();
+	    if(buyCarType>1){
+	    	if(paymentPer>0&&paymentPer<10){
+	    		var sfk=0;
+	    		if(paymentPer==0){
+		    		sfk=0;
+	    		}else{
+	    			sfk=loanCarPrice*paymentPer/10;
+			    	daikuan=loanCarPrice-sfk;
+	    		}
+		    	sfk=parseFloat(sfk);
+		    	 if(isNaN(sfk)){
+		    		 sfk=0; 
+			   }
+		       $("#sfk").val(sfk);
+		    	$("#daikuan").val(daikuan);
+	    	}
+	    }
+	}
+	function loanSfk(){
+		var loanCarPrice=$("#loanCarPrice").val();
+		   if(null!=loanCarPrice&&loanCarPrice!=''){
+			   loanCarPrice=parseFloat(loanCarPrice);
+			   if(isNaN(loanCarPrice)){
+				   loanCarPrice=0; 
+			   }
+		   }else{
+			   loanCarPrice=0;
+		   }
+		  var sfk=$("#sfk").val();
+		  if(null!=sfk&&sfk!=''){
+			  sfk=parseFloat(sfk);
+			   if(isNaN(sfk)){
+				   sfk=0; 
+			   }
+		   }else{
+			   sfk=0;
+		   }
+		//计算按揭数据
+	    var buyCarType=$('input:radio[name="orderContractExpenses.buyCarType"]:checked').val();
+		var paymentPer=0;
+	    if(buyCarType>1){
+		   	daikuan=loanCarPrice-sfk;
+		   	paymentPer=sfk/loanCarPrice*10;
+	  		paymentPer=parseFloat(paymentPer);
+	    	 if(isNaN(paymentPer)){
+	    		 paymentPer=0; 
+		   }
+	       $("#paymentPer").val(paymentPer);
+	    	$("#daikuan").val(daikuan);
+	    }
+	}
 //金额转为大写
 function atoc(numberValue){  
 	var numberValue=new String(Math.round(numberValue*100)); // 数字金额  

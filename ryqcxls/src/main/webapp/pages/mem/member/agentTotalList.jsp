@@ -36,7 +36,7 @@
 	<div class="operate">
    </div>
    <div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx }/member/queryAgentTotalList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx }/memMember/queryAgentTotalList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<input type="hidden" id="type" name="type" value='1'>

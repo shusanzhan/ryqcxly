@@ -121,16 +121,6 @@
 						<label><input type="radio" id="sex2" name="customer.sex" value="女" ${recommendCustomer.sex=='女'?'checked="checked"':'' } >女</label>
 					</c:if>
 				</td>
-				<td class="formTableTdLeft">同城交叉客户：</td>
-				<td >
-						<select id="cityCrossCustomerId" name="cityCrossCustomerId" class="largeX text" checkType="integer,1" tip="请选择同城交叉客户">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${customer.cityCrossCustomer.dbid==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
-					</select>
-					<span style="color: red;">*</span>
-				</td>
 			</tr>
 			<tr>
 				<td class="formTableTdLeft">常用手机号：</td>
@@ -219,28 +209,8 @@
 						<option value="8" ${customerShoppingRecord.waitingTime==8?'selected="selected"':'' }>约8小时</option>
 					</select>
 				</td>
-					<td class="formTableTdLeft" >明细渠道：</td>
-				<td >
-					<select id="infoFromDetailId" name="infoFromDetailId" class="largeX text">
-						<option value="">请选择...</option>
-						<c:forEach var="infoFromDetail" items="${infoFromDetails }">
-							<option value="${infoFromDetail.dbid }" ${customerBussi.infoFromDetail.dbid==infoFromDetail.dbid?'selected="selected"':'' } >${infoFromDetail.name }</option>
-						</c:forEach>
-					</select>
-				</td>
 			</tr>
 			<tr>
-			
-			
-				<td class="formTableTdLeft">购车时间：</td>
-				<td>
-					<select id="trackingPhaseId" name="trackingPhaseId" class="largeX text">
-						<option value="">请选择...</option>
-						<c:forEach var="trackingPhase" items="${trackingPhases }">
-							<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-						</c:forEach>
-					</select>
-				</td>
 				<td class="formTableTdLeft">
 					客户随行人数：
 				</td>

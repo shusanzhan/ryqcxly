@@ -72,7 +72,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）<br>

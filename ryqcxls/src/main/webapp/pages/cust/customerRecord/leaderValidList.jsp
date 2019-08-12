@@ -208,7 +208,7 @@
 				</c:if>
 				<c:if test="${!empty(customerRecord.name) }">
 					 <c:if test="${!empty(customerRecord.customer) }">
-						<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customerRecord.customer.dbid}&type=1'">${customerRecord.name } 
+						<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customerRecord.customer.dbid}&type=1'">${customerRecord.name } 
 							<br>
 							${customerRecord.mobilePhone }
 						</a>

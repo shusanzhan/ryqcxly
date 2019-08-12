@@ -24,8 +24,10 @@ import com.ystech.cust.service.CustomerMangeImpl;
 import com.ystech.cust.service.CustomerOperatorLogManageImpl;
 import com.ystech.cust.service.CustomerPhaseManageImpl;
 import com.ystech.cust.service.CustomerTractUtile;
+import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.DepartmentManageImpl;
+import com.ystech.xwqr.service.sys.UserManageImpl;
 
 @Component("qywxCustomerOutFlowAction")
 public class QywxCustomerOutFlowAction extends BaseController{
@@ -33,6 +35,7 @@ public class QywxCustomerOutFlowAction extends BaseController{
 	private CustomerLastBussiManageImpl customerLastBussiManageImpl;
 	private CustomerPhaseManageImpl customerPhaseManageImpl;
 	private DepartmentManageImpl departmentManageImpl;
+	private UserManageImpl userManageImpl;
 	private AgentOperatorLogManageImpl agentOperatorLogManageImpl;
 	private CustomerTractUtile customerTractUtile;
 	private RecommendCustomerManageImpl recommendCustomerManageImpl;
@@ -54,6 +57,10 @@ public class QywxCustomerOutFlowAction extends BaseController{
 	@Resource
 	public void setDepartmentManageImpl(DepartmentManageImpl departmentManageImpl) {
 		this.departmentManageImpl = departmentManageImpl;
+	}
+	@Resource
+	public void setUserManageImpl(UserManageImpl userManageImpl) {
+		this.userManageImpl = userManageImpl;
 	}
 	@Resource
 	public void setAgentOperatorLogManageImpl(
@@ -85,17 +92,20 @@ public class QywxCustomerOutFlowAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User user = getSessionUser();
-			String sql="select * from cust_Customer as cu,cust_CustomerLastBussi as clb  where  clb.customerId=cu.dbid and cu.lastResult>? AND clb.approvalStatus=? ";
-			String currentDepIds = departmentManageImpl.getDepartmentIds(user.getDepartment());
+			Enterprise enterprise = user.getEnterprise();
+			List<User> users = userManageImpl.findBy("parent.dbid",user.getDbid());
+			users.add(user);
+			request.setAttribute("users", users);
+			String sql="select cu.* from cust_Customer as cu,cust_CustomerLastBussi as clb  where  clb.customerId=cu.dbid and cu.lastResult>? AND clb.approvalStatus=? ";
 			if(user.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+user.getCompnayIds()+")";
+				sql=sql+" AND cu.enterpriseId in("+user.getCompnayIds()+") ";
 			}else{
-				sql=sql+" and cu.departmentId in ("+currentDepIds+")";
+				sql=sql+" AND cu.departmentId="+user.getDepartment().getDbid();
 			}
 			List param= new ArrayList();
 			param.add(Customer.SUCCESS);
 			param.add(CustomerLastBussi.APPROVALWATING);
-			sql=sql+"order by clb.approvalStatus,cu.createFolderTime";
+			sql=sql+" order by clb.approvalStatus,cu.createFolderTime";
 			List<Customer> customers = customerMangeImpl.executeSql(sql, param.toArray());
 			request.setAttribute("customers", customers);
 		} catch (Exception e) {
@@ -138,7 +148,6 @@ public class QywxCustomerOutFlowAction extends BaseController{
 			//1、审批同意；2、驳回
 			Integer lastResult = ParamUtil.getIntParam(request, "lastResult", -1);
 			Integer type = ParamUtil.getIntParam(request, "type", -1);
-			String notReason = request.getParameter("notReason");
 			User currentUser = getSessionUser();
 			try{
 				if(customerId>0){
@@ -148,7 +157,6 @@ public class QywxCustomerOutFlowAction extends BaseController{
 					customerLastBussi2.setApprovalPersonId(currentUser.getDbid());
 					customerLastBussi2.setApprovalPersonName(currentUser.getRealName());
 					customerLastBussi2.setApprovalStatus(lastResult);
-					//customerLastBussi2.setNotReason(notReason);
 					//1、审批同意
 					if(lastResult==1){
 						customerLastBussiManageImpl.save(customerLastBussi2);

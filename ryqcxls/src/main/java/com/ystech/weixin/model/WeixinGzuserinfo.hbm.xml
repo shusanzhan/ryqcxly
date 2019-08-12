@@ -96,6 +96,5 @@
         </property>
         <many-to-one name="parent" class="com.ystech.weixin.model.WeixinGzuserinfo" column="parentId" not-found="ignore" fetch="select"></many-to-one>
         <many-to-one name="spreadDetail" class="com.ystech.mem.model.SpreadDetail" column="spreadDetailId" not-found="ignore" fetch="select"></many-to-one>
-		<one-to-one  name="member" property-ref="weixinGzuserinfo"  ></one-to-one>
     </class>
 </hibernate-mapping>

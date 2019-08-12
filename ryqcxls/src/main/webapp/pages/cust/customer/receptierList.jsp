@@ -39,7 +39,7 @@
 	   <div class="clear"></div>
    </div>
    <div class="seracrhOperate" >
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryReceptierList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryReceptierList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -162,7 +162,7 @@
 					<input type="checkbox"   name="id" id="id1" value="${customer.dbid }">
 			</td>
 			<td style="text-align: left">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">
+				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">
 					<c:if test="${fn:length(customer.name)>12 }" var="status">
 						${fn:substring(customer.name,0,12) }...
 						${customer.mobilePhone}
@@ -190,7 +190,7 @@
 				${customer.invitationSalerName}
 			</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 			<td>
 				${customer.customerInfrom.name }
@@ -257,7 +257,7 @@
 						<span style="color: red;">客户流失</span>
 					</c:if>
 				</c:if>
-				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
+				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
 			</td>
 		</tr>
 		</c:forEach>
@@ -424,7 +424,7 @@
 		    		alert("请选择到店成交状态！");
 		    		return false;
 		    	}
-	    		var url='${ctx}/customer/comeShopRecord?customerId='+customerId+'&customerRecordId='+customerRecordId+'&comeShopeStatus='+selectvalue+"&redirectType=2";
+	    		var url='${ctx}/custCustomer/comeShopRecord?customerId='+customerId+'&customerRecordId='+customerRecordId+'&comeShopeStatus='+selectvalue+"&redirectType=2";
 	    		window.location.href=url;
 				return true;
 		    },
@@ -435,7 +435,7 @@
 	}
 	function autoCustomer(id){
 		var id1 = "#"+id;
-		$(id1).autocomplete("${ctx}/customer/ajaxCustomer",{
+		$(id1).autocomplete("${ctx}/custCustomer/ajaxCustomer",{
 			max: 20,      
 	        width: 130,    
 	        matchSubset:false,   

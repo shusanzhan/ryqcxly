@@ -69,7 +69,6 @@ public class Customer implements java.io.Serializable {
 	private String bussiStaff;
 	private User user;
 	private Date createFolderTime;
-	private InfoFrom infoFrom;
 	private String salesConsultant;
 	private String showRoomManager;
 	private String interests;
@@ -371,16 +370,6 @@ public class Customer implements java.io.Serializable {
 	public void setCreateFolderTime(Date createFolderTime) {
 		this.createFolderTime = createFolderTime;
 	}
-
-
-	public InfoFrom getInfoFrom() {
-		return infoFrom;
-	}
-
-	public void setInfoFrom(InfoFrom infoFrom) {
-		this.infoFrom = infoFrom;
-	}
-
 
 	public String getSalesConsultant() {
 		return salesConsultant;

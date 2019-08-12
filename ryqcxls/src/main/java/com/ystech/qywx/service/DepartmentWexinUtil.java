@@ -46,7 +46,7 @@ public class DepartmentWexinUtil {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String department_create_url = QywxUtil.department_create_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			String josnDepartment = getDepartmentJson(department);
 			JSONObject httpRequest = QywxUtil.httpRequest(department_create_url, "POST", josnDepartment);
@@ -99,7 +99,7 @@ public class DepartmentWexinUtil {
 	public  boolean updateDepartment(Department department){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String department_update_url = QywxUtil.department_update_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			String josnDepartment = getDepartmentJson(department);
 			JSONObject httpRequest = QywxUtil.httpRequest(department_update_url, "POST", josnDepartment);
@@ -150,7 +150,7 @@ public class DepartmentWexinUtil {
 	public  boolean deleteDepartment(Department department){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String department_delete_url = QywxUtil.department_delete_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("ID",department.getDbid()+"");
 			JSONObject httpRequest = QywxUtil.httpRequest(department_delete_url, "GET", null);
 			if(null!=httpRequest){
@@ -176,7 +176,7 @@ public class DepartmentWexinUtil {
 		try {
 			List<Department> departments=new ArrayList<Department>();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String department_list_url = QywxUtil.department_list_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			JSONObject httpRequest = QywxUtil.httpRequest(department_list_url, "GET", null);
 			if(null!=httpRequest){
@@ -211,7 +211,7 @@ public class DepartmentWexinUtil {
 	public boolean synDepartment(){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			List<Department> remoteDepartments=new ArrayList<Department>();
 			List<Department> localDepartments=new ArrayList<Department>();
 			//第一步获取微信平台的部门列表
@@ -288,8 +288,8 @@ public class DepartmentWexinUtil {
 			JSONObject jsonObject=new JSONObject();
 			jsonObject.put("id", department.getDbid());
 			jsonObject.put("name", department.getName());
-			if(null!=department.getParent()&&department.getParent().getDbid()>0){
-				jsonObject.put("parentid",department.getParent().getDbid());
+			if(null!=department.getParentId()&&department.getParentId()>0){
+				jsonObject.put("parentid",department.getParentId());
 			}
 			else{
 				jsonObject.put("parentid",1);

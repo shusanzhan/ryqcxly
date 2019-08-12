@@ -32,5 +32,8 @@
         <property name="appId" type="java.lang.Integer">
             <column name="appId" />
         </property>
+        <property name="security" type="java.lang.Integer">
+            <column name="security" />
+        </property>
     </class>
 </hibernate-mapping>

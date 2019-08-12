@@ -47,7 +47,7 @@ public class AppMenuUtil {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), app.getSecurity(),app.getAppId());
 			String url = QywxUtil.menu_create_url.replace("ACCESS_TOKEN",accessToken.getAccessToken()).replace("AGENTID", app.getAppId()+"");
 			JSONObject jsonObject =QywxUtil.httpRequest(url, "POST", menus);
 			if(null!=jsonObject){
@@ -70,7 +70,7 @@ public class AppMenuUtil {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), app.getSecurity(),app.getAppId());
 			String url = QywxUtil.menu_delete_url.replace("ACCESS_TOKEN",accessToken.getAccessToken()).replace("AGENTID", app.getAppId()+"");
 			JSONObject jsonObject = QywxUtil.httpRequest(url, "GET", null);
 			if(null!=jsonObject){

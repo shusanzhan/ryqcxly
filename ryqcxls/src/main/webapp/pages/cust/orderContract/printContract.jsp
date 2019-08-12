@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>${customer.enterprise.allName }销售主合同书打印</title>
-<link rel="stylesheet" href="${ctx }/css/print.css?=1" />
+<title>${customer.enterprise.allName }购车合同书打印</title>
+<link rel="stylesheet" href="${ctx }/css/print.css?=2" />
 <style type="text/css" media="print">
 .bar {
 	display: none;
@@ -33,194 +33,188 @@ $().ready(function() {
 </script>
 </head>
 <body>
-<c:if test="${!empty(param.type)&&param.type==1 }" var="status">
-	<a href="javascript:;" id="print2" onclick="window.open('${ctx}/orderContract/printFjContract?dbid=${orderContract.dbid }&type=1')" class="btn btn-success " style="margin-left: 5px;">查看附件合同</a>
-</c:if>
-<c:if test="${ status==false}">
-	<div class="bar">
-		<a href="javascript:;" id="print" class="btn btn-success " style="margin-left: 5px;">打 印</a>
-		|
-		<a href="javascript:;" id="print2" onclick="window.open('${ctx}/orderContract/printFjContract?dbid=${orderContract.dbid }')" class="btn btn-success " style="margin-left: 5px;">打印附加合同</a>
-	</div>
-</c:if>
+<div class="bar">
+	<a href="javascript:;" id="print" class="btn btn-success " style="margin-left: 5px;">打 印</a>
+</div>
 
 <c:set var="customer"  value="${orderContract.customer }" ></c:set>
 <c:set var="enterprise"  value="${customer.enterprise}" ></c:set>
-<div style="width: 100%;margin: 0px auto;font-size: 16px;">
-<div style="margin:0px auto;width: 600px;text-align: center;padding: 20px 0px;">
-	<c:if test="${customer.enterprise.bussiType==3 }" var="status">
-		<h1>${customer.enterprise.allName }汽车销售合同书</h1>
-	</c:if>
-	<c:if test="${status==false }">
-		<h1>${customer.customerBussi.brand.name }汽车销售有限公司授权销售服务中心</h1>
-		<h2>${customer.enterprise.allName }汽车销售合同书</h2>
-	</c:if>
-</div>
-<table width="99%"  cellpadding="0" cellspacing="0" >
+<div style="width: 85%;margin: 0px auto;font-size: 16px;line-height: 200%;">
+<br></br>
+<br></br>
+<table width="99%"  cellpadding="0" cellspacing="0" style="margin-top: 12px;border: 0px;">
   <tr>
-    <td colspan="8" align="right" style="padding-right: 150px;border: 0 ;line-height: 20px;" >&nbsp;合同编号：<span style="font-weight: bold;">${orderContract.customer.sn }</span></td>
+    <td colspan="8" align="right" style="padding-right: 150px;border: 0 ;line-height: 30px;" >&nbsp;合同编号：<span style="font-weight: bold;">${orderContract.customer.sn }</span></td>
   </tr>
   <tr>
-    <td class="labelTitle">需方</td>
-    <td style="width: 300px;" colspan="3">&nbsp;${orderContract.name }</td>
-    <td class="labelTitle">供方</td>
-    <td colspan="3" style="width: 300px;">&nbsp;
-	    ${customer.enterprise.allName }
+  	<td colspan="8" align="right" style="border: 0 ;line-height: 30px;">
+  		<div style="margin:0px auto;text-align: center;padding: 20px 0px;text-decoration: 20px;">
+			<h2>购&#12288;&#12288;车&#12288;&#12288;合&#12288;&#12288;同</h2>
+		</div>
+  	</td>
+  </tr>
+  <tr>
+    <td style="border: 0;width: 50%" colspan="4">甲方（供方）：
+    	<span  style="border-bottom: 1px solid #000000;">
+    		${customer.enterprise.allName }
+	    	<c:forEach begin="${fn:length(customer.enterprise.allName)}" end="12">
+	    		&#12288;
+	    	</c:forEach>
+	    	&nbsp;
+    	</span>
+    </td>
+    <td style="border: 0;width: 50% " colspan="4">乙方：（需方）：&nbsp;
+	   <span  style="border-bottom: 1px solid #000000;">&#12288;
+	    	${orderContract.name }
+	    	<c:forEach begin="${fn:length(orderContract.name)}" end="10">
+	    		&#12288;
+	    	</c:forEach>
+	    </span>
     </td>
   </tr>
   <tr>
-    <td class="labelTitle">身份证地址</td>
-    <td colspan="3">&nbsp;${orderContract.address }</td>
-    <td class="labelTitle">通讯地址</td>
-    <td colspan="3">&nbsp;${enterprise.address }</td>
+    <td style="border: 0;width: 50% "colspan="4" >购车人身份证号码：
+    	<span  style="border-bottom: 1px solid #000000;">
+    		${orderContract.icard }
+    		<c:forEach begin="${fn:length(customer.enterprise.allName)/2}" end="4">
+	    		&#12288;
+	    	</c:forEach>
+    	</span>
+    </td>
+    <td  style="border: 0;width: 50%" colspan="4">联系电话：
+    	<span  style="border-bottom: 1px solid #000000;">
+    		&#12288;${customer.mobilePhone }&#12288;&#12288;
+    		<c:forEach begin="${fn:length(customer.mobilePhone)/2}" end="10">
+	    		&#12288;
+	    	</c:forEach>
+	    	&nbsp; 	&nbsp;
+    	</span>
+    </td>
   </tr>
   <tr>
-    <td class="labelTitle">联系电话</td>
-    <td colspan="3">&nbsp;${customer.mobilePhone }</td>
-    <td class="labelTitle">联系电话</td>
-    <td colspan="3">&nbsp;${enterprise.phone }</td>
-  </tr>
-  <tr>
-    <td class="labelTitle">证件类型</td>
-    <td colspan="3">&nbsp;${customer.paperwork.name}</td>
-    <td class="labelTitle">邮政编码</td>
-    <td colspan="3">&nbsp;${enterprise.zipCode }</td>
-  </tr>
-  <tr>
-    <td class="labelTitle">身份证号</td>
-    <td colspan="3">&nbsp;${orderContract.icard }</td>
-    <td class="labelTitle">开户银行</td>
-    <td colspan="3">&nbsp;${enterprise.bank }</td>
-  </tr>
-  <tr>
-    <td class="labelTitle">开票名称</td>
-    <td colspan="3">&nbsp;${orderContract.bankNo }</td>
-    <td class="labelTitle">银行账号</td>
-    <td colspan="3">&nbsp;${enterprise.account }</td>
+    <td  style="border: 0 " colspan="8">
+    	地址：&nbsp;
+    	<span  style="border-bottom: 1px solid #000000;">
+    		${orderContract.address }
+	    	<c:forEach begin="${fn:length(orderContract.address)}" end="17">
+	    		&#12288;
+	    	</c:forEach>
+	    	&nbsp;
+	    </span>
+    </td>
   </tr>
  <tr>
- 	<td colspan="7" style="border: 0;">
- 		<p style="line-height: 32px;color: #000000;padding-left: -12px;">1、供需方根据中华人民共和国《合同法》及相关法律、法规达成以下协议：</p>
+ 	<td colspan="8" style="border: 0;">
+ 		<p style="line-height: 32px;color: #000000;padding-left: -12px;">甲、乙供需方根据《中华人民共和国合同法》有关规定，经协商一致，特签订本合同：</p>
+ 	</td>
+ </tr>
+ <tr>
+ 	<td colspan="8" style="border: 0;">
+ 		<p style="line-height: 32px;color: #000000;padding-left: -12px;">一、购车方式：
+ 		<span  style="border-bottom: 1px solid #000000;">
+ 			<c:if test="${orderContractExpenses.buyCarType==1 }">
+ 				全款
+ 			</c:if>
+ 			<c:if test="${orderContractExpenses.buyCarType==2 }">
+ 				分期
+ 			</c:if>
+ 			<c:forEach begin="2" end="11">
+	    		&#12288;
+	    	</c:forEach>
+	    	&nbsp;
+	    </span></p>
+ 	</td>
+ </tr>
+ <tr>
+ 	<td colspan="8" style="border: 0;">
+ 		<p style="line-height: 32px;color: #000000;padding-left: -12px;">二、乙方所需车辆车型的具体情况如下：</p>
  	</td>
  </tr>
   <tr>
-    <th style="width: 120px;text-align: center;">项目</th>
-    <th style="width: 150px;text-align: center;" width="150">产品系列</th>
-    <th style="width: 150px;text-align: center;" width="150">车型代码</th>
-    <th style="width: 150px;text-align: center;" width="150">油漆颜色</th>
-    <th style="width: 120px;text-align: center;" width="120">实收合计（人民币：元）</th>
-    <th style="width: 60px;text-align: center;" width="60">数量（台）</th>
-    <th colspan="2" style="width: 200px;text-align: center;" width="300">备注</th>
+    <th style="width: 180px;text-align: center;" width="150" colspan="2">车型</th>
+    <th style="width: 60px;text-align: center;" width="60" colspan="2">数量（台）</th>
+    <th style="width: 120px;text-align: center;" width="120" colspan="2">价格</th>
+    <th  style="width: 220px;text-align: center;" colspan="2">主要配置</th>
   </tr>
-  <c:if test="${customer.enterprise.bussiType==3 }" var="status">
-  	<c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
-		  <tr>
-		  	 <th>明细</th>
-		    <td>&nbsp;${customer.carModelStr}</td>
-		    <td>&nbsp;</td>
-		    <td>&nbsp;${customer.carColorStr }</td>
-		    <td>&nbsp;${orderContractExpenses.carActurePrice+orderContractExpenses.masterDecoreMoney }</td>
-		    <td>&nbsp;${orderContractProduct.num }</td>
-		    <td colspan="2" >&nbsp;${orderContractProduct.note }
-		    	<c:if test="${orderContract.isShowNote==true }">
-		   			车型颜色不换,定金不退只用于冲抵车款	
-		   		</c:if>
-		    </td>
-		  </tr>
-	  </c:forEach>
-  </c:if>
-  <c:if test="${status==false }">
-	  <c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
-		  <tr>
-		   <th>明细</th>
-		    <td>&nbsp;${orderContractProduct.carseriy.brand.name }&nbsp;&nbsp;${orderContractProduct.carseriy.name }</td>
-		    <td>&nbsp;${orderContractProduct.carModel.name }</td>
-		    <td>&nbsp;${orderContractProduct.carColor.name }</td>
-		    <td>&nbsp;${orderContractExpenses.carActurePrice+orderContractExpenses.masterDecoreMoney }</td>
-		    <td>&nbsp;${orderContractProduct.num }</td>
-		    <td colspan="2" >&nbsp;${orderContractProduct.note }
-		    	<c:if test="${orderContract.isShowNote==true }">
-		   			车型颜色不换,定金不退只用于冲抵车款	
-		   		</c:if>
-		    </td>
-		  </tr>
-	  </c:forEach>
-  </c:if>
+  <c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
+	  <tr>
+	    <td colspan="2">&nbsp;${orderContractProduct.carseriy.brand.name }&nbsp;&nbsp;${orderContractProduct.carseriy.name }&nbsp;&nbsp;</td>
+	    <td colspan="2" style="text-align: center;">&nbsp;${orderContractProduct.num }</td>
+	    <td colspan="2">&nbsp;
+	    	<c:if test="${orderContractExpenses.specialPermPrice>0 }" var="status">
+		    	${orderContractExpenses.carActurePrice-orderContractExpenses.specialPermPrice }
+	    	</c:if>
+	    	<c:if test="${status==false }">
+		    	${orderContractExpenses.carActurePrice }
+	    	</c:if>
+	    </td>
+	    <td colspan="2">&nbsp;
+	    	${orderContractProduct.carModel.name }&nbsp;&nbsp;
+	    	颜色：${orderContractProduct.carColor.name }
+	    </td>
+	  </tr>
+	   <tr>
+	    <td colspan="2"></td>
+	    <td colspan="2"></td>
+	    <td colspan="2"></td>
+	    <td colspan="2">&nbsp;
+	    </td>
+	  </tr>
+  </c:forEach>
 </table>
-<div style="color: #000000;line-height: 24px;">
+<div style="color: #000000;;margin-top: 12px;">
+<p>三、结算方式：</p>
 <div >
-	<div style="float: left;">2、购车成交单价金额大写：<span id="totalMoneyL" style="border-bottom: 1px solid #000000;"></span>，买卖双方签署合同书之后，买方即付购车定金RMB：
-	<span  style="border-bottom: 1px solid #000000;">&nbsp;&nbsp;${orderContract.orderMoney }</span>（大写：人民币
-	<span  style="border-bottom: 1px solid #000000;" I>&nbsp;&nbsp;${orderContract.bigOrderMoney }</span>
-	），以充分保证买方及时提新车。</div>
+	<div style="float: left;text-align: 28px;margin-left: 28px;">乙方于
+		<span  style="border-bottom: 1px solid #000000;">
+			<fmt:formatDate value="${now}" pattern="  yyyy 年 MM 月 dd 日"/>
+		</span>
+		向甲方交纳购车定金（大写）：
+		<span  style="border-bottom: 1px solid #000000;" >&nbsp;&nbsp;${orderContract.bigOrderMoney }</span>
+		（以甲方出据的收据为准）。
+	</div>
 	<div style="clear: both;"></div>
 </div>
-
-<p>3、在合同期内，若${customer.customerBussi.brand.name }汽车公司发车计划调整或变动，供方有责任和义务在第一时间内通知需方，由此原因造成需方无法合同期内提车，供方承诺无条件金额退还需方定金。</p>
-
-<p>4、质量保证：需方享受“${customer.customerBussi.brand.name }保修手册”中所规定的保养、保修及售后服务权利。上述售后服务保证由${customer.customerBussi.brand.name }汽车有限公司的特约售后服务维修站按手册规定执行。</p>
-
-<p>5、随车交付文件：产品合格证、使用说明书、保修手册、点烟器、随车工具等。</p>
-
-<p>6、提货和验收：车辆验收应于当日于
-		${customer.enterprise.allName }进行。验收完成后，供需双方共同签署验车交接单：如需方未在上述规定的期限内提车异议，则视为供方所交付的汽车完全符合本合同需要。</p>
-
-<p><div style="float: left;">7、交货期：</div><div style="border-bottom: 1px solid #000000;margin-left: 60px; ">${ orderContract.handerOverCarDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></p>
-<p>8、转让：非经另一方的事先书面许可，任何一方不得将在本合同项下的权利与义务转让或移交给其他任何第三方。</p>
-
-<p>9、适合法律：本合同的订立、效力、解释、履行以及争议的解决均适用于中国法律。</p>
-
-<p>10、本合同书如有未尽事宜，供需双方友好协商解决。</p>
-
-<p>11、本合同书一式贰份，供需双方各执一份，签字盖章后生效。</p>
-
-<p>12、供方为需方提供代办车辆上户手续（限本市）服务，所需费用由需方承担。</p>
-
-<div>
-	<div style="float: left;">13、备注：</div>
-	<div style="margin-left: 60px;margin-top: -2px; "><u style="margin-bottom: 12px;padding-bottom: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;${orderContract.note }&nbsp;&nbsp;&nbsp;&nbsp;</u></div>
-	<div style="clear: both;"></div>
+<p>四、交车地点：
+	<span style="border-bottom: 1px solid #000000;">
+		${orderContract.handerOverCarDate }
+		<c:forEach begin="${fn:length(orderContract.handerOverCarDate) }" end="40">&#12288;</c:forEach>
+	</span>
+</p>
+<c:if test="${fn:length(orderContract.note)>50 }">
+	<p>五、合同备注：<span style="border-bottom: 1px solid #000000;">${orderContract.note }</span></p>
+</c:if>
+<c:if test="${fn:length(orderContract.note)<=50 }">
+	<p>五、合同备注：<span style="border-bottom: 1px solid #000000;">${orderContract.note }<c:forEach begin="${fn:length(orderContract.note) }" end="40">&#12288;</c:forEach></span></p>
+</c:if>
+<p>六、违约责任：</p>
+<p style="text-indent: 24px;">1、如乙方中途退车，所付定金甲方不予退还。</p>
+<p style="text-indent: 24px;">2、车辆到货后，甲方应即时通知乙方，乙方接到甲方的通知后、必须在五个工作日内到甲方验车、提车，如乙方不按时验车、提车，甲方视乙方自动放弃购车，乙方交纳的购车定金甲方不予退还，甲方有权对该车辆另行销售。乙方当场验收车辆后，本合同履行完毕。</p>
+<p style="text-indent: 24px;">3、如遇厂家价格调整，根据当时情况而定。</p>
+<p>七、其他条款：</p>
+<p style="text-indent: 24px;">乙方定车后，如以消费信贷分期付款方式购车，甲、乙双方按另行签订的《消费信贷分期付款买卖汽车合同》履行。</p>
+<p>八、甲乙双方因履行本合同发生纠纷商定不成时，双方均可同意在甲方所在地人民法院提起诉讼。</p>
+<p>九、本合同一式两份，甲乙双方各执一份，由甲乙双方签字、盖章（或按手印）之日起生效。</p>
 </div>
-
-<p>特别提醒事项：</p>
-
-<p>1、请购车客户在接到本公司销售顾问提车通知时，全款客户请务必在三个工作日内到我公司办理提车手续。若在上述期限内未能办理提车手续的，我们将很抱歉的取消你的优先认购权；</p>
-
-<p>2、客户交款必须以我公司（
-		${customer.enterprise.allName }
-）收据或发票作为凭证依据，并进行相关手续办理；</p>
-
-<p>3、此协议合同由销售顾问、销售经理签字并加盖公司销售专用章，该协议合同予以生效。</p>
-</div>
-<table width="100%" border="0" style="border: 0px solid;line-height: 24px;margin-bottom: 20px" class="nonlineTable" >
+<table width="100%" border="0" style="font-size: 16px;" class="nonlineTable" >
   <tr>
-    <td style="width: 50%">
-    	<div style="float: left;">需&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方：</div>
-    	<div style="border-bottom: 1px solid #000000;width: 300px;float: left;margin-top: -12px;">&nbsp;&nbsp;</div>
-    	<div style="clear: both;"></div>
-    </td>
-    <td style="width: 50%">供&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方：
+    <td style="width: 50%">甲方（供方）：
     	${customer.enterprise.allName }
     </td>
-  </tr>
-  <tr>
     <td style="width: 50%">
-    	<div style="float: left;">需方代表：</div>
-    	<div style="border-bottom: 1px solid #000000;width: 300px;float: left;margin-top: -12px;">&nbsp;&nbsp;${orderContract.needRepresentative }</div>
-    	<div style="clear: both;"></div>	
+    	<div style="float: left;">乙方：</div>
     </td>
-    <td style="width: 50%">
-    	<div style="float: left;">销售代表：</div>
-    	<div style="border-bottom: 1px solid #000000;width: 120px;float: left;margin-top: -12px;">&nbsp;&nbsp;${orderContract.salesRepresentative }</div>
-   		<div style="float: left;">销售经理：</div>
-   		<div style="border-bottom: 1px solid #000000;width: 120px;float: left;margin-top: -12px;">&nbsp;&nbsp;${processFrom.taskUserName }</div>
-   		<div style="clear: both;"></div>
-   	</td>
   </tr>
   <tr>
-    <td colspan="2">&nbsp;
-    	<div style="border-bottom: 1px solid #000000;width: 220px;float: right ;margin-right: 80px;margin-top: -12px;">&nbsp;&nbsp;</div>
-    	<div style="float: right;">日期：</div>
+    <td style="width: 50%">
+    	<p style="line-height: 30px;">销售代表：${orderContract.salesRepresentative }</p>
+    	<p style="line-height: 30px;">内&#12288;&#12288;勤：</p>
+   		<p style="line-height: 30px;">展厅经理：${orderContract.showRoomManager }</p>
+   	</td>
+    <td style="width: 50%">
+    	<p style="line-height: 30px;"> &#12288;</p>
+    	<p style="line-height: 30px;">&#12288;</p>
+   		<p style="line-height: 30px;">日期：</p>
     </td>
   </tr>
   <c:set value="${orderContractExpenses.carActurePrice+orderContractExpenses.masterDecoreMoney }" var="bigMoney"></c:set>

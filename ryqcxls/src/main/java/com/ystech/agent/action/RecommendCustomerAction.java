@@ -41,8 +41,6 @@ import com.ystech.cust.model.CustomerInfrom;
 import com.ystech.cust.model.CustomerLastBussi;
 import com.ystech.cust.model.CustomerPhase;
 import com.ystech.cust.model.CustomerShoppingRecord;
-import com.ystech.cust.model.InfoFrom;
-import com.ystech.cust.model.InfoFromDetail;
 import com.ystech.cust.service.BuyCarBudgetManageImpl;
 import com.ystech.cust.service.BuyCarCareManageImpl;
 import com.ystech.cust.service.BuyCarMainUseManageImpl;
@@ -56,8 +54,6 @@ import com.ystech.cust.service.CustomerOperatorLogManageImpl;
 import com.ystech.cust.service.CustomerPhaseManageImpl;
 import com.ystech.cust.service.CustomerShoppingRecordManageImpl;
 import com.ystech.cust.service.CustomerTractUtile;
-import com.ystech.cust.service.InfoFromDetailManageImpl;
-import com.ystech.cust.service.InfoFromManageImpl;
 import com.ystech.mem.model.MemPointrecordSet;
 import com.ystech.mem.model.Member;
 import com.ystech.mem.model.PointRecord;
@@ -96,8 +92,6 @@ public class RecommendCustomerAction extends BaseController{
 	private EnterpriseManageImpl enterpriseManageImpl;
 	private AreaManageImpl areaManageImpl;
 	private DepartmentManageImpl departmentManageImpl;
-	private InfoFromManageImpl infoFromManageImpl;
-	private InfoFromDetailManageImpl infoFromDetailManageImpl;
 	private BuyCarTypeManageImpl buyCarTypeManageImpl;
 	private BrandManageImpl brandManageImpl;
 	private CustomerPhaseManageImpl customerPhaseManageImpl;
@@ -213,7 +207,10 @@ public class RecommendCustomerAction extends BaseController{
 		String endTime = request.getParameter("endTime");
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			String sql="select * from agent_recommendcustomer where enterpriseId="+enterprise.getDbid();
+			String sql="select * from agent_recommendcustomer where 1=1 ";
+			if(enterprise.getDbid()>0){
+				sql=sql+" AND enterpriseId="+enterprise.getDbid();
+			}
 			List params=new ArrayList();
 			if(null!=name&&name.trim().length()>0){
 				sql=sql+" and name like ? ";
@@ -339,9 +336,7 @@ public class RecommendCustomerAction extends BaseController{
 			
 			String sql="select * from agent_recommendcustomer where 1=1 and approvalStatus=?";
 			List params=new ArrayList();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
+			if(enterprise.getDbid()>0){
 				sql=sql+" and enterpriseId="+enterprise.getDbid();
 			}
 			params.add(RecommendCustomer.APPROVALWAITING);
@@ -976,12 +971,6 @@ public class RecommendCustomerAction extends BaseController{
 			}
 			List<Department> departments = departmentManageImpl.getAll();
 			request.setAttribute("departments", departments);
-			//客户来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? and enterpriseId=? ",new Object[]{InfoFrom.SELFYES,enterprise.getDbid()});
-			request.setAttribute("infoFroms", infoFroms);
-			
-			List<InfoFromDetail> infoFromDetails = infoFromDetailManageImpl.findBy("enterpriseId",enterprise.getDbid());
-			request.setAttribute("infoFromDetails", infoFromDetails);
 			
 			//购车类型
 			List<BuyCarType> buyCarTypes = buyCarTypeManageImpl.getAll();
@@ -1161,11 +1150,6 @@ public class RecommendCustomerAction extends BaseController{
 			
 			customer.setDepartment(currentUser.getDepartment());
 			customer.setSuccessDepartment(currentUser.getDepartment());
-			Integer infoFromId = ParamUtil.getIntParam(request, "infoFromId", -1);
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customer.setInfoFrom(infoFrom);
-			}
 
 			//**************************************保存最终成交结果***********************************************//
 			if(null!=customerPhase){
@@ -1203,15 +1187,6 @@ public class RecommendCustomerAction extends BaseController{
 			if(buyCarCareId>0){
 				BuyCarCare buyCarCare = buyCarCareManageImpl.get(buyCarCareId);
 				customerBussi.setBuyCarCare(buyCarCare);
-			}
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customerBussi.setInfoFrom(infoFrom);
-			}
-			Integer infoFromDetaillId = ParamUtil.getIntParam(request, "infoFromDetaillId", -1);
-			if(infoFromDetaillId>0){
-				InfoFromDetail infoFromDetail = infoFromDetailManageImpl.get(infoFromDetaillId);
-				customerBussi.setInfoFromDetail(infoFromDetail);
 			}
 			Integer buyCarTargetId = ParamUtil.getIntParam(request, "buyCarTargetId", -1);
 			if(buyCarTargetId>0){
@@ -1495,15 +1470,6 @@ public class RecommendCustomerAction extends BaseController{
 	@Resource
 	public void setDepartmentManageImpl(DepartmentManageImpl departmentManageImpl) {
 		this.departmentManageImpl = departmentManageImpl;
-	}
-	@Resource
-	public void setInfoFromManageImpl(InfoFromManageImpl infoFromManageImpl) {
-		this.infoFromManageImpl = infoFromManageImpl;
-	}
-	@Resource
-	public void setInfoFromDetailManageImpl(
-			InfoFromDetailManageImpl infoFromDetailManageImpl) {
-		this.infoFromDetailManageImpl = infoFromDetailManageImpl;
 	}
 	@Resource
 	public void setBuyCarTypeManageImpl(BuyCarTypeManageImpl buyCarTypeManageImpl) {
@@ -1876,7 +1842,7 @@ public class RecommendCustomerAction extends BaseController{
 			}
 			
 			//发送红包记录
-			Enterprise enterprise = enterpriseManageImpl.get(member.getEnterpriseId());
+			Enterprise enterprise = enterpriseManageImpl.get(member.getEnterprise().getDbid());
 			String remoteAddr = request.getRemoteAddr();
 			if(null!=enterprise){
 				redBagManageImpl.saveRedBagAgent(member,reward, enterprise, remoteAddr);
@@ -1910,7 +1876,7 @@ public class RecommendCustomerAction extends BaseController{
 			reward.setNote(builder.toString());
 			reward.setRewardType(Reward.AGENT);
 			reward.setTurnBackStatus(1);
-			reward.setEnterpriseId(parent.getEnterpriseId());
+			reward.setEnterpriseId(parent.getEnterprise().getDbid());
 			rewardManageImpl.save(reward);
 			
 			//会员返利总额
@@ -1920,7 +1886,7 @@ public class RecommendCustomerAction extends BaseController{
 			memberManageImpl.save(parent);	
 			
 			//发送红包记录
-			Enterprise enterprise = enterpriseManageImpl.get(parent.getEnterpriseId());
+			Enterprise enterprise = enterpriseManageImpl.get(parent.getEnterprise().getDbid());
 			String remoteAddr = request.getRemoteAddr();
 			if(null!=enterprise){
 				redBagManageImpl.saveRedBagAgent(parent,reward, enterprise, remoteAddr);
@@ -1976,7 +1942,7 @@ public class RecommendCustomerAction extends BaseController{
 		if(null==member){
 			return ;
 		}
-		Integer enterpriseId = member.getEnterpriseId();
+		Integer enterpriseId = member.getEnterprise().getDbid();
 		if(null==enterpriseId||enterpriseId<=0){
 			return ;
 		}

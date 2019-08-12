@@ -50,7 +50,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			总价：<span class="price"><fmt:formatNumber value="${orderContract.totalPrice }" pattern="￥#,#00.00"></fmt:formatNumber></span>
@@ -129,15 +129,203 @@
 	<div class="line"></div>
 	<div style="margin: 0 auto;margin: 5px;">
 		<div style="color:#8a8a8a;padding-left: 5px; ">
+			<div class="line"></div>
+				<div class="title" align="left">
+					车辆费用信息
+				</div>
+			<div class="line"></div>
 			<table>
 				<tr height="32">
-				<td class="formTableTdLeft">经销商报价：&nbsp;</td>
+					<td class="formTableTdLeft">经销商报价：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.salePrice }
+					</td>
+					<td class="formTableTdLeft" >车辆顾问结算价：</td>
+					<td id="carColorId">
+						${orderContractExpenses.carSalerPrice }
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">颜色溢价：&nbsp;</td>
+					<td colspan="">
+						<c:if test="${empty(orderContractExpenses.colorPrice) }">
+							0.0
+						</c:if>
+						<c:if test="${!empty(orderContractExpenses.colorPrice) }">
+							${orderContractExpenses.colorPrice }
+						</c:if>
+					</td>
+					<td class="formTableTdLeft" >裸车销售价：</td>
+					<td id="carColorId">
+						${orderContractExpenses.carActurePrice}
+					</td>
+				</tr>
+				<c:if test="${customer.bussiType==2 }">
+					<tr height="32">
+						<td class="formTableTdLeft">挂车价格：&nbsp;</td>
+						<td colspan="">
+							${orderContractExpenses.trailerPrice }
+						</td>
+						<td class="formTableTdLeft" >车辆总价：</td>
+						<td id="carColorId">
+							${orderContractExpenses.carTotalPrice}
+						</td>
+					</tr>
+				</c:if>
+			</table>
+			<div class="line"></div>
+			<div class="title" align="left">
+					优惠明细
+			</div>
+			<div class="line"></div>
+			<table>
+				<tr height="32">
+					<td class="formTableTdLeft">裸车现金优惠：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.cashBenefit }
+					</td>
+					<td class="formTableTdLeft" >未折让权限：</td>
+					<td id="carColorId">
+						${orderContractExpenses.noWllowancePrice}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">特殊权限：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.specialPermPrice}
+					</td>
+					<td class="formTableTdLeft" >特殊权限说明：</td>
+					<td id="carColorId">
+						${orderContractExpenses.specialPermNote}
+					</td>
+				</tr>
+			</table>
+			<div class="line"></div>
+				<div class="title" align="left">
+					保险明细
+				</div>
+			<div class="line"></div>
+			<table>
+				<tr height="32">
+					<td class="formTableTdLeft">预收保费：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.preInsMoney }
+					</td>
+					<td class="formTableTdLeft" >续保押金：</td>
+					<td id="carColorId">
+						${orderContractExpenses.insaranceRenewalDepositPrice}
+					</td>
+				</tr>
+			</table>
+			<div class="line"></div>
+			<div class="title" align="left">
+				金融明细
+			</div>
+			<div class="line"></div>
+			<table>
+				<tr height="32">
+					<td class="formTableTdLeft">购车方式：&nbsp;</td>
+					<td >
+						
+						<c:if test="${orderContractExpenses.buyCarType==1 }">
+							<span style="color: green;">现款</span>
+						</c:if>
+						<c:if test="${customer.bussiType==1}">
+							<c:if test="${orderContractExpenses.buyCarType==2 }">
+								<span style="color: red;">分付</span>
+							</c:if>
+						</c:if>
+						<c:if test="${customer.bussiType==2 }">
+							<c:if test="${orderContractExpenses.buyCarType==2 }">
+								<span style="color: red;">分付加挂</span>
+							</c:if>
+							<c:if test="${orderContractExpenses.buyCarType==3 }">
+								<span style="color: red;">分付裸车</span>
+							</c:if>
+						</c:if>
+					</td>
+					<td class="formTableTdLeft">付款方式：&nbsp;</td>
+					<td >
+						<c:if test="${orderContractExpenses.payWay==1 }">
+							<span style="color: green;">现金</span>
+						</c:if>
+						<c:if test="${orderContractExpenses.payWay==2 }">
+							<span style="color: red;">转账</span>
+						</c:if>
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">手续费：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.ajsxf }
+					</td>
+					<td class="formTableTdLeft" >首付比例：</td>
+					<td id="carColorId">
+						${orderContractExpenses.paymentPer}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">首付款：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.sfk }
+					</td>
+					<td class="formTableTdLeft" >贷款金额：</td>
+					<td id="carColorId">
+						${orderContractExpenses.daikuan}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">贷款车价：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.loanCarPrice }
+					</td>
+					<td class="formTableTdLeft" >D：</td>
+					<td id="carColorId">
+						${orderContractExpenses.lowInvoicePrice}
+					</td>
+				</tr>
+			</table>
+			<div class="line"></div>
+			<div class="title" align="left">
+				定金装饰
+			</div>
+			<div class="line"></div>
+			<table>
+				<tr height="32">
+					<td class="formTableTdLeft">购车定金：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.orderMoney }
+					</td>
+					<td class="formTableTdLeft" >装饰款：</td>
+					<td id="carColorId">
+						${orderContractExpenses.decoreMoney}
+					</td>
+				</tr>
+			</table>
+			<div class="line"></div>
+			<div class="title" align="left">
+				总费用明细
+			</div>
+			<div class="line"></div>
+			<table>
+				<tr>
+					<td class="formTableTdLeft">预收款总额：&nbsp;</td>
+					<td colspan="">
+						<span style="font-size: 14px;">${orderContractExpenses.advanceTotalPrice }</span>
+					</td>
+					<td class="formTableTdLeft" >其他收费总额：</td>
+					<td >
+						${orderContractExpenses.otherFeePrice } 
+					</td>
+				</tr>
+			<tr height="32">
+				<td class="formTableTdLeft">裸车销售价：&nbsp;</td>
 				<td colspan="">
-					${orderContractExpenses.salePrice }
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.carActurePrice }</span>
 				</td>
-				<td class="formTableTdLeft" style="font-size: 11px;">车辆顾问结算价：</td>
-				<td id="carColorId">
-					${orderContractExpenses.carSalerPrice }
+				<td class="formTableTdLeft">车辆总价：&nbsp;</td>
+				<td colspan="">
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.carTotalPrice }</span>
 				</td>
 			</tr>
 			<tr height="32">
@@ -145,42 +333,12 @@
 				<td colspan="">
 					<span style="color: red;font-size: 14px;">${orderContractExpenses.totalPrice }</span>
 				</td>
-				<td class="formTableTdLeft" >购车定金：</td>
-				<td >
-					${orderContractExpenses.orderMoney } 
-				</td>
-			</tr>
-			<tr height="32">
-					<td class="formTableTdLeft">装饰款：&nbsp;</td>
-					<td >
-						${orderContractExpenses.decoreMoney }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">装饰顾问结算价：&nbsp;</td>
-					<td >
-						${orderContractDecore.salerTotalPrice }
-					</td>
-			</tr>
-			<tr>
-					<td class="formTableTdLeft">咨询服务费：&nbsp;</td>
-					<td >
-						${orderContractExpenses.ajsxf }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">咨询服务费成本：&nbsp;</td>
-					<td >
-						0
-					</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">预收款总额：&nbsp;</td>
+				<td class="formTableTdLeft">实收金额：&nbsp;</td>
 				<td colspan="">
-					<span style="font-size: 14px;">${orderContractExpenses.advanceTotalPrice }</span>
-				</td>
-				<td class="formTableTdLeft" >其他收费总额：</td>
-				<td >
-					${orderContractExpenses.otherFeePrice } 
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.actureCollectedPrice }</span>
 				</td>
 			</tr>
-			<tr height="32">
+			 <%-- <tr height="32">
 				<td class="formTableTdLeft">整车营收：&nbsp;</td>
 				<td colspan="">
 					<span style="font-size: 14px;">${orderContractExpenses.revenuePrice }</span>
@@ -219,75 +377,7 @@
 						</span>
 					</c:if> 
 				</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">购车方式：&nbsp;</td>
-				<td >
-					<c:if test="${orderContractExpenses.buyCarType==1 }">
-						<span style="color: green;">现款</span>
-					</c:if>
-					<c:if test="${orderContractExpenses.buyCarType==2 }">
-						<span style="color: red;">分付</span>
-					</c:if>
-				</td>
-				<td class="formTableTdLeft">付款方式：&nbsp;</td>
-				<td >
-					<c:if test="${orderContractExpenses.payWay==1 }">
-						<span style="color: green;">现金</span>
-					</c:if>
-					<c:if test="${orderContractExpenses.payWay==2 }">
-						<span style="color: red;">转账</span>
-					</c:if>
-				</td>
-			</tr>
-			<c:if test="${orderContractExpenses.buyCarType==2 }">
-				<tr height="32">
-					<td class="formTableTdLeft">首付款：&nbsp;</td>
-					<td colspan="">
-						<span style="font-size: 14px;">
-						<c:if test="${empty(orderContractExpenses.sfk) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.sfk) }">
-							${orderContractExpenses.sfk }
-						</c:if>
-						</span>
-					</td>
-					<td class="formTableTdLeft" >贷款：</td>
-					<td >
-						<c:if test="${empty(orderContractExpenses.daikuan) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.daikuan) }">
-							${orderContractExpenses.daikuan }
-						</c:if>
-					</td>
-				</tr>
-			</c:if>
-			<tr height="32">
-					<td class="formTableTdLeft">未折让权限：&nbsp;</td>
-					<td colspan="3">
-						<span style="font-size: 14px;">
-						<c:if test="${empty(orderContractExpenses.noWllowancePrice) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.noWllowancePrice) }">
-							${orderContractExpenses.noWllowancePrice }
-						</c:if>
-						</span>
-					</td>
-					<td class="formTableTdLeft">颜色溢价：&nbsp;</td>
-					<td colspan="0">
-						<span style="font-size: 14px;">
-						<c:if test="${empty(orderContractExpenses.colorPrice) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.colorPrice) }">
-							${orderContractExpenses.colorPrice }
-						</c:if>
-						</span>
-					</td>
-				</tr>
+			</tr> --%> 
 			</table>
 		</div>
 	</div>

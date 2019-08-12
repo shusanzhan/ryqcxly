@@ -1055,6 +1055,16 @@
   				</td>
   			</tr>
   			<tr>
+  				<td><label>统计类型：</label></td>
+  				<td colspan="" >
+  					<select class="form-control" id="userType" name="userType"  onchange="$('#searchPageForm')[0].submit()">
+  						<option value="-1">请选择...</option>
+  						<option value="1" ${1==param.userType?'selected="selected"':'' }>以邀约销售顾问</option>
+  						<option value="2" ${2==param.userType?'selected="selected"':'' }>以谈判销售顾问</option>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
 				<td><label>登记时间：</label></td>
   				<td>
   					<input class="form-control" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true})" value="${beginDate }" >

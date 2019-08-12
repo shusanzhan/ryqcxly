@@ -67,7 +67,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）<br>
@@ -101,26 +101,15 @@
 							${customerLastBussi.note }
 						</td>
 					</tr>
-					<tr height="42">
-						<td style="text-align: left">原因:&nbsp;
-							${customerLastBussi.note }
-						</td>
-					</tr>
 					</table>
 				</div>
 			</div>
 		</div>
 </c:if>
-<div style="margin: 0 auto;width: 92%;margin-top: 20px;">
-	<form action="" name="frmId" id="frmId" style="margin-bottom: 40px;" target="_self">
-		<input type="hidden" id="customerId" name="customerId" value="${customer.dbid }">
-		<input type="hidden" id="lastResult" name="lastResult" value="">
-		<div class="form-group">
-				<label class="control-label" for="name">原因:&nbsp;<span style="color: red">*</span></label>
-				<textarea  name="notReason" id="notReason"	 class="form-control"  title="" checkType="string,2" tip="请填写一点备注吧">${customerLastBussi.notReason }</textarea>	
-		</div>
-	</form>
-</div>
+<form action="" id="frmId" name="frmId">
+	<input type="hidden" id="customerId" name="customerId" value="${customer.dbid }">
+	<input type="hidden" id="lastResult" name="lastResult" value="">
+</form>
 <br>
 <br>
 <br>

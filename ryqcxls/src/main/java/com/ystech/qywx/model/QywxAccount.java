@@ -8,14 +8,18 @@ package com.ystech.qywx.model;
 public class QywxAccount implements java.io.Serializable {
 
 	private Integer dbid;
+	//公司名称
 	private String accountName;
 	private String accountIntro;
 	private String groupId;
 	private String bandWeixin;
 	private String accountEmail;
+	//企业通讯录ID
 	private String security;
 	private String code;
 	private Integer enterpriseId;
+	//企业通讯录APPID
+	private Integer appId;
 	public QywxAccount() {
 	}
 
@@ -101,6 +105,14 @@ public class QywxAccount implements java.io.Serializable {
 
 	public void setEnterpriseId(Integer enterpriseId) {
 		this.enterpriseId = enterpriseId;
+	}
+
+	public Integer getAppId() {
+		return appId;
+	}
+
+	public void setAppId(Integer appId) {
+		this.appId = appId;
 	}
 	
 }

@@ -13,8 +13,10 @@ public class TurnCustomerRecord implements java.io.Serializable {
 	private String customerIds;
 	private String customerName;
 	//原来销售人员
+	private Integer reBussiStaffId;
 	private String reBussiStaff;
 	//目标销售人员
+	private Integer tarBussiStaffId;
 	private String tarBussiStaff;
 	private Date createTime;
 	private String note;
@@ -108,4 +110,20 @@ public class TurnCustomerRecord implements java.io.Serializable {
 		this.operatorName = operatorName;
 	}
 
+	public Integer getReBussiStaffId() {
+		return reBussiStaffId;
+	}
+
+	public void setReBussiStaffId(Integer reBussiStaffId) {
+		this.reBussiStaffId = reBussiStaffId;
+	}
+
+	public Integer getTarBussiStaffId() {
+		return tarBussiStaffId;
+	}
+
+	public void setTarBussiStaffId(Integer tarBussiStaffId) {
+		this.tarBussiStaffId = tarBussiStaffId;
+	}
+	
 }

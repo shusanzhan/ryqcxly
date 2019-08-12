@@ -47,22 +47,7 @@
 			</tr>
 			 <tr height="42">
 				<td class="formTableTdLeft">流失原因:&nbsp;</td>
-				<td colspan="3">
-					<select id="customerpidFlowReasonId" name="customerpidFlowReasonId" class="text largeX" checkType="integer,1">
-						<option>请选择...</option>
-						<c:forEach var="customerpidFlowReason" items="${customerpidFlowReasons }">
-							<option value="${customerpidFlowReason.dbid }">${customerpidFlowReason.name }</option>	
-						</c:forEach>
-					</select>
-					<span style="color: red">*</span>
-				</td>
-			</tr>
-			 <tr height="42">
-				<td class="formTableTdLeft">流失原因:&nbsp;</td>
-				<td colspan="3">
-					<textarea   name="cancelNote" id="cancelNote" checkType="string,1" tip="请输入合同流失原因！"	 class="textarea largeXX text" title="流失原因"></textarea>
-					<span style="color: red">*</span>
-				</td>
+				<td colspan="3"><textarea   name="cancelNote" id="cancelNote" checkType="string,1" tip="请输入合同流失原因！"	 class="textarea largeXXX text" title="流失原因"></textarea></td>
 			</tr>
 		</table>
 	</form>

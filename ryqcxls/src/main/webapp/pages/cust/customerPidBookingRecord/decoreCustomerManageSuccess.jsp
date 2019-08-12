@@ -173,8 +173,8 @@ document.onkeydown=function(event){
 				${customer.mobilePhone}
 			</td>
 			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td style="text-align: left;" title="${carModel}  ${customer.carModelStr}">
-				${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }
+			<td style="text-align: left;" title="${carModel }${customer.carModelStr}">
+				${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }${customer.carColorStr}
 			</td>
 			<td>
 				${customer.bussiStaff}(${customer.successDepartment.name })

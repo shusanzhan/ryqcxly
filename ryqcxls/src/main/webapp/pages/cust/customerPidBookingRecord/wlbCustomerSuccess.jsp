@@ -87,45 +87,20 @@ document.onkeydown=function(event){
 						</c:forEach>
 					</select>
   				</td>
+  				<td><label>归档日期开始：</label></td>
+  				<td colspan="1">
+  					<input class="text small" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >~
+  					<input class="text small" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+				</td>
   			</tr>
   			<tr>
-  				<td><label>类型：</label></td>
+  				<td><label>部门：</label></td>
   				<td>
-  					<select class="text small" id="comeType" name="comeType"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1" >请选择...</option>
-						<option value="1" ${param.comeType==1?'selected="selected"':'' } >来店</option>
-						<option value="2"  ${param.comeType==2?'selected="selected"':'' }>来电</option>
-						<option value="3"  ${param.comeType==3?'selected="selected"':'' }>网销</option>
-						<option value="4"  ${param.comeType==4?'selected="selected"':'' }>活动</option>
-						<option value="5"  ${param.comeType==5?'selected="selected"':'' }>其他</option>
+  					<select id="departmentId" name="departmentId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
+						<option value="">请选择...</option>
+						${departmentSelect }
 					</select>
-	  				</td>
-  				<td><label>信息来源：</label></td>
-  				<td>
-  					<select class="text small" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1" >请选择...</option>
-						${customerInfromSelect }
-					</select>
-  				</td>
-	  				<td><label>试乘试驾：</label></td>
-	  				<td>
-	  					<select class="small text" id="tryCarStatus" name="tryCarStatus" onchange="$('#searchPageForm')[0].submit()" >
-							<option value="">请选择...</option>
-							<option value="1" ${param.tryCarStatus==1?'selected="selected"':''}>未试驾</option>
-							<option value="2" ${param.tryCarStatus==2?'selected="selected"':''}>已试驾</option>
-						</select>
-	  				</td>
-	  				<td><label>部门：</label></td>
-	  				<td>
-	  					<select id="departmentId" name="departmentId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-							<option value="">请选择...</option>
-							${departmentSelect }
-						</select>
-					</td>
-  			</tr>
-  			<tr>
-  				<td><label>vin码：</label></td>
-  				<td><input type="text" id="vinCode" name="vinCode" class="text small" value="${param.vinCode}"></input></td>
+				</td>
   				<td><label>销售顾问：</label></td>
   				<td>
   					<input type="text" id="userName" name="userName" class="text small" value="${param.userName}"></input>
@@ -135,66 +110,10 @@ document.onkeydown=function(event){
   				<td><input type="text" id="customerName" name="customerName" class="text small" value="${param.customerName}"></input></td>
   				<td><label>常用手机号：</label></td>
   				<td><input type="text" id="mobilePhone" name="mobilePhone" class="text small" value="${param.mobilePhone}"></input></td>
-   			</tr>
-   			<tr>
-  				<td><label>开始时间：</label></td>
-  				<td>
-  					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true})" value="${param.startTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true})" value="${param.endTime }">
-  				</td>
-  				<td><label>归档开始：</label></td>
-  				<td colspan="1">
-  					<input class="text small" id="successStartTime" name="successStartTime" onFocus="WdatePicker({isShowClear:true})" value="${param.successStartTime }" >
-  				</td>
-  				<td>
-  					归档结束
-  				</td>
-  				<td>
-  					<input class="text small" id="successEndTime" name="successEndTime" onFocus="WdatePicker({isShowClear:true})" value="${param.successEndTime }">
-				</td>
-  			</tr>
-  			<tr>
-  				<td><label>客户类型：</label></td>
-  				<td>
-  					<select class="text small" id="customerType" name="customerType"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1" >请选择...</option>
-						<option value="1" ${param.customerType==1?'selected="selected"':'' } >自有店</option>
-						<option value="2"  ${param.customerType==2?'selected="selected"':'' }>二网</option>
-					</select>
-	  			</td>
-				<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-	  				<td><label>邀约人：</label></td>
-	  				<td>
-	  					<input class="small text" id="invitationSalerName" name="invitationSalerName"  value="${param.invitationSalerName }" >
-	  				</td>
-	  				<td><label>谈判人：</label></td>
-	  				<td>
-	  					<input class="small text" id="receptierSalerName" name="receptierSalerName"  value="${param.receptierSalerName }" >
-	  				</td>
-				</c:if>
-			</tr>
-  			<tr>
-  				<td><label>试驾开始：</label></td>
-  				<td>
-  					<input class="small text" id="tryCarStartTime" name="tryCarStartTime" onFocus="WdatePicker({isShowClear:true})" value="${param.tryCarStartTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="tryCarEndTime" name="tryCarEndTime" onFocus="WdatePicker({isShowClear:true})" value="${param.tryCarEndTime }">
-  				</td>
-  				<td><label>来店开始：</label></td>
-  				<td>
-  					<input class="small text" id="comeShopStartTime" name="comeShopStartTime" onFocus="WdatePicker({isShowClear:true})" value="${param.comeShopStartTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="comeShopEndTime" name="comeShopEndTime" onFocus="WdatePicker({isShowClear:true})" value="${param.comeShopEndTime }">
-  				</td>
+  				<td><label>vin码：</label></td>
+  				<td><input type="text" id="vinCode" name="vinCode" class="text small" value="${param.vinCode}"></input></td>
   				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
-  			</tr>
+   			</tr>
    		</table>
    		</form>
    	</div>
@@ -214,18 +133,13 @@ document.onkeydown=function(event){
 					<span><input type="checkbox" name="title-table-checkbox" id="title-table-checkbox" onclick="selectAll(this,'id')"></span>
 				</div></td>
 			<td style="width: 60px;">姓名</td>
-			<td style="width:60px;">来源</td>
+			<td style="width: 60px;">vin码</td>
 			<td style="width:140px;">车型</td>
 			<td style="width: 100px;">业务员</td>
-			<td style="width: 100px;">经销商</td>
 			<td style="width: 60px;">奖励金额</td>
 			<td style="width: 80px;">创建时间</td>
 			<td style="width: 80px;">成交时间</td>
-			<td style="width: 60px">进店状态</td>
-			<td style="width: 60px">试驾状态</td>
-			<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-				<td style="width: 80px;">邀约/谈判人</td>
-			</c:if>
+			<td class="span2">提交财务</td>
 			<td style="width: 120px;">操作</td>
 		</tr>
 	</thead>
@@ -254,47 +168,17 @@ document.onkeydown=function(event){
 					  </div>
 				</div>
 			</td>
-			<td style="text-align: left;">
-				<c:if test="${customer.customerType==1 }">
-					<c:if test="${customer.type==1 }">
-						<span style="color: red;">来店</span>
-					</c:if>
-					<c:if test="${customer.type==2 }">
-						<span style="color:green;">来电</span>
-					</c:if>
-					<c:if test="${customer.type==3 }">
-						<span style="color: blue;">网销</span>
-					</c:if>
-					<c:if test="${customer.type==4 }">
-						<span style="color:orange;">活动</span>
-					</c:if>
-					<c:if test="${customer.type==5 }">
-						<span style="color:orange;">其他</span>
-					</c:if>
-					<br>
-					【${customer.customerInfrom.name }】
-				</c:if>
-				<c:if test="${customer.customerType==2 }">
-					二网
-				</c:if>
-			</td>
-			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td style="text-align: left;" title="${carModel}  ${customer.carModelStr}">
-				${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }
+			<td>
 				<a class="aedit" style="color: #2b7dbc" href="${ctx }/factoryOrder/factoryOrderDetail?vinCode=${customer.customerPidBookingRecord.vinCode}&type=1">
 					${customer.customerPidBookingRecord.vinCode }
 				</a>
 			</td>
-			<td>
-				${customer.bussiStaff}(${customer.successDepartment.name })
+			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
+			<td style="text-align: left;" title="${carModel }${customer.carModelStr}">
+				${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }${customer.carColorStr}
 			</td>
 			<td>
-				<c:if test="${empty(customer.distributor) }">
-					${customer.enterprise.name }
-				</c:if>
-				<c:if test="${!empty(customer.distributor) }">
-					${customer.distributor.shortName }
-				</c:if>
+				${customer.bussiStaff}(${customer.successDepartment.name })
 			</td>
 			<td>
 				${customer.customerPidBookingRecord.rewardMoney}
@@ -305,47 +189,54 @@ document.onkeydown=function(event){
 			<td>
 				<fmt:formatDate value="${customer.customerPidBookingRecord.modifyTime }" pattern="yyyy-MM-dd"/>
 			</td>
-			
-			<td>
-				<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">
-					未到店				
-				</c:if>
-				<c:if test="${customer.comeShopStatus==2 }">
-					<span style="color: red;">首次到店</span>			
-					<fmt:formatDate value="${customer.comeShopDate }" pattern="yyyy-MM-dd"/>			
-				</c:if>
-				<c:if test="${customer.comeShopStatus==3 }">
-					<span style="color: red;">二次到店</span>			
-					<fmt:formatDate value="${customer.twoComeShopDate }" pattern="yyyy-MM-dd"/>			
-				</c:if>
-				<br>
-			</td>
-			<td>
-				<c:if test="${customer.tryCarStatus==1||empty(customer.tryCarStatus)}">
-					未试驾				
-				</c:if>
-				<c:if test="${customer.tryCarStatus==2 }">
-					<span style="color: red;">已试驾</span>
-					<fmt:formatDate value="${customer.tryCarDate }" pattern="yyyy-MM-dd"/>			
-				</c:if>
-			</td>
-			<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-				<td>
-					${customer.invitationSalerName }/${customer.receptierSalerName }
-				</td>
-			</c:if>
 			<c:set value="${customer.customerPidBookingRecord }" var="customerPidBookingRecord"></c:set>
+			<td style="text-align: center;">
+				<c:if test="${customerPidBookingRecord.cwStatus==1 }">
+					<span style="color:red">待提交</span>
+				</c:if>
+				<c:if test="${customerPidBookingRecord.cwStatus==2 }">
+					<span style="color:green;">已提交</span>
+						<c:if test="${customerPidBookingRecord.cwAppStatus==3 }">
+							<a href="javascript:void(-1)" onclick="$.utile.openDialog('${ctx}/cwAppmodifydata/viewApproval?dbid=${customerPidBookingRecord.dbid }&type=2&querytType=1','审批记录',960,400)"><span style="color: red;">申请驳回</span></a>
+						</c:if>
+						<c:if test="${customerPidBookingRecord.cwAppStatus==4 }">
+							<a href="javascript:void(-1)" onclick="$.utile.openDialog('${ctx}/cwAppmodifydata/viewApproval?dbid=${customerPidBookingRecord.dbid }&type=2&querytType=1','审批记录',960,400)"><span style="color: green;">申请通过</span></a>
+						</c:if>
+					<br>
+					<fmt:formatDate value="${customerPidBookingRecord.cwDate }" pattern="yyyy-MM-dd"/>
+				</c:if>
+			</td>
 			<td>
+				<c:if test="${customerPidBookingRecord.cwStatus==1 }">
+					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/customerPidBookingRecord/subCwCpidCustomer?dbid=${customerPidBookingRecord.dbid }','searchPageForm','您确定将【${customerPidBookingRecord.customer.name }】提报财务吗？')">提报财务</a>
+					<br>
 					<a style="color: #2b7dbc" href="#" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/customerPidBookingRecord/cancelCustomerFile?customerId=${customer.dbid }','searchPageForm','提示：确定将选择客户为未归档客户吗？')">撤销归档</a>
 					|
 					<a style="color: #2b7dbc" class="aedit" onclick="window.location.href='${ctx}/outboundOrder/index?customerId=${customer.dbid }&modifyType=2'">修改出库单</a>
+				</c:if>
+				<c:if test="${customerPidBookingRecord.cwStatus==2 }">
+					<c:if test="${customerPidBookingRecord.cwAppStatus==1 }">
+						
+					</c:if>
+					<c:if test="${customerPidBookingRecord.cwAppStatus==2 }">
+						<span style="color: red;">发起修改申请</span>
+					</c:if>
+					<c:if test="${customerPidBookingRecord.cwAppStatus==3 }">
+						<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/cwAppmodifydata/cpidApply?customerPidBookingRecordId=${customerPidBookingRecord.dbid }','发起撤销提报申请',720,400)">提报撤销</a>
+					</c:if>
+					<c:if test="${customerPidBookingRecord.cwAppStatus==4 }">
+						<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/customerPidBookingRecord/subCwCpidCustomer?dbid=${customerPidBookingRecord.dbid }','searchPageForm','您确定将【${customerPidBookingRecord.customer.name }】提报财务吗？')">提报财务</a>
+						<br>
+						<a style="color: #2b7dbc" href="#" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/customerPidBookingRecord/cancelCustomerFile?customerId=${customer.dbid }','searchPageForm','提示：确定将选择客户为未归档客户吗？')">撤销归档</a>
+						|
+						<a style="color: #2b7dbc" class="aedit" onclick="window.location.href='${ctx}/outboundOrder/index?customerId=${customer.dbid }&modifyType=2'">修改出库单</a>
+					</c:if>
+				</c:if>
 				<c:set value="${customer.recommendCustomer }" var="recommendCustomer"></c:set>
 				<c:if test="${!empty(recommendCustomer) }">
 					<br>
 					<c:if test="${recommendCustomer.rewardStatus==1 }">
-						<c:if test="${fn:contains(sessionScope.user.userId,'ryqc')}">
-							<a style="color: #2b7dbc" href="#" class="aedit" onclick="window.location.href='${ctx}/recommendCustomer/reward?customerId=${customer.dbid }&recommendCustomerId=${recommendCustomer.dbid }'">发送经纪人奖励</a>
-						</c:if>
+						<a style="color: #2b7dbc" href="#" class="aedit" onclick="window.location.href='${ctx}/recommendCustomer/reward?customerId=${customer.dbid }&recommendCustomerId=${recommendCustomer.dbid }'">发送经纪人奖励</a>
 					</c:if>
 					<c:if test="${recommendCustomer.rewardStatus==2 }">
 						<a>已发送奖励</a>

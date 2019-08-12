@@ -11,20 +11,15 @@
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
-<title>交车预约</title>
+<title>客户归档</title>
 </head>
 <body class="bodycolor">
 <div class="location">
    	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
    	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-   	<a href="javascript:void(-1)" class="current">提交交车预约</a>
+   	<a href="javascript:void(-1)" class="current">客户归档</a>
 </div>
 <div class="line"></div>
-<c:if test="${!empty(customerPidBookingCancelRecord) }">
-	<div class="alert alert-error">
-			<strong>提示:您于【<fmt:formatDate value="${customerPidBookingCancelRecord.bookingDate }"/> 】创建过交车预约.</strong>
-	</div>
-</c:if>
 	<div class="frmContent">
 	<form action="" name="frmId" id="frmId" style="margin-bottom: 40px;" target="_parent">
 		<input type="hidden" name="customerId" value="${customer.dbid }" id="customerId"></input>
@@ -52,11 +47,12 @@
 					<input type="hidden" id="carColorId" name="carColorId" value="${customerLastBussi.carColor.dbid}" />
 					${customer.customerLastBussi.brand.name }&nbsp;&nbsp;
 					${customer.customerLastBussi.carSeriy.name }&nbsp;&nbsp;
-					 ${customer.customerLastBussi.carModel.name }${customer.carModelStr}&nbsp;&nbsp;
+					${customer.customerLastBussi.carModel.name }&nbsp;&nbsp;
 				</td>
 				<td>颜色:</td>
 				<td >
-					${customerLastBussi.carColor.name}${customer.carColorStr}
+					${customerLastBussi.carColor.name}
+					${customer.carColorStr}
 				</td>
 			</tr>
 			<tr height="42">
@@ -65,9 +61,20 @@
 					<input type="hidden" readonly="readonly" name="customerPidBookingRecord.orderDate" id="orderDate" class="mideaX text"  value='<fmt:formatDate value="${customer.orderContract.createTime }" pattern="yyyy-MM-dd HH:mm"/>' >
 					<fmt:formatDate value="${customer.orderContract.createTime }" pattern="yyyy-MM-dd HH:mm"/>
 				</td>
-				<td class="formTableTdLeft">预约交车日期:&nbsp;</td>
+				<td class="formTableTdLeft">合同金额:&nbsp;</td>
+				<td style="font-size: 16px;color: red;">
+					<fmt:formatNumber value="${customer.orderContract.totalPrice }" pattern="#0.00"/>
+				</td>
+			</tr>
+			<tr height="42">
+				<td class="formTableTdLeft">车架号:&nbsp;</td>
 				<td >
-					<input type="text" name="customerPidBookingRecord.bookingDate" id="bookingDate" class="mideaX text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'orderDate\')}'});" checkType="string,10" tip="请选择预约交车日期">
+					<input type="text"  name="customerPidBookingRecord.vinCode" id="vinCode" class="mideaX text"  value="${customerPidBookingRecord.vinCode }" checkType="string,17,17">
+					<span style="color: red;">*</span>
+				</td>
+				<td class="formTableTdLeft">归档日期:&nbsp;</td>
+				<td >
+					<input type="text" name="customerPidBookingRecord.modifyTime" id="modifyTime" value="${customerPidBookingRecord.modifyTime }" class="mideaX text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'orderDate\')}'});" checkType="string,10" tip="请选归档日期">
 					<span style="color: red;">*</span>
 				</td>
 			</tr>

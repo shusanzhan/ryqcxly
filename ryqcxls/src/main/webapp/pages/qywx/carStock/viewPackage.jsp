@@ -31,9 +31,6 @@
 		<div style="color:#8a8a8a;padding-left: 5px; ">
 			<table>
 				<tr>
-					<td colspan="2">品牌：${product.brand.name }&#12288;</td>
-				</tr>
-				<tr>
 					<td colspan="2">车型：${product.carSeriy.name }</td>
 				</tr>
 				<tr >

@@ -27,13 +27,13 @@
 <div class="line"></div>
 <div class="listOperate">
 	<%-- <div class="operate">
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/satisfactionAssessment')">意向跟踪卡</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/satisfactionAssessment')">意向跟踪卡</a>
    </div> --%>
     <div class="operate">
 		<a class="but button" href="javascript:void();" onclick="exportExcel('searchPageForm')">导出excel</a>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryLeaderOutFlow" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryLeaderOutFlow" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -78,7 +78,7 @@
 				</td>
 			</tr>
 			<tr>
-  				<td><label>结案情形：</label></td>
+  				<td><label>流失原因：</label></td>
   				<td>
   					<select id="customerFlowReasonId" name="customerFlowReasonId" class="small text" onchange="$('#searchPageForm')[0].submit()">
 						<option value="0">请选择...</option>
@@ -87,13 +87,12 @@
 						</c:forEach>
 					</select>
 				</td>
-				<td><label>交叉客户：</label></td>
+					<td><label>审批状态：</label></td>
   				<td>
-  					<select id="cityCrossCustomerId" name="cityCrossCustomerId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${param.cityCrossCustomerId==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
+  					<select id="approvalStatus" name="approvalStatus" class="small text" onchange="$('#searchPageForm')[0].submit()">
+						<option value="-1">请选择...</option>
+						<option value="0" ${param.approvalStatus==0?'selected="selected"':'' }>待审批</option>
+						<option value="1" ${param.approvalStatus==1?'selected="selected"':'' }>已审批</option>
 					</select>
 				</td>
   				<td><label>客户姓名：</label></td>
@@ -126,16 +125,6 @@
   				<td>
   					<input class="small text" id="endApprovalTime" name="endApprovalTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endApprovalTime }">
   				</td>
-   			</tr>
-   			<tr>
-   				<td><label>审批状态：</label></td>
-  				<td>
-  					<select id="approvalStatus" name="approvalStatus" class="small text" onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1">请选择...</option>
-						<option value="0" ${param.approvalStatus==0?'selected="selected"':'' }>待审批</option>
-						<option value="1" ${param.approvalStatus==1?'selected="selected"':'' }>已审批</option>
-					</select>
-				</td>
 				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
    			</tr>
    		</table>
@@ -157,7 +146,6 @@
 			<td style="width:160px;">车型</td>
 			<td style="width: 60px;">意向级别</td>
 			<td style="width: 80px;">部门</td>
-			<td style="width: 80px;">交叉客户</td>
 			<td style="width: 100px;">结案情形</td>
 			<td style="width: 160px;">流失备注</td>
 			<td style="width: 100px;">流失发起时间</td>
@@ -170,14 +158,14 @@
 		<c:forEach items="${page.result }" var="customer">
 		<tr>
 			<td style="text-align: left">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'" title="点击查看客户档案明细">
+				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'" title="点击查看客户档案明细">
 					<c:if test="${fn:length(customer.name)>12 }" var="status">
 						${fn:substring(customer.name,0,12) }...
 					</c:if>
 					<c:if test="${status==false }">
 						${customer.name }
 					</c:if>
-					${customer.mobilePhone}
+					${customer.mobilePhone}<br>
 					<fmt:formatDate value="${customer.createFolderTime }" pattern="yyyy-MM-dd "/>
 				</a>
 			</td>
@@ -193,9 +181,6 @@
 				${customer.department.name }
 				<br>		
 				${customer.bussiStaff}
-			</td>
-			<td>
-				${customer.cityCrossCustomer.name}
 			</td>
 			<td>
 				${customer.customerLastBussi.customerFlowReason.name }
@@ -258,7 +243,7 @@
 			if(null!=searchFrm&&searchFrm!=undefined&&searchFrm!=''){
 				params=$("#"+searchFrm).serialize();
 			}
-			window.location.href='${ctx}/customer/exportOutFlowExcel?'+params;
+			window.location.href='${ctx}/custCustomer/exportOutFlowExcel?'+params;
 		}
 </script>
 </html>

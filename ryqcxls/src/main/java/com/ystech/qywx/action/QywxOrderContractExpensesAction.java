@@ -20,6 +20,7 @@ import com.ystech.cust.model.OrderContractExpenses;
 import com.ystech.cust.model.OrderContractExpensesChargeItem;
 import com.ystech.cust.model.OrderContractExpensesPreferenceItem;
 import com.ystech.cust.service.CustomerMangeImpl;
+import com.ystech.cust.service.CustomerOperatorLogManageImpl;
 import com.ystech.cust.service.OrderContractDecoreItemManageImpl;
 import com.ystech.cust.service.OrderContractDecoreManageImpl;
 import com.ystech.cust.service.OrderContractExpensesChargeItemManageImpl;
@@ -51,6 +52,7 @@ public class QywxOrderContractExpensesAction extends BaseController{
 	private OrderContractDecoreManageImpl orderContractDecoreManageImpl;
 	private OrderContractDecoreItemManageImpl orderContractDecoreItemManageImpl;
 	private CarModelSalePolicyManageImpl carModelSalePolicyManageImpl;
+	private CustomerOperatorLogManageImpl customerOperatorLogManageImpl;
 	public OrderContractExpenses getOrderContractExpenses() {
 		return orderContractExpenses;
 	}
@@ -105,6 +107,11 @@ public class QywxOrderContractExpensesAction extends BaseController{
 			CarModelSalePolicyManageImpl carModelSalePolicyManageImpl) {
 		this.carModelSalePolicyManageImpl = carModelSalePolicyManageImpl;
 	}
+	@Resource
+	public void setCustomerOperatorLogManageImpl(
+			CustomerOperatorLogManageImpl customerOperatorLogManageImpl) {
+		this.customerOperatorLogManageImpl = customerOperatorLogManageImpl;
+	}
 	/**
 	 * 功能描述：编辑或添加交款确认单
 	 * 参数描述：
@@ -116,9 +123,10 @@ public class QywxOrderContractExpensesAction extends BaseController{
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		Integer editType = ParamUtil.getIntParam(request, "editType", -1);
 		OrderContractExpenses orderContractExpenses=null;
+		Integer bussiType=1;
 		try{
-			User user = getSessionUser();
-			Enterprise enterprise = user.getEnterprise();
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
 			request.setAttribute("enterprise", enterprise);
 			if(customerId>0){
 				Customer customer = customerMangeImpl.get(customerId);
@@ -146,7 +154,6 @@ public class QywxOrderContractExpensesAction extends BaseController{
 						List<OrderContractExpensesPreferenceItem> orderContractExpensesPreferenceItems = orderContractExpensesPreferenceItemManageImpl.findBy("ordercontractexpenses.dbid", orderContractExpenses.getDbid());
 						request.setAttribute("orderContractExpensesPreferenceItems", orderContractExpensesPreferenceItems);
 					}else{
-						
 						CustomerLastBussi customerLastBussi = customer.getCustomerLastBussi();
 						if(customerLastBussi!=null){
 							//查询销售顾问的销售结算价
@@ -156,12 +163,19 @@ public class QywxOrderContractExpensesAction extends BaseController{
 							}
 						}
 					}
+					bussiType = customer.getBussiType();
 				}
 				request.setAttribute("editOrderContractExpenses", editType);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
+		}
+		if(bussiType==1){
+			return "edit";
+		}
+		if(bussiType==2){
+			return "trialer";
 		}
 		return "edit";
 	}
@@ -181,21 +195,31 @@ public class QywxOrderContractExpensesAction extends BaseController{
 		Integer editType = ParamUtil.getIntParam(request2, "editType", -1);
 		Integer dbid=null;
 		try{
+			User sessionUser = getSessionUser();
 			if(orderContractId<0){
 				renderErrorMsg(new Throwable("请先提报订单信息！"),"");
 				return ;
 			}
 			OrderContract orderContract = orderContractManageImpl.get(orderContractId);
-			
 			Customer customer = orderContract.getCustomer();
 			customerId=customer.getDbid();
 			if(orderContractExpenses.getDbid()==null||orderContractExpenses.getDbid()<0){
 				orderContractExpenses.setOrderContract(orderContract);
 				orderContractExpenses.setCustomer(customer);
+				Double carGrofit = orderContractExpenses.getCarGrofit();
+				orderContractExpenses.setCarGrofitPrice(carGrofit);
+				Double totalGrofit = orderContractExpenses.getTotalGrofit();
+				Double insGrofit = orderContractExpenses.getinsGrofit();
+				orderContractExpenses.setInsMoneyGrofit(insGrofit);
+				orderContractExpenses.setTotalGrofitPrice(totalGrofit);
+				orderContractExpenses.setAjsxBase(Double.valueOf(0));
+				orderContractExpenses.setInsMoney(Double.valueOf(0));
+				orderContractExpenses.setInsMoneyBase(Double.valueOf(0));
 				//保存收费项目明细
 				orderContractExpensesManageImpl.save(orderContractExpenses);
 				//删除重复数据
 				orderContractExpensesManageImpl.deleteDuplicateDataByCustomerId(customerId);
+				
 				//保存优惠项目
 				savePreferenceItemProduct(request2, orderContractExpenses);
 				//保存收费项目
@@ -208,6 +232,7 @@ public class QywxOrderContractExpensesAction extends BaseController{
 				}
 				orderContract.setTotalPrice(orderContractExpenses.getTotalPrice());
 				orderContractManageImpl.save(orderContract);
+				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "创建合同费用明细", "创建合同费用明细",sessionUser);
 			}else{
 				//销售顾问编辑数据、或物流部编辑数据
 				double oldeDecoreMoney =0;
@@ -228,35 +253,58 @@ public class QywxOrderContractExpensesAction extends BaseController{
 				orderContractExpenses2.setPreferentialTogether(orderContractExpenses.getPreferentialTogether());
 				orderContractExpenses2.setTotalPrice(orderContractExpenses.getTotalPrice());
 				orderContractExpenses2.setFjzje(orderContractExpenses.getFjzje());
+				orderContractExpenses2.setSpecialPermNote(orderContractExpenses.getSpecialPermNote());
+				orderContractExpenses2.setSpecialPermPrice(orderContractExpenses.getSpecialPermPrice());
 				orderContractExpenses2.setDecoreMoney(orderContractExpenses.getDecoreMoney());
 				orderContractExpenses2.setBuyCarType(orderContractExpenses.getBuyCarType());
+				orderContractExpenses2.setAdvanceTotalPrice(orderContractExpenses.getAdvanceTotalPrice());
 				orderContractExpenses2.setPayWay(orderContractExpenses.getPayWay());
 				orderContractExpenses2.setAjsxf(orderContractExpenses.getAjsxf());
 				orderContractExpenses2.setSfk(orderContractExpenses.getSfk());
-				orderContractExpenses2.setAdvanceTotalPrice(orderContractExpenses.getAdvanceTotalPrice());
 				orderContractExpenses2.setLoanType(orderContractExpenses.getLoanType());
 				orderContractExpenses2.setDaikuan(orderContractExpenses.getDaikuan());
 				orderContractExpenses2.setRevenuePrice(orderContractExpenses.getRevenuePrice());
 				orderContractExpenses2.setCarSalerPrice(orderContractExpenses.getCarSalerPrice());
 				orderContractExpenses2.setCarActurePrice(orderContractExpenses.getCarActurePrice());
-				orderContractExpenses2.setCarGrofitPrice(orderContractExpenses.getCarGrofitPrice());
 				orderContractExpenses2.setCashBenefit(orderContractExpenses.getCashBenefit());
-				orderContractExpenses2.setSpecialPermPrice(orderContractExpenses.getSpecialPermPrice());
-				orderContractExpenses2.setSpecialPermNote(orderContractExpenses.getSpecialPermNote());
 				//设置初始值
 				orderContractExpenses2.setDecoreCostMoney(orderContractExpenses.getDecoreCostMoney());
 				orderContractExpenses2.setDecoreGrofitPrice(orderContractExpenses.getDecoreGrofitPrice());
 				orderContractExpenses2.setOtherCostFeePrice(orderContractExpenses.getOtherCostFeePrice());
 				orderContractExpenses2.setOtherFeePrice(orderContractExpenses.getOtherFeePrice());
-				orderContractExpenses2.setTotalGrofitPrice(orderContractExpenses.getTotalGrofitPrice());
+				Double carGrofit = orderContractExpenses.getCarGrofit();
+				orderContractExpenses2.setCarGrofitPrice(carGrofit);
+				Double totalGrofit = orderContractExpenses.getTotalGrofit();
+				orderContractExpenses2.setTotalGrofitPrice(totalGrofit);
+				if(null==orderContractExpenses.getInsMoney()||orderContractExpenses.getInsMoney()<=0){
+					Double insGrofit = orderContractExpenses.getinsGrofit();
+					orderContractExpenses2.setInsMoneyGrofit(insGrofit);
+				}
 				orderContractExpenses2.setAjsxfGrofit(orderContractExpenses.getAjsxfGrofit());
-				orderContractExpenses2.setColorPrice(orderContractExpenses.getColorPrice());
-				orderContractExpenses2.setAttachDecoreMoney(orderContractExpenses.getAttachDecoreMoney());
-				orderContractExpenses2.setMasterDecoreMoney(orderContractExpenses.getMasterDecoreMoney());
 				orderContractExpenses2.setNote(orderContractExpenses.getNote());
+				orderContractExpenses2.setColorPrice(orderContractExpenses.getColorPrice());
+				orderContractExpenses2.setMasterDecoreMoney(orderContractExpenses.getMasterDecoreMoney());
+				orderContractExpenses2.setAttachDecoreMoney(orderContractExpenses.getAttachDecoreMoney());
 				orderContractExpenses2.setNoWllowancePrice(orderContractExpenses.getNoWllowancePrice());
 
+				orderContractExpenses2.setPaymentPer(orderContractExpenses.getPaymentPer());
+				orderContractExpenses2.setTrailerPrice(orderContractExpenses.getTrailerPrice());
+				orderContractExpenses2.setTrailerSalerPrice(orderContractExpenses.getTrailerSalerPrice());
+				orderContractExpenses2.setPreInsMoney(orderContractExpenses.getPreInsMoney());
+				orderContractExpenses2.setInsaranceRenewalDepositPrice(orderContractExpenses.getInsaranceRenewalDepositPrice());
+				orderContractExpenses2.setLoanPaybackMonthMoney(orderContractExpenses.getLoanPaybackMonthMoney());
+				orderContractExpenses2.setLoanPaymentInterest(orderContractExpenses.getLoanPaymentInterest());
+				orderContractExpenses2.setLoanPaymentPrice(orderContractExpenses.getLoanPaymentPrice());
+				orderContractExpenses2.setLoanPaymentTerm(orderContractExpenses.getLoanPaymentTerm());
+				orderContractExpenses2.setLoanPaymentType(orderContractExpenses.getLoanPaymentType());
+				orderContractExpenses2.setCarTotalPrice(orderContractExpenses.getCarTotalPrice());
+				orderContractExpenses2.setActureCollectedPrice(orderContractExpenses.getActureCollectedPrice());
+				orderContractExpenses2.setLowInvoicePrice(orderContractExpenses.getLowInvoicePrice());
+				orderContractExpenses2.setLoanCarPrice(orderContractExpenses.getLoanCarPrice());
+
 				orderContractExpensesManageImpl.save(orderContractExpenses2);
+				
+				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "编辑合同费用明细", "编辑合同费用明细",sessionUser);
 				//删除重复数据
 				orderContractExpensesManageImpl.deleteDuplicateDataByCustomerId(customerId);
 				

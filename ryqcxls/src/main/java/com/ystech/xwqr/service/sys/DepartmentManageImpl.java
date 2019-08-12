@@ -3,6 +3,7 @@
  */
 package com.ystech.xwqr.service.sys;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -25,18 +26,27 @@ public class DepartmentManageImpl extends HibernateEntityDao<Department>{
 	 * @return
 	 */
 	public String getDepartmentSelect(Department depart,Integer enterpriseId) {
-		if(enterpriseId==null){
-			//root=get(Department.ROOT);
-		}
-		String select="";
-		//String lest = getListDep(root,"|-",depart);
-		//select=select+lest;
-		return select;
+		List<Department> departments = find("from Department where enterpriseId=? order by suqNo",new Object[]{enterpriseId});
+		List<Department> departmentsTrees = buidTree(departments,Department.ROOT);
+		String listDep = getListDep(departmentsTrees,"|-",depart);
+		return listDep;
 	}
-	public String getListDep(Department department,String indent,Department choceDep){
+	public List<Department> buidTree(List<Department> departments,int parentId){
+		List<Department> tempDeparment=new ArrayList<Department>();
+		for (Department department : departments) {
+			if(department.getParentId()==parentId){
+				department.setChildren(buidTree(departments,department.getDbid()));
+				tempDeparment.add(department);
+			}else{
+				continue;
+			}
+		}
+		return tempDeparment;
+	}
+	public String getListDep(List<Department> departmentsTrees,String indent,Department choceDep){
 		try{
 			StringBuilder sb = new StringBuilder();
-			if (null!=department) {
+			for (Department department : departmentsTrees) {
 				if(null!=choceDep){
 					if((int)choceDep.getDbid()==(int)department.getDbid()){
 						sb.append("<option value='"+department.getDbid()+"' selected=\"selected\">"+indent+department.getName()+"</option>");
@@ -46,16 +56,14 @@ public class DepartmentManageImpl extends HibernateEntityDao<Department>{
 				}else{
 					sb.append("<option value='"+department.getDbid()+"'>"+indent+department.getName()+"</option>");
 				}
-				List<Department> children = find("from Department where parent.dbid=? order by suqNo",department.getDbid());
-				if (null!=children&&children.size()>0) {
-					for (Department department2 : children) {
-						sb.append(getListDep(department2, indent+"-",choceDep));
-					}
+				List<Department> children = department.getChildren();
+				if(!children.isEmpty()){
+					String listDep = getListDep(children, indent+"-", choceDep);
+					sb.append(listDep);
 				}
 			}
 			return sb.toString();
 		}catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return null;
 		}
@@ -64,11 +72,11 @@ public class DepartmentManageImpl extends HibernateEntityDao<Department>{
 		StringBuilder dbids = new StringBuilder("");
 		if(null!=department){
 			dbids=dbids.append(department.getDbid()+",");
-			List<Department> children =findBy("parent.dbid",department.getDbid());
+			List<Department> children =findBy("parentId",department.getDbid());
 			if(null!=children&&children.size()>0){
 				for (Department department2 : children) {
 					dbids=dbids.append(department2.getDbid()+",");
-					List<Department> findBy = findBy("parent.dbid",department2.getDbid());
+					List<Department> findBy = findBy("parentId",department2.getDbid());
 					if (null!=findBy&&findBy.size()>0) {
 						dbids.append(getDepartmentIds(department2)+",");
 					}

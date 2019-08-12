@@ -19,8 +19,7 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-			<%-- <a class="but butSave" href="javascript:void(-1);" onclick="$.utile.operatorDataByDbids('${ctx }/recommendCustomer/approvalMore','searchPageForm','确定批量审批推荐客户吗')">批量审核</a> --%>
-			<%-- <a class="but butSave" href="javascript:void(-1);" onclick="window.location.href='${ctx }/recommendCustomer/exportExcel?type=3'">导出EXCEL</a> --%>
+			<a class="but butSave" href="javascript:void(-1);" onclick="exportExcel('searchPageForm')">导出EXCEL</a>
    </div>
   	<div class="seracrhOperate">
   		<form name="searchPageForm" id="searchPageForm" action="${ctx}/recommendCustomer/queryCompanyManageList" method="post">
@@ -81,9 +80,6 @@
 				<td >
 					<div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div>
 				</td>
-				<td >
-					<a class="but butSave" href="javascript:void(-1);" onclick="exportExcel('searchPageForm')">导出EXCEL</a>
-				</td>
 				
 			</tr>
 		 </table>
@@ -100,16 +96,12 @@
 <table width="100%" border="0" class="mainTable" cellpadding="0" cellspacing="0">
 	<thead class="TableHeader">
 		<tr>
-			<td class="sn">
-					<input type="checkbox" name="title-table-checkbox" id="title-table-checkbox"  onclick="selectAll(this,'id')">
-			</td>
 			<td class="span2">名称</td>
 			<td class="span2">联系电话</td>
 			<td class="span2">购车预算</td>
 			<td class="span3">车型</td>
 			<td class="span2">经纪人</td>
 			<td class="span2">经纪人电话</td>
-			<td class="span2">员工</td>
 			<td class="span2">推荐日期</td>
 			<td class="span2">审核</td>
 			<td class="span2">分配</td>
@@ -121,9 +113,6 @@
 	<tbody>
 		<c:forEach items="${page.result }" var="recommentCustomer">
 			<tr>
-				<td style="text-align: center;">
-					<input type="checkbox"   name="id" id="id1" value="${recommentCustomer.dbid }">
-				</td>
 				<td >
 					<div class="dropDownContent" onmousemove="fn(this,event)" onmouseout="hiden(this)">
 					${recommentCustomer.name }（${recommentCustomer.sex }）
@@ -148,14 +137,6 @@
 					</a>
 				</td>
 				<td>${recommentCustomer.agentPhone }</td>
-				<td>
-					<c:if test="${empty(recommentCustomer.member.user) }">
-						无
-					</c:if>
-					<c:if test="${!empty(recommentCustomer.member.user) }">
-						${recommentCustomer.member.user.realName }
-					</c:if>
-				</td>
 				<td>${recommentCustomer.recommendDate }</td>
 				<td>
 					<c:if test="${recommentCustomer.approvalStatus==1}">

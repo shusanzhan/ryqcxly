@@ -51,8 +51,8 @@
 					${member.name }
 					<div class="drop_down_menu hiden" onmousemove="show(this)" onmouseout="hi(this)" >
 					    <ul>
-					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" onclick="window.location.href='${ctx}/member/pointRecordDetail?memberId=${member.dbid}&selectType=0'">会员积分明细</a></li>
-					      <li><a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/member/edit?dbid=${member.dbid}'">编辑</a></li>
+					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memMember/pointRecordDetail?memberId=${member.dbid}&selectType=0'">会员积分明细</a></li>
+					      <li><a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/memMember/edit?dbid=${member.dbid}'">编辑</a></li>
 					      
 					      <li><a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/memberTrack/add?memberId=${member.dbid }','添加跟进记录',900,500)">添加跟进记录</a> </li>
 					     <!--  <li><a href="javascript:void(-1)">追踪记录</a></li> -->
@@ -86,7 +86,7 @@
 				${member.overagePiont }
 			</td>
 			<td>
-				<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.deleteById('${ctx }/member/delete?dbids=${member.dbid}&type=2')">删除</a>
+				<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.deleteById('${ctx }/memMember/delete?dbids=${member.dbid}&type=2')">删除</a>
 			</td>
 		</tr>
 	</c:forEach>

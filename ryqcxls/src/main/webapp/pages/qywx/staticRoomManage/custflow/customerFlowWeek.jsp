@@ -55,7 +55,7 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">流失客户最近7周报表</span>
-    <a class="go_home" href="${ctx }/qywxSaleReport/index">
+    <a class="go_home" href="${ctx }/qywxRoomManageSaleReport/index">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
 </div>

@@ -31,6 +31,11 @@
 	    	<img src="${ctx }/images/jm/go_home.png" alt="">
 	    </a>
     </c:if>
+    <c:if test="${param.type==2 }">
+	    <a class="go_home" href="${ctx }/qywxCustomerTrack/index">
+	    	<img src="${ctx }/images/jm/go_home.png" alt="">
+	    </a>
+    </c:if>
 </div>
 <br>
 <br>
@@ -50,7 +55,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			意向级别：${customer.customerPhase.name}<br>
@@ -82,16 +87,6 @@
 					<span style="color: red;">审批驳回</span>
 				</c:if>
 			<br>
-			交车状态：<c:if test="${customer.customerPidBookingRecord.wlStatus==0 }">
-				<span class="dropDownContent">未提交</span>
-			</c:if>
-			<c:if test="${customer.customerPidBookingRecord.wlStatus==1 }">
-				<span style="color: red;" class="dropDownContent">等待处理</span>
-			</c:if>
-			<c:if test="${customer.customerPidBookingRecord.wlStatus==2 }">
-				<span class="dropDownContent" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/viewWlbCustomerPidRecord?customerId=${customer.dbid }','查看处理记录',1024,380)">已经处理</span>
-			</c:if>
-			<br>
 			车辆状态：
 			<c:if test="${customer.customerPidBookingRecord.hasCarOrder==1 }">
 				<span style="color: blue;">现车订单</span>
@@ -103,23 +98,15 @@
 				<span style="color: red;">无车订单</span>
 			</c:if>
 			<br>
-			vin码:
-			<a href="${ctx }/qywxCustomer/factoryOrderDetail?vinCode=${customer.customerPidBookingRecord.vinCode}&type=1">${customer.customerPidBookingRecord.vinCode}</a>
+			定金：<span style="color: red;">${orderContract.orderMoney }</span><br>
+			合同金额：<span style="color: red;">${orderContract.totalPrice}</span><br>
+			订单日期：<fmt:formatDate value="${orderContract.createTime }"/> <br/>
+			VIM码：${customer.customerPidBookingRecord.vinCode}<br/>
+			归档日期：<fmt:formatDate value="${customer.customerPidBookingRecord.modifyTime }"/> <br/>
 		</div>
 		</div>
 	</c:if>
 </div>
-<!-- 如果系统包括订单 -->
-<c:if test="${!empty(customer.orderContract) }">
-<div id="detail_nav">
-     <div class="detail_nav_inner">
-         <ul class="clearfix padding10">
-           <li class="detail_tap pull_left select" id="imgs_tap" onclick="">客户档案</li>
-           <li class="detail_tap pull_left " id="pingjia_tap" onclick="window.location.href='${ctx}/qywxCustomer/orderDetail?dbid=${customer.orderContract.dbid }&type=${param.type }'">订单明细</li>
-      	</ul>
-     </div>
- </div>
-</c:if>
 <div class="orderContrac detail">
 	<div class="title" align="left">
 		基础信息
@@ -141,28 +128,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">交叉客户：${customer.cityCrossCustomer.name}
-					</td>				
-				</tr>
-				<tr>
 					<td colspan="2" class="formTableTdLeft">类型：
-						<c:if test="${customerShoppingRecord.comeType==1 }">
-						 来店
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==2 }">
-						 来电
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==3 }">
-						 活动
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==4 }">
-						 特卖会
-						 </c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">客户来源：
-						${ customerBussi.infoFrom.name}
+						${customer.customerType.name }
 					</td>
 				</tr>
 				<tr>
@@ -174,15 +141,11 @@
 							${customerBussi.buyCarMainUse.name}
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2" class="formTableTdLeft">购车时间：
-							${customerBussi.trackingPhase.name}
-						</td>
-					</tr>
 			</table>
 		</div>
 	</div>
 </div>
+
 <div class="orderContrac detail">
 	<div class="title" align="left">
 		跟踪记录
@@ -267,7 +230,7 @@
 									${fn:substring(carModel,0,16) }...
 								</c:if>
 								<c:if test="${ status==false}">
-									${carModel} ${customer.carModelStr}
+									${carModel }${customer.carModelStr}
 								</c:if>
 						    </td>
 						</tr>	
@@ -297,251 +260,6 @@
 	</div>
 </div>
 </c:if>
-<div class="orderContrac detail">
-	<div class="title" align="left">
-		<span>档案信息</span>
-	</div>
-	<div class="line"></div>
-	<div style="margin: 0 auto;margin: 5px;">
-		<div style="color:#8a8a8a;padding-left: 5px; ">
-			<table>
-				<tr>
-					<td colspan="2">单位信息：${ customer.companyName1}&#12288;</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						家庭情况：${customer.family }
-					</td>
-				</tr>
-				<tr >
-					<td colspan="2">QQ/MSN：${customer.qq}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">EMAIL：${customer.email}
-					</td>				
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">邮编：${customer.zipCode }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">职业：
-						${ customer.industry.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">学历：
-						${ customer.educational.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">兴趣爱好：
-						${ customer.interest.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">备注：
-						${customer.note }
-					</td>
-				</tr>
-				
-			</table>
-		</div>
-	</div>
-</div>
-<div class="orderContrac detail">
-	<div class="title" align="left">
-		<span>来店登记</span>
-	</div>
-	<div class="line"></div>
-	<div style="margin: 0 auto;margin: 5px;">
-		<div style="color:#8a8a8a;padding-left: 5px; ">
-			<table>
-				<tr>
-					<td colspan="2">进店时间：
-					${customerShoppingRecord.comeInTime }
-				&#12288;</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						离店时间：
-						${customerShoppingRecord.farwayTime }
-					</td>
-				</tr>
-				<tr >
-					<td colspan="2">
-						停留时间：
-						<c:if test="${ customerShoppingRecord.waitingTime==1}">
-							约10分钟
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==2}">
-							约20分钟
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==3}">
-							约30分钟
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==4}">
-							约1小时
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==5}">
-							约2小时
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==6}">
-							约3小时
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==7}">
-							约5小时
-						</c:if>
-						<c:if test="${ customerShoppingRecord.waitingTime==8}">
-							约8小时
-						</c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					客户随性人数：
-					${customerShoppingRecord.customerNum }人
-					</td>				
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">是否试驾：
-						<c:if test="${customer.tryCarStatus==1||empty(customer.tryCarStatus)}">
-							未试驾				
-						</c:if>
-						<c:if test="${customer.tryCarStatus==2 }">
-							<span style="color: red;">已试驾</span>	${customer.tryCarDate }		
-						</c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">是否首次来店：
-						<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">
-							未到店				
-						</c:if>
-						<c:if test="${customer.comeShopStatus==2 }">
-							<span style="color: red;">首次到店</span>			
-						</c:if>
-						<c:if test="${customer.comeShopStatus==3 }">
-							<span style="color: red;">二次到店</span>二次到店司机：${customer.twoComeShopDate }
-							首次到店时间：${customer.comeShopDate }			
-						</c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">客户是否有车：
-						<label > ${customerShoppingRecord.isGetCar==true?'是':'否' } </label>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						试驾专员：${customerShoppingRecord.tryDriver }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						客户车型：${customerShoppingRecord.carModel }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						试驾专员：${customerShoppingRecord.tryDriver }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						接待经过：${customerShoppingRecord.receptionExperience}
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</div>
-<div class="orderContrac detail">
-	<div class="title" align="left">
-		<span>需求评估</span>
-	</div>
-	<div class="line"></div>
-	<div style="margin: 0 auto;margin: 5px;">
-		<div style="color:#8a8a8a;padding-left: 5px; ">
-			<table>
-				<tr>
-					<td colspan="2" class="formTableTdLeft" >购车预算：${customerBussi.buyCarBudget.name}
-						</td>
-				</tr>
-				<tr>
-						<td colspan="2" class="formTableTdLeft">使用者：
-							${customerBussi.buyCarMainUse.name}
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" class="formTableTdLeft">购车时间：
-							${customerBussi.trackingPhase.name}
-						</td>
-					</tr>
-				<tr>
-					<td colspan="2">购车关注点：${ customerBussi.buyCarCare.name}&#12288;</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						购车目的：${customerBussi.buyCarTarget.name }
-					</td>
-				</tr>
-				<tr >
-					<td colspan="2">购车类型：${customerBussi.buyCarType.name }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">购车预算：${customerBussi.buyCarBudget.name}
-					</td>				
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">主要使用者：
-						${customerBussi.buyCarMainUse.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">购车时间：
-						${ customerBussi.trackingPhase.name}
-					</td>
-				</tr>
-					<tr>
-						<td colspan="2" class="formTableTdLeft">备注：
-							${customerBussi.note}
-						</td>
-					</tr>
-			</table>
-		</div>
-	</div>
-	<div style="margin: 0 auto;margin: 5px;">
-		<div style="color:#8a8a8a;padding-left: 5px; ">
-			<table>
-				<tr>
-					<td colspan="2">客户特征：${ customerBussi.customerSpecification}&#12288;</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						客户需求：${customerBussi.customerNeed }
-					</td>
-				</tr>
-				<tr >
-					<td colspan="2">关注竞品：${customerBussi.customerCareAbout }
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">重点描述：${customerBussi.otherMainDescription}
-					</td>				
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">后续跟进计划：
-						${ customerBussi.afterPlan}
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</div>
-
 <!-- 成交结果结束 -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -79,7 +79,7 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">成交客户报表</span>
-    <a class="go_home" href="${ctx }/qywxStat/index">
+    <a class="go_home" href="${ctx }/qywxSaleReport/index?role=${param.role}">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
     <c:if test="${param.type==1||param.type>=3 }">
@@ -224,6 +224,15 @@
 </div>
 <div class="row-fluid">
 	${depDetails }
+</div>
+<br>
+<div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">
+	<h5 style="text-align: left;font-size: 16px">
+		分公司销售顾问成交客户明细
+	</h5>
+</div>
+<div class="row-fluid">
+	${userDetails }
 </div>
 <c:if test="${param.type==4 }">
 <div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">

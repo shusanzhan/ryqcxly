@@ -47,7 +47,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）
@@ -83,5 +83,5 @@
       </ul>
 </div>	
 </body>
-<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 </html>

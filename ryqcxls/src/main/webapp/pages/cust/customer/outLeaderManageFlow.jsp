@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
@@ -57,15 +57,6 @@
 						<option value="3" ${param.lastResultId==3?'selected="selected"':'' }>购车计划取消 </option>
 					</select>
 				</td>
-				<td><label>交叉客户：</label></td>
-  				<td>
-  					<select id="cityCrossCustomerId" name="cityCrossCustomerId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${param.cityCrossCustomerId==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
-					</select>
-				</td>
 				<td><label>创建日期开始：</label></td>
   				<td>
   					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
@@ -104,7 +95,6 @@
 			<td style="width: 100px;">意向级别</td>
 			<td style="width: 100px;">部门</td>
 			<td style="width: 80px;">业务员</td>
-			<td style="width: 80px;">交叉客户</td>
 			<td style="width: 100px;">结案情形</td>
 			<td style="width: 80px;">审批人</td>
 			<td style="width: 80px;">客户流失时间</td>
@@ -146,9 +136,6 @@
 			<td>${customer.department.name }</td>
 			<td>
 				${customer.bussiStaff}
-			</td>
-			<td>
-				${customer.cityCrossCustomer.name}
 			</td>
 			<td>
 				<c:if test="${customer.lastResult==0 }">

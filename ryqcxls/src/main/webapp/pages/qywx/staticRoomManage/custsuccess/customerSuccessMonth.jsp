@@ -55,7 +55,7 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">成交客户月报表</span>
-    <a class="go_home" href="${ctx }/qywxSaleReport/index">
+    <a class="go_home" href="${ctx }/qywxRoomManageSaleReport/index">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
      <a id="search_action" class="go_search" onclick="showSearch()">
@@ -285,7 +285,7 @@ $(function () {
         },
         series:${buffCarseryValues}
     });
-    $('#container3').highcharts({
+   /*  $('#container3').highcharts({
         chart: {
             type: 'line'
         },
@@ -315,7 +315,7 @@ $(function () {
             }
         },
         series:${buffDepartmentValues}
-    });
+    }); */
     
 });				
 </script>

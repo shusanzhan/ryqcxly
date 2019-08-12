@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-<title>战败原因</title>
+<title>推荐客户无效原因</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet">
@@ -15,11 +15,7 @@
 <div class="location">
    	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
    	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-   	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/flowReason/queryList'">会员等级</a>-
-   	<a href="javascript:void(-1)" class="current">
-		<c:if test="${flowReason.dbid>0 }" var="status">战败原因</c:if>
-		<c:if test="${status==false }">战败原因</c:if>
-	</a>
+   	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/flowReason/queryList'">推荐客户无效原因</a>-
 </div>
 <div class="line"></div>
 <div class="frmContent">

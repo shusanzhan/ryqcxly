@@ -44,11 +44,11 @@ public class AddressUtil  {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			//创建用户列表
-			List<User>  createusers= userManageImpl.executeSql("select * from sys_user where wechatId is not null and userState=1 and wechatId!='' and sysWeixinStatus="+User.SYNCOMM, null);
+			List<User>  createusers= userManageImpl.executeSql("select * from sys_user where wechatId is not null and userState=1 AND adminType=2 and wechatId!='' and sysWeixinStatus="+User.SYNCOMM, null);
 			//更新用户列表
-			List<User>  updateusers= userManageImpl.executeSql("select * from sys_user where wechatId is not null and userState=1 and wechatId!='' and sysWeixinStatus="+User.SYNYYES, null);
+			List<User>  updateusers= userManageImpl.executeSql("select * from sys_user where wechatId is not null and userState=1 AND adminType=2 and wechatId!='' and sysWeixinStatus="+User.SYNYYES, null);
 			if(null!=createusers&&createusers.size()>0){
 				String user_create_url = QywxUtil.user_create_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 				for (User user : createusers) {
@@ -82,10 +82,11 @@ public class AddressUtil  {
 	public  boolean createUser(User user){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String user_create_url = QywxUtil.user_create_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			String josnUser = josnUser(user);
 			JSONObject httpRequest = QywxUtil.httpRequest(user_create_url, "POST", josnUser);
+			System.out.println("====="+httpRequest.toString());
 			if(null!=httpRequest){
 				ErrorMessage errorMessage = ErrorMessageUtil.paraseErrorMessage(httpRequest);
 				if(errorMessage.getErrcode().equals("0")){
@@ -138,10 +139,11 @@ public class AddressUtil  {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String user_update_url = QywxUtil.user_update_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			String josnUser = josnUser(user);
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "POST", josnUser);
+			System.err.println("========="+httpRequest.toString());
 			if(null!=httpRequest){
 				ErrorMessage errorMessage = ErrorMessageUtil.paraseErrorMessage(httpRequest);
 				if(errorMessage.getErrcode().equals("0")){
@@ -169,6 +171,7 @@ public class AddressUtil  {
 		try {
 			String josnUser = josnUser(user);
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "POST", josnUser);
+			System.err.println("==========="+httpRequest.toString());
 			if(null!=httpRequest){
 				ErrorMessage errorMessage = ErrorMessageUtil.paraseErrorMessage(httpRequest);
 				if(errorMessage.getErrcode().equals("0")){
@@ -195,7 +198,7 @@ public class AddressUtil  {
 	public  boolean stopUser(User user){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String user_update_url = QywxUtil.user_update_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			String josnUser = josnUser(user);
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "POST", josnUser);
@@ -226,7 +229,7 @@ public class AddressUtil  {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String user_update_url = QywxUtil.user_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", user.getUserId());
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "GET", null);
 			if(null!=httpRequest){
@@ -268,7 +271,7 @@ public class AddressUtil  {
 	public  boolean synDataUserAttention(){
 		try {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String hql="select * from sys_user where 1=1 ";
 			hql=hql+" and userState=1";
 			List<User> users = userManageImpl.executeSql(hql, null);
@@ -320,7 +323,7 @@ public class AddressUtil  {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String user_update_url = QywxUtil.user_delete_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", user.getUserId());
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "GET", null);
 			if(null!=httpRequest){

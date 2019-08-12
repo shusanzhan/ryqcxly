@@ -26,16 +26,16 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx }/customer/add?parentMenu=1'">创建客户</a>
-		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/testDriveAgreement')">试乘试驾协议书</a>
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/satisfactionAssessment')">满意度评估表</a>
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/negotiationsQuote')">商谈报价单</a>
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/trakingCard')">客户追踪单</a>
-		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx }/customer/contract'">客户合同</a>
-		<a class="but button" href="javascript:void();" onclick="$.utile.deleteIds('${ctx }/customer/delete','searchPageForm')">删除</a>
+		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx }/custCustomer/add?parentMenu=1'">创建客户</a>
+		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/custCustomer/testDriveAgreement')">试乘试驾协议书</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/satisfactionAssessment')">满意度评估表</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/negotiationsQuote')">商谈报价单</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/trakingCard')">客户追踪单</a>
+		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx }/custCustomer/contract'">客户合同</a>
+		<a class="but button" href="javascript:void();" onclick="$.utile.deleteIds('${ctx }/custCustomer/delete','searchPageForm')">删除</a>
    </div>
   	<div class="seracrhOperate" style="margin: 20px 1px;">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -49,15 +49,6 @@
 						</c:forEach>
 					</select>
   				</td>
-  				<td><label>购车时间：</label></td>
-  				<td>
-  					<select class="midea text" id="trackingPhaseId" name="trackingPhaseId" onchange="$('#searchPageForm')[0].submit()" >
-					<option value="">请选择...</option>
-					<c:forEach var="trackingPhase" items="${trackingPhases }">
-						<option value="${trackingPhase.dbid }" ${param.trackingPhaseId==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-					</c:forEach>
-					</select>
-				</td>
   				<td><label>常用手机号：</label></td>
   				<td><input type="text" id="mobilePhone" name="mobilePhone" class="text midea" value="${param.mobilePhone}"></input></td>
   				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
@@ -117,26 +108,23 @@
 			<td>
 				${customer.mobilePhone}
 			</td>
-			<td>
-				${customer.customerBussi.trackingPhase.name}
-			</td>
 			<td>${customer.bussiStaff }</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 		
 			<td>
 				<fmt:formatDate value="${customer.createFolderTime }"/>
 			</td>
 			<td style="text-align: center;">
-			<a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx }/customer/trakingCard?dbid=${customer.dbid}')">档案明细</a> | 
-			<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">档案明细</a> | 
+			<a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx }/custCustomer/trakingCard?dbid=${customer.dbid}')">档案明细</a> | 
+			<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">档案明细</a> | 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerTrack/add?customerId=${customer.dbid }','添加跟进记录',900,500)">添加跟进记录</a> 
 			<br> 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/add?customerId=${customer.dbid }','',900,520)">试驾协议</a> | 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/add?customerId=${customer.dbid }','交车预约记录',900,520)">交车预约</a> | 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerLastBussi/add?customerId=${customer.dbid }','添加跟进记录',900,500)">成交结果</a> | 
-			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/customer/delete?dbids=${customer.dbid}','searchPageForm')" title="删除">删除</a></td>
+			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/custCustomer/delete?dbids=${customer.dbid}','searchPageForm')" title="删除">删除</a></td>
 		</tr>
 		</c:forEach>
 	</tbody>

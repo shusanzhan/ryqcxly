@@ -284,7 +284,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;&nbsp;消</button>
-        <button type="button" class="btn btn-primary" onclick="$('#currentPage').val(1);$('#frmId')[0].submit()">查询</button>
+        <button type="button" class="btn btn-primary" onclick="$('#currentPage').val(1);$('#searchPageForm')[0].submit()">查询</button>
       </div>
     </div>
   </div>

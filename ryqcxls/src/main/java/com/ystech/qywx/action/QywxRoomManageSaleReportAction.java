@@ -106,7 +106,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			}
 			
 			/*****今天客户情况统计***/
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  cust.createFolderTime>='"+DateUtil.format(start)+"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.customerType=1 And "+selSql;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  cust.createFolderTime>='"+DateUtil.format(start)+"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.recordType=1 And "+selSql;
 			//新增加客户
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
@@ -130,7 +130,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"	cust_customer cust,cust_customerbussi cbu,set_carseriy cs " +
 					"WHERE" +
 					"	cust.dbid=cbu.customerId AND cbu.carSeriyId=cs.dbid AND cust.createFolderTime>='"+DateUtil.format(start)+
-					"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.customerType=1 AND "+selSql+
+					"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.recordType=1 AND "+selSql+
 					" GROUP BY cs.dbid ";
 			
 			List<CarSerCount> todayCarSerirys = statisticalManageImpl.querStatic(todayCarSerirySql);
@@ -242,7 +242,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			}
 			
 			/*****今天客户情况统计***/
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  cust.createFolderTime>='"+DateUtil.format(start)+"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.customerType=1 And "+selSql;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  cust.createFolderTime>='"+DateUtil.format(start)+"' AND cust.createFolderTime<'"+DateUtil.format(end)+"' and cust.recordType=1 And "+selSql;
 			//新增加客户
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
@@ -254,7 +254,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			//平均 7天集客数量
 			int avageCustomer=0;
 			String sql="SELECT DATE_FORMAT(cust.createFolderTime,'%m-%d') AS createFolderTime,COUNT(DATE_FORMAT(cust.createFolderTime,'%y-%m-%d')) AS totalNum FROM cust_customer cust" +
-					"  WHERE TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.customerType=1 AND " +selSql+
+					"  WHERE TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.recordType=1 AND " +selSql+
 					"  GROUP BY DATE_FORMAT(cust.createFolderTime,'%y-%m-%d')";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			if(null!=customerWeekDateNums&&customerWeekDateNums.size()>0){
@@ -287,7 +287,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust " +
 					"WHERE " +
-					" TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.customerType=1 AND cust.bussiStaffId AND " +selSql;
+					" TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.recordType=1 AND cust.bussiStaffId AND " +selSql;
 			Object totalWeekNum = statisticalSalerManageImpl.queryCount(totalWeekSql);
 			request.setAttribute("totalWeekNum", totalWeekNum);
 			
@@ -296,7 +296,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND csr.comeType=paramType AND TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.customerType=1 AND " +selSql;
+					"csr.customerId=cust.dbid AND csr.comeType=paramType AND TO_DAYS(NOW()) - TO_DAYS(cust.createFolderTime) <7 AND cust.recordType=1 AND " +selSql;
 			//来店
 			String comeShopSql = comeTypeSql.replace("paramType", "1");
 			Object comeShopNum = statisticalSalerManageImpl.queryCount(comeShopSql);
@@ -319,7 +319,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"set_carseriy cs,cust_customer cust,cust_customerbussi cb " +
 					"WHERE " +
-					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND TO_DAYS(NOW()) - TO_DAYS(createFolderTime) <7 AND customerType=1 AND " +selSql+ 
+					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND TO_DAYS(NOW()) - TO_DAYS(createFolderTime) <7 AND recordType=1 AND " +selSql+ 
 					"GROUP BY cs.dbid ORDER BY countNum DESC ";
 			List<CarSerCount> carSerCountsTop5 = statisticalManageImpl.querStatic(carserySql);
 			request.setAttribute("carSerCountsTop5", carSerCountsTop5);
@@ -333,7 +333,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 							"FROM " +
 							"cust_customer cust,cust_customerbussi cb " +
 							"WHERE " +
-							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND TO_DAYS(NOW()) - TO_DAYS(createFolderTime) <7 AND customerType=1 AND " +selSql +
+							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND TO_DAYS(NOW()) - TO_DAYS(createFolderTime) <7 AND recordType=1 AND " +selSql +
 							"GROUP BY DATE_FORMAT(cust.createFolderTime,'%Y-%m-%d')";
 					if(i==0){
 						buffCarseryValues.append("{");
@@ -415,7 +415,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 				selSql=selSql+" cust.departmentId="+currentUser.getDepartment().getDbid()+" ";
 			}
 			/*****今天客户情况统计***/
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  WEEKOFYEAR(CURDATE())=WEEKOFYEAR(createFolderTime) and YEAR(createFolderTime)=YEAR(CURDATE()) and customerType=1 AND "+selSql;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  WEEKOFYEAR(CURDATE())=WEEKOFYEAR(createFolderTime) and YEAR(createFolderTime)=YEAR(CURDATE()) and recordType=1 AND "+selSql;
 			//新增加客户
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
@@ -431,7 +431,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust " +
 					"WHERE " +
-					"(WEEKOFYEAR(CURDATE())-WEEKOFYEAR(createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(createFolderTime) AND customerType=1 AND "+selSql+
+					"(WEEKOFYEAR(CURDATE())-WEEKOFYEAR(createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(createFolderTime) AND recordType=1 AND "+selSql+
 					"GROUP BY WEEKOFYEAR(createFolderTime) ORDER BY WEEKOFYEAR(createFolderTime)";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			int param=0;
@@ -471,7 +471,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust " +
 					"WHERE " +
-					" (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(createFolderTime) AND customerType=1 And "+selSql;
+					" (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(createFolderTime) AND recordType=1 And "+selSql;
 			Object totalWeekNum = statisticalSalerManageImpl.queryCount(totalWeekSql);
 			request.setAttribute("totalWeekNum", totalWeekNum);
 			
@@ -480,14 +480,14 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND csr.comeType=paramType AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND cust.customerType=1 And "+selSql;
+					"csr.customerId=cust.dbid AND csr.comeType=paramType AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND cust.recordType=1 And "+selSql;
 			//来店
 			String comeShopSql ="SELECT " +
 					"COUNT(*) as total " +
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND cust.customerType=1 And "+selSql;
+					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND cust.recordType=1 And "+selSql;
 			Object comeShopNum = statisticalSalerManageImpl.queryCount(comeShopSql);
 			request.setAttribute("comeShopNum", comeShopNum);
 			//来电
@@ -508,7 +508,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"set_carseriy cs,cust_customer cust,cust_customerbussi cb " +
 					"WHERE " +
-					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND customerType=1 And "+selSql+
+					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND recordType=1 And "+selSql+
 					"GROUP BY cs.dbid ORDER BY countNum DESC ";
 			List<CarSerCount> carSerCountsTop5 = statisticalManageImpl.querStatic(carserySql);
 			request.setAttribute("carSerCountsTop5", carSerCountsTop5);
@@ -522,7 +522,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 							"FROM " +
 							"cust_customer cust,cust_customerbussi cb " +
 							"WHERE " +
-							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND customerType=1 And " +selSql+
+							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cust.createFolderTime))<7 AND  YEAR(CURDATE())=YEAR(cust.createFolderTime) AND recordType=1 And " +selSql+
 							"GROUP BY WEEKOFYEAR(createFolderTime)";
 					if(i==0){
 						buffCarseryValues.append("{");
@@ -603,7 +603,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 				selSql=selSql+" cust.departmentId="+currentUser.getDepartment().getDbid();
 			}
 			/*****今天客户情况统计***/
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  createFolderTime>='"+DateUtil.format(new Date())+"' AND createFolderTime<'"+DateUtil.format(new Date())+"' and customerType=1 AND "+selSql;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where  createFolderTime>='"+DateUtil.format(new Date())+"' AND createFolderTime<'"+DateUtil.format(new Date())+"' and recordType=1 AND "+selSql;
 			//新增加客户
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
@@ -615,7 +615,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			//平均 7天集客数量
 			int avageCustomer=0;
 			String sql="SELECT DATE_FORMAT(createFolderTime,'%d') AS createFolderTime,COUNT(DATE_FORMAT(createFolderTime,'%d')) AS totalNum FROM cust_customer cust" +
-					"  WHERE DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1" +" AND "+selSql+
+					"  WHERE DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1" +" AND "+selSql+
 					"  GROUP BY DATE_FORMAT(createFolderTime,'%d')";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			if(null!=customerWeekDateNums&&customerWeekDateNums.size()>0){
@@ -647,7 +647,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust " +
 					"WHERE " +
-					" DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1  AND "+selSql;
+					" DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1  AND "+selSql;
 			Object totalWeekNum = statisticalSalerManageImpl.queryCount(totalWeekSql);
 			request.setAttribute("totalWeekNum", totalWeekNum);
 			
@@ -656,14 +656,14 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND csr.comeType=paramType AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1  AND "+selSql;
+					"csr.customerId=cust.dbid AND csr.comeType=paramType AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1  AND "+selSql;
 			//来店
 			String comeShopSql ="SELECT " +
 					"COUNT(*) as total " +
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1  AND "+selSql;
+					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1  AND "+selSql;
 			Object comeShopNum = statisticalSalerManageImpl.queryCount(comeShopSql);
 			request.setAttribute("comeShopNum", comeShopNum);
 			//来电
@@ -684,7 +684,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"set_carseriy cs,cust_customer cust,cust_customerbussi cb " +
 					"WHERE " +
-					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1 " +"  AND "+selSql+
+					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1 " +"  AND "+selSql+
 					" GROUP BY cs.dbid ORDER BY countNum DESC ";
 			List<CarSerCount> carSerCountsTop5 = statisticalManageImpl.querStatic(carserySql);
 			request.setAttribute("carSerCountsTop5", carSerCountsTop5);
@@ -698,7 +698,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 							"FROM " +
 							"cust_customer cust,cust_customerbussi cb " +
 							"WHERE " +
-							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND customerType=1 " +"  AND "+selSql +
+							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND DATE_FORMAT(createFolderTime,'%Y-%m')='"+start+"' AND recordType=1 " +"  AND "+selSql +
 							" GROUP BY DATE_FORMAT(createFolderTime,'%d')";
 					if(i==0){
 						buffCarseryValues.append("{");
@@ -781,7 +781,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			}
 			
 			/*****今天客户情况统计***/
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where MONTH(createFolderTime)=MONTH(CURDATE()) and YEAR(createFolderTime)='"+start+"' and customerType=1 And "+selSql;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer cust where MONTH(createFolderTime)=MONTH(CURDATE()) and YEAR(createFolderTime)='"+start+"' and recordType=1 And "+selSql;
 			//新增加客户
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
@@ -793,7 +793,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 			//平均 7天集客数量
 			int avageCustomer=0;
 			String sql="SELECT MONTH(createFolderTime) AS createFolderTime,COUNT(MONTH(createFolderTime)) AS totalNum FROM cust_customer cust" +
-					"  WHERE YEAR(createFolderTime)='"+start+"' AND customerType=1" +" And "+selSql+
+					"  WHERE YEAR(createFolderTime)='"+start+"' AND recordType=1" +" And "+selSql+
 					"  GROUP BY MONTH(createFolderTime)";
 			List<DateNum> customerWeekDateNums = statisticalManageImpl.queryCustomerWeek(sql);
 			if(null!=customerWeekDateNums&&customerWeekDateNums.size()>0){
@@ -836,7 +836,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust " +
 					"WHERE " +
-					" YEAR(createFolderTime)='"+start+"' AND customerType=1 And "+selSql;
+					" YEAR(createFolderTime)='"+start+"' AND recordType=1 And "+selSql;
 			Object totalWeekNum = statisticalSalerManageImpl.queryCount(totalWeekSql);
 			request.setAttribute("totalWeekNum", totalWeekNum);
 			
@@ -845,14 +845,14 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND csr.comeType=paramType AND YEAR(createFolderTime)='"+start+"' AND customerType=1 And "+selSql;
+					"csr.customerId=cust.dbid AND csr.comeType=paramType AND YEAR(createFolderTime)='"+start+"' AND recordType=1 And "+selSql;
 			//来店
 			String comeShopSql ="SELECT " +
 					"COUNT(*) as total " +
 					"FROM " +
 					"cust_customer cust,cust_customershoppingrecord csr " +
 					"WHERE " +
-					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND YEAR(createFolderTime)='"+start+"' AND customerType=1 And "+selSql;
+					"csr.customerId=cust.dbid AND (csr.comeType=1 or csr.comeType is null ) AND YEAR(createFolderTime)='"+start+"' AND recordType=1 And "+selSql;
 			Object comeShopNum = statisticalSalerManageImpl.queryCount(comeShopSql);
 			request.setAttribute("comeShopNum", comeShopNum);
 			//来电
@@ -873,7 +873,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 					"FROM " +
 					"set_carseriy cs,cust_customer cust,cust_customerbussi cb " +
 					"WHERE " +
-					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND YEAR(createFolderTime)='"+start+"' AND customerType=1 And "+selSql+
+					"cust.dbid=cb.customerId AND cs.dbid=cb.carSeriyId AND YEAR(createFolderTime)='"+start+"' AND recordType=1 And "+selSql+
 					" GROUP BY cs.dbid ORDER BY countNum DESC ";
 			List<CarSerCount> carSerCountsTop5 = statisticalManageImpl.querStatic(carserySql);
 			request.setAttribute("carSerCountsTop5", carSerCountsTop5);
@@ -887,7 +887,7 @@ public class QywxRoomManageSaleReportAction extends BaseController{
 							"FROM " +
 							"cust_customer cust,cust_customerbussi cb " +
 							"WHERE " +
-							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND YEAR(createFolderTime)='"+start+"' AND customerType=1 And "+selSql+
+							"cust.dbid=cb.customerId AND cb.carSeriyId="+carSerCount.getSerid()+" AND YEAR(createFolderTime)='"+start+"' AND recordType=1 And "+selSql+
 							" GROUP BY MONTH(createFolderTime)";
 					if(i==0){
 						buffCarseryValues.append("{");

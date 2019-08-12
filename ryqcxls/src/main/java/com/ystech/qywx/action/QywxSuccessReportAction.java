@@ -105,7 +105,7 @@ public class QywxSuccessReportAction extends BaseController{
 					"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 					"WHERE" +
 					" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.customerType=1";
+					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.recordType=1";
 			Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 			request.setAttribute("selfShopTotal", selfShopTotal);
 			//二网数据统计合
@@ -130,7 +130,7 @@ public class QywxSuccessReportAction extends BaseController{
 					"FROM	sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 					"WHERE" +
 					" dep.dbid=cust.successDepartmentId AND dep.parentId=paramDepId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.customerType=1 GROUP BY dep.dbid";
+					" AND cpid.modifyTime>='"+DateUtil.format(start)+"' AND cpid.modifyTime<'"+DateUtil.format(end)+"' and cust.recordType=1 GROUP BY dep.dbid";
 			request.setAttribute("countUserByDepId", countUserByDepId);
 			
 			
@@ -348,7 +348,7 @@ public class QywxSuccessReportAction extends BaseController{
 			if(null!=depatments&&depatments.size()>0){
 				Set<Department> result=new HashSet<Department>();
 				for (Department department : depatments) {
-					Set<Department> children = department.getChildren();
+					List<Department> children = department.getChildren();
 					result.addAll(children);
 				}
 				if (result.size()>0) {
@@ -415,7 +415,7 @@ public class QywxSuccessReportAction extends BaseController{
 				"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 				"WHERE" +
 				" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-				" AND  TO_DAYS(NOW()) - TO_DAYS(cpid.modifyTime) <7 and cust.customerType=1";
+				" AND  TO_DAYS(NOW()) - TO_DAYS(cpid.modifyTime) <7 and cust.recordType=1";
 		Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 		request.setAttribute("selfShopTotal", selfShopTotal);
 		//二网数据统计合
@@ -642,7 +642,7 @@ public class QywxSuccessReportAction extends BaseController{
 			if(null!=depatments&&depatments.size()>0){
 				Set<Department> result=new HashSet<Department>();
 				for (Department department : depatments) {
-					Set<Department> children = department.getChildren();
+					List<Department> children = department.getChildren();
 					result.addAll(children);
 				}
 				if (result.size()>0) {
@@ -709,7 +709,7 @@ public class QywxSuccessReportAction extends BaseController{
 				"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 				"WHERE" +
 				" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-				" AND  (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cpid.modifyTime))<7 AND  YEAR(CURDATE())=YEAR(cpid.modifyTime) and cust.customerType=1";
+				" AND  (WEEKOFYEAR(CURDATE())-WEEKOFYEAR(cpid.modifyTime))<7 AND  YEAR(CURDATE())=YEAR(cpid.modifyTime) and cust.recordType=1";
 		Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 		request.setAttribute("selfShopTotal", selfShopTotal);
 		//二网数据统计合
@@ -938,7 +938,7 @@ public class QywxSuccessReportAction extends BaseController{
 			if(null!=depatments&&depatments.size()>0){
 				Set<Department> result=new HashSet<Department>();
 				for (Department department : depatments) {
-					Set<Department> children = department.getChildren();
+					List<Department> children = department.getChildren();
 					result.addAll(children);
 				}
 				if (result.size()>0) {
@@ -1005,7 +1005,7 @@ public class QywxSuccessReportAction extends BaseController{
 				"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 				"WHERE" +
 				" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-				" AND  DATE_FORMAT(cpid.modifyTime,'%Y-%m')='"+start+"' and cust.customerType=1";
+				" AND  DATE_FORMAT(cpid.modifyTime,'%Y-%m')='"+start+"' and cust.recordType=1";
 		Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 		request.setAttribute("selfShopTotal", selfShopTotal);
 		//二网数据统计合
@@ -1235,7 +1235,7 @@ public class QywxSuccessReportAction extends BaseController{
 			if(null!=depatments&&depatments.size()>0){
 				Set<Department> result=new HashSet<Department>();
 				for (Department department : depatments) {
-					Set<Department> children = department.getChildren();
+					List<Department> children = department.getChildren();
 					result.addAll(children);
 				}
 				if (result.size()>0) {
@@ -1302,7 +1302,7 @@ public class QywxSuccessReportAction extends BaseController{
 				"FROM sys_department dep,cust_customer cust,cust_customerpidbookingrecord cpid " +
 				"WHERE" +
 				" dep.dbid=cust.successDepartmentId AND cpid.customerId=cust.dbid AND cpid.pidStatus="+CustomerPidBookingRecord.FINISHED+
-				" AND  YEAR(cpid.modifyTime)='"+start+"' and cust.customerType=1";
+				" AND  YEAR(cpid.modifyTime)='"+start+"' and cust.recordType=1";
 		Object selfShopTotal = statisticalSalerManageImpl.queryCount(selfShopTotalSql);
 		request.setAttribute("selfShopTotal", selfShopTotal);
 		//二网数据统计合

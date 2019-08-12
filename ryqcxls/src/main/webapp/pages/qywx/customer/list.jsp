@@ -156,74 +156,120 @@
     <div class="modal-content">
       <div class="modal-body">
       	<form class="form-inline" action="${ctx }/qywxCustomer/list" name="searchPageForm" id="searchPageForm" method="post">
-      	  <input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
+      	  	<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 			<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
       	 <table>
-      	 	<tr height="">
-      	 		<td width="60"><label for="exampleInputName2">品牌</label></td>
-      	 		<td width="240">
-	      	 		<select class="form-control" id="brandId" name="brandId" onchange="ajaxCarSeriy(this.value)">
-			    	<option value="">请选择...</option>
-			    	<c:forEach var="brand" items="${brands }">
-				    	<option value="${brand.dbid }" ${param.brandId==brand.dbid?'selected="selected"':'' } >${brand.name }</option>
-			    	</c:forEach>
-			    </select>
-			    </td>
-      	 	</tr>
-      	 	
       	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">车系</label></td>
-      	 		<td width="240" id="carSeriyDiv">
-	      	 		<select class="form-control " id="carSeriyId" name="carSeriyId" ${empty(param.brandId)==true?'disabled="disabled"':'' }>
-			    		<option value="">请选择...</option>
-				    	<c:forEach var="carSeriy" items="${carSeriys }">
-					    	<option value="${carSeriy.dbid }" ${param.carSeriyId==carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
-				    	</c:forEach>
-			   	 </select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">车型</label></td>
-      	 		<td width="240" id="carModelDiv">
-	      	 		<select class="form-control" id="carModelId" name="carModelId" ${empty(param.carSeriyId)==true?'disabled="disabled"':'' }>
-				    	<option value="">请选择...</option>
-				    	<c:forEach var="carModel" items="${carModels }">
-					    	<option value="${carModel.dbid }" ${param.carModelId==carModel.dbid?'selected="selected"':'' } >${carModel.name }</option>
-				    	</c:forEach>
-			    </select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">客户等级</label></td>
-      	 		<td width="240">
-	      	 		<select class="form-control" id="customerPhaseId" name="customerPhaseId">
-				    	<option value="">请选择...</option>
-				    	<c:forEach var="customerPhase" items="${customerPhases }">
-				    		<c:if test="${customerPhase.dbid>1&&customerPhase.dbid<5 }">	  	
-					    		<option value="${customerPhase.dbid }" ${param.customerPhaseId==customerPhase.dbid?'selected="selected"':'' } >${customerPhase.name }</option>
-					    	</c:if>
-				    	</c:forEach>
-			    </select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">姓名</label></td>
-      	 		<td width="240">
-      	 			<input type="text" class="form-control" id="name" name="name" value="${param.name }">
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">电话</label></td>
-      	 		<td width="240">
-      	 			<input type="text" class="form-control" id="mobilePhone" name="mobilePhone" value="${param.mobilePhone }">
-			    </td>
-      	 	</tr>
+  				<td><label>类型：</label></td>
+  				<td>
+  					<select class="form-control" id="customerTypeId" name="customerTypeId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="customerType" items="${customerTypes }">
+							<option value="${customerType.dbid }" ${param.customerTypeId==customerType.dbid?'selected="selected"':'' } >${customerType.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>来源：</label></td>
+  				<td>
+  					<select class="form-control" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						${customerInfromSelect}
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>品牌：</label></td>
+  				<td>
+  					<select class="form-control" id="brandId" name="brandId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="brand" items="${brands }">
+							<option value="${brand.dbid }" ${param.brandId==brand.dbid?'selected="selected"':'' } >${brand.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>车系：</label></td>
+  				<td>
+  					<select class="form-control" id="carSeriyId" name="carSeriyId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="carSeriy" items="${carSeriys }">
+							<option value="${carSeriy.dbid }" ${param.carSeriyId==carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>车型：</label></td>
+  				<td>
+  					<select class="form-control" id="carModelId" name="carModelId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="carModel" items="${carModels }">
+							<option value="${carModel.dbid }" ${param.carModelId==carModel.dbid?'selected="selected"':'' } >${carModel.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  					<td><label>意向级别：</label></td>
+  				<td>
+  					<select class="form-control" id="customerPhaseId" name="customerPhaseId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="customerPhase" items="${customerPhases }">
+							<option value="${customerPhase.dbid }" ${param.customerPhaseId==customerPhase.dbid?'selected="selected"':'' } >${customerPhase.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>到店状态：</label></td>
+  				<td>
+  					<select class="form-control" id="comeShopStatus" name="comeShopStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="1" ${param.comeShopStatus==1?'selected="selected"':''} >未到店</option>
+						<option value="2" ${param.comeShopStatus==2?'selected="selected"':''}>首次到店</option>
+						<option value="3" ${param.comeShopStatus==3?'selected="selected"':''}>二次到店</option>
+					</select>
+				</td>
+			</tr>
+  			<tr>
+  				<td><label>是否试驾：</label></td>
+  				<td>
+  					<select class="form-control" id="tryCarStatus" name="tryCarStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="">请选择...</option>
+						<option value="1" ${param.tryCarStatus==1?'selected="selected"':''}>未试驾</option>
+						<option value="2" ${param.tryCarStatus==2?'selected="selected"':''}>已试驾</option>
+					</select>
+				</td>
+  			</tr>
+  			<tr>
+  				<td><label>姓名：</label></td>
+  				<td><input type="text" id="name" name="name" class="form-control" value="${param.name}"></input></td>
+  			</tr>
+  			<tr>
+  				<td><label>常用手机号：</label></td>
+  				<td><input type="text" id="mobilePhone" name="mobilePhone" class="form-control" value="${param.mobilePhone}"></input></td>
+  			</tr>
+  			<tr>
+  				<td><label>开始时间：</label></td>
+  				<td>
+  					<input class="form-control" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>~</label></td>
+  				<td>
+  					<input class="form-control" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+  				</td>
+  			</tr>
       	 </table>
 		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;&nbsp;消</button>
-        <button type="button" class="btn btn-primary" onclick="$('#searchPageForm')[0].submit()">查询</button>
+        <button type="button" class="btn btn-primary" onclick="$('#frmId')[0].submit()">查询</button>
       </div>
     </div>
   </div>

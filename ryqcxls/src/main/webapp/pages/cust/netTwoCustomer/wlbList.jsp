@@ -140,7 +140,7 @@
 					      		(customer.customerPidBookingRecord.pidStatus>=6&&customer.customerPidBookingRecord.wlStatus==2&&customer.customerPidBookingRecord.hasCarOrder==1)}">
 					      	 <li><a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/customerPidBookingRecord/customerFile?customerId=${customer.dbid }','searchPageForm','提示：确定将选择客户设置为成交归档客户吗？')">归档</a> </li>
 					      </c:if>
-					       <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
+					       <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
 					    </ul>
 					  </div>
 				</div>

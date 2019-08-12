@@ -31,13 +31,8 @@
 	 <a id="back" href="javascript:history.back()">
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
-    <span id="page_title">交车预约</span>
+    <span id="page_title">客户归档</span>
 </div>
-<c:if test="${!empty(customerPidBookingCancelRecord) }">
-	<div class="alert alert-error">
-			<strong>提示:您于【<fmt:formatDate value="${customerPidBookingCancelRecord.bookingDate }"/> 】创建过交车预约.</strong>
-	</div>
-</c:if>
 <div class="orderContrac">
 	<div class="title" align="left">
  			客户：${customer.name }<br/>
@@ -52,14 +47,16 @@
 					${fn:substring(carModel,0,16) }...
 				</c:if>
 				<c:if test="${ status==false}">
-					${carModel} ${customer.carModelStr}
+					${carModel }${customer.carModelStr}
 				</c:if>
 				<br>
-				颜色:${customerLastBussi.carColor.name}${customer.carColorStr}
+				颜色:${customerLastBussi.carColor.name}
 				<br>
 				顾问：${customer.bussiStaff}（${customer.department.name}）<br>
 				意向级别：${customer.customerPhase.name}<br>
 				订单日期:<fmt:formatDate value="${customer.orderContract.createTime }" pattern="yyyy-MM-dd HH:mm"/> <br/>
+				定金:<span style="color: red;"><fmt:formatNumber value="${customer.orderContract.orderMoney }" pattern="#0.00"/> </span><br/>
+				合同金额:<span style="color: red;"><fmt:formatNumber value="${customer.orderContract.totalPrice }" pattern="#0.00"/> </span><br/>
 				</div>
 		</div>
 </div>
@@ -75,8 +72,12 @@
 		<input type="hidden" readonly="readonly" name="customerPidBookingRecord.orderDate" id="orderDate" class="largeX text"  value='<fmt:formatDate value="${customer.orderContract.createTime }" pattern="yyyy-MM-dd HH:mm"/>' >
 		<s:token></s:token>
 		<div class="form-group">
-	 		 <label class="control-label" for="name">预约交车日期:&nbsp;	<span style="color: red;">*</span></label>				
-				<input type="date" name="customerPidBookingRecord.bookingDate" id="bookingDate" class="form-control"   checkType="string,10" style="width: 100%;">
+	 		 <label class="control-label" for="name">归档日期:&nbsp;	<span style="color: red;">*</span></label>				
+				<input type="date" name="customerPidBookingRecord.modifyTime" id="modifyTime" class="form-control"   checkType="string,10" style="width: 100%;">
+		</div>
+		<div class="form-group">
+	 		 <label class="control-label" for="name">车架号:&nbsp;	<span style="color: red;">*</span></label>				
+				<input type="text" name="customerPidBookingRecord.vinCode" id="vinCode" class="form-control"   checkType="string,10" style="width: 100%;" ="${customerPidBookingRecord.vinCode }" checkType="string,17,17">
 		</div>
 		<div class="form-group">
 	 		 <label class="control-label" for="name">备注:&nbsp</label>

@@ -379,7 +379,7 @@
 		</div>
 	</div>
 </div>
-<%-- <div class="orderContrac detail">
+<div class="orderContrac detail">
 	<div class="title" align="left">
 		订单信息
 	</div>
@@ -390,7 +390,10 @@
 						<span style="color: red;padding-left: 12px;">未绑定客户</span>
 				</c:if>
 				<c:if test="${!empty(customer) }">
-					客户：${customer.name }&nbsp;&nbsp;&nbsp;&nbsp; ${customer.mobilePhone}<br/>
+					客户：
+						<c:set value="${fn:length(customer.name) }" var="len"></c:set> 
+						**${fn:substring(customer.name,len-1,len)}&nbsp;&nbsp;&nbsp;&nbsp; ${fn:substring(customer.mobilePhone,0,3) }******${fn:substring(customer.mobilePhone,9,11) }
+					<br/>
 					<c:set value="${customer.orderContract }" var="orderContract"></c:set>
 					总价：<span class="price"><fmt:formatNumber value="${orderContract.totalPrice }" pattern="￥#,#00.00"></fmt:formatNumber></span>
 					<br>
@@ -402,7 +405,7 @@
 				</c:if>
 		</div>
 	</div>
-</div> --%>
+</div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

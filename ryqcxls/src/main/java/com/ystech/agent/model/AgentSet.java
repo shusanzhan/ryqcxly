@@ -2,6 +2,8 @@ package com.ystech.agent.model;
 
 import java.util.Date;
 
+import com.ystech.xwqr.model.sys.Enterprise;
+
 // Generated 2017-7-6 11:56:43 by Hibernate Tools 4.0.0
 
 /**
@@ -37,10 +39,11 @@ public class AgentSet implements java.io.Serializable {
 	//奖励模式：1、固定奖励；2、梯度奖励
 	private Integer agentRewardModel;
 	//集团版 企业ID
-	private Integer enterpriseId;
+	private Enterprise enterprise;
 	private Date createTime;
 	private Date modifyTime;
 	private Integer spreadId;
+	private String enterpriseName;
 	public AgentSet() {
 	}
 
@@ -104,13 +107,6 @@ public class AgentSet implements java.io.Serializable {
 		this.agentRewardNum = agentRewardNum;
 	}
 	
-	public Integer getEnterpriseId() {
-		return enterpriseId;
-	}
-
-	public void setEnterpriseId(Integer enterpriseId) {
-		this.enterpriseId = enterpriseId;
-	}
 
 	public Date getCreateTime() {
 		return createTime;
@@ -169,7 +165,7 @@ public class AgentSet implements java.io.Serializable {
 				+ ", agentRewardNum=" + agentRewardNum
 				+ ", agentRewardParentStatus=" + agentRewardParentStatus
 				+ ", agentRewardParentNum=" + agentRewardParentNum
-				+ ", enterpriseId=" + enterpriseId + ", createTime="
+				+ ", createTime="
 				+ createTime + ", modifyTime=" + modifyTime + "]";
 	}
 
@@ -188,6 +184,22 @@ public class AgentSet implements java.io.Serializable {
 
 	public void setAgentRewardModel(Integer agentRewardModel) {
 		this.agentRewardModel = agentRewardModel;
+	}
+
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
+
+	public String getEnterpriseName() {
+		return enterpriseName;
+	}
+
+	public void setEnterpriseName(String enterpriseName) {
+		this.enterpriseName = enterpriseName;
 	}
 	
 

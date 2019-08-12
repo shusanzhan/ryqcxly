@@ -178,7 +178,7 @@
 			<c:if test="${sta==false }">
 			  <div class="tab-pane" id="carTransfer" >
 			</c:if>
-				<c:if test="${fn:length(recommendCustomers)<=0}" var="status">
+				<c:if test="${fn:length(hisRecommendCustomers)<=0}" var="status">
 					<div class="alert alert-error" align="left">
 							<strong>提示：</strong>无推荐客户
 					</div>
@@ -201,7 +201,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${recommendCustomers}" var="recommentCustomer" varStatus="i">
+							<c:forEach items="${hisRecommendCustomers}" var="recommentCustomer" varStatus="i">
 							<tr >
 								<td style="text-align: center;">
 									${i.index+1 }

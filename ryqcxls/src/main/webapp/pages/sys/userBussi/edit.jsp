@@ -47,7 +47,7 @@ $(document).ready(function(){
 <div class="location">
       	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
       	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/user/queryList'">用户管理中心</a>
+	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/userBussi/queryList'">用户管理</a>
 </div>
 <div class="line"></div>
 <div class="frmContent">

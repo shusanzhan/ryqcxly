@@ -16,6 +16,7 @@ public class App implements java.io.Serializable {
 	private Integer appId;
 	private String square_logo_url;
 	private String round_logo_url;
+	private String security;
 
 	public App() {
 	}
@@ -100,6 +101,14 @@ public class App implements java.io.Serializable {
 
 	public void setRound_logo_url(String round_logo_url) {
 		this.round_logo_url = round_logo_url;
+	}
+
+	public String getSecurity() {
+		return security;
+	}
+
+	public void setSecurity(String security) {
+		this.security = security;
 	}
 
 }

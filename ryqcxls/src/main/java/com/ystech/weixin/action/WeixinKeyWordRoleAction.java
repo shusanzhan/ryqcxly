@@ -31,6 +31,8 @@ import com.ystech.weixin.service.WeixinKeyWordRoleManageImpl;
 import com.ystech.weixin.service.WeixinNewstemplateManageImpl;
 import com.ystech.weixin.service.WeixinTexttemplateManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.SystemInfo;
+import com.ystech.xwqr.service.sys.SystemInfoMangeImpl;
 
 @Component("weixinKeyWordRoleAction")
 @Scope("prototype")
@@ -44,6 +46,7 @@ public class WeixinKeyWordRoleAction extends BaseController{
 	private WeixinNewstemplateManageImpl weixinNewstemplateManageImpl;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
 	private WechatMediaManageImpl wechatMediaManageImpl;
+	private SystemInfoMangeImpl systemInfoMangeImpl;
 	public void setWeixinKeyWordRole(WeixinKeyWordRole weixinKeyWordRole) {
 		this.weixinKeyWordRole = weixinKeyWordRole;
 	}
@@ -86,6 +89,10 @@ public class WeixinKeyWordRoleAction extends BaseController{
 			WeixinAccountManageImpl weixinAccountManageImpl) {
 		this.weixinAccountManageImpl = weixinAccountManageImpl;
 	}
+	@Resource
+	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
+		this.systemInfoMangeImpl = systemInfoMangeImpl;
+	}
 	/**
 	* 功能描述：
 	* 参数描述：
@@ -98,10 +105,21 @@ public class WeixinKeyWordRoleAction extends BaseController{
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 50);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		try {
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
 				String sql="select * from weixin_keywordrole where type=1 and accountid="+weixinAccount.getDbid()+" order by createDate DESC";
 				Page<WeixinKeyWordRole> page=weixinKeyWordRoleManageImpl.pagedQuerySql(pageNo, pageSize,WeixinKeyWordRole.class,sql, new Object[]{});
 				request.setAttribute("page", page);
@@ -123,10 +141,21 @@ public class WeixinKeyWordRoleAction extends BaseController{
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 50);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		try {
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
 				String sql="select * from weixin_keywordrole where type=3  and accountid="+weixinAccount.getDbid()+" order by createDate DESC";
 				Page<WeixinKeyWordRole> page=weixinKeyWordRoleManageImpl.pagedQuerySql(pageNo, pageSize,WeixinKeyWordRole.class,sql, new Object[]{});
 				request.setAttribute("page", page);

@@ -59,47 +59,17 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${ctx }/qywxCustomer/waitingHandCar">
-                                <img src="${ctx }/images/myOrder.png">
-                                <p>待交车客户</p>
-                            </a>
-                        </li>
-                        <li>
                             <a href="${ctx }/qywxCustomer/successCustomer">
                                 <img src="${ctx }/images/add.png">
                                 <p>成交客户</p>
                             </a>
                         </li>
-                        <li>
-                            <a href="${ctx }/qywxCustomerImage/uploadImageWaitingCustomer">
-                                <img src="${ctx }/images/uploadImgage.jpg">
-                                <p>上传照片</p>
-                            </a>
-                        </li>
                          <li>
-				        <a href="${ctx }/qywxVisitRecord/list">
+				        <a href="${ctx }/qywxCustomerTrack/querySalerList">
 				           <img src="${ctx }/images/weixin/kc.jpg">
 					           <p>回访记录</p>
 					       </a>
 					   </li>
-                        <li>
-				        	<a href="${ctx }/qywxProcessRun/queryList">
-				           <img src="${ctx }/images/weixin/hfkf.jpg">
-					           <p>我的申请</p>
-					       </a>
-					   </li>
-	                       <li>
-					       	 <a href="${ctx }/qywxCustomer/queryInvitationList">
-					           <img src="${ctx }/images/weixin/lqyhq.png">
-						           <p>我的邀约</p>
-						       </a>
-						   </li>
-                        <li>
-				        	<a href="${ctx }/qywxCustomer/queryReceptierList">
-				           <img src="${ctx }/images/weixin/myYY.png">
-					           <p>我的谈判</p>
-					       </a>
-				   		</li>
                         <li>
 				        	<a href="${ctx }/qywxCustomerTrack/salerTodayTrack">
 				        		<div >

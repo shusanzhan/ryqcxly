@@ -86,16 +86,6 @@
 		</select>
 	</div>
 	<div class="form-group" >
-	  <label class="control-label" for="inputWarning1">兴趣爱好</label  >
-	 	 <input type="text" class="largeX text"  name="customer.interests" id="interests"  value="${customer.interests }">
-		<select id="interestId" name="interestId" class="form-control">
-			<option value="">请选择...</option>
-			<c:forEach var="interest" items="${interests }">
-				<option value="${interest.dbid }" ${customer.interest.dbid==interest.dbid?'selected="selected"':'' } >${interest.name }</option>
-			</c:forEach>
-		</select>
-	</div>
-	<div class="form-group" >
 	  <label class="control-label" for="inputWarning1">备注</label  >
 	  <input type="text" class="form-control" name="customer.note" id="note"  value="${customer.note }">
 	</div>

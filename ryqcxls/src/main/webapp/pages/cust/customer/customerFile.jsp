@@ -65,28 +65,6 @@
  <!--location end-->
 <div class="line"></div>
 <div class="bar">
-	<a href="javascript:void();" onclick="window.open('${ctx }/customer/testDriveAgreement?dbid=${customer.dbid }')">试乘试驾协议书</a> |
-	<a href="javascript:void();" onclick="window.open('${ctx }/customer/satisfactionAssessment?dbid=${customer.dbid }')">满意度评估表</a> |
-	<a href="javascript:void();" onclick="window.open('${ctx }/customer/tenCoreSurvey?dbid=${customer.dbid }')">十项核心流程调查问卷</a> |
-	<a href="javascript:void();" onclick="window.open('${ctx }/customer/negotiationsQuote?dbid=${customer.dbid }')">商谈报价单</a>
-	<!--| <a href="javascript:void();" onclick="comeShopeRecord()">到店登记</a> -->
-	<c:if test="${customer.lastResult>1 }">
-		|
-		<a href="javascript:void(-1)"  onclick="window.open('${ctx }/customer/trakingCard?dbid=${customer.dbid }')">意向跟踪卡</a> 
-	</c:if>
-	<c:if test="${!empty(customerPidBookingRecord)&&customerPidBookingRecord!=null }" >		
-		|
-		<a  href="javascript:void();" onclick="window.open('${ctx }/customer/handerOverCar?dbid=${customer.dbid }')">交车确认单</a>
-			|
-		<a href="javascript:void(-1)"  onclick="window.open('${ctx }/customer/trakingCard?dbid=${customer.dbid }')">意向跟踪卡</a> 
-			|
-		<a href="javascript:void(-1)"  onclick="window.location.href='${ctx}/outboundOrder/viewIndex?customerId=${customer.dbid}'">查看出库</a>
-		|
-		<a href="javascript:void();" onclick="window.open('${ctx }/customer/glass?customerId=${customer.dbid }')">玻璃无忧卡</a>
-		|
-		<a href="javascript:void();" onclick="window.open('${ctx }/customer/loveCarTrace?customerId=${customer.dbid }')">爱车无痕卡</a>
-	</c:if>
-	|
 	<a href="javascript:void();" onclick="$.utile.openDialog('${ctx}/customerTrack/add?customerId=${customer.dbid }&typeRedirect=6','添加跟进记录',900,500)">添加跟踪记录</a>
 	|
 	<a href="javascript:;" id="print" class="" onclick="window.history.go(-1)" style="margin-left: 5px;">返回</a>
@@ -117,7 +95,7 @@
 			(
 				<span style="color: #56a845">${customer.sex }</span>
 			)
-			<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
+			<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
 		</td>
 		<td class="formTableTdLeft" width="12%" align="right">联系电话：</td>
 		<td width="38%" align="left">
@@ -438,16 +416,6 @@
 					<td>
 						${customer.bussiStaff }
 					</td>
-					<td class="formTableTdLeft">同城交叉客户：</td>
-					<td >
-						${customer.cityCrossCustomer.name}
-					</td>
-				</tr>
-				<tr style="height: 30px;">
-					<td class="formTableTdLeft">兴趣爱好：</td>
-					<td  colspan="3">
-						${customer.interests }
-					</td>
 				</tr>
 		</table>
 	</div>
@@ -534,11 +502,6 @@
 					</td>
 				</tr>
 			<tr style="height: 30px;">
-				<td class="formTableTdLeft">客户来源：</td>
-				<td >
-					${ customerBussi.infoFrom.name}
-				</td>	
-				
 				<td class="formTableTdLeft">购车关注点：</td>
 				<td>
 					${customerBussi.buyCarCare.name }
@@ -569,10 +532,6 @@
 				<td class="formTableTdLeft">主要使用者：</td>
 				<td >
 					 ${customerBussi.buyCarMainUse.name}
-				</td>
-				<td class="formTableTdLeft">购车时间：</td>
-				<td colspan="">
-					${customerBussi.trackingPhase.name}
 				</td>
 			</tr>
 			<tr style="height: 30px;">
@@ -644,7 +603,7 @@
 						<c:forEach items="${customertracks }" var="customerTrack">
 						<tr>
 							<td>
-								<fmt:formatDate value="${customerTrack.trackDate}" pattern="yyyy-MM-dd HH:mm"/>（ ${customerTrack.user.realName }）
+								<fmt:formatDate value="${customerTrack.trackDate}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td>
 								<c:if test="${customerTrack.trackMethod==1 }">
@@ -858,7 +817,7 @@
 		    		alert("请选择到店成交状态！");
 		    		return false;
 		    	}
-	    		var url='${ctx}/customer/comeShopRecord?customerId=${customer.dbid}&comeShopeStatus='+selectvalue+"&redirectType=1";
+	    		var url='${ctx}/custCustomer/comeShopRecord?customerId=${customer.dbid}&comeShopeStatus='+selectvalue+"&redirectType=1";
 	    		window.location.href=url;
 				return true;
 		    },

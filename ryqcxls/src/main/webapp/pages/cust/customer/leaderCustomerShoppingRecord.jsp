@@ -33,7 +33,7 @@
 </div>
 <div class="listOperate" style="	height: auto;">
    <div class="seracrhOperate" >
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/customerLeaderShoppingRecordqueryList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/customerLeaderShoppingRecordqueryList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -74,6 +74,9 @@
 						</c:forEach>
 					</select>
   				</td>
+  			
+			</tr>
+			<tr>
   				<td><label>成交结果：</label></td>
   				<td>
   					<select class="text small" id="lastResult" name="lastResult"  onchange="$('#searchPageForm')[0].submit()">
@@ -82,27 +85,6 @@
 						<option value="1"  ${param.lastResult==1?'selected="selected"':'' }>成交购车</option>
 						<option value="2"  ${param.lastResult==2?'selected="selected"':'' }>购买其他品牌产品等</option>
 						<option value="3"  ${param.lastResult==3?'selected="selected"':'' }>购车计划取消</option>
-					</select>
-  				</td>
-				</tr>
-				<tr>
-  				
-  				<td><label>购车时间：</label></td>
-  				<td>
-  					<select class="small text" id="trackingPhaseId" name="trackingPhaseId" onchange="$('#searchPageForm')[0].submit()" >
-					<option value="">请选择...</option>
-					<c:forEach var="trackingPhase" items="${trackingPhases }">
-						<option value="${trackingPhase.dbid }" ${param.trackingPhaseId==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-					</c:forEach>
-					</select>
-				</td>
-  				<td><label>交叉客户：</label></td>
-  				<td>
-  					<select class="text small" id="cityCrossId" name="cityCrossId"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="0" >请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${param.cityCrossId==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
 					</select>
   				</td>
   				<td><label>信息来源：</label></td>
@@ -157,12 +139,12 @@
   				<td>
   					<input class="small text" id="name" name="name"  value="${param.name }" >
   				</td>
+   			</tr>
+			<tr>
   				<td><label>电话：</label></td>
   				<td>
   					<input class="small text" id="mobilePhone" name="mobilePhone"  value="${param.mobilePhone }" >
   				</td>
-   			</tr>
-			<tr>
 				<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
 	  				<td><label>邀约人：</label></td>
 	  				<td>
@@ -173,35 +155,7 @@
 	  					<input class="small text" id="receptierSalerName" name="receptierSalerName"  value="${param.receptierSalerName }" >
 	  				</td>
 				</c:if>
-  				<td><label>开始时间：</label></td>
-  				<td>
-  					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
-  				</td>
-  			</tr>
-  			<tr>
-  				<td><label>试驾开始：</label></td>
-  				<td>
-  					<input class="small text" id="tryCarStartTime" name="tryCarStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarStartTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="tryCarEndTime" name="tryCarEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarEndTime }">
-  				</td>
-  				<td><label>来店开始：</label></td>
-  				<td>
-  					<input class="small text" id="comeShopStartTime" name="comeShopStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopStartTime }" >
-				</td>
-  				<td><label>结束时间：</label></td>
-  				<td>
-  					<input class="small text" id="comeShopEndTime" name="comeShopEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopEndTime }">
-  				</td>
-  			</tr>
-  			<tr>
-  				<td><label>客户流失审批状态：</label></td>
+				<td><label>客户流失审批状态：</label></td>
   				<td>
   				<select class="small text" id="approvalStatus" name="approvalStatus" onchange="$('#searchPageForm')[0].submit()" >
 					<option value="-1">请选择...</option>
@@ -210,6 +164,34 @@
 					<option value="2" ${param.approvalStatus==2?'selected="selected"':''}>驳回</option>
 				</select>
 				</td>
+  			</tr>
+  			<tr>
+  				<td><label>开始时间：</label></td>
+  				<td>
+  					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
+				</td>
+  				<td><label>结束时间：</label></td>
+  				<td>
+  					<input class="small text" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+  				</td>
+  				<td><label>试驾开始：</label></td>
+  				<td>
+  					<input class="small text" id="tryCarStartTime" name="tryCarStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarStartTime }" >
+				</td>
+  				<td><label>结束时间：</label></td>
+  				<td>
+  					<input class="small text" id="tryCarEndTime" name="tryCarEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarEndTime }">
+  				</td>
+  			</tr>
+  			<tr>
+  					<td><label>来店开始：</label></td>
+  				<td>
+  					<input class="small text" id="comeShopStartTime" name="comeShopStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopStartTime }" >
+				</td>
+  				<td><label>结束时间：</label></td>
+  				<td>
+  					<input class="small text" id="comeShopEndTime" name="comeShopEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopEndTime }">
+  				</td>
   				<td><label>审批时间开始：</label></td>
   				<td>
   					<input class="small text" id="approvalStartDate" name="approvalStartDate" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.approvalStartDate }" >
@@ -241,14 +223,7 @@
 			<td style="width:60px;">指导价格</td>
 			<td style="width: 60px;">初次级别</td>
 			<td style="width: 60px;">当前级别</td>
-			<c:if test="${sessionScope.user.queryOtherDataStatus==2 }">
-				<td style="width: 100px;">部门</td>
-			</c:if>
-			<c:if test="${sessionScope.user.queryOtherDataStatus==1 }">
-				<td style="width: 60px;">部门</td>
-			</c:if>
 			<td style="width: 60px;">业务员</td>
-			<td style="width: 60px;">交叉客户</td>
 			<td style="width: 60px;">类型</td>
 			<td style="width: 80px;">成交结果</td>
 			<td style="width: 60px">进店状态</td>
@@ -269,7 +244,7 @@
 					${customer.mobilePhone}
 					<div class="drop_down_menu hiden" onmousemove="show(this)" onmouseout="hi(this)" >
 					    <ul>
-					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">客户信息</a></li>
+					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">客户信息</a></li>
 					      <li ><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx }/factoryOrder/factoryOrderDetail?dbid=${factoryOrder.dbid}&type=4'">车辆日志</a></li>
 					    </ul>
 					  </div>
@@ -289,33 +264,11 @@
 				${customer.customerPhase.name}
 			</td>
 			<td>
+				${customer.bussiStaff}<br>
 				${customer.department.name }
-				<c:if test="${sessionScope.user.queryOtherDataStatus==2 }">
-					【${customer.enterprise.name }】
-				</c:if>
 			</td>
 			<td>
-				${customer.bussiStaff}
-			</td>
-			<td>
-				${customer.cityCrossCustomer.name}
-			</td>
-			<td>
-				<c:if test="${customer.type==1 }">
-					<span style="color: red;">来店</span>
-				</c:if>
-				<c:if test="${customer.type==2 }">
-					<span style="color:green;">来电</span>
-				</c:if>
-				<c:if test="${customer.type==3 }">
-					<span style="color: blue;">网销</span>
-				</c:if>
-				<c:if test="${customer.type==4 }">
-					<span style="color:orange;">活动</span>
-				</c:if>
-				<c:if test="${customer.type==5 }">
-					<span style="color:orange;">其他</span>
-				</c:if>
+				${customer.customerType.name }
 				【${customer.customerInfrom.name }】
 			</td>
 			<td>
@@ -341,11 +294,11 @@
 					未到店				
 				</c:if>
 				<c:if test="${customer.comeShopStatus==2 }">
-					<span style="color: red;">首次到店</span>			
+					<span style="color: red;">首次到店</span>	<br>			
 					<fmt:formatDate value="${customer.comeShopDate }" pattern="yyyy-MM-dd"/>			
 				</c:if>
 				<c:if test="${customer.comeShopStatus==3 }">
-					<span style="color: red;">二次到店</span>			
+					<span style="color: red;">二次到店</span>	<br>			
 					<fmt:formatDate value="${customer.twoComeShopDate }" pattern="yyyy-MM-dd"/>			
 				</c:if>
 				<br>
@@ -355,7 +308,7 @@
 					未试驾				
 				</c:if>
 				<c:if test="${customer.tryCarStatus==2 }">
-					<span style="color: red;">已试驾</span>
+					<span style="color: red;">已试驾</span><br>	
 					<fmt:formatDate value="${customer.tryCarDate }" pattern="yyyy-MM-dd"/>			
 				</c:if>
 			</td>
@@ -385,7 +338,7 @@ function exportExcel(searchFrm){
 	if(null!=searchFrm&&searchFrm!=undefined&&searchFrm!=''){
 		params=$("#"+searchFrm).serialize();
 	}
-	window.location.href='${ctx}/customer/exportExcel?'+params;
+	window.location.href='${ctx}/custCustomer/exportExcel?'+params;
 }
 function fn(va){
 	var dd=$(".show");

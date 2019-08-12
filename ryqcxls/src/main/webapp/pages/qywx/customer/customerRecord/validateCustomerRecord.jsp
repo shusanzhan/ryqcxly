@@ -53,25 +53,24 @@
   <label class="control-label" for="inputWarning1">客户电话</label  >
   	<form action="" id="frmId" name="frmId"></form>
 	<input type="hidden" name="customerRecordId" id="customerRecordId" value="${param.customerRecordId }" style="width: 260px;">
-	<input  type="tel"  class="form-control" id="mobilePhone" name="mobilePhone"   value=""  style="height: 50px;font-size: 16px;">
+	<input  type="tel"  class="form-control" id="mobilePhone" name="mobilePhone"   value="${customerRecord.mobilePhone }"  style="height: 50px;font-size: 16px;">
 </div>
 <input type="button" name="mobileCommit" value="验证" id="tele_register" class="addbutton" onclick="submitFrm('frmId')">
 <br>
 <br>
 <br>
 <br>
-<br>
-<div style="display: none; width: 320px;" id="template2Id">
-	<table id="noLine" border="0"  cellpadding="0" cellspacing="0" style="width: 300px;margin-top: 5px;text-align: left;margin-left: 5px;float: left;">
-		<tr style="height: 60px;" height="60">
-			<td class="formTableTdLeft" width="120">到店成交:&nbsp;</td>
-			<td colspan="3">
-				<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="1">到店成交</label>
-				<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="2">到店未成交</label>
-			</td>
-		</tr>
-	</table>
-</div>
+<div style="display: none; width: 340px;" id="templateId">
+		<table id="noLine" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 320px;margin-top: 5px;">
+			<tr style="height: 60px;" height="60">
+				<td class="formTableTdLeft" width="120">到店成交:&nbsp;</td>
+				<td colspan="3">
+					<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="1">到店成交</label>
+					<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="2">到店未成交</label>
+				</td>
+			</tr>
+		</table>
+	</div>
 </body>
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/easyvalidator/js/easy_validator.pack3.js?n=${now}"></script>
@@ -114,7 +113,7 @@ function submitFrm(frmId){
 					height:"120px",
 					lock : true,
 					ok : function() {
-						window.location.href='${ctx}/qywxCustomerTrack/add?customerId='+json.dbid+'&typeRedirect=4&customerRecordId='+customerRecordId;
+						comeShopeRecord(json.dbid,customerRecordId)
 					},
 					cancel : true
 				})
@@ -129,19 +128,6 @@ function submitFrm(frmId){
 					cancel : true
 				})
 			}
-			if(data==6||data=="6"){
-				window.top.art.dialog({
-					content : "该电话号码销售顾问已登记，点击【确定】继续填网销邀约到店谈判记",
-					icon : 'question',
-					width:"320px",
-					height:"120px",
-					lock : true,
-					ok : function() {
-						customerRecordResult(customerRecordId,json.messageHtml);
-					},
-					cancel : true
-				})
-			}
 			return;
 		})
 	}else{
@@ -149,51 +135,11 @@ function submitFrm(frmId){
 		alert("输入电话号码格式有误！");
 	}
 }
-function customerRecordResult(customerRecordId,content){
-	art.dialog({
-	    title: '谈判结果',
-	    content: content,
-	    width:350,
-	    height:240,
-		fixed : true,
-	    ok: function () {
-	    	var doms = document.getElementsByName("customerIdValue");
-	    	var customerId=0;
-	    	var j=0;
-	    	for ( var i = 0; i < doms.length; i++) {
-    			if(doms[i].checked){
-        			j=i;
-        			customerId=doms[i].value;
-    			}
-	    	}
-	    	var customerName=window.document.getElementsByName("customerName")[j].value;
-	    	if(customerName==undefined||customerName==''){
-		    	alert("请选择要登记客户");
-		    	return false;
-		    }
-		    if(confirm("确定登记【"+customerName+"】客户客户谈判记录吗？")){
-		    	$("#customerName2").val(customerName);
-		    	comeShopeRecord2(customerId,customerRecordId,1);
-			}
-			return true;
-	    },
-	    cancel:function(){
-			return true;
-	    }
-	});
-}
-function comeShopeRecord2(customerId,customerRecordId,type){
-	if(type==undefined||type==''){
-		$("#infor").hide();
-	}else{
-		$("#infor").show();
-	}
+function comeShopeRecord(customerId,customerRecordId){
 	top.art.dialog({
 	    title: '客户到店登记',
-	    content: document.getElementById('template2Id'),
+	    content: document.getElementById('templateId'),
 	    lock : true,
-	    width:320,
-	    height:200,
 		fixed : true,
 	    ok: function () {
 	    	var comeShopeStatus=window.parent.document.getElementsByName("comeShopeStatus");
@@ -207,7 +153,7 @@ function comeShopeRecord2(customerId,customerRecordId,type){
 	    		alert("请选择到店成交状态！");
 	    		return false;
 	    	}
-    		var url= "${ctx }/qywxCustomer/comeShopRecord?customerId="+customerId+"&comeShopeStatus="+selectvalue+"&redirectType=2&customerRecordId="+customerRecordId;
+    		var url='${ctx}/qywxCustomer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=1&customerRecordId="+customerRecordId;
     		window.location.href=url;
 			return true;
 	    },

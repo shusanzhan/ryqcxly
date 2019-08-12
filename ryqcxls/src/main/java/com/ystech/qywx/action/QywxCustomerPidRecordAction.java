@@ -1,4 +1,4 @@
-/*package com.ystech.qywx.action;
+package com.ystech.qywx.action;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +11,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ystech.agent.model.AgentOperatorLog;
+import com.ystech.agent.model.RecommendCustomer;
+import com.ystech.agent.service.AgentOperatorLogManageImpl;
+import com.ystech.agent.service.RecommendCustomerManageImpl;
 import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.MessageUtile;
 import com.ystech.core.util.ParamUtil;
@@ -18,6 +22,7 @@ import com.ystech.core.web.BaseController;
 import com.ystech.cust.model.ApprovalRecordPidBookingRecord;
 import com.ystech.cust.model.CarVinCode;
 import com.ystech.cust.model.Customer;
+import com.ystech.cust.model.CustomerImageApproval;
 import com.ystech.cust.model.CustomerLastBussi;
 import com.ystech.cust.model.CustomerPhase;
 import com.ystech.cust.model.CustomerPidBookingCancelRecord;
@@ -29,6 +34,7 @@ import com.ystech.cust.model.OrderContractExpenses;
 import com.ystech.cust.model.TimeoutsTrackRecord;
 import com.ystech.cust.service.ApprovalRecordPidBookingRecordManageImpl;
 import com.ystech.cust.service.CarVinCodeManageImpl;
+import com.ystech.cust.service.CustomerImageApprovalManageImpl;
 import com.ystech.cust.service.CustomerLastBussiManageImpl;
 import com.ystech.cust.service.CustomerMangeImpl;
 import com.ystech.cust.service.CustomerOperatorLogManageImpl;
@@ -41,6 +47,7 @@ import com.ystech.cust.service.OrderContractExpensesManageImpl;
 import com.ystech.cust.service.OrderContractManageImpl;
 import com.ystech.cust.service.TimeoutsTrackRecordManageImpl;
 import com.ystech.qywx.core.QywxSendMessageUtil;
+import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.UserManageImpl;
 import com.ystech.xwqr.set.model.Brand;
@@ -74,9 +81,8 @@ public class QywxCustomerPidRecordAction extends BaseController{
 	private CarColorManageImpl carColorManageImpl;
 	private BrandManageImpl brandManageImpl;
 	private CustomerPidBookingRecord customerPidBookingRecord;
-	private ProcessManageImpl processManageImpl;
 	private CustomerOperatorLogManageImpl customerOperatorLogManageImpl;
-	private CustomerpidFlowReasonManageImpl customerpidFlowReasonManageImpl;
+	private CustomerImageApprovalManageImpl customerImageApprovalManageImpl;
 	private HttpServletRequest request=getRequest();
 	
 	public CustomerPidBookingRecord getCustomerPidBookingRecord() {
@@ -90,10 +96,6 @@ public class QywxCustomerPidRecordAction extends BaseController{
 	public void setCustomerPidBookingRecordManageImpl(
 			CustomerPidBookingRecordManageImpl customerPidBookingRecordManageImpl) {
 		this.customerPidBookingRecordManageImpl = customerPidBookingRecordManageImpl;
-	}
-	@Resource
-	public void setProcessManageImpl(ProcessManageImpl processManageImpl) {
-		this.processManageImpl = processManageImpl;
 	}
 	@Resource
 	public void setCustomerOperatorLogManageImpl(
@@ -160,18 +162,8 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		this.timeoutsTrackRecordManageImpl = timeoutsTrackRecordManageImpl;
 	}
 	@Resource
-	public void setCarOperateLogManageImpl(
-			CarOperateLogManageImpl carOperateLogManageImpl) {
-		this.carOperateLogManageImpl = carOperateLogManageImpl;
-	}
-	@Resource
 	public void setCarVinCodeManageImpl(CarVinCodeManageImpl carVinCodeManageImpl) {
 		this.carVinCodeManageImpl = carVinCodeManageImpl;
-	}
-	@Resource
-	public void setFactoryOrderManageImpl(
-			FactoryOrderManageImpl factoryOrderManageImpl) {
-		this.factoryOrderManageImpl = factoryOrderManageImpl;
 	}
 	@Resource
 	public void setCustomerPidBookingCancelRecordManageImpl(
@@ -191,29 +183,30 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		this.carColorManageImpl = carColorManageImpl;
 	}
 	@Resource
-	public void setCustomerpidFlowReasonManageImpl(
-			CustomerpidFlowReasonManageImpl customerpidFlowReasonManageImpl) {
-		this.customerpidFlowReasonManageImpl = customerpidFlowReasonManageImpl;
+	public void setCustomerImageApprovalManageImpl(
+			CustomerImageApprovalManageImpl customerImageApprovalManageImpl) {
+		this.customerImageApprovalManageImpl = customerImageApprovalManageImpl;
 	}
-	*//**
+	/**
 	 * 功能描述： 
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String add() throws Exception {
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
-			
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
 			Customer customer = customerMangeImpl.get(customerId);
 			
 			CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
 			
 			//车系
-			List<CarSeriy> carSeriys = carSeriyManageImpl.getAll();
+			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),-1);
 			request.setAttribute("carSeriys", carSeriys);
 			
 			//车型
@@ -243,14 +236,14 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		return "edit";
 	}
 
-	*//**
+	/**
 	 * 功能描述：编辑交车预约记录
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String edit() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
@@ -265,26 +258,27 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "edit";
 	}
-	*//**
+	/**
 	 * 功能描述：更新交车预约记录表
 	 * 参数描述： 
 	 * 逻辑描述：交车预约记录在打印合同时就生成（orderContractAction），
 	 * 此处是对交车预约记录数据进行编辑；更新最终能交车记录的交车信息（CustomerLastBussi），CustomerBussi表
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void save() throws Exception {
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		String orderDate = request.getParameter("customerPidBookingRecord.orderDate");
-		String bookingDate = request.getParameter("customerPidBookingRecord.bookingDate");
+	    Date modifyTime = ParamUtil.getDateParam(request, "customerPidBookingRecord.modifyTime", "yyyy-MM-dd");
+	    //车型信息
+	    Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+	    Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+	    Integer carColorId = ParamUtil.getIntParam(request, "carColorId", -1);
+	    Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
 		try{
-				//车型信息
-				Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
-				Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
-				Integer carColorId = ParamUtil.getIntParam(request, "carColorId", -1);
-				Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
-				Integer dbid = customerPidBookingRecord.getDbid();
+				User sessionUser = getSessionUser();
+				Enterprise enterprise = sessionUser.getEnterprise();
 				if(brandId>0){
 					Brand brand = brandManageImpl.get(brandId);
 					customerPidBookingRecord.setBrand(brand);
@@ -305,75 +299,86 @@ public class QywxCustomerPidRecordAction extends BaseController{
 				}
 				//先获取合同流失记录交车预约创建日期
 				CustomerPidBookingCancelRecord customerPidBookingCancelRecord = customerPidBookingCancelRecordManageImpl.findUniqueBy("customerId",customerId);
+				request.setAttribute("customerPidBookingCancelRecord", customerPidBookingCancelRecord);
 				//初始化时间
 				if(null==customerPidBookingCancelRecord){
 					customerPidBookingRecord.setCreateTime(new Date());
 				}else{
 					customerPidBookingRecord.setCreateTime(customerPidBookingCancelRecord.getBookingDate());
 				}
+		    	customerPidBookingRecord.setModifyTime(modifyTime);
+			    
 				Customer customer = customerMangeImpl.get(customerId);
-				if(dbid==null){
-					customerPidBookingRecord.setModifyTime(new Date());
-					//初始化交车预约未创建
-					customerPidBookingRecord.setPidStatus(CustomerPidBookingRecord.PRINT);
-					customerPidBookingRecord.setFlowStatus(CustomerPidBookingRecord.FLOWSTATUSCOMM);
-					//设置跨店销售为默认正常状态
-					customerPidBookingRecord.setKdStatus(CustomerPidBookingRecord.KDCOMM);
-					//设置回访状态
-					customerPidBookingRecord.setHfStatus(CustomerPidBookingRecord.HFWATING);
-					customerPidBookingRecord.setOutStockCheckStatus(CustomerPidBookingRecord.OUTCHECKDEFAULT);
-					customerPidBookingRecord.setCustomer(customer);
+				//初始化交车预约未创建
+				customerPidBookingRecord.setPidStatus(CustomerPidBookingRecord.FINISHED);
+				//设置跨店销售为默认正常状态
+				customerPidBookingRecord.setKdStatus(CustomerPidBookingRecord.KDCOMM);
+				//设置回访状态
+				customerPidBookingRecord.setHfStatus(CustomerPidBookingRecord.HFWATING);
+				customerPidBookingRecord.setOutStockCheckStatus(CustomerPidBookingRecord.OUTCHECKDEFAULT);
+				customerPidBookingRecord.setCustomer(customer);
 
-					//设置物流信息为提交
-					customerPidBookingRecord.setWlStatus(CustomerPidBookingRecord.WLWATING);
-					customerPidBookingRecord.setBookingDate(DateUtil.stringDateWithHHMM(bookingDate));
-					customerPidBookingRecord.setOrderDate(DateUtil.stringDateWithHHMM(orderDate));
-					
-					customerPidBookingRecordManageImpl.save(customerPidBookingRecord);
-					//删除重复数据
-					customerPidBookingRecordManageImpl.deleteDuplicateDataByCustomerId(customerId);
-				}
-				else{
-					CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
-					customerPidBookingRecord2.setBrand(customerPidBookingRecord.getBrand());
-					customerPidBookingRecord2.setCarSeriy(customerPidBookingRecord.getCarSeriy());
-					customerPidBookingRecord2.setCarModel(customerPidBookingRecord.getCarModel());
-					customerPidBookingRecord2.setCarColor(customerPidBookingRecord.getCarColor());
-					customerPidBookingRecord2.setVinCode(null);
-					customerPidBookingRecord2.setWlCreateTime(null);
-					customerPidBookingRecord2.setHasCarWl(null);
-					customerPidBookingRecord2.setCreateTime(new Date());
-					//初始化交车预约未创建
-					customerPidBookingRecord2.setPidStatus(CustomerPidBookingRecord.PRINT);
-					customerPidBookingRecord2.setFlowStatus(CustomerPidBookingRecord.FLOWSTATUSCOMM);
-					//设置跨店销售为默认正常状态
-					customerPidBookingRecord2.setKdStatus(CustomerPidBookingRecord.KDCOMM);
-					//设置回访状态
-					customerPidBookingRecord2.setHfStatus(CustomerPidBookingRecord.HFWATING);
-					customerPidBookingRecord2.setOutStockCheckStatus(CustomerPidBookingRecord.OUTCHECKDEFAULT);
-					//设置物流信息为提交
-					customerPidBookingRecord2.setWlStatus(CustomerPidBookingRecord.WLWATING);
-					customerPidBookingRecord2.setHasCarOrder(null);
-					customerPidBookingRecord2.setBookingDate(DateUtil.stringDateWithHHMM(bookingDate));
-					customerPidBookingRecord2.setOrderDate(DateUtil.stringDateWithHHMM(orderDate));
-					customerPidBookingRecord2.setNote(customerPidBookingRecord.getNote());
-					customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-					//删除重复数据
-					customerPidBookingRecordManageImpl.deleteDuplicateDataByCustomerId(customerId);
-				}
+				//设置物流信息为提交
+				customerPidBookingRecord.setWlStatus(CustomerPidBookingRecord.WLDEALED);
+				customerPidBookingRecord.setOrderDate(DateUtil.stringDateWithHHMM(orderDate));
+				customerPidBookingRecord.setPidStatus(CustomerPidBookingRecord.FINISHED);
+				customerPidBookingRecord.setHfStatus(CustomerPidBookingRecord.HFWATING);
+				//归档日期
+				customerPidBookingRecord.setCwDate(new Date());
+				customerPidBookingRecord.setCartrialerWlStatus(CustomerPidBookingRecord.WLDEALED);
+				customerPidBookingRecordManageImpl.save(customerPidBookingRecord);
+				//删除重复数据
+				customerPidBookingRecordManageImpl.deleteDuplicateDataByCustomerId(customerId);
 				
-				//更新订单状态
-				OrderContract orderContract = customer.getOrderContract();
-				orderContract.setStatus(OrderContract.PRINT);
-				//订单状态设置为合同已经打印
-				orderContractManageImpl.save(orderContract);
+				if(null!=customer&&customer.getDbid()>0){
+					CustomerPhase customerPhase = customerPhaseManageImpl.findUniqueBy("name", "F");
+					customer.setCustomerPhase(customerPhase);
+					User user = customer.getUser();
+					//跟新销售顾问的所在部门
+					User user2 = userManageImpl.get(user.getDbid());
+					customer.setSuccessDepartment(user2.getDepartment());
+				}
+				customerMangeImpl.save(customer);
+				
+				
+				//归档初始化 图片上传表
+				Integer customerType = customer.getRecordType();
+				if(customerType==(int)Customer.CUSTOMERTYPECOMM){
+					CustomerImageApproval cApproval = customerImageApprovalManageImpl.findUniqueBy("customer.dbid", customer.getDbid());
+					if(null==cApproval){
+						CustomerImageApproval customerImageApproval=new CustomerImageApproval();
+						customerImageApproval.setCustomer(customer);
+						customerImageApproval.setDrivingApproval(null);
+						customerImageApproval.setDrivingStatus(CustomerImageApproval.UPLOADSTATSCOMM);
+						customerImageApproval.setHandCarApproval(null);
+						customerImageApproval.setHandCarStatus(CustomerImageApproval.UPLOADSTATSCOMM);
+						customerImageApproval.setStatus(CustomerImageApproval.STATUSCOMM);
+						customerImageApprovalManageImpl.save(customerImageApproval);
+					}
+				}
 				
 				//发送微信消息
 				String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-				String carName=customerPidBookingRecord.getBrand().getName()+""+customerPidBookingRecord.getCarSeriy().getName()+""+
-						customerPidBookingRecord.getCarModel().getName();
-				String dis=customer.getDepartment().getName()+"["+customer.getUser().getRealName()+"]提报交车预约，预约车型："+carName;
-				qywxSendMessageUtil.sendMessagePart(url, dis, "交车预约申请处理通知", request);
+				String carName="";
+				if(enterprise.getBussiType()==3){
+					carName=customerPidBookingRecord.getBrand().getName()+""+customerPidBookingRecord.getCarSeriy().getName()+""+
+							customerPidBookingRecord.getCarModel().getName()+""+customer.getCarColorStr();
+				}
+				if(enterprise.getBussiType()!=3){
+					carName=customerPidBookingRecord.getBrand().getName()+""+customerPidBookingRecord.getCarSeriy().getName()+""+
+							customerPidBookingRecord.getCarModel().getName()+""+customerPidBookingRecord.getCarColor().getName();
+				}
+				String dis="";
+				if(null!=customer.getDepartment()){
+					dis=customer.getDepartment().getName();
+				}
+				if(null!=customer.getUser()){
+					dis=dis+"["+customer.getUser().getRealName()+"]";
+				}
+				dis=dis+"提报交车预约，预约车型："+carName;
+				
+				//qywxSendMessageUtil.sendMessagePart(url, dis, "交车预约申请处理通知", request);
+				customerOperatorLogManageImpl.saveCustomerOperatorLog(customerId, "客户归档成功", dis);
 		}catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();
@@ -383,13 +388,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		renderMsg("/qywxCustomer/orderCustomer", "保存数据成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：总/副总理审批（合同流失审批）
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String generalManagerList() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try {
@@ -409,13 +414,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "generalManagerList";
 	}
-	*//**
+	/**
 	 * 功能描述：展厅经理（合同流失审批）
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String roomManagerList() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try {
@@ -434,13 +439,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "roomManagerList";
 	}
-	*//**
+	/**
 	 * 功能描述：销售副总审批页面
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String approvalRoomManager() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
@@ -468,13 +473,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "approvalRoomManager";
 	}
-	*//**
+	/**
 	 * 功能描述：展厅经理（合同流失审批）
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String saleManagerList() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try {
@@ -493,14 +498,14 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "saleManagerList";
 	}
-	*//**
+	/**
 	 * 功能描述：展厅经理 审批合同流失
 	 * 参数描述：
 	 * 逻辑描述：1、首先更新交车预约信息表的状态；
 	 * 			 2、保存审批信息记录表
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void saveRoomApprovalOrder() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		Integer customerPidCancelId = ParamUtil.getIntParam(request, "customerPidCancelId", -1);
@@ -544,13 +549,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		renderMsg("/qywxCustomerPidRecord/roomManagerList", "保存信息成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：总经理审批页面
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String approvalGeneralManager() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
@@ -562,7 +567,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 				request.setAttribute("url","/qywxCustomerPidRecord/generalManagerList");
 				return "error";
 			}
-			if(customerPidBookingRecord2.getPidStatus()==CustomerPidBookingRecord.XIAOSFZSBMIT){
+			/*if(customerPidBookingRecord2.getPidStatus()==CustomerPidBookingRecord.XIAOSFZSBMIT){
 				request.setAttribute("customer", customer);
 				request.setAttribute("customerLastBussi", customer.getCustomerLastBussi());
 				request.setAttribute("customerPidBookingRecord", customerPidBookingRecord2);
@@ -577,7 +582,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 				request.setAttribute("message", customer.getName()+"已经审批完成，请勿重复审批！");
 				request.setAttribute("url","/qywxCustomerPidRecord/generalManagerList");
 				return "error";
-			}
+			}*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -585,7 +590,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "approvalGeneralManager";
 	}
-	*//**
+	/**
 	 * 功能描述：总经理合同审批记录信息
 	 * 参数描述：
 	 * 逻辑描述：
@@ -595,7 +600,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 	 * 4、释放车架号同时提醒物流部
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void saveApprovalGeneralManager() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		Integer pidStatus = ParamUtil.getIntParam(request, "pidStatus", -1);
@@ -623,10 +628,10 @@ public class QywxCustomerPidRecordAction extends BaseController{
 				approvalRecordPidBookingRecordManageImpl.save(approvalRecordPidBookingRecord);
 				
 				//总经理同意合同流失，情况该客户的所有信息
-				if((int)pidStatus==(int)CustomerPidBookingRecord.APPROVALSUCCESS){
+				/*if((int)pidStatus==(int)CustomerPidBookingRecord.APPROVALSUCCESS){
 					//删除合同信息
 					cancelContract(customerId);
-				}
+				}*/
 				
 				//发送合同流失 微信通知信息
 				sendMessage(pidStatus, customerPidBookingRecord2);
@@ -643,12 +648,12 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		renderMsg("/qywxCustomerPidRecord/generalManagerList", "保存信息成功！");
 		return ;
 	}
-	*//***
+	/***
 	 * 发送订单审批结果通知
 	 * @param status
 	 * @param orderContract
 	 * @throws Exception
-	 *//*
+	 */
 	private void sendMessage(Integer status,CustomerPidBookingRecord customerPidBookingRecord) throws Exception{
 		HttpServletRequest request = this.getRequest();
 		if(null==customerPidBookingRecord){
@@ -693,7 +698,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		qywxSendMessageUtil.sendMessageSingle(toUserParam, url, dis, type, request);
 	}
-	*//**
+	/**
 	 * 功能描述：取消合同
 	 * 参数描述：customerId
 	 * 逻辑描述：根据customerId获取客户信息，
@@ -712,7 +717,7 @@ public class QywxCustomerPidRecordAction extends BaseController{
 	 * 交车审批记录信息。取消合同删除交车预约记录、审批记录
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	private void cancelContract(Integer customerId) throws Exception {
 		User currentUser = getSessionUser();
 		try{
@@ -765,53 +770,6 @@ public class QywxCustomerPidRecordAction extends BaseController{
 					timeoutsTrackRecord.setContrackReturnDate(new Date());
 					timeoutsTrackRecordManageImpl.save(timeoutsTrackRecord);
 				}
-				
-				//记录一条合同vin码流失信息 通知物流部
-				if((int)customerPidBookingRecord2.getWlStatus()==(int)CustomerPidBookingRecord.WLDEALED){
-					if(null!=customerPidBookingRecord2.getVinCode()&&customerPidBookingRecord2.getVinCode().trim().length()>0){
-						
-						List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", customerPidBookingRecord2.getVinCode());
-			    		//////////////////////设置车辆交车记录 为未预定//////////////////////////////
-					    if(null!=factoryOrders&&factoryOrders.size()>0){
-					    	FactoryOrder factoryOrder= factoryOrders.get(0);
-					    	factoryOrder.setReserveStatus(FactoryOrder.RESERVECOM);
-					    	factoryOrderManageImpl.save(factoryOrder);
-					    	
-					    	//添加车架号释放记录
-					    	CarVinCode carVinCode=new CarVinCode();
-							carVinCode.setVinCode(customerPidBookingRecord2.getVinCode());
-							carVinCode.setCustomerName(customer.getName());
-							carVinCode.setCreateTime(new Date());
-							carVinCode.setCar(customerPidBookingRecord2.getCarSeriy().getName()+""+customerPidBookingRecord2.getCarModel().getName());
-							carVinCode.setBuffName(customer.getBussiStaff());
-							carVinCode.setEnterprise(currentUser.getEnterprise());
-							carVinCodeManageImpl.save(carVinCode);
-							
-							//保存工厂订单信息
-							CarOperateLog carOperateLog=new CarOperateLog();
-							carOperateLog.setFactoryOrder(factoryOrder);
-							carOperateLog.setOperateDate(new Date());
-							carOperateLog.setOperator(currentUser.getRealName());
-							carOperateLog.setType("交车预约释放车架号");
-							carOperateLogManageImpl.save(carOperateLog);
-					    }
-						
-						//物流部发送合同流失审批通知记录
-						List<User> users = userManageImpl.find("from User where department.name like ? ", new Object[]{"%物流部%"});
-						if(null!=users&&users.size()>0){
-							Integer[] receiveMessageUserIds=new Integer[users.size()];
-							int i=0;
-							for (User user : users) {
-								receiveMessageUserIds[i]=user.getDbid();
-								i=i+1;
-							}
-							MessageUtile messageUtile=new MessageUtile();
-							String url="/factoryOrder/storageList";
-							String content=customer.getDepartment().getName()+"["+customer.getBussiStaff()+"]的客户【"+customer.getName()+"】合同已经取消，车架号："+customerPidBookingRecord2.getVinCode()+"已经释放!";
-							messageUtile.sendMessageByRecvier("【"+customer.getBussiStaff()+"】取消合同车架号释放通知",content ,url, receiveMessageUserIds);
-						}
-					}
-				}
 			}else{
 				System.out.println("请选择取消合同数据！");
 				return ;
@@ -824,13 +782,13 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		System.out.println("取消合同成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：合同流失申请页面
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String orderContractCancel() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
@@ -839,58 +797,46 @@ public class QywxCustomerPidRecordAction extends BaseController{
 			request.setAttribute("customer", customer);
 			request.setAttribute("customerLastBussi", customer.getCustomerLastBussi());
 			request.setAttribute("customerPidBookingRecord", customerPidBookingRecord2);
-			
-			List<CustomerpidFlowReason> customerpidFlowReasons = customerpidFlowReasonManageImpl.getAll();
-			request.setAttribute("customerpidFlowReasons", customerpidFlowReasons);
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
 		}
 		return "orderContractCancel";
 	}
-	*//**
+	/**
 	 * 功能描述：保存订合同流失申请记录
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void saveOrderContractCancel() throws Exception {
 		Integer dbid=customerPidBookingRecord.getDbid();
 		String cancelNote = request.getParameter("cancelNote");
 		User sessionUser = getSessionUser();
-		Integer customerpidFlowReasonId = ParamUtil.getIntParam(request, "customerpidFlowReasonId", -1);
 		try{
-			CustomerpidFlowReason customerpidFlowReason = customerpidFlowReasonManageImpl.get(customerpidFlowReasonId);
 			 if(null!=dbid){
-			    CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
-			    customerPidBookingRecord2.setPidStatus(CustomerPidBookingRecord.STATUSWATING);
-			  //设置跨店销售为默认正常状态
-				customerPidBookingRecord2.setKdStatus(CustomerPidBookingRecord.KDCOMM);
-				customerPidBookingRecord2.setCustomerpidFlowReason(customerpidFlowReason);
-			    //合同流失申请 修改交车合同状态
-			    customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-			    
-			    //合同流失申请记录信息
-			    CustomerPidCancel customerPidCancel=new CustomerPidCancel();
-			    customerPidCancel.setCreateDate(new Date());
-			    customerPidCancel.setCustomerPidBookingRecord(customerPidBookingRecord2);
-			    customerPidCancel.setNote(cancelNote);
-			    customerPidCancel.setCustomerpidFlowReason(customerpidFlowReason);
-			    customerPidCancelManageImpl.save(customerPidCancel);
+				 CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
+				    customerPidBookingRecord2.setPidStatus(CustomerPidBookingRecord.STATUSWATING);
+				  //设置跨店销售为默认正常状态
+					customerPidBookingRecord.setKdStatus(CustomerPidBookingRecord.KDCOMM);
+				    //合同流失申请 修改交车合同状态
+				    customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
 				    
-			    //发起合同流失审批流程
-			    
-			    ProcessRun processRun = processManageImpl.startRun(sessionUser, customerPidBookingRecord2.getCustomer(), ProcessRun.TYPECPID);
-			    processManageImpl.sendTaskMessage(processRun, request);
-			    
-			    //保存客户合同流失日志
-			    customerOperatorLogManageImpl.saveCustomerOperatorLog(customerPidBookingRecord2.getCustomer().getDbid(), "客户合同流失申请", "",sessionUser);
-			    
-			  //发送微信消息
-			    String url="/qywxCustomerPidRecord/approvalSaleManager?dbid="+customerPidBookingRecord2.getCustomer().getDbid();
-				String des=sessionUser.getDepartment().getName()+"["+ sessionUser.getRealName()+"]发起合同流失，请尽快处理。";
-				qywxSendMessageUtil.sendMessagePart(url,des,"合同流失审批通知",request);
+				    //合同流失申请记录信息
+				    CustomerPidCancel customerPidCancel=new CustomerPidCancel();
+				    customerPidCancel.setCreateDate(new Date());
+				    customerPidCancel.setCustomerPidBookingRecord(customerPidBookingRecord2);
+				    customerPidCancel.setNote(cancelNote);
+				    customerPidCancelManageImpl.save(customerPidCancel);
+				    
+				    //保存客户合同流失日志
+				    customerOperatorLogManageImpl.saveCustomerOperatorLog(customerPidBookingRecord2.getCustomer().getDbid(), "客户合同流失申请", "",sessionUser);
+				    
+				  //发送微信消息
+				    String url="/qywxCustomerPidRecord/approvalSaleManager?dbid="+customerPidBookingRecord2.getCustomer().getDbid();
+					String des=sessionUser.getDepartment().getName()+"["+ sessionUser.getRealName()+"]发起合同流失，请尽快处理。";
+					qywxSendMessageUtil.sendMessagePart(url,des,"合同流失审批通知",request);
 			 }else{
 				 renderErrorMsg(new Throwable("请选择操作数据"), "");
 				 return ;
@@ -904,13 +850,66 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		renderMsg("/qywxCustomer/waitingHandCar", "申请发送成功!");
 		return ;
 	}
-	*//**
+	/**
+	 * 功能描述：撤销归档客户
+	 * 参数描述：customerId
+	 * 逻辑描述：通过customerId设置客户状态为归档
+	 * @return
+	 * @throws Exception
+	 */
+	public void cancelCustomerFile() throws Exception {
+		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
+		User currentUser = getSessionUser();
+		try{
+				if(customerId<0){
+					renderErrorMsg(new Throwable("请选撤销择归档数据！"), "");
+					return ;
+				}
+				
+				List<CustomerPidBookingRecord> customerPidBookingRecords = customerPidBookingRecordManageImpl.findBy("customer.dbid",customerId);
+				if(null==customerPidBookingRecords||customerPidBookingRecords.isEmpty()){
+					renderErrorMsg(new Throwable("请选撤销择归档数据！"), "");
+					return ;
+				}
+				
+				Customer customer = customerMangeImpl.get(customerId);
+				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
+				String vinCode = customerPidBookingRecord2.getVinCode();
+				
+				if(null!=customer&&customer.getDbid()>0){
+					CustomerPhase customerPhase = customerPhaseManageImpl.findUniqueBy("name", "O");
+					customer.setCustomerPhase(customerPhase);
+					customer.setKdStatus(Customer.KDCOMM);
+					customer.setDmsStatus(Customer.DMSCOMM);
+					customer.setSourceEnterprise(null);
+				}
+				customerMangeImpl.save(customer);
+				
+				customerPidBookingRecordManageImpl.delete(customerPidBookingRecord2);
+				//推荐客户修改状态为客户流失
+				RecommendCustomer recommendCustomer = customer.getRecommendCustomer();
+				if(null!=recommendCustomer){
+					recommendCustomer.setTradeStatus(RecommendCustomer.TRADECOMM);
+					recommendCustomerManageImpl.save(recommendCustomer);
+					saveAgentOperatorLog("推荐客户撤销客户档案", "推荐客户撤销客户档案", customerId, currentUser);
+				}
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+			renderErrorMsg(e, "");
+			return ;
+		}
+		String query = ParamUtil.getQueryUrl(request);
+		renderMsg("/qywxCustomer/successCustomer"+query, "客户撤销归档成功！");
+		return ;
+	}
+	/**
 	 * 功能描述：查看审批记录
 	 * 参数描述：根据customerID
 	 * 逻辑描述：根据customerId获取会员信息交车记录申请信息；查询审批记录信息
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String approvalDetail() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
@@ -918,8 +917,8 @@ public class QywxCustomerPidRecordAction extends BaseController{
 				Customer customer = customerMangeImpl.get(customerId);
 				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
 				if(null!=customerPidBookingRecord2){
-					List<ApprovalRecordPidBookingRecord> approvalRecordPidBookingRecords = approvalRecordPidBookingRecordManageImpl.findBy("customerPidBookingRecord.dbid",customerPidBookingRecord2.getDbid());
-					request.setAttribute("approvalRecordPidBookingRecords", approvalRecordPidBookingRecords);
+					/*List<ApprovalRecordPidBookingRecord> approvalRecordPidBookingRecords = approvalRecordPidBookingRecordManageImpl.findBy("customerPidBookingRecord.dbid",customerPidBookingRecord2.getDbid());
+					request.setAttribute("approvalRecordPidBookingRecords", approvalRecordPidBookingRecords);*/
 					
 					List<CustomerPidCancel> customerPidCancels = customerPidCancelManageImpl.findBy("customerPidBookingRecord.dbid",customerPidBookingRecord2.getDbid());
 					request.setAttribute("customerPidCancels", customerPidCancels);
@@ -934,5 +933,32 @@ public class QywxCustomerPidRecordAction extends BaseController{
 		}
 		return "approvalDetail";
 	}
+	/**
+	 * 功能描述：保存操作日志
+	 * @param type
+	 * @param note
+	 * @param finCustomerId
+	 */
+	public void saveAgentOperatorLog(String type,String note,Integer customerId,User currentUser){
+		AgentOperatorLog agentOperatorLog=new AgentOperatorLog();
+		agentOperatorLog.setCustomerId(customerId);
+		agentOperatorLog.setNote(note);
+		agentOperatorLog.setOperateDate(new Date());
+		agentOperatorLog.setOperator(currentUser.getRealName());
+		agentOperatorLog.setType(type);
+		agentOperatorLogManageImpl.save(agentOperatorLog);
+	}
+	private RecommendCustomerManageImpl recommendCustomerManageImpl;
+	private AgentOperatorLogManageImpl agentOperatorLogManageImpl;
+	@Resource
+	public void setRecommendCustomerManageImpl(
+			RecommendCustomerManageImpl recommendCustomerManageImpl) {
+		this.recommendCustomerManageImpl = recommendCustomerManageImpl;
+	}
+	@Resource
+	public void setAgentOperatorLogManageImpl(
+			AgentOperatorLogManageImpl agentOperatorLogManageImpl) {
+		this.agentOperatorLogManageImpl = agentOperatorLogManageImpl;
+	}
+	
 }
-*/

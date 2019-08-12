@@ -30,10 +30,10 @@
 	</div>
 <div class="listOperate">
 	<div class="operate">
-		<a href="javascript:void(-1)" class="but button" onclick="operator('${ctx }/customer/trakingCard')">意向跟踪卡</a> 
+		<a href="javascript:void(-1)" class="but button" onclick="operator('${ctx }/custCustomer/trakingCard')">意向跟踪卡</a> 
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryOutFlow" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryOutFlow" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -176,9 +176,9 @@
 						${customer.mobilePhone}
 					<div class="drop_down_menu hiden" onmousemove="show(this)" onmouseout="hi(this)" >
 					    <ul>
-					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑明细</a></li>
+					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑明细</a></li>
 					      <li><a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerTrack/add?customerId=${customer.dbid }','添加跟进记录',900,500)">添加跟进记录</a> </li>
-					      <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
+					      <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
 					    </ul>
 					  </div>
 				</div>
@@ -195,7 +195,7 @@
 				${customer.department.name }
 			</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 			<td>
 				<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">

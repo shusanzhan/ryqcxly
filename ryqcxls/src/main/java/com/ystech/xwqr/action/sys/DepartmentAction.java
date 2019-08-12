@@ -101,6 +101,7 @@ public class DepartmentAction extends BaseController{
 		Integer parentId = ParamUtil.getIntParam(request, "parentId", -1);
 		Integer manager = ParamUtil.getIntParam(request,"managerId", -1);
 		try {
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			if(parentId<0){
 				renderErrorMsg(new Throwable("请选择上级部门"), "");
 				return ;
@@ -117,20 +118,12 @@ public class DepartmentAction extends BaseController{
 			}
 			if (null!=department.getDbid()&&department.getDbid()>0) {
 				//编辑资料
-				Department parent=null;
 				Department department2 = departmentManageImpl.get(department.getDbid());
-				if(parentId>0){
-					 parent = departmentManageImpl.get(parentId);
-					 //如果父节点不为空，并且父节点不为根节点
-					 if(null!=parent&&parent.getDbid()!=(int)Department.ROOT){
-						 department2.setEnterprise(parent.getEnterprise());
-					 }
-				}
 				department2.setDiscription(department.getDiscription());
 				department2.setFax(department.getFax());
 				department2.setManager(department.getManager());
 				department2.setName(department.getName());
-				department2.setParent(parent);
+				department2.setParentId(parentId);
 				department2.setPhone(department.getPhone());
 				department2.setSuqNo(department.getSuqNo());
 				department2.setType(department.getType());
@@ -151,12 +144,9 @@ public class DepartmentAction extends BaseController{
 			}
 			else{
 				//第一次创建部门
-				Department parent = departmentManageImpl.get(parentId);
-				department.setParent(parent);
+				department.setParentId(parentId);
 				 //如果父节点不为空，并且父节点不为根节点
-				if(null!=parent&&parent.getDbid()!=(int)Department.ROOT){
-					department.setEnterprise(parent.getEnterprise());
-				}
+				department.setEnterprise(enterprise);
 				departmentManageImpl.save(department);
 				
 				//同步用户资料到微信判断
@@ -320,8 +310,7 @@ public class DepartmentAction extends BaseController{
 		try {
 			if(dbid>0){
 				Department department2 = departmentManageImpl.get(dbid);
-				Department parent = departmentManageImpl.get(parentId);
-				department2.setParent(parent);
+				department2.setParentId(parentId);
 				departmentManageImpl.save(department2);
 			}
 		} catch (Exception e) {

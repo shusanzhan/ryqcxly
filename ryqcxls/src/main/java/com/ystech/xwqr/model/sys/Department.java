@@ -1,5 +1,6 @@
 package com.ystech.xwqr.model.sys;
 
+import java.util.List;
 import java.util.Set;
 
 // Generated 2013-5-23 0:03:33 by Hibernate Tools 4.0.0
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 public class Department implements java.io.Serializable {
 	//部门根节点
-	public static Integer ROOT=1;
+	public static Integer ROOT=0;
 	//普通组织结构
 	public static Integer TYPECOMM=1;
 	//分店
@@ -28,8 +29,7 @@ public class Department implements java.io.Serializable {
 	private String phone;
 	private String fax;
 	private User manager;
-	private Department parent;
-	private Set<Department> children;
+	private List<Department> children;
 	private Enterprise enterprise;
 	//部门类型，1、普通的组织结构节点；2、分店组织机构节点
 	private Integer type;
@@ -86,19 +86,11 @@ public class Department implements java.io.Serializable {
 		this.suqNo = suqNo;
 	}
 
-	public Department getParent() {
-		return parent;
-	}
-
-	public void setParent(Department parent) {
-		this.parent = parent;
-	}
-
-	public Set<Department> getChildren() {
+	public List<Department> getChildren() {
 		return children;
 	}
 
-	public void setChildren(Set<Department> children) {
+	public void setChildren(List<Department> children) {
 		this.children = children;
 	}
 

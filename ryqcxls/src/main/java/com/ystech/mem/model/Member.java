@@ -5,6 +5,7 @@ package com.ystech.mem.model;
 import java.util.Date;
 
 import com.ystech.weixin.model.WeixinGzuserinfo;
+import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 
 /**
@@ -80,7 +81,7 @@ public class Member implements java.io.Serializable {
 	private Date modifyTime;
 	
 	//企业ID
-	private Integer enterpriseId;
+	private Enterprise enterprise;
 	//微信Id
 	private String microId;
 	//微信ID
@@ -152,7 +153,6 @@ public class Member implements java.io.Serializable {
 	//所属销售顾问
 	private User user;
 	
-	private UseCarArea useCarArea;
 	
 	public Member() {
 	}
@@ -401,15 +401,6 @@ public class Member implements java.io.Serializable {
 	}
 
 
-
-	public Integer getEnterpriseId() {
-		return enterpriseId;
-	}
-
-	public void setEnterpriseId(Integer enterpriseId) {
-		this.enterpriseId = enterpriseId;
-	}
-
 	public Integer getTotalBuy() {
 		return totalBuy;
 	}
@@ -613,20 +604,20 @@ public class Member implements java.io.Serializable {
 		this.user = user;
 	}
 
-	public UseCarArea getUseCarArea() {
-		return useCarArea;
-	}
-
-	public void setUseCarArea(UseCarArea useCarArea) {
-		this.useCarArea = useCarArea;
-	}
-
 	public Integer getCarMasterNum() {
 		return carMasterNum;
 	}
 
 	public void setCarMasterNum(Integer carMasterNum) {
 		this.carMasterNum = carMasterNum;
+	}
+
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
 	}
 
 	

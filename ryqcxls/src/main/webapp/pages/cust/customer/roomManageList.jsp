@@ -22,7 +22,7 @@ function exportExcel(searchFrm){
 	if(null!=searchFrm&&searchFrm!=undefined&&searchFrm!=''){
 		params=$("#"+searchFrm).serialize();
 	}
-	window.location.href='${ctx}/customer/exportRoomManageExcel?'+params;
+	window.location.href='${ctx}/custCustomer/exportRoomManageExcel?'+params;
 }
 </script>
 <body class="bodycolor">
@@ -38,7 +38,7 @@ function exportExcel(searchFrm){
 		<a class="but button" href="javascript:void();" onclick="exportExcel('searchPageForm')">导出excel</a>
    </div>
   	<div class="seracrhOperate" style="margin: 20px 1px;">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryRoomManageList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryRoomManageList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -92,15 +92,6 @@ function exportExcel(searchFrm){
   			
 				</tr>
 				<tr>
-					<td><label>交叉客户：</label></td>
-	  				<td>
-	  					<select class="text small" id="cityCrossId" name="cityCrossId"  onchange="$('#searchPageForm')[0].submit()">
-							<option value="0" >请选择...</option>
-							<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-								<option value="${cityCrossCustomer.dbid }" ${param.cityCrossId==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-							</c:forEach>
-						</select>
-	  				</td>
 	  				<td><label>销售顾问：</label></td>
   				<td>
   					<select class="text small" id="bussiStaffId" name="bussiStaffId"  onchange="$('#searchPageForm')[0].submit()">
@@ -230,7 +221,7 @@ function exportExcel(searchFrm){
 					<input type="checkbox"   name="id" id="id1" value="${customer.dbid }">
 			</td>
 			<td style="text-align: left">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">
+				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">
 					<c:if test="${fn:length(customer.name)>12 }" var="status">
 						${fn:substring(customer.name,0,12) }...
 						${customer.mobilePhone}
@@ -254,7 +245,7 @@ function exportExcel(searchFrm){
 			<td>${customer.department.name }/${customer.bussiStaff}
 			</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 			<td>
 				<c:if test="${customer.type==1 }">
@@ -346,7 +337,7 @@ function exportExcel(searchFrm){
 						<span style="color: red;">客户流失</span>
 					</c:if>
 				</c:if>
-				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
+				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
 			</td>
 		</tr>
 		</c:forEach>

@@ -24,6 +24,7 @@
 		</global-exception-mappings>
 		<action name="agentSet" class="agentSetAction">
 			<result name="edit">/pages/agent/agentSet/edit.jsp</result>
+			<result name="list">/pages/agent/agentSet/list.jsp</result>
 		</action>
 		<action name="agent" class="agentAction">
 			<result name="list">/pages/agent/agent/list.jsp</result>

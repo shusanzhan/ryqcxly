@@ -389,7 +389,7 @@
 				</td>
 				<td class="formTableTdLeft">同城交叉客户：</td>
 				<td >
-					${customer.cityCrossCustomer.name}
+					
 				</td>
 			</tr>
 			<tr style="height: 30px;">

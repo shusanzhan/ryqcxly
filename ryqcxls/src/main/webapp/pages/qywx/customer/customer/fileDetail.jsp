@@ -48,7 +48,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			意向级别：${customer.customerPhase.name}<br>
@@ -133,31 +133,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">交叉客户：${customer.cityCrossCustomer.name}
-					</td>				
-				</tr>
-				<tr>
 					<td colspan="2" class="formTableTdLeft">类型：
-						<c:if test="${customerShoppingRecord.comeType==1 }">
-						 来店
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==2 }">
-						 来电
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==3 }">
-						 活动
-						 </c:if>
-						 <c:if test="${customerShoppingRecord.comeType==4 }">
-						 特卖会
-						 </c:if>
+						${customer.customerType.name }
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">客户来源：
-						${ customerBussi.infoFrom.name}
-					</td>
-				</tr>
-				
 			</table>
 		</div>
 	</div>
@@ -199,11 +178,6 @@
 				<tr>
 					<td colspan="2" class="formTableTdLeft">学历：
 						${ customer.educational.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">兴趣爱好：
-						${ customer.interest.name}
 					</td>
 				</tr>
 				<tr>
@@ -273,26 +247,12 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="formTableTdLeft">是否试驾：
-						<c:if test="${customer.tryCarStatus==1||empty(customer.tryCarStatus)}">
-							未试驾				
-						</c:if>
-						<c:if test="${customer.tryCarStatus==2 }">
-							<span style="color: red;">已试驾</span>	${customer.tryCarDate }		
-						</c:if>
+						<label>${customerShoppingRecord.isTryDriver==1?'是':'否' } </label>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" class="formTableTdLeft">是否首次来店：
-						<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">
-							未到店				
-						</c:if>
-						<c:if test="${customer.comeShopStatus==2 }">
-							<span style="color: red;">首次到店</span>			
-						</c:if>
-						<c:if test="${customer.comeShopStatus==3 }">
-							<span style="color: red;">二次到店</span>二次到店司机：${customer.twoComeShopDate }
-							首次到店时间：${customer.comeShopDate }			
-						</c:if>
+						<label>${customerShoppingRecord.isFirst==true?'是':'否' } </label>
 					</td>
 				</tr>
 				<tr>
@@ -342,11 +302,6 @@
 							${customerBussi.buyCarMainUse.name}
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2" class="formTableTdLeft">购车时间：
-							${customerBussi.trackingPhase.name}
-						</td>
-					</tr>
 				<tr>
 					<td colspan="2">购车关注点：${ customerBussi.buyCarCare.name}&#12288;</td>
 				</tr>
@@ -366,11 +321,6 @@
 				<tr>
 					<td colspan="2" class="formTableTdLeft">主要使用者：
 						${customerBussi.buyCarMainUse.name}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" class="formTableTdLeft">购车时间：
-						${ customerBussi.trackingPhase.name}
 					</td>
 				</tr>
 					<tr>
@@ -501,7 +451,7 @@
 									${fn:substring(carModel,0,16) }...
 								</c:if>
 								<c:if test="${ status==false}">
-									${carModel} ${customer.carModelStr}
+									${carModel }${customer.carModelStr}
 								</c:if>
 						    </td>
 						</tr>	

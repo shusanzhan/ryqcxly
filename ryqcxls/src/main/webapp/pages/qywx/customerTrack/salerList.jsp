@@ -44,7 +44,7 @@
 	 <a id="back" href="javascript:history.back()">
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
-    <span id="page_title">回复客户记录</span>
+    <span id="page_title">跟踪记录</span>
         <a class="go_home" href="${ctx }/qywxCustomer/index">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
@@ -55,15 +55,12 @@
 <br>
 <br>
 <br>
-<c:if test="${empty(customerTracks)||fn:length(customerTracks)<=0 }" var="status">
+<c:if test="${empty(page.result)||fn:length(page.result)<=0 }" var="status">
 	今日还未回访！
 </c:if>
 
 <c:if test="${status==false }">
-	<div style="width: 92%;margin: auto 0;">
-		提示：默认查询当天回访客户数据，如果需要查询以前回访记录，请选择回访日期
-	</div>
-	<c:forEach items="${customerTracks }" var="customerTrack" varStatus="i">
+	<c:forEach items="${page.result }" var="customerTrack" varStatus="i">
 		<c:set value="${customerTrack.customer }" var="customer"></c:set>
 		<div class="orderContrac">
 			<div class="title" align="left">
@@ -126,6 +123,9 @@
 		</div>
 	</c:forEach>
 </c:if>
+<div style="text-align: center;">
+	<jsp:include page="${ctx }/pages/commons/wechatPage.jsp"></jsp:include>
+</div>
 <br>
 <br>
 <br>
@@ -134,6 +134,8 @@
     <div class="modal-content">
       <div class="modal-body">
       	<form class="form-inline" action="${ctx }/qywxCustomerTrack/querySalerList" name="frmId" id="frmId" method="post">
+      	<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo+1}'>
+		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
       	 <table>
       	 	<tr height="">
       	 		<td width="60"><label for="exampleInputName2">品牌</label></td>

@@ -68,10 +68,10 @@ public class QywxSendMessageUtil {
 	 * @param appid
 	 * @param appsecret
 	 */
-	 public  void sendMessge(String message){
+	 public  void sendMessge(String message,App app){
 		 try {
 			 QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			 AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			 AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), app.getSecurity(),app.getAppId());
 	    	if(null!=accessToken){
 	    		String sendurl=QywxUtil.SNED_URL.replace("ACESSTOKEN", accessToken.getAccessToken());
 	    		JSONObject httpRequest2 = QywxUtil.httpRequest(sendurl, "POST", message);
@@ -98,7 +98,7 @@ public class QywxSendMessageUtil {
 				MessageTemplate messageTemplate = messageTemplates.get(0);
 				String message = getMessage(toUserParam,null,url, dis, messageTemplate,request);
 				LogUtil.error(message);
-				sendMessge(message);
+				sendMessge(message,messageTemplate.getApp());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,7 +121,7 @@ public class QywxSendMessageUtil {
 				String party = getParty(messageTemplate);
 				String user = getUser(messageTemplate);
 				String message = getMessage(user,party,url, dis,messageTemplate,request);
-				sendMessge(message);
+				sendMessge(message,messageTemplate.getApp());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

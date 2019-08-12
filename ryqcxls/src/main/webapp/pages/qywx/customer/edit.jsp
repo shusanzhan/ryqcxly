@@ -187,19 +187,6 @@
 							<input type="text" readonly="readonly" class="weui_input"     value="${customer.customerPhase.name }">
 			            </div>
 			        </div>
-			         <div class="weui_cell weui_cell_select weui_select_after">
-			            <div class="weui_cell_hd" style="width: 80px;color: red;">
-			               	交叉客户
-			            </div>
-			            <div class="weui_cell_bd weui_cell_primary">
-			               <select class="weui_select" id="cityCrossCustomerId" name="cityCrossCustomerId" checkType="integer,1" error="请选择交叉客户">
-						  		<option value="">请选择...</option>
-								<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-									<option value="${cityCrossCustomer.dbid }" ${customer.cityCrossCustomer.dbid==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-								</c:forEach>
-							</select>
-			            </div>
-			        </div>
 			        <c:if test="${customer.orderContract.status>=1}" var="status">
 			        	 <div class="weui_cell">
 				            <div class="weui_cell_hd">
@@ -399,19 +386,6 @@
 			            </div>
 			        </label>
 			    </div>
-			 	<div class="weui_cell weui_cell_select weui_select_after">
-		            <div class="weui_cell_hd" >
-		               购车时间
-		            </div>
-		            <div class="weui_cell_bd weui_cell_primary">
-						<select id="trackingPhaseId" name="trackingPhaseId" class="weui_select">
-							<option value="">请选择...</option>
-							<c:forEach var="trackingPhase" items="${trackingPhases }">
-								<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-							</c:forEach>
-						</select>
-		            </div>
-		        </div>
 		        <div class="weui_cells_title">接待经过</div>
 				<div class="weui_cells weui_cells_form">
 			        <div class="weui_cell">
@@ -542,19 +516,6 @@
 					</select>
 	            </div>
 	        </div>
-		      <div class="weui_cell weui_cell_select weui_select_after">
-	            <div class="weui_cell_hd" >
-	             兴趣爱好
-	            </div>
-	            <div class="weui_cell_bd weui_cell_primary">
-					<select id="interestId" name="interestId" class="weui_select">
-						<option value="">请选择...</option>
-						<c:forEach var="interest" items="${interests }">
-							<option value="${interest.dbid }" ${customer.interest.dbid==interest.dbid?'selected="selected"':'' } >${interest.name }</option>
-						</c:forEach>
-					</select>
-	            </div>
-	        </div>
 		</div>
 		<br>
 		<br>
@@ -625,19 +586,6 @@
 						<option value="">请选择...</option>
 						<c:forEach var="buyCarMainUse" items="${buyCarMainUses }">
 							<option value="${buyCarMainUse.dbid }" ${customerBussi.buyCarMainUse.dbid==buyCarMainUse.dbid?'selected="selected"':'' } >${buyCarMainUse.name }</option>
-						</c:forEach>
-					</select>
-	            </div>
-	        </div>
-			<div class="weui_cell weui_cell_select weui_select_after">
-	            <div class="weui_cell_hd" >
-	              购车时间
-	            </div>
-	            <div class="weui_cell_bd weui_cell_primary">
-					<select id="trackingPhaseId" name="trackingPhaseId" class="weui_select">
-						<option value="">请选择...</option>
-						<c:forEach var="trackingPhase" items="${trackingPhases }">
-							<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
 						</c:forEach>
 					</select>
 	            </div>
@@ -737,6 +685,18 @@ $(document).ready(function(){
 		})
 	})
 })
+function ajaxArea(sel){
+	var value=$(sel).val();
+	$("#areaId").val(value);
+	var sle= $(sel).nextAll();
+	$(sle).remove();
+	$.post("${ctx}/area/ajaxArea?parentId="+value+"&dateTime="+new Date(),{},function (data){
+		if(data!="error"){
+			var data=data.replace(/midea text/g,'weui_select');
+			$("#areaLabel").append(data);
+		}
+	});
+}
 function ajaxCarSeriy(val){
 	var op="<option>请选择车系...</option>";
 	$("#carSeriyId").empty();

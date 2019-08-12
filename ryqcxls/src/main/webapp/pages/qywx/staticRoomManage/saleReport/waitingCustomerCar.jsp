@@ -66,9 +66,8 @@
 <div id="detail_nav">
      <div class="detail_nav_inner">
          <ul class="clearfix padding10">
-           <li class="detail_tap3 detail_tap pull_left " id="imgs_tap" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/customerOrder'">当日新增订单</li>
-           <li class="detail_tap3 detail_tap pull_left " style="border:1px solid #ed145b;" id="pingjia_tap" onclick="window.location.href='${ctx}/qywxOrder/queryOrderList'">当月订单</li>
-           <li class="detail_tap3 detail_tap pull_left select" id="pingjia_tap" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/waitingCustomerCar'">留存订单</li>
+           <li class="detail_tap pull_left " id="imgs_tap" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/customerOrder'">当日新增订单</li>
+           <li class="detail_tap pull_left select" id="pingjia_tap" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/waitingCustomerCar'">留存订单</li>
       	</ul>
      </div>
  </div>

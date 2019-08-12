@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>成都瑞一中锐汽车有限公司销售合同书 审批查看</title>
+<title>销售合同书 审批查看</title>
 </head>
 <link rel="stylesheet" href="${ctx }/css/common.css" />
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
@@ -53,8 +53,8 @@ table th, table td {
 					<span style="color: red;font-size: 15px;">
 						${customer.customerLastBussi.brand.name }&nbsp;&nbsp;
 						${customer.customerLastBussi.carSeriy.name }
-						 ${customer.customerLastBussi.carModel.name }${customer.carModelStr}
-						${customer.customerLastBussi.carColor.name }
+						${customer.customerLastBussi.carModel.name }
+						${customer.customerLastBussi.carColor.name }${customer.carColorStr}
 					</span>
 				</td>
 				<td class="formTableTdLeft">合同总金额：</td>
@@ -141,180 +141,257 @@ table th, table td {
 		</c:if>
 		</table>
 		<br>
-       	<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 100%;">
+       <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 100%;">
 			<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
-					<td width="100%" colspan="4" style="">合同费用明细</td>
+					<td width="100%" colspan="4" style="">车辆费用信息</td>
 			</tr>
 			<tr height="32">
-				<td class="formTableTdLeft">经销商报价：&nbsp;</td>
-				<td colspan="">
-					${orderContractExpenses.salePrice }
-				</td>
-				<td class="formTableTdLeft" style="font-size: 11px;">车辆顾问结算价：</td>
-				<td id="carColorId">
-					${orderContractExpenses.carSalerPrice }
-				</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">合同总金额：&nbsp;</td>
-				<td colspan="">
-					<span style="color: red;font-size: 18px;">${orderContractExpenses.totalPrice }</span>
-				</td>
-				<td class="formTableTdLeft" >购车定金：</td>
-				<td >
-					${orderContractExpenses.orderMoney } 
-				</td>
-			</tr>
-			<tr height="32">
-					<td class="formTableTdLeft">特殊优惠：&nbsp;</td>
-					<td >
-						${orderContractExpenses.specialPermPrice }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">特殊优惠备注：&nbsp;</td>
-					<td >
-						${orderContractExpenses.specialPermNote }
-					</td>
-			</tr>
-			<tr height="32">
-					<td class="formTableTdLeft">优惠现金：&nbsp;</td>
-					<td >
-						${orderContractExpenses.cashBenefit }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">优惠总额：&nbsp;</td>
-					<td >
-						${orderContractExpenses.cashBenefit+orderContractExpenses.specialPermPrice }
-					</td>
-			</tr>
-			<tr height="32">
-					<td class="formTableTdLeft">装饰款：&nbsp;</td>
-					<td >
-						${orderContractExpenses.decoreMoney }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">装饰顾问结算价：&nbsp;</td>
-					<td >
-						${orderContractDecore.salerTotalPrice }
-					</td>
-			</tr>
-			<tr>
-					<td class="formTableTdLeft">咨询服务费：&nbsp;</td>
-					<td >
-						${orderContractExpenses.ajsxf }
-					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">咨询服务费成本：&nbsp;</td>
-					<td >
-						0
-					</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">预收款总额：&nbsp;</td>
-				<td colspan="">
-					<span style="font-size: 14px;">${orderContractExpenses.advanceTotalPrice }</span>
-				</td>
-				<td class="formTableTdLeft" >其他收费总额：</td>
-				<td >
-					${orderContractExpenses.otherFeePrice } 
-				</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">整车营收：&nbsp;</td>
-				<td colspan="">
-					<span style="font-size: 14px;">${orderContractExpenses.revenuePrice }</span>
-				</td>
-				<td class="formTableTdLeft" >预估整车毛利：</td>
-				<td >
-					<c:set value="${orderContractExpenses.revenuePrice-orderContractExpenses.carSalerPrice-orderContractDecore.salerTotalPrice }" var="carGrofitPrice"></c:set>
-					<c:if test="${carGrofitPrice>0 }">
-						<span style="color: red;font-size: 20px;">${carGrofitPrice }</span>
-					</c:if>
-					<c:if test="${carGrofitPrice<=0 }">
-						<span style="color: green;font-size: 20px;">${carGrofitPrice }</span>
-					</c:if>
-				</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">裸车销售价：&nbsp;</td>
-				<td colspan="">
-					<span style="font-size: 14px;">${orderContractExpenses.carActurePrice }</span>
-				</td>
-				<td class="formTableTdLeft" >预估裸车毛利：</td>
-				<td >
-					<c:set value="${orderContractExpenses.carActurePrice-orderContractExpenses.carSalerPrice }" var="carPrice"></c:set>
-					<c:if test="${carPrice>0 }">
-						<span style="color: red;font-size: 20px;">${carPrice }</span>
-					</c:if>
-					<c:if test="${carPrice<=0 }">
-						<span style="color: green;font-size: 20px;">${carPrice }</span>
-					</c:if> 
-				</td>
-			</tr>
-			<tr height="32">
-				<td class="formTableTdLeft">购车方式：&nbsp;</td>
-				<td >
-					<c:if test="${orderContractExpenses.buyCarType==1 }">
-						<span style="color: green;">现款</span>
-					</c:if>
-					<c:if test="${orderContractExpenses.buyCarType==2 }">
-						<span style="color: red;">分付</span>
-					</c:if>
-				</td>
-				<td class="formTableTdLeft">付款方式：&nbsp;</td>
-				<td >
-					<c:if test="${orderContractExpenses.payWay==1 }">
-						<span style="color: green;">现金</span>
-					</c:if>
-					<c:if test="${orderContractExpenses.payWay==2 }">
-						<span style="color: red;">转账</span>
-					</c:if>
-				</td>
-			</tr>
-			<c:if test="${orderContractExpenses.buyCarType==2 }">
-				<tr height="32">
-					<td class="formTableTdLeft">首付款：&nbsp;</td>
+					<td class="formTableTdLeft">经销商报价：&nbsp;</td>
 					<td colspan="">
-						<span style="font-size: 14px;">
-						<c:if test="${empty(orderContractExpenses.sfk) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.sfk) }">
-							${orderContractExpenses.sfk }
-						</c:if>
-						</span>
+						${orderContractExpenses.salePrice }
 					</td>
-					<td class="formTableTdLeft" >贷款：</td>
-					<td >
-						<c:if test="${empty(orderContractExpenses.daikuan) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.daikuan) }">
-							${orderContractExpenses.daikuan }
-						</c:if>
+					<td class="formTableTdLeft" >车辆顾问结算价：</td>
+					<td id="carColorId">
+						${orderContractExpenses.carSalerPrice }
 					</td>
 				</tr>
-			</c:if>
-			<tr height="32">
+				<tr height="32">
 					<td class="formTableTdLeft">颜色溢价：&nbsp;</td>
-					<td colspan="1">
-						<span style="font-size: 14px;">
+					<td colspan="">
 						<c:if test="${empty(orderContractExpenses.colorPrice) }">
 							0.0
 						</c:if>
 						<c:if test="${!empty(orderContractExpenses.colorPrice) }">
 							${orderContractExpenses.colorPrice }
 						</c:if>
-						</span>
 					</td>
-					<td class="formTableTdLeft">未折让权限：&nbsp;</td>
-					<td colspan="1">
-						<span style="font-size: 14px;">
-						<c:if test="${empty(orderContractExpenses.noWllowancePrice) }">
-							0.0
-						</c:if>
-						<c:if test="${!empty(orderContractExpenses.noWllowancePrice) }">
-							${orderContractExpenses.noWllowancePrice }
-						</c:if>
-						</span>
+					<td class="formTableTdLeft" >裸车销售价：</td>
+					<td id="carColorId">
+						${orderContractExpenses.carActurePrice}
 					</td>
 				</tr>
+				<c:if test="${customer.bussiType==2 }">
+					<tr height="32">
+						<td class="formTableTdLeft">挂车价格：&nbsp;</td>
+						<td colspan="">
+							${orderContractExpenses.trailerPrice }
+						</td>
+						<td class="formTableTdLeft" >车辆总价：</td>
+						<td id="carColorId">
+							${orderContractExpenses.carTotalPrice}
+						</td>
+					</tr>
+				</c:if>
+				<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
+						<td width="100%" colspan="4" style="">优惠明细</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">裸车现金优惠：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.cashBenefit }
+					</td>
+					<td class="formTableTdLeft" >未折让权限：</td>
+					<td id="carColorId">
+						${orderContractExpenses.noWllowancePrice}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">特殊权限：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.specialPermPrice}
+					</td>
+					<td class="formTableTdLeft" >特殊权限说明：</td>
+					<td id="carColorId">
+						${orderContractExpenses.specialPermNote}
+					</td>
+				</tr>
+				<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
+						<td width="100%" colspan="4" style="">保险明细</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">预收保费：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.preInsMoney }
+					</td>
+					<td class="formTableTdLeft" >续保押金：</td>
+					<td id="carColorId">
+						${orderContractExpenses.insaranceRenewalDepositPrice}
+					</td>
+				</tr>
+				<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
+						<td width="100%" colspan="4" style="">金融明细</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">购车方式：&nbsp;</td>
+					<td >
+						
+						<c:if test="${orderContractExpenses.buyCarType==1 }">
+							<span style="color: green;">现款</span>
+						</c:if>
+						<c:if test="${customer.bussiType==1}">
+							<c:if test="${orderContractExpenses.buyCarType==2 }">
+								<span style="color: red;">分付</span>
+							</c:if>
+						</c:if>
+						<c:if test="${customer.bussiType==2 }">
+							<c:if test="${orderContractExpenses.buyCarType==2 }">
+								<span style="color: red;">分付加挂</span>
+							</c:if>
+							<c:if test="${orderContractExpenses.buyCarType==3 }">
+								<span style="color: red;">分付裸车</span>
+							</c:if>
+						</c:if>
+					</td>
+					<td class="formTableTdLeft">付款方式：&nbsp;</td>
+					<td >
+						<c:if test="${orderContractExpenses.payWay==1 }">
+							<span style="color: green;">现金</span>
+						</c:if>
+						<c:if test="${orderContractExpenses.payWay==2 }">
+							<span style="color: red;">转账</span>
+						</c:if>
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">手续费：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.ajsxf }
+					</td>
+					<td class="formTableTdLeft" >首付比例：</td>
+					<td id="carColorId">
+						${orderContractExpenses.paymentPer}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">首付款：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.sfk }
+					</td>
+					<td class="formTableTdLeft" >贷款金额：</td>
+					<td id="carColorId">
+						${orderContractExpenses.daikuan}
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">贷款车价：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.loanCarPrice }
+					</td>
+					<td class="formTableTdLeft" >D：</td>
+					<td id="carColorId">
+						${orderContractExpenses.lowInvoicePrice}
+					</td>
+				</tr>
+					<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
+						<td width="100%" colspan="4" style="">定金装饰</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">购车定金：&nbsp;</td>
+					<td colspan="">
+						${orderContractExpenses.orderMoney }
+					</td>
+					<td class="formTableTdLeft" >装饰款：</td>
+					<td id="carColorId">
+						${orderContractExpenses.decoreMoney}
+					</td>
+				</tr>
+					<tr height="42" style="background-color: #eeeeee; border-color:#eeeeee;font-size: 16px;font-weight: bold;">
+						<td width="100%" colspan="4" style="">总费用明细</td>
+				</tr>
+				<tr>
+					<td class="formTableTdLeft">预收款总额：&nbsp;</td>
+					<td colspan="">
+						<span style="font-size: 14px;">${orderContractExpenses.advanceTotalPrice }</span>
+					</td>
+					<td class="formTableTdLeft" >其他收费总额：</td>
+					<td >
+						${orderContractExpenses.otherFeePrice } 
+					</td>
+				</tr>
+			<tr height="32">
+				<td class="formTableTdLeft">裸车销售价：&nbsp;</td>
+				<td colspan="">
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.carActurePrice }</span>
+				</td>
+				<td class="formTableTdLeft">车辆总价：&nbsp;</td>
+				<td colspan="">
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.carTotalPrice }</span>
+				</td>
+			</tr>
+			<tr height="32">
+				<td class="formTableTdLeft">合同总金额：&nbsp;</td>
+				<td colspan="">
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.totalPrice }</span>
+				</td>
+				<td class="formTableTdLeft">实收金额：&nbsp;</td>
+				<td colspan="">
+					<span style="color: red;font-size: 14px;">${orderContractExpenses.actureCollectedPrice }</span>
+				</td>
+			</tr>
+			<c:if test="${sessionScope.user.dbid!=customer.user.dbid }">
+				  <tr height="32">
+					<td class="formTableTdLeft">整车营收：&nbsp;</td>
+					<td colspan="">
+						<span style="font-size: 14px;">${orderContractExpenses.revenuePrice }</span>
+					</td>
+					<td class="formTableTdLeft" >预估整车毛利：</td>
+					<td >
+						<c:if test="${orderContractExpenses.totalGrofitPrice>0 }">
+							<span style="color: red;font-size: 20px;">
+								<fmt:formatNumber value="${orderContractExpenses.totalGrofitPrice }" pattern="###.00"></fmt:formatNumber>
+							</span>
+						</c:if>
+						<c:if test="${orderContractExpenses.totalGrofitPrice<=0 }">
+							<span style="color: green;font-size: 20px;">
+								<fmt:formatNumber value="${orderContractExpenses.totalGrofitPrice }" pattern="###.00"></fmt:formatNumber>
+							</span>
+						</c:if>
+					</td>
+				</tr>
+				<tr height="32">
+					<td class="formTableTdLeft">裸车销售价：&nbsp;</td>
+					<td colspan="">
+						<span style="font-size: 14px;">${orderContractExpenses.carActurePrice }</span>
+					</td>
+					<td class="formTableTdLeft" >预估裸车毛利：</td>
+					<td >
+						
+						<c:if test="${orderContractExpenses.carGrofitPrice>0 }">
+							<span style="color: red;font-size: 20px;">
+								<fmt:formatNumber value="${orderContractExpenses.carGrofitPrice }" pattern="###.00"></fmt:formatNumber>
+							</span>
+						</c:if>
+						<c:if test="${orderContractExpenses.carGrofitPrice<=0 }">
+							<span style="color: green;font-size: 20px;">
+								<fmt:formatNumber value="${orderContractExpenses.carGrofitPrice }" pattern="###.00"></fmt:formatNumber>
+							</span>
+						</c:if> 
+					</td>
+				</tr> 
+				<tr>
+				<td colspan="4">
+					<p>合同总金额${orderContractExpenses.totalPrice}=车辆总价${orderContractExpenses.carTotalPrice }+
+						其它收费总额${orderContractExpenses.otherFeePrice }+
+						预收款总额${orderContractExpenses.advanceTotalPrice }+
+						装饰款${orderContractExpenses.decoreMoney }+
+						按揭手续费${orderContractExpenses.ajsxf }+
+						预收保费${orderContractExpenses.preInsMoney }+
+						续保押金${orderContractExpenses.insaranceRenewalDepositPrice }</p>
+					<p>裸车销售价${orderContractExpenses.carActurePrice}=经销商报价${orderContractExpenses.salePrice }+
+								颜色溢价${orderContractExpenses.colorPrice }-
+								裸车现金优惠${orderContractExpenses.cashBenefit }-
+								特殊政策优惠${orderContractExpenses.specialPermPrice }</p>
+					<p>实收金额${orderContractExpenses.actureCollectedPrice}=合同总金额${orderContractExpenses.totalPrice }-
+							定金${orderContractExpenses.orderMoney }-
+							贷款总额${orderContractExpenses.daikuan }</p>
+					<p>预估裸车毛利${orderContractExpenses.carGrofitPrice}=裸车销售价${orderContractExpenses.carActurePrice}-销售顾问结算价${orderContractExpenses.carSalerPrice}</p>
+					<p>预估整车毛利${orderContractExpenses.totalGrofitPrice}=预估裸车毛利${orderContractExpenses.carGrofitPrice}
+								+装饰盈利预估${orderContractExpenses.decoreGrofitPrice }
+								+按揭${orderContractExpenses.ajsxf }
+								+其他收费${orderContractExpenses.otherFeePrice }+预收保险${orderContractExpenses.preInsMoney }*40%</p>
+				</td>
+			</tr>
+			</c:if>
 		</table>
 		<c:if test="${fn:length(orderContractExpensesChargeItems)>0||fn:length(orderContractExpensesPreferenceItems)>0 }">
 			 	<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 100%;border-top: 0px;">

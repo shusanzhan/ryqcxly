@@ -79,20 +79,6 @@
 				<td>
 					${customer.mobilePhone }
 				</td>
-				<td class="formTableTdLeft">交叉客户：</td>
-				<td>
-					${customer.cityCrossCustomer.name }
-				</td>
-			</tr>
-			<tr>
-				<td class="formTableTdLeft">预计成交时间：</td>
-				<td id="areaLabel">
-					${customer.customerBussi.trackingPhase.name }
-				</td>
-				<td class="formTableTdLeft">客户来源：</td>
-				<td id="areaLabel"> 
-					${customer.customerBussi.infoFrom.name }
-				</td>
 			</tr>
 		</table>
 <c:if test="${empty(customerTracks)}" var="status">

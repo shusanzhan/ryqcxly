@@ -112,7 +112,6 @@ table th, table td {
 						</select>
 					</td>
 					<td id="sno${i+1 }" style="text-align: center;"></td>
-					<td id="brand${i+1 }" style="text-align: center;"></td>
 					<td style="text-align: center;">
 						<input type="text" readonly="readonly"  name="price" id="price${i+1 }" class="smallX text" style="width: 92%;" onfocus="count()">
 					</td>
@@ -151,9 +150,6 @@ table th, table td {
 					 <td id="sno${i.index+1 }" style="text-align: center;">
 						<a href='javascript:;' onclick="$.utile.openDialog('${ctx}/product/viewProduct?productId=${orderContractDecoreItem.product.dbid }','商品明细',760,320)">${orderContractDecoreItem.product.sn }</a>
 					</td>
-					<td id="brand${i.index+1 }" style="text-align: center;">
-						${orderContractDecoreItem.product.brand.name }
-					</td>
 					<td style="text-align: center;">
 						<input type="text" readonly="readonly"  name="price" id="price${i.index+1 }" value="${orderContractDecoreItem.price }" class="smallX text" style="width: 92%;" onfocus="count()">
 					</td>
@@ -185,7 +181,6 @@ table th, table td {
 						</select>
 					</td>
 					<td id="sno${i+1 }" style="text-align: center;"></td>
-					<td id="brand${i+1 }" style="text-align: center;"></td>
 					<td style="text-align: center;">
 						<input type="text" readonly="readonly"  name="price" id="price${i+1 }" class="smallX text" style="width: 92%;" onfocus="count()">
 					</td>
@@ -250,7 +245,7 @@ table th, table td {
 	
 	<c:if test="${param.editType!=4 }">
 		<a id="submit"  class="but butSave" href="javascript:void(-1)" onclick="if(valida()){smtFrm(1)}" >
-		保存草稿</a>
+		保存草稿${customerLastBussi.carSeriy.brand.dbid}</a>
 		<a class="but butSave" href="javascript:void(-1)" onclick="if(valida()){smtFrm(2)}">保存并提交审批</a>
 		<a class="but butCancle" href="javascript:void(-1)" onclick="window.location.href='${ctx}/orderContractExpenses/orderContractExpenses?customerId=${customer.dbid}&editType=${param.editType}'">上一步</a>
 	</c:if>
@@ -266,12 +261,12 @@ table th, table td {
 </form>
 </div>
 </body>
-<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.ui.custom.js"></script>
-<script src="${ctx }/widgets/bootstrap3/bootstrap.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.uniform.js"></script>
-<script src="${ctx }/widgets/bootstrap3/select2.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/unicorn.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.ui.custom.js"></script>
+<script src="${ctx }/widgets/bootstrap/bootstrap.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.uniform.js"></script>
+<script src="${ctx }/widgets/bootstrap/select2.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/unicorn.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack2.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
@@ -338,8 +333,6 @@ function crateTr() {
 			+'</td>'
 			+ '<td id="sno'+size+'" style="text-align: center;">'
 			+ '</td>' 
-			+ '<td id="brand'+size+'" style="text-align: center;">'
-			+ '</td>'
 			+ '<td  style="text-align: center;">'
 				+ '<input  type="text" readonly="readonly"  name="price" id="price'+size+'"  onfocus="count()" class="smallX text" style="width: 92%;">'
 			+ '</td>'
@@ -371,7 +364,7 @@ function autoProductByName(id){
 		   		return rows;   
 		    }, 
 			formatItem: function(row, i, total) {   
-		       return "<span>名称："+row.name+"&nbsp;&nbsp;序号： "+row.sn+"&nbsp;&nbsp;价格："+row.price+"&nbsp;&nbsp; 品牌："+row.brand+"&nbsp;&nbsp; </span>";   
+		       return "<span>名称："+row.name+"&nbsp;&nbsp;序号： "+row.sn+"&nbsp;&nbsp;价格："+row.price+"&nbsp;&nbsp; &nbsp;&nbsp; </span>";   
 		    },   
 		    formatMatch: function(row, i, total) {   
 		       return row.name;   
@@ -389,8 +382,6 @@ function onRecordSelect(event, data, formatted) {
 		var sn=id.substring(11,id.length);
 		$("#productName"+sn).val(data.name);
 		$("#productDbid"+sn).val(data.dbid);
-		$("#brand"+sn).text("");
-		$("#brand"+sn).text(data.brand);
 		 $("#sno"+sn).text("");
 		var on="<a href='javascript:;' onclick=\"$.utile.openDialog('${ctx}/product/viewProduct?productId="+data.dbid+"','商品明细',760,320)\">"+data.sn+"</a>";
 		$("#sno"+sn).append(on);

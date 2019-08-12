@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
@@ -88,13 +88,13 @@
 </c:if>
 
 
-<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.ui.custom.js"></script>
-<script src="${ctx }/widgets/bootstrap3/bootstrap.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.uniform.js"></script>
-<script src="${ctx }/widgets/bootstrap3/jquery.dataTables.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/unicorn.js"></script>
-<script src="${ctx }/widgets/bootstrap3/unicorn.tables.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.ui.custom.js"></script>
+<script src="${ctx }/widgets/bootstrap/bootstrap.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.uniform.js"></script>
+<script src="${ctx }/widgets/bootstrap/jquery.dataTables.min.js"></script>
+<script src="${ctx }/widgets/bootstrap/unicorn.js"></script>
+<script src="${ctx }/widgets/bootstrap/unicorn.tables.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/plugins/iframeTools.source.js"></script>

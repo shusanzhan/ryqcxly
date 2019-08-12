@@ -50,6 +50,8 @@
            <result name="userRole">/pages/sys/userBussi/userRole.jsp</result>
            <result name="userRoleAdd">/pages/sys/userBussi/userRoleAdd.jsp</result>
            <result name="wechatRole">/pages/sys/userBussi/wechatRole.jsp</result>
+           <result name="editSelf">/pages/sys/userBussi/editSelf.jsp</result>
+           <result name="modifyPassword">/pages/sys/userBussi/modifyPassword.jsp</result>
         </action>
  		<action name="resource" class="resourceAction">
            <result name="list">/pages/sys/resource/list.jsp</result>

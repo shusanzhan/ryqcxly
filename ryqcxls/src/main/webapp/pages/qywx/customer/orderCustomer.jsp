@@ -56,70 +56,92 @@
 <br>
 <br>
 <br>
-<c:if test="${empty(orderContracts)||fn:length(orderContracts)<=0 }" var="status">
+<c:if test="${empty(page.result)||fn:length(page.result)<=0 }" var="status">
 	无订单客户
 </c:if>
 <c:if test="${status==false }">
-	<c:forEach items="${orderContracts }" var="orderContract">
+	<div style="line-height: 40px;width: 96%;margin: 0 auto;font-size: 16px;">
+		<div class="title" align="left">
+			查询总数数据   ${page.totalCount} 条
+		</div>
+	</div>
+</c:if>
+<c:if test="${status==false }">
+	<c:forEach items="${page.result }" var="orderContract">
 		<c:set var="customer" value="${orderContract.customer}"></c:set>
 		<div class="orderContrac" >
-			<div onclick="window.location.href='${ctx}/qywxCustomer/customerDetail?customerId=${customer.dbid }&type=1'">
 			<div class="title" align="left">
 	  			客户：${customer.name }<br/>
-	  			日期：<fmt:formatDate value="${orderContract.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+	  			电话：<a href="tel:${customer.mobilePhone }">${customer.mobilePhone }</a>
   			</div>
   			<div class="line"></div>
-			<div style="margin: 0 auto;margin: 5px;">
+			<div style="margin: 0 auto;margin: 5px;" onclick="window.location.href='${ctx}/qywxCustomer/customerDetail?customerId=${customer.dbid }&type=1'">
 				<div style="color:#8a8a8a;padding-left: 5px; ">
 					车型：${customer.customerBussi.brand.name}&#12288;
 					<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-					<c:if test="${fn:length(carModel)>16 }" var="status">
-						${fn:substring(carModel,0,16) }...
-					</c:if>
-					<c:if test="${ status==false}">
 						${carModel} ${customer.carModelStr}
+					<br>
+					到店次数：
+					<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">
+						未到店				
+					</c:if>
+					<c:if test="${customer.comeShopStatus==2 }">
+						<span style="color: red;">首次到店</span>			
+					</c:if>
+					<c:if test="${customer.comeShopStatus==3 }">
+						<span style="color: red;">二次到店</span>			
 					</c:if>
 					<br>
-					顾问：${customer.bussiStaff}（${customer.department.name}）
+					试驾状态：
+					<c:if test="${customer.tryCarStatus==1||empty(customer.tryCarStatus)}">
+						未试驾				
+					</c:if>
+					<c:if test="${customer.tryCarStatus==2 }">
+						<span style="color: red;">已试驾</span>			
+					</c:if>
+					<br>
+					线索类型：${customer.customerType.name}<br>
+					顾问：${customer.bussiStaff}（${customer.department.name}）<br>
+					意向级别：${customer.customerPhase.name}<br>
+					登记时间：<fmt:formatDate value="${customer.createFolderTime }"/> <br/>
+					成交结果：
+					<c:if test="${customer.lastResult==0 }">
+						创建客户
+					</c:if>
+					<c:if test="${customer.lastResult==1 }">
+						<span style="color: blue;">成交购车</span> 
+					</c:if>
+					<c:if test="${customer.lastResult==2 }">
+						<span style="color: red;">流失购买其他品牌</span>
+					</c:if>
+					<c:if test="${customer.lastResult==3 }">
+						<span style="color: red;">购车计划取消</span>
+					</c:if>
+					<br>
+					定金：<span style="color: red;">${orderContract.orderMoney }</span><br>
+					合同金额：<span style="color: red;">${orderContract.totalPrice}</span><br>
+					订单日期：<fmt:formatDate value="${orderContract.createTime }"/> <br/>
+					<c:if test="${customer.customerLastBussi.approvalStatus==2 }">
+						客户流失审批结果：<span style="color: red;" title="">驳回,审批时间：<fmt:formatDate value="${customer.customerLastBussi.approvalDate}" pattern="yyyy-MM-dd HH:mm:ss"/> ,原因：${customer.customerLastBussi.notReason },</span>
+					</c:if>
 				</div>
-			</div>
-			<div class="line"></div>
-			<div style="margin: 5px;line-height: 20px;min-height: 30px;">
-				<div class="status">
-					<c:if test="${orderContract.status==1 }">
-					<span style="color: #DD9A4B;">审批中...</span>
-				</c:if>
-				<c:if test="${orderContract.status==3 }">
-					<span style="color: red;">驳回</span>
-				</c:if>
-				<c:if test="${orderContract.status==2 }">
-					<span style="color: green;">同意</span>
-				</c:if>
-				</div>
-  				<div class="des">
-  					总价：<span class="price"><fmt:formatNumber value="${orderContract.totalPrice }" pattern="￥#,#00.00"></fmt:formatNumber></span>
-  				</div>
-  				<div style="clear: both;"></div>
-			</div>
 			</div>
 			<div class="line"></div>
 			<div style="margin: 0 auto;margin: 5px;height: 30px;line-height: 30px;">
 				<a href="${ctx }/qywxCustomerFile/fileDetail?dbid=${customer.dbid}">客户档案</a>|
 				<a href="${ctx }/qywxCustomerTrack/add?customerId=${customer.dbid}&typeRedirect=2">跟踪记录</a>
-				<c:if test="${orderContract.status==3 }">
-					 |<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxOrderContract/addOrderContract?customerId=${customer.dbid }&editType=2'">编辑订单</a> | 
-					 <a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/qywxOrderContract/cancelOrderContract?dbid=${orderContract.dbid}','searchPageForm','提示：取消订单将删除订单信息,最后成交记录信息，并将订单客户还原成最初登记客户,客户等级改为[A]级！')">取消订单</a>
+				<c:if test="${empty(customer.customerPidBookingRecord) }">
+					 |<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxOrderContract/addOrderContract?customerId=${customer.dbid }&editType=2'">编辑</a> | 
+					 <a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/qywxOrderContract/cancelOrderContract?dbid=${orderContract.dbid}','searchPageForm','提示：取消订单将删除订单信息,最后成交记录信息，并将订单客户还原成最初登记客户,客户等级改为[A]级！')">取消</a>
+					|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxCustomerPidRecord/add?customerId=${customer.dbid }'">归档</a>
 				</c:if>
-				<c:if test="${orderContract.status==2 }">
-					|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxCustomerPidRecord/add?customerId=${customer.dbid }'">交车预约</a>
-				</c:if>
-				<c:if test="${orderContract.status!=1}">
-					|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/qywxOrderContract/viewApprovalOrderContractDetail?dbid=${orderContract.dbid }'">审批记录</a>
-				</c:if> 
 			</div>
 		</div>
 	</c:forEach>
 </c:if>
+<div style="text-align: center;">
+	<jsp:include page="${ctx }/pages/commons/wechatPage.jsp"></jsp:include>
+</div>
 <br>
 <br>
 <br>
@@ -128,54 +150,127 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
-      	<form class="form-inline" action="${ctx }/qywxCustomer/orderCustomer" name="frmId" id="frmId" method="post">
+      	<form class="form-inline" action="${ctx }/qywxCustomer/orderCustomer" name="searchPageForm" id="searchPageForm" method="post">
+      			<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
+				<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
       	 <table>
-      	 	<tr height="">
-      	 		<td width="60"><label for="exampleInputName2">品牌</label></td>
-      	 		<td width="240">
-	      	 		<select class="form-control" id="brandId" name="brandId" onchange="ajaxCarSeriy(this.value)">
-			    	<option value="">请选择...</option>
-			    	<c:forEach var="brand" items="${brands }">
-				    	<option value="${brand.dbid }" ${param.brandId==brand.dbid?'selected="selected"':'' } >${brand.name }</option>
-			    	</c:forEach>
-			    </select>
-			    </td>
-      	 	</tr>
-      	 	
       	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">车系</label></td>
-      	 		<td width="240" id="carSeriyDiv">
-	      	 		<select class="form-control " id="carSeriyId" name="carSeriyId" ${empty(param.brandId)==true?'disabled="disabled"':'' }>
-			    		<option value="">请选择...</option>
-				    	<c:forEach var="carSeriy" items="${carSeriys }">
-					    	<option value="${carSeriy.dbid }" ${param.carSeriyId==carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
-				    	</c:forEach>
-			   	 </select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">车型</label></td>
-      	 		<td width="240" id="carModelDiv">
-	      	 		<select class="form-control" id="carModelId" name="carModelId" ${empty(param.carSeriyId)==true?'disabled="disabled"':'' }>
-				    	<option value="">请选择...</option>
-				    	<c:forEach var="carModel" items="${carModels }">
-					    	<option value="${carModel.dbid }" ${param.carModelId==carModel.dbid?'selected="selected"':'' } >${carModel.name }</option>
-				    	</c:forEach>
-			    </select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">姓名</label></td>
-      	 		<td width="240">
-      	 			<input type="text" class="form-control" id="name" name="name" value="${param.name }">
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">电话</label></td>
-      	 		<td width="240">
-      	 			<input type="text" class="form-control" id="mobilePhone" name="mobilePhone" value="${param.mobilePhone }">
-			    </td>
-      	 	</tr>
+  				<td><label>类型：</label></td>
+  				<td>
+  					<select class="form-control" id="customerTypeId" name="customerTypeId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="customerType" items="${customerTypes }">
+							<option value="${customerType.dbid }" ${param.customerTypeId==customerType.dbid?'selected="selected"':'' } >${customerType.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>来源：</label></td>
+  				<td>
+  					<select class="form-control" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						${customerInfromSelect}
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>品牌：</label></td>
+  				<td>
+  					<select class="form-control" id="brandId" name="brandId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="brand" items="${brands }">
+							<option value="${brand.dbid }" ${param.brandId==brand.dbid?'selected="selected"':'' } >${brand.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>车系：</label></td>
+  				<td>
+  					<select class="form-control" id="carSeriyId" name="carSeriyId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="carSeriy" items="${carSeriys }">
+							<option value="${carSeriy.dbid }" ${param.carSeriyId==carSeriy.dbid?'selected="selected"':'' } >${carSeriy.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>车型：</label></td>
+  				<td>
+  					<select class="form-control" id="carModelId" name="carModelId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="carModel" items="${carModels }">
+							<option value="${carModel.dbid }" ${param.carModelId==carModel.dbid?'selected="selected"':'' } >${carModel.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  					<td><label>意向级别：</label></td>
+  				<td>
+  					<select class="form-control" id="customerPhaseId" name="customerPhaseId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="customerPhase" items="${customerPhases }">
+							<option value="${customerPhase.dbid }" ${param.customerPhaseId==customerPhase.dbid?'selected="selected"':'' } >${customerPhase.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>到店状态：</label></td>
+  				<td>
+  					<select class="form-control" id="comeShopStatus" name="comeShopStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="1" ${param.comeShopStatus==1?'selected="selected"':''} >未到店</option>
+						<option value="2" ${param.comeShopStatus==2?'selected="selected"':''}>首次到店</option>
+						<option value="3" ${param.comeShopStatus==3?'selected="selected"':''}>二次到店</option>
+					</select>
+				</td>
+			</tr>
+  			<tr>
+  				<td><label>是否试驾：</label></td>
+  				<td>
+  					<select class="form-control" id="tryCarStatus" name="tryCarStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="">请选择...</option>
+						<option value="1" ${param.tryCarStatus==1?'selected="selected"':''}>未试驾</option>
+						<option value="2" ${param.tryCarStatus==2?'selected="selected"':''}>已试驾</option>
+					</select>
+				</td>
+  			</tr>
+  			<tr>
+  				<td><label>姓名：</label></td>
+  				<td><input type="text" id="name" name="name" class="form-control" value="${param.name}"></input></td>
+  			</tr>
+  			<tr>
+  				<td><label>常用手机号：</label></td>
+  				<td><input type="text" id="mobilePhone" name="mobilePhone" class="form-control" value="${param.mobilePhone}"></input></td>
+  			</tr>
+  			<tr>
+  				<td><label>开始时间：</label></td>
+  				<td>
+  					<input class="form-control" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>~</label></td>
+  				<td>
+  					<input class="form-control" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+  				</td>
+   			</tr>
+   			<tr>
+   				<td><label>订单时间：</label></td>
+  				<td>
+  					<input class="form-control" id="startOrderTime" name="startOrderTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startOrderTime }" >
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>~</label></td>
+  				<td>
+  					<input class="form-control" id="endOrderTime" name="endOrderTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endOrderTime }">
+  				</td>
+   			</tr>
       	 </table>
 		</form>
       </div>
@@ -189,15 +284,6 @@
 <br>
 <br>
 <br>
-<div class="oneMenu">
-	<ul>
-         <li>
-             <a href="${ctx}/qywxCustomerRecord/salerEdit">
-             	创建线索
-             </a>
-         </li>
-      </ul>
-</div>	
 </body>
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>

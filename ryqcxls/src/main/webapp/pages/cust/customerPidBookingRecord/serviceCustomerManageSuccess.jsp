@@ -110,8 +110,8 @@
 				</div>
 			</td>
 			<c:set value="${customer.customerBussi.brand.name}${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td style="text-align: left;" title="${carModel}  ${customer.carModelStr}">
-				${carModel}  ${customer.carModelStr}
+			<td style="text-align: left;" title="${carModel }${customer.carModelStr}">
+				${carModel }${customer.carModelStr}
 			</td>
 			<td>${customer.firstCustomerPhase.name }</td>
 			<td>${customer.enterprise.name }</td>

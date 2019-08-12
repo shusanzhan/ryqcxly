@@ -68,10 +68,6 @@ $().ready(function() {
 			<td colspan="2">${customer.mobilePhone  }</td>
 		</tr>
 		<tr>
-			<td class="labelTitle">兴趣爱好</td>
-			<td colspan="7">${customer.interests }</td>
-		</tr>
-		<tr>
 			<td class="labelTitle">E-MAIL</td>
 			<td colspan="2">
 				${customer.email }
@@ -108,15 +104,6 @@ $().ready(function() {
 		<!-- 初次评估信息  开始 -->
 		<tr>
 			<td rowspan="5" class="fristHeader">初次需求评估（根据实际情况填写）</td>
-			<td class="labelTitle">客户来源</td>
-			<td colspan="7">
-				<c:forEach var="infoFrom" items="${infoFroms }" varStatus="i" end="16">
-					<label style="margin-right:20px;"><input type="checkbox" name="infoFrom" ${infoFrom.dbid==customer.infoFrom.dbid?'checked="checked"':'' }  value="${infoFrom.dbid }" id="infoFrom${i.index }" >${infoFrom.name }</label>
-					<c:if test="${(i.index+1)%7==0 }">
-						<br>
-					</c:if>
-				</c:forEach>
-			</td>
 		</tr>
 		<tr>
 			<td class="labelTitle">购车关注点</td>
@@ -147,7 +134,6 @@ $().ready(function() {
 				<div style="float: left;margin-right: 100px;">意向车型:&#12288;&#12288;${customer.customerBussi.carModel.name }</div>
 				<div style="float: left;margin-right: 100px;">购车预算:&#12288;&#12288;${customer.customerBussi.buyCarBudget.name }</div>
 				<div style="float: left;margin-right: 100px;">主要使用者:&#12288;&#12288;${customer.customerBussi.buyCarMainUse.name }</div>
-				<div style="float: left;margin-right: 100px;">购车时间:&#12288;&#12288;${customer.customerBussi.trackingPhase.name }</div>
 				<div class="clear"></div>
 			</td>
 		</tr>

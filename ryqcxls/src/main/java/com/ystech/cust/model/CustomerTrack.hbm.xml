@@ -20,6 +20,9 @@
         <many-to-one name="custMarketingAct" class="com.ystech.cust.model.CustMarketingAct" fetch="select" not-found="ignore">
             <column name="custMarketingActId" />
         </many-to-one>
+        <many-to-one name="user" class="com.ystech.xwqr.model.sys.User" fetch="select" not-found="ignore">
+            <column name="userId" />
+        </many-to-one>
         <property name="trackDate" type="timestamp">
             <column name="trackDate" length="19" />
         </property>
@@ -31,9 +34,6 @@
         </property>
         <property name="turnBackResult" type="java.lang.Integer">
             <column name="turnBackResult" />
-        </property>
-        <property name="userId" type="java.lang.Integer">
-            <column name="userId" />
         </property>
         <property name="trackContent" type="string">
             <column name="trackContent" length="65535" />

@@ -162,7 +162,7 @@ function ok(){
 	</table>
 	</form>
 	<div class="formButton">
-		<a href="javascript:void(-1)"	onclick="if(ok()){$.utile.submitForm('frmId','${ctx}/member/saveAddTag')}"	class="but butSave">保存</a> 
+		<a href="javascript:void(-1)"	onclick="if(ok()){$.utile.submitForm('frmId','${ctx}/memMember/saveAddTag')}"	class="but butSave">保存</a> 
 		<a href="javascript:void(-1)"	onclick="window.history.go(-1)"	class="but butCancle">返回</a> 
 	</div>
 	</div>

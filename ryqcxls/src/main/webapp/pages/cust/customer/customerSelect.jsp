@@ -27,7 +27,7 @@ function getCheckBoxsmsTemplate() {
  <!--location end-->
 <div class="listOperate">
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/customerSelect" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/customerSelect" method="post" >
 		<input type="hidden" id="smsTemplates" name="smsTemplates">
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<tr>

@@ -13,7 +13,7 @@
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/plugins/iframeTools.source.js"></script>
-<title>经纪人设置</title>
+<title>经纪人奖励设置</title>
 <style type="text/css">
 	.leval{
 		float: left;
@@ -26,17 +26,14 @@
 <div class="location">
      	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
      	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-<a href="javascript:void(-1);" >经纪人设置</a>-
+<a href="javascript:void(-1);" >经纪人奖励设置</a>-
 </div>
 <div class="line"></div>
 <div class="frmContent">
-	<div class="alert alert-error">
-		<strong>提示:</strong>
-	</div>
 	<form action="" name="frmId" id="frmId"  target="_self">
 		<s:token></s:token>
-		<input type="hidden" name="agentSet.dbid" id="dbid" value="${agentSet.dbid }">
-		<input type="hidden" name="spreadId" id="spreadId" value="${param.spreadId }">
+		<input type="hidden" name="type" id="type" value="${param.type }">
+		<input type="hidden" name="agentSet.dbid" id="dbid" value="${agentSet.dbid==1?'':agentSet.dbid}">
 		<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
 			<tr height="42">
 				<td class="formTableTdLeft" style="width: 160px;">经纪人权限状态:&nbsp;</td>

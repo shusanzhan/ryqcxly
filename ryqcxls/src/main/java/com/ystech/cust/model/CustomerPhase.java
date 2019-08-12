@@ -16,6 +16,9 @@ public class CustomerPhase implements java.io.Serializable {
 	//类型，1、显示下拉选择；2、系统自动跳转
 	public static Integer TYPESHOW=1;
 	public static Integer TYPEHIDEN=2;
+	//类型，1、显示下拉选择；2、系统自动跳转
+	public static Integer warmStatusNO=1;
+	public static Integer warmStatusYEAS=2;
 	private Integer dbid;
 	//名称
 	private String name;

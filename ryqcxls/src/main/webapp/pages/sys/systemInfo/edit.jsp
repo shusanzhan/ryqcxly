@@ -170,6 +170,19 @@
 					</c:if>
 				</td>
 			</tr>
+			<tr height="60">
+				<td class="formTableTdLeft" style='width:180px'>
+					公众号类型
+				</td>
+				<td>
+						<label>
+							<input type="radio" id="wechatType"  name="systemInfo.wechatType" value="1" ${systemInfo.wechatType==1?'checked="checked"':'' } >唯一
+						</label>
+						<label>
+							<input type="radio" id="wechatType"  name="systemInfo.wechatType" value="2" ${systemInfo.wechatType==2?'checked="checked"':'' }>多用
+						</label>
+				</td>
+			</tr>
 		</table>
 	</form>
 	<div class="formButton">

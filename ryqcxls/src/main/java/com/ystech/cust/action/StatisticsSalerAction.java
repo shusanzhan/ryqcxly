@@ -22,7 +22,6 @@ import com.ystech.cust.model.DayComeShop;
 import com.ystech.cust.model.OrderContract;
 import com.ystech.cust.model.OverTimeUserCount;
 import com.ystech.cust.service.CustomerMangeImpl;
-import com.ystech.cust.service.InfoFromManageImpl;
 import com.ystech.cust.service.StatisticalSalerManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
@@ -40,7 +39,6 @@ public class StatisticsSalerAction extends BaseController{
 	private CustomerMangeImpl customerMangeImpl;
 	private DepartmentManageImpl departmentManageImpl;
 	private HttpServletRequest request=this.getRequest();
-	private InfoFromManageImpl infoFromManageImpl;
 	private CarSeriyManageImpl carSeriyManageImpl; 
 	private StatisticalSalerManageImpl statisticalSalerManageImpl;
 	@Resource
@@ -57,10 +55,6 @@ public class StatisticsSalerAction extends BaseController{
 	@Resource
 	public void setCarSeriyManageImpl(CarSeriyManageImpl carSeriyManageImpl) {
 		this.carSeriyManageImpl = carSeriyManageImpl;
-	}
-	@Resource
-	public void setInfoFromManageImpl(InfoFromManageImpl infoFromManageImpl) {
-		this.infoFromManageImpl = infoFromManageImpl;
 	}
 	@Resource
 	public void setStatisticalSalerManageImpl(

@@ -42,6 +42,7 @@ import com.ystech.cust.service.OrderContractManageImpl;
 import com.ystech.cust.service.OrderContractProductManageImpl;
 import com.ystech.cust.service.TimeoutsTrackRecordManageImpl;
 import com.ystech.qywx.core.QywxSendMessageUtil;
+import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.set.model.Brand;
 import com.ystech.xwqr.set.model.CarColor;
@@ -101,6 +102,10 @@ public class QywxCustomerLastBussiAction extends BaseController{
 	@Resource
 	public void setCustomerMangeImpl(CustomerMangeImpl customerMangeImpl) {
 		this.customerMangeImpl = customerMangeImpl;
+	}
+	@Resource
+	public void setQywxSendMessageUtil(QywxSendMessageUtil qywxSendMessageUtil) {
+		this.qywxSendMessageUtil = qywxSendMessageUtil;
 	}
 	@Resource
 	public void setCarModelManageImpl(CarModelManageImpl carModelManageImpl) {
@@ -172,10 +177,6 @@ public class QywxCustomerLastBussiAction extends BaseController{
 			RecommendCustomerManageImpl recommendCustomerManageImpl) {
 		this.recommendCustomerManageImpl = recommendCustomerManageImpl;
 	}
-	@Resource
-	public void setQywxSendMessageUtil(QywxSendMessageUtil qywxSendMessageUtil) {
-		this.qywxSendMessageUtil = qywxSendMessageUtil;
-	}
 	/**
 	 * 功能描述： 
 	 * 参数描述： 
@@ -240,6 +241,8 @@ public class QywxCustomerLastBussiAction extends BaseController{
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
+			User user = getSessionUser();
+			Enterprise enterprise = user.getEnterprise();
 			if(customerId>0){
 				//客户信息
 				Customer customer = customerMangeImpl.get(customerId);
@@ -249,7 +252,7 @@ public class QywxCustomerLastBussiAction extends BaseController{
 				request.setAttribute("customerLastBussi", customerLastBussi2);
 				
 				//品牌
-				List<Brand> brands = brandManageImpl.getAll();
+				List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 				request.setAttribute("brands", brands);
 				//意向车型
 				CustomerBussi  customerBussi=customer.getCustomerBussi();
@@ -291,6 +294,8 @@ public class QywxCustomerLastBussiAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
+			User user = getSessionUser();
+			Enterprise enterprise = user.getEnterprise();
 			if(customerId>0){
 				//客户信息
 				Customer customer = customerMangeImpl.get(customerId);
@@ -300,7 +305,7 @@ public class QywxCustomerLastBussiAction extends BaseController{
 				request.setAttribute("customerLastBussi", customerLastBussi2);
 				
 				//品牌
-				List<Brand> brands = brandManageImpl.getAll();
+				List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 				request.setAttribute("brands", brands);
 				//意向车型
 				if(null!=customerLastBussi2&&customerLastBussi2.getDbid()>0){

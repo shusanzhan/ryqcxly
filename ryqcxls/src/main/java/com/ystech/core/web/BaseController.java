@@ -16,12 +16,14 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.util.TokenHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.util.LocalizedTextUtil;
 import com.ystech.core.util.ZipUtils;
 import com.ystech.weixin.core.util.WeixinCommon;
 import com.ystech.weixin.core.util.WeixinSignUtil;
@@ -352,5 +354,30 @@ public class BaseController extends ActionSupport implements SessionAware{
 		}
 		return null;
 	}
-	
+	/**
+	 * 功能描述：表单重复提交
+	 * @return
+	 */
+	public static boolean validToken() {
+        String token = getReq().getParameter("token");
+        if (token == null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("no token found for token name  -> Invalid token ");
+            }
+            return false;
+        }
+        Map session = ActionContext.getContext().getSession();
+        String sessionToken = (String) session.get("struts.tokens.token");
+        if (!token.equals(sessionToken)) {
+            if (LOG.isWarnEnabled()) {
+                LOG.warn(LocalizedTextUtil.findText(TokenHelper.class, "struts.internal.invalid.token", ActionContext.getContext().getLocale(), "Form token {0} does not match the session token {1}.", new Object[]{
+                        token, sessionToken
+                }));
+            }
+            return false;
+        }
+        // remove the token so it won't be used again
+        session.remove("token");
+        return true;
+    }
 }

@@ -50,7 +50,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			vin码:
@@ -148,7 +148,7 @@
 							</c:if>
 							<c:if test="${quest.isBetweenNetOne==2 }">
 								${quest.content }
-								<c:if test="${customer.customerType==2 }">
+								<c:if test="${customer.recordType==2 }">
 									${quest.contentNet }
 								</c:if>
 							</c:if>
@@ -166,7 +166,7 @@
 								</c:if>
 								<c:if test="${quest.isBetweenNetOne==2 }">
 									${quest.content }
-									<c:if test="${customer.customerType==2 }">
+									<c:if test="${customer.recordType==2 }">
 										${quest.contentNet }
 									</c:if>
 								</c:if>
@@ -182,10 +182,10 @@
 									${quest.content }
 								</c:if>
 								<c:if test="${quest.isBetweenNetOne==2 }">
-									<c:if test="${customer.customerType==1 }">
+									<c:if test="${customer.recordType==1 }">
 										${quest.content }
 									</c:if>
-									<c:if test="${customer.customerType==2 }">
+									<c:if test="${customer.recordType==2 }">
 										${quest.contentNet }
 									</c:if>
 								</c:if>

@@ -34,11 +34,11 @@
 <div class="line"></div>
 <div class="listOperate" style="margin-bottom: 1px;">
 	<div class="operate">
-		<%-- <a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/satisfactionAssessment')">谈判登记</a> --%>
+		<%-- <a class="but button" href="javascript:void();" onclick="operator('${ctx }/custCustomer/satisfactionAssessment')">谈判登记</a> --%>
 	   <div class="clear"></div>
    </div>
    <div class="seracrhOperate" >
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryInvitationList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryInvitationList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -163,7 +163,7 @@
 					<input type="checkbox"   name="id" id="id1" value="${customer.dbid }">
 			</td>
 			<td style="text-align: left">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">
+				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">
 					<c:if test="${fn:length(customer.name)>12 }" var="status">
 						${fn:substring(customer.name,0,12) }...
 						${customer.mobilePhone}
@@ -191,7 +191,7 @@
 				${customer.bussiStaff}（${customer.receptierSalerName }）
 			</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 			<td>
 				${customer.customerInfrom.name }
@@ -258,7 +258,7 @@
 						<span style="color: red;">客户流失</span>
 					</c:if>
 				</c:if>
-				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
+				|<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/edit?dbid=${customer.dbid}&parentMenu=1'">编辑档案</a>
 			</td>
 		</tr>
 		</c:forEach>
@@ -324,7 +324,7 @@
 		    		alert("请选择到店成交状态！");
 		    		return false;
 		    	}
-	    		var url='${ctx}/customer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue;
+	    		var url='${ctx}/custCustomer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue;
 	    		window.location.href=url;
 				return true;
 		    },

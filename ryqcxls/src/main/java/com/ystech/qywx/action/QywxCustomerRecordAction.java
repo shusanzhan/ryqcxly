@@ -15,18 +15,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.ystech.core.dao.Page;
+import com.ystech.core.security.SecurityUserHolder;
 import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
 import com.ystech.cust.model.Customer;
 import com.ystech.cust.model.CustomerBussi;
 import com.ystech.cust.model.CustomerInfrom;
+import com.ystech.cust.model.CustomerPhase;
 import com.ystech.cust.model.CustomerRecord;
 import com.ystech.cust.model.CustomerRecordClubInvalidReason;
 import com.ystech.cust.model.CustomerRecordTarget;
 import com.ystech.cust.model.CustomerType;
 import com.ystech.cust.service.CustomerInfromManageImpl;
 import com.ystech.cust.service.CustomerMangeImpl;
+import com.ystech.cust.service.CustomerPhaseManageImpl;
 import com.ystech.cust.service.CustomerRecordClubInvalidReasonManageImpl;
 import com.ystech.cust.service.CustomerRecordManageImpl;
 import com.ystech.cust.service.CustomerRecordTargetManageImpl;
@@ -35,6 +38,7 @@ import com.ystech.xwqr.model.sys.Department;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.SystemInfo;
 import com.ystech.xwqr.model.sys.User;
+import com.ystech.xwqr.service.sys.DepartmentManageImpl;
 import com.ystech.xwqr.service.sys.SystemInfoMangeImpl;
 import com.ystech.xwqr.service.sys.UserManageImpl;
 import com.ystech.xwqr.set.model.Brand;
@@ -59,6 +63,8 @@ public class QywxCustomerRecordAction extends BaseController{
 	private CustomerMangeImpl customerMangeImpl;
 	private SystemInfoMangeImpl systemInfoMangeImpl;
 	private CustomerTypeManageImpl customerTypeManageImpl;
+	private DepartmentManageImpl departmentManageImpl;
+	private CustomerPhaseManageImpl customerPhaseManageImpl;
 	@Resource
 	public void setCustomerRecordManageImpl(
 			CustomerRecordManageImpl customerRecordManageImpl) {
@@ -113,6 +119,15 @@ public class QywxCustomerRecordAction extends BaseController{
 	public void setCustomerTypeManageImpl(
 			CustomerTypeManageImpl customerTypeManageImpl) {
 		this.customerTypeManageImpl = customerTypeManageImpl;
+	}
+	@Resource
+	public void setDepartmentManageImpl(DepartmentManageImpl departmentManageImpl) {
+		this.departmentManageImpl = departmentManageImpl;
+	}
+	@Resource
+	public void setCustomerPhaseManageImpl(
+			CustomerPhaseManageImpl customerPhaseManageImpl) {
+		this.customerPhaseManageImpl = customerPhaseManageImpl;
 	}
 	/**
 	 * 功能描述：
@@ -289,59 +304,6 @@ public class QywxCustomerRecordAction extends BaseController{
 			e.printStackTrace();
 		}
 		return "invalidList";
-	}
-	/**
-	 * 功能描述：
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void ajaxInvalidList() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
-		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
-		Integer customerTypeId = ParamUtil.getIntParam(request, "customerTypeId", -1);
-		Integer comeinNum = ParamUtil.getIntParam(request, "comeinNum", -1);
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-		try{
-			User currentUser = getSessionUser();
-			String sql="select * from cust_CustomerRecord where status=? ";
-			List param=new ArrayList();
-			param.add(CustomerRecord.STATUSINVAL);
-			sql=sql+" and creatorId=? ";
-			param.add(currentUser.getDbid());
-			if(customerTypeId>0){
-				sql=sql+" and customerTypeId=? ";
-				param.add(customerTypeId);
-			}
-			if(comeinNum>0){
-				sql=sql+" and comeinNum=? and customerTypeId=1 and status="+CustomerRecord.STATUSCOMM;
-				param.add(comeinNum);
-			}
-			if(null!=startTime&&startTime.trim().length()>0){
-				sql=sql+" and createDate>= ? ";
-				param.add(DateUtil.string2Date(startTime));
-			}
-			if(null!=endTime&&endTime.trim().length()>0){
-				sql=sql+" and createDate< ? ";
-				param.add(DateUtil.nextDay(endTime));
-			}
-			sql=sql+" order by resultStatus,createDate DESC";
-			Page<CustomerRecord> page= customerRecordManageImpl.pagedQuerySql(pageNo, pageSize, CustomerRecord.class, sql, param.toArray());
-			List<CustomerRecord> customers = page.getResult();
-			String jsonCustoemr = jsonCustoemr(customers);
-			JSONObject jsonObject=new JSONObject();
-			jsonObject.put("pageNo", pageNo+1);
-			jsonObject.put("pageSize", pageSize);
-			jsonObject.put("data", jsonCustoemr);
-			renderJson(jsonObject.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return ;
 	}
 	/**
 	 * 功能描述： 
@@ -603,74 +565,6 @@ public class QywxCustomerRecordAction extends BaseController{
 		return "salerList";
 	}
 	/**
-	 * 功能描述：
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void ajaxSalerList() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
-		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
-		Integer customerTypeId = ParamUtil.getIntParam(request, "customerTypeId", -1);
-		Integer comeinNum = ParamUtil.getIntParam(request, "comeinNum", -1);
-		Integer resultStatus = ParamUtil.getIntParam(request, "resultStatus", -1);
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-		String name = request.getParameter("name");
-		String mobilePhone = request.getParameter("mobilePhone");
-		try{
-			User currentUser = getSessionUser();
-			String sql="select * from cust_CustomerRecord where status=? ";
-			List param=new ArrayList();
-			param.add(CustomerRecord.STATUSCOMM);
-			sql=sql+" and salerId=? ";
-			param.add(currentUser.getDbid());
-			if(customerTypeId>0){
-				sql=sql+" and customerTypeId=? ";
-				param.add(customerTypeId);
-			}
-			if(resultStatus>0){
-				sql=sql+" and resultStatus=? ";
-				param.add(resultStatus);
-			}
-			if(comeinNum>=0){
-				sql=sql+" and comeinNum=? and  status="+CustomerRecord.STATUSCOMM;
-				param.add(comeinNum);
-			}
-			if(null!=mobilePhone&&mobilePhone.trim().length()>0){
-				sql=sql+" and mobilePhone like ? ";
-				param.add("%"+mobilePhone+"%");
-			}
-			if(null!=name&&name.trim().length()>0){
-				sql=sql+" and like name ? ";
-				param.add("%"+name+"%");
-			}
-			if(null!=startTime&&startTime.trim().length()>0){
-				sql=sql+" and createDate>= ? ";
-				param.add(DateUtil.string2Date(startTime));
-			}
-			if(null!=endTime&&endTime.trim().length()>0){
-				sql=sql+" and createDate< ? ";
-				param.add(DateUtil.nextDay(endTime));
-			}
-			sql=sql+" order by resultStatus,createDate DESC";
-			Page<CustomerRecord> page= customerRecordManageImpl.pagedQuerySql(pageNo, pageSize, CustomerRecord.class, sql, param.toArray());
-			List<CustomerRecord> customers = page.getResult();
-			String jsonCustoemr = jsonCustoemr(customers);
-			JSONObject jsonObject=new JSONObject();
-			jsonObject.put("pageNo", pageNo+1);
-			jsonObject.put("pageSize", pageSize);
-			jsonObject.put("data", jsonCustoemr);
-			renderJson(jsonObject.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return ;
-	}
-	/**
 	 * 功能描述： 销售顾问添加线索
 	 * 参数描述： 
 	 * 逻辑描述：
@@ -708,7 +602,7 @@ public class QywxCustomerRecordAction extends BaseController{
 				String customerInfromSelect = customerInfromManageImpl.getCustomerInfrom(null);
 				request.setAttribute("customerInfromSelect", customerInfromSelect);
 			}
-			List<Brand> brands = brandManageImpl.getAll();
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
 			
 			
@@ -847,7 +741,7 @@ public class QywxCustomerRecordAction extends BaseController{
 	 */
 	public String validateCustomerRecord() throws Exception {
 		HttpServletRequest request = this.getRequest();
-		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		Integer dbid = ParamUtil.getIntParam(request, "customerRecordId", -1);
 		try {
 			CustomerRecord customerRecord2 = customerRecordManageImpl.get(dbid);
 			request.setAttribute("customerRecord", customerRecord2);
@@ -879,6 +773,250 @@ public class QywxCustomerRecordAction extends BaseController{
 			log.error(e);
 		}
 		return "invalid";
+	}
+	/**
+	 * 功能描述：
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public String queryLeaderList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer customerTypeId = ParamUtil.getIntParam(request, "customerTypeId", -1);
+		Integer status = ParamUtil.getIntParam(request, "status", -1);
+		Integer comeinNum = ParamUtil.getIntParam(request, "comeinNum", -1);
+		Integer resultStatus = ParamUtil.getIntParam(request, "resultStatus", -1);
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		String saler = request.getParameter("saler");
+		String resultStartTime = request.getParameter("resultStartTime");
+		String resultEndTime = request.getParameter("resultEndTime");
+		Integer overtimeStatus = ParamUtil.getIntParam(request, "overtimeStatus", -1);
+		Integer customerInfromId = ParamUtil.getIntParam(request, "customerInfromId", -1);
+		try{
+			if(customerInfromId>0){
+				CustomerInfrom customerInfrom2 = customerInfromManageImpl.get(customerInfromId);
+				String cusString = customerInfromManageImpl.getCustomerInfrom(customerInfrom2);
+				request.setAttribute("customerInfromSelect", cusString);
+			}else{
+				String cusString = customerInfromManageImpl.getCustomerInfrom(null);
+				request.setAttribute("customerInfromSelect", cusString);
+			}
+			List<CustomerType> customerTypes = customerTypeManageImpl.getAll();
+			request.setAttribute("customerTypes",customerTypes);
+			String sql="select * from cust_CustomerRecord where 1=1  ";
+			List param=new ArrayList();
+			User currentUser = getSessionUser();
+			Enterprise enterprise = currentUser.getEnterprise();
+			if(enterprise.getDbid()>0){
+				sql=sql+" and enterpriseId="+enterprise.getDbid();
+			}
+			if(customerTypeId>0){
+				sql=sql+" and customerTypeId=? ";
+				param.add(customerTypeId);
+			}
+			if(customerInfromId>0){
+				sql=sql+" and customerInfromId=? ";
+				param.add(customerInfromId);
+			}
+			if(status>0){
+				sql=sql+" and status=? ";
+				param.add(status);
+			}
+			if(resultStatus>0){
+				sql=sql+" and resultStatus=? ";
+				param.add(resultStatus);
+			}
+			if(overtimeStatus>0){
+				sql=sql+" and overtimeStatus=? ";
+				param.add(overtimeStatus);
+			}
+			if(null!=saler&&saler.trim().length()>0){
+				sql=sql+" and salerName like ? ";
+				param.add("%"+saler+"%");
+			}
+			
+			if(comeinNum>=0){
+				sql=sql+" and comeinNum=?  and status="+CustomerRecord.STATUSCOMM;
+				param.add(comeinNum);
+			}
+			if(null!=startTime&&startTime.trim().length()>0){
+				sql=sql+" and createDate>= ? ";
+				param.add(DateUtil.string2Date(startTime));
+			}
+			if(null!=endTime&&endTime.trim().length()>0){
+				sql=sql+" and createDate< ? ";
+				param.add(DateUtil.nextDay(endTime));
+			}
+			if(null!=resultStartTime&&resultStartTime.trim().length()>0){
+				sql=sql+" and resultDate>= ? ";
+				param.add(DateUtil.string2Date(resultStartTime));
+			}
+			if(null!=resultEndTime&&resultEndTime.trim().length()>0){
+				sql=sql+" and resultDate< ? ";
+				param.add(DateUtil.nextDay(resultEndTime));
+			}
+			sql=sql+" order by resultStatus,createDate DESC";
+			Page<CustomerRecord> page= customerRecordManageImpl.pagedQuerySql(pageNo, pageSize, CustomerRecord.class, sql, param.toArray());
+			request.setAttribute("page", page);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "leaderList";
+	}
+	/**
+	 * 功能描述：领导查询有效线索
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public String queryLeaderEffList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer customerTypeId = ParamUtil.getIntParam(request, "customerTypeId", -1);
+		Integer status = ParamUtil.getIntParam(request, "status", -1);
+		Integer comeinNum = ParamUtil.getIntParam(request, "comeinNum", -1);
+		Integer resultStatus = ParamUtil.getIntParam(request, "resultStatus", -1);
+		Integer departmentId = ParamUtil.getIntParam(request, "departmentId", -1);
+		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		Integer comeShopNum = ParamUtil.getIntParam(request, "comeShopNum", -1);
+		Integer trackNum = ParamUtil.getIntParam(request, "trackNum", -1);
+		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		String resultStartTime = request.getParameter("resultStartTime");
+		String resultEndTime = request.getParameter("resultEndTime");
+		String custName = request.getParameter("custName");
+		String mobilePhone = request.getParameter("mobilePhone");
+		String saler = request.getParameter("saler");
+		try{
+			User currentUser = getSessionUser();
+			Enterprise enterprise = currentUser.getEnterprise();
+			String departmentIds=null;
+			if(departmentId>0){
+				Department department = departmentManageImpl.get(departmentId);
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
+				request.setAttribute("departmentSelect", departmentSelect);
+				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
+			}else{
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
+				request.setAttribute("departmentSelect", departmentSelect);
+			}
+			
+			//意向级别
+			List<CustomerPhase> customerPhases = customerPhaseManageImpl.getAll();
+			request.setAttribute("customerPhases", customerPhases);
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
+			request.setAttribute("brands", brands);
+			//车系
+			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
+			request.setAttribute("carSeriys", carSeriys);
+			
+			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brandId, carSeriyId);
+			request.setAttribute("carModels", carModels);
+			
+			
+			String sql="select * from cust_CustomerRecord custre,cust_Customer cust ,cust_CustomerBussi as cb where custre.customerId=cust.dbid and cb.customerId=cust.dbid ";
+			List param=new ArrayList();
+			if(enterprise.getDbid()>0){
+				sql=sql+" and custre.enterpriseId="+enterprise.getDbid();
+			}
+			if(carSeriyId>0){
+				sql=sql+" and cb.carSeriyId=? ";
+				param.add(carSeriyId);
+			}
+			if(brandId>0){
+				sql=sql+" and cb.brandId=? ";
+				param.add(brandId);
+			}
+			if(carModelId>0){
+				sql=sql+" and cb.carModelId=? ";
+				param.add(carModelId);
+			}
+			if(customerPhaseId>0){
+				sql=sql+" and cust.customerPhaseId=? ";
+				param.add(customerPhaseId);
+			}
+			if(comeShopNum>0){
+				if(comeShopNum==6){
+					sql=sql+" and cust.comeShopNum>=? ";
+				}else{
+					sql=sql+" and cust.comeShopNum=? ";
+				}
+				param.add(comeShopNum);
+			}
+			if(trackNum>0){
+				if(trackNum==6){
+					sql=sql+" and cust.trackNum>=? ";
+				}else{
+					sql=sql+" and cust.trackNum=? ";
+				}
+				param.add(trackNum);
+			}
+			if(null!=departmentIds){
+				sql=sql+" and cu.departmentId in("+departmentIds+")";
+			}
+			if(customerTypeId>0){
+				sql=sql+" and custre.customerTypeId=? ";
+				param.add(customerTypeId);
+			}
+			if(status>0){
+				sql=sql+" and custre.status=? ";
+				param.add(status);
+			}
+			if(resultStatus>0){
+				sql=sql+" and custre.resultStatus=? ";
+				param.add(resultStatus);
+			}
+			if(null!=saler&&saler.trim().length()>0){
+				sql=sql+" and custre.salerName like ? ";
+				param.add("%"+saler+"%");
+			}
+			if(null!=custName&&custName.trim().length()>0){
+				sql=sql+" and cust.name like ? ";
+				param.add("%"+custName+"%");
+			}
+			if(null!=mobilePhone&&mobilePhone.trim().length()>0){
+				sql=sql+" and cust.mobilePhone like ? ";
+				param.add("%"+mobilePhone+"%");
+			}
+			
+			if(comeinNum>0){
+				sql=sql+" and custre.comeinNum=? ";
+				param.add(comeinNum);
+			}
+			if(null!=startTime&&startTime.trim().length()>0){
+				sql=sql+" and custre.createDate>= ? ";
+				param.add(DateUtil.string2Date(startTime));
+			}
+			if(null!=endTime&&endTime.trim().length()>0){
+				sql=sql+" and custre.createDate< ? ";
+				param.add(DateUtil.nextDay(endTime));
+			}
+			if(null!=resultStartTime&&resultStartTime.trim().length()>0){
+				sql=sql+" and custre.resultDate>= ? ";
+				param.add(DateUtil.string2Date(resultStartTime));
+			}
+			if(null!=resultEndTime&&resultEndTime.trim().length()>0){
+				sql=sql+" and custre.resultDate< ? ";
+				param.add(DateUtil.nextDay(resultEndTime));
+			}
+			sql=sql+" order by custre.resultStatus,custre.createDate DESC";
+			Page<CustomerRecord> page= customerRecordManageImpl.pagedQuerySql(pageNo, pageSize, CustomerRecord.class, sql, param.toArray());
+			request.setAttribute("page", page);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "leaderEffList";
 	}
 	/**
 	 * 功能描述：销售顾问处理线索（无效客户）保存
@@ -1076,8 +1214,14 @@ public class QywxCustomerRecordAction extends BaseController{
 			CustomerRecord customerRecord2 = customerRecordManageImpl.get(customerRecordId);
 			CustomerType customerType = customerRecord2.getCustomerType();
 			if(customerType!=null&&customerType.getDbid()==1){
-				//进店客户
-				object.put("state", 1);
+				String mobilePhone = customerRecord2.getMobilePhone();
+				if(mobilePhone==null||mobilePhone==""){
+					//进店客户
+					object.put("state", 1);
+				}else{
+					SystemInfo systemInfo = systemInfoMangeImpl.get(SystemInfo.ROOT);
+					object=customerMangeImpl.validateCustomer(mobilePhone, currentUser, systemInfo);
+				}
 			}
 			else{
 				String mobilePhone = customerRecord2.getMobilePhone();

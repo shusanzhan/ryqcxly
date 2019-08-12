@@ -296,7 +296,7 @@ public class OrderContractDecoreAction extends BaseController{
 			return ;		
 		}
 		if(editType==1){
-			renderMsg("/customer/customerShoppingRecordqueryList", "保存订单数据成功！");
+			renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存订单数据成功！");
 			return ;
 		}
 		if(editType==3){
@@ -312,7 +312,7 @@ public class OrderContractDecoreAction extends BaseController{
 			renderMsg("/customerPidBookingRecord/queryWatingList", "保存订单数据成功！");
 			return ;
 		}
-		renderMsg("/customer/customerShoppingRecordqueryList", "保存订单数据成功！");
+		renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存订单数据成功！");
 		return ;
 	}
 	

@@ -131,6 +131,8 @@
          <action name="qywxCustomerRecord" class="qywxCustomerRecordAction">
         	 <result name="salerEdit">/pages/qywx/customer/customerRecord/salerEdit.jsp</result>
         	 <result name="salerList">/pages/qywx/customer/customerRecord/salerList.jsp</result>
+        	 <result name="leaderList">/pages/qywx/customer/customerRecord/leaderList.jsp</result>
+        	 <result name="leaderEffList">/pages/qywx/customer/customerRecord/leaderEffList.jsp</result>
         	 <result name="view">/pages/qywx/customer/customerRecord/view.jsp</result>
         	 <result name="invalid">/pages/qywx/customer/customerRecord/invalid.jsp</result>
         	 <result name="index">/pages/qywx/customer/customerRecord/index.jsp</result>
@@ -179,6 +181,7 @@
        		<result name="salerTodayTrack">/pages/qywx/customerTrack/salerTodayTrack.jsp</result>
        		<result name="salerTommorrowTrack">/pages/qywx/customerTrack/salerTommorrowTrack.jsp</result>
        		<result name="compList">/pages/qywx/customerTrack/compList.jsp</result>
+       		<result name="salerList">/pages/qywx/customerTrack/salerList.jsp</result>
        		<result name="salerThreeDayTrack">/pages/qywx/customerTrack/salerThreeDayTrack.jsp</result>
        		<interceptor-ref name="qywxOAuth2Stack"></interceptor-ref>
        	</action>

@@ -59,7 +59,7 @@
 <br>
 <div class="row-fluid" style="text-align: center;">
 	<h3>
-		新登记客户:${newsCount } 人
+		各级客户统计
 	</h3>
 	<h5>
 		(时间:
@@ -71,17 +71,15 @@
 	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr>
-				<td align="center">O</td>
-				<td align="center">A</td>
-				<td align="center">B</td>
-				<td align="center">C</td>
+				<c:forEach var="customerPhase" items="${customerPhases }">
+					<td align="center">${customerPhase.name }</td>
+				</c:forEach>
 				<td align="center">总计</td>
 			</tr>
 			<tr>
-				<td align="center">${levelCO }</td>
-				<td align="center">${levelCA }</td>
-				<td align="center">${levelCB }</td>
-				<td align="center">${levelCC }</td>
+				<c:forEach var="customerPhase" items="${customerPhases }">
+					<td align="center">${customerPhase.totalNum }</td>
+				</c:forEach>
 				<td align="center">${newsCount }</td>
 			</tr>
 		</tbody>
@@ -141,7 +139,7 @@
 <script src="${ctx }/widgets/highcharts/highcharts.js"></script>
 <script type="text/javascript">
 $(function () {
-	 var data=eval("[ ['O',${levelCO}], ['A',${levelCA}], ['B',${levelCB}], ['C',${levelCC}]]");
+	 var data=eval("${customerPhaseJson}");
 	 $('#container').highcharts({
         chart: {
             type: 'column'

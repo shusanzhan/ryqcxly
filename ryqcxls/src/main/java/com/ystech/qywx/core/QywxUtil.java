@@ -236,18 +236,19 @@ public class QywxUtil {
     * @param appsecret 密钥
     * @return
      */
-    public static AccessToken getAccessToken(AccessTokenManageImpl accessTokenManageImpl,String appid,String appsecret) {
+    public static AccessToken getAccessToken(AccessTokenManageImpl accessTokenManageImpl,String compId,String appsecret,Integer appDbid) {
     	// 第三方用户唯一凭证
 //        String appid = bundle.getString("appId");
 //        // 第三方用户唯一凭证密钥
 //        String appsecret = bundle.getString("appSecret");
         
-    	AccessToken accessTocken = getRealAccessToken(accessTokenManageImpl);
+    	AccessToken accessTocken = getRealAccessToken(accessTokenManageImpl,appDbid);
     	if(accessTocken!=null){
     		java.util.Date end = new java.util.Date();
     		if(end.getTime()-accessTocken.getAddtime().getTime()>=(accessTocken.getExpiresIn()*250)){
         		 AccessToken atyw = null;
-                 String requestUrl = access_token_url.replace("APPID", appid).replace("APPSECRET", appsecret);
+                 String requestUrl = access_token_url.replace("APPID", compId).replace("APPSECRET", appsecret);
+                 System.err.println("access_token_url=="+requestUrl);
                  JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
                  System.err.println("jsonObject:"+jsonObject);
                  // 如果请求成功
@@ -274,17 +275,19 @@ public class QywxUtil {
         	}
     	}else{
     		 AccessToken accessToken = null;
-    		 String requestUrl = access_token_url.replace("APPID", appid).replace("APPSECRET", appsecret);
+    		 String requestUrl = access_token_url.replace("APPID", compId).replace("APPSECRET", appsecret);
+    		  System.err.println("access_token_url=="+requestUrl);
              JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
              System.err.println("jsonObject:"+jsonObject);
              // 如果请求成功
              if (null != jsonObject) {
                  try {
-                     AccessToken atyw = new AccessToken();
-                     atyw.setExpiresIn(jsonObject.getInt("expires_in"));
-                     atyw.setAccessToken(jsonObject.getString("access_token"));
-                     atyw.setAddtime(new Date());
-                     saveAccessToken(atyw,accessTokenManageImpl);
+                	 accessToken = new AccessToken();
+                     accessToken.setExpiresIn(jsonObject.getInt("expires_in"));
+                     accessToken.setAccessToken(jsonObject.getString("access_token"));
+                     accessToken.setAddtime(new Date());
+                     accessToken.setAppId(appDbid);
+                     saveAccessToken(accessToken,accessTokenManageImpl);
                  } catch (Exception e) {
                      accessToken = null;
                      // 获取token失败
@@ -304,8 +307,8 @@ public class QywxUtil {
      * 从数据库中读取凭证
      * @return
      */
-    public static AccessToken getRealAccessToken(AccessTokenManageImpl accessTokenManageImpl){
-        List<AccessToken> accessTockenList = accessTokenManageImpl.find("from AccessToken",null);
+    public static AccessToken getRealAccessToken(AccessTokenManageImpl accessTokenManageImpl,Integer appId){
+        List<AccessToken> accessTockenList = accessTokenManageImpl.find("from AccessToken where appId=? ",appId);
         if(null!=accessTockenList&&accessTockenList.size()>0){
         	return accessTockenList.get(0);
         }
@@ -333,8 +336,8 @@ public class QywxUtil {
      * 从获取tice
      * @return
      */
-    public static AccessToken getTicketAccessToken(AccessTokenManageImpl accessTokenManageImpl,String appid,String appsecret){
-    	AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, appid,appsecret);
+    public static AccessToken getTicketAccessToken(AccessTokenManageImpl accessTokenManageImpl,String copId,String appsecret,int appDbid){
+    	AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, copId,appsecret,appDbid);
     	if(null==accessToken){
     		return null;
     	}

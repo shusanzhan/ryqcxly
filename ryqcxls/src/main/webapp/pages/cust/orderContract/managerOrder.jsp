@@ -30,7 +30,7 @@
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
-			<tr height="40">
+  			<tr height="40">
   				<td><label>品牌：</label></td>
   				<td>
   					<select class="text small" id="brandId" name="brandId"  onchange="$('#searchPageForm')[0].submit()">
@@ -58,69 +58,72 @@
 						</c:forEach>
 					</select>
   				</td>
-  				<td><label>信息来源：</label></td>
+				<td><label>颜色：</label></td>
   				<td>
-  					<select class="text small" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1" >请选择...</option>
-						${customerInfromSelect }
+  					<select class="text small" id="carColorId" name="carColorId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="carColor" items="${carColors }">
+							<option value="${carColor.dbid }" ${param.carColorId==carColor.dbid?'selected="selected"':'' } >${carColor.name }</option>
+						</c:forEach>
 					</select>
   				</td>
-  				</tr>
-  				<tr height="40">
-  					<td><label>类型：</label></td>
-  					<td>
-  					<select class="text small" id="comeType" name="comeType"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="-1" >请选择...</option>
-						<option value="1" ${param.comeType==1?'selected="selected"':'' } >来店</option>
-						<option value="2"  ${param.comeType==2?'selected="selected"':'' }>来电</option>
-						<option value="3"  ${param.comeType==3?'selected="selected"':'' }>网销</option>
-						<option value="4"  ${param.comeType==4?'selected="selected"':'' }>活动</option>
-						<option value="5"  ${param.comeType==5?'selected="selected"':'' }>其他</option>
-					</select>
-	  				</td>
-	  				<td><label>试乘试驾：</label></td>
-	  				<td>
-	  					<select class="small text" id="tryCarStatus" name="tryCarStatus" onchange="$('#searchPageForm')[0].submit()" >
-							<option value="">请选择...</option>
-							<option value="1" ${param.tryCarStatus==1?'selected="selected"':''}>未试驾</option>
-							<option value="2" ${param.tryCarStatus==2?'selected="selected"':''}>已试驾</option>
-						</select>
-	  				</td>
-  					<td><label>到店状态：</label></td>
-	  				<td>
-	  					<select class="small text" id="comeShopStatus" name="comeShopStatus" onchange="$('#searchPageForm')[0].submit()" >
-							<option value="-1">请选择...</option>
-							<option value="1" ${param.comeShopStatus==1?'selected="selected"':''} >未到店</option>
-							<option value="2" ${param.comeShopStatus==2?'selected="selected"':''}>首次到店</option>
-							<option value="3" ${param.comeShopStatus==3?'selected="selected"':''}>二次到店</option>
-						</select>
-					</td>
-  				<td><label>销售顾问：</label></td>
+	  			<td><label>销售顾问：</label></td>
   				<td>
   					<input class="small text" id="userName" name="userName"  value="${param.userName }" >
+  				</td>
+				</tr>
+				<tr>
+  				<td><label>类型：</label></td>
+  				<td>
+  					<select class="text small" id="customerTypeId" name="customerTypeId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						<c:forEach var="customerType" items="${customerTypes }">
+							<option value="${customerType.dbid }" ${param.customerTypeId==customerType.dbid?'selected="selected"':'' } >${customerType.name }</option>
+						</c:forEach>
+					</select>
+  				</td>
+  				<td><label>来源：</label></td>
+  				<td>
+  					<select class="text small" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="0" >请选择...</option>
+						${customerInfromSelect}
+					</select>
+  				</td>
+  				<td><label>试乘试驾：</label></td>
+  				<td>
+  					<select class="small text" id="tryCarStatus" name="tryCarStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="">请选择...</option>
+						<option value="1" ${param.tryCarStatus==1?'selected="selected"':''}>未试驾</option>
+						<option value="2" ${param.tryCarStatus==2?'selected="selected"':''}>已试驾</option>
+					</select>
+  				</td>
+  				<td><label>到店状态：</label></td>
+  				<td>
+  					<select class="small text" id="comeShopStatus" name="comeShopStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="1" ${param.comeShopStatus==1?'selected="selected"':''} >未到店</option>
+						<option value="2" ${param.comeShopStatus==2?'selected="selected"':''}>首次到店</option>
+						<option value="3" ${param.comeShopStatus==3?'selected="selected"':''}>二次到店</option>
+					</select>
 				</td>
-  			</tr>
-  			<tr>
-  				<td><label>姓名：</label></td>
+  				<td><label>客户名称：</label></td>
   				<td>
   					<input class="small text" id="name" name="name"  value="${param.name }" >
   				</td>
+				</tr>
+				<tr>
   				<td><label>电话：</label></td>
   				<td>
   					<input class="small text" id="mobilePhone" name="mobilePhone"  value="${param.mobilePhone }" >
   				</td>
-				<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-	  				<td><label>邀约人：</label></td>
-	  				<td>
-	  					<input class="small text" id="invitationSalerName" name="invitationSalerName"  value="${param.invitationSalerName }" >
-	  				</td>
-	  				<td><label>谈判人：</label></td>
-	  				<td>
-	  					<input class="small text" id="receptierSalerName" name="receptierSalerName"  value="${param.receptierSalerName }" >
-	  				</td>
-				</c:if>
-  			</tr>
-  			<tr>
+  				<td><label>开始时间：</label></td>
+  				<td>
+  					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
+				</td>
+  				<td><label>结束时间：</label></td>
+  				<td>
+  					<input class="small text" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+  				</td>
   				<td><label>试驾开始：</label></td>
   				<td>
   					<input class="small text" id="tryCarStartTime" name="tryCarStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarStartTime }" >
@@ -129,6 +132,8 @@
   				<td>
   					<input class="small text" id="tryCarEndTime" name="tryCarEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.tryCarEndTime }">
   				</td>
+  			</tr>
+  			<tr>
   				<td><label>来店开始：</label></td>
   				<td>
   					<input class="small text" id="comeShopStartTime" name="comeShopStartTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopStartTime }" >
@@ -137,34 +142,16 @@
   				<td>
   					<input class="small text" id="comeShopEndTime" name="comeShopEndTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.comeShopEndTime }">
   				</td>
-  			</tr>
-  			<tr>
-  				<td><label>部门：</label></td>
+  				<td><label>订单开始：</label></td>
   				<td>
-  					<select id="departmentId" name="departmentId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-						<option value="">请选择...</option>
-						${departmentSelect }
-					</select>
+  					<input class="small text" id="startOrderTime" name="startOrderTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startOrderTime }" >
 				</td>
-  				<td><label>审批状态：</label></td>
+  				<td><label>订单结束：</label></td>
   				<td>
- 				<select id="status" name="status"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-					<option value="">请选择...</option>
-					<option value="1" ${param.status==1?'selected="selected"':'' } >审批中...</option>
-					<option value="2" ${param.status==2?'selected="selected"':'' } >同意</option>
-					<option value="3" ${param.status==3?'selected="selected"':'' } >驳回</option>
-				</select>
-  				</td>
-  				<td><label>创建日期开始：</label></td>
-  				<td>
-  					<input class="small text" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.startTime }" >
-				</td>
-  				<td><label>结束：</label></td>
-  				<td>
-  					<input class="small text" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endTime }">
+  					<input class="small text" id="endOrderTime" name="endOrderTime" onFocus="WdatePicker({isShowClear:true,readOnly:true})" value="${param.endOrderTime }">
   				</td>
   				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
-   			</tr>
+  			</tr>
    		</table>
    		</form>
    	</div>
@@ -180,23 +167,18 @@
 <table width="100%" border="0" class="mainTable" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<!-- <td style="width: 20px;"><div class="checker" id="uniform-title-table-checkbox">
-					<span><input type="checkbox" name="title-table-checkbox" id="title-table-checkbox" onclick="selectAll(this,'id')"></span>
-				</div></td> -->
 			<td style="width: 60px;">名称</td>
-			<td style="width: 60px;">品牌</td>
-			<td style="width: 120px;">车型</td>
-			<td style="width: 60px;">类型</td>
-			<td style="width: 80px;">合同金额</td>
-			<td style="width: 80px;">定金</td>
-			<td style="width: 80px;">部门</td>
-			<td style="width: 60px;">业务员</td>
+			<td style="width: 40px;">类型</td>
+			<td style="width:60px;">来源</td>
+			<td style="width:160px;">车型</td>
+			<td style="width:80px;">指导价格</td>
+			<td style="width: 60px;">初/当级别</td>
+			<td style="width: 100px;">部门</td>
+			<td style="width: 60px">互动次数</td>
+			<td style="width: 60px">进店状态</td>
+			<td style="width: 60px">试驾状态</td>
+			<td style="width: 80px;">创建时间</td>
 			<td style="width: 80px;">订单时间</td>
-			<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-				<td style="width: 80px;">邀约/谈判人</td>
-			</c:if>
-			<td style="width: 80px;">审批状态</td>
-			<td style="width: 100px;">操作</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -221,68 +203,64 @@
 				</div>
 			</td>
 			<td>
-				${customer.customerBussi.brand.name}
+				${customer.customerType.name }
+			</td>
+			<td>
+				${customer.customerInfrom.name }
 			</td>
 			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }" var="carModel"></c:set>
-			<td title="${carModel}  ${customer.carModelStr}">
-					${carModel}  ${customer.carModelStr}
+			<td title="${carModel }${customer.carModelStr}${customer.carModelStr}">
+				${customer.customerBussi.brand.name}
+				<c:if test="${fn:length(carModel)>16 }" var="status">
+					${fn:substring(carModel,0,16) }...
+				</c:if>
+				<c:if test="${ status==false}">
+					${carModel }${customer.carModelStr}
+				</c:if>
+				${customer.carModelStr}
 			</td>
 			<td>
-				<c:if test="${customer.type==1 }">
-					<span style="color: red;">来店</span>
-				</c:if>
-				<c:if test="${customer.type==2 }">
-					<span style="color:green;">来电</span>
-				</c:if>
-				<c:if test="${customer.type==3 }">
-					<span style="color: blue;">网销</span>
-				</c:if>
-				<c:if test="${customer.type==4 }">
-					<span style="color:orange;">活动</span>
-				</c:if>
-				<c:if test="${customer.type==5 }">
-					<span style="color:orange;">其他</span>
-				</c:if>
-				【${customer.customerInfrom.name }】
+				${customer.customerBussi.carModel.navPrice }${customer.navPrice }
 			</td>
 			<td>
-				${orderContract.totalPrice}
+				${customer.firstCustomerPhase.name}/
+				${customer.customerPhase.name}
 			</td>
 			<td>
-				${orderContract.orderMoney}
+				${customer.department.name }<br>
+				${customer.bussiStaff}
 			</td>
 			<td>
-				${customer.department.name}
+				${customer.trackNum }
 			</td>
-			<td>${customer.bussiStaff }</td>
+			<td>
+				<c:if test="${customer.comeShopStatus==1||empty(customer.comeShopStatus)}">
+					未到店				
+				</c:if>
+				<c:if test="${customer.comeShopStatus==2 }">
+					<span style="color: red;">首次到店</span><br>	
+					<fmt:formatDate value="${customer.comeShopDate }" pattern="yyyy-MM-dd"/>			
+				</c:if>
+				<c:if test="${customer.comeShopStatus==3 }">
+					<span style="color: red;">二次到店</span>	<br>		
+					<fmt:formatDate value="${customer.twoComeShopDate }" pattern="yyyy-MM-dd"/>			
+				</c:if>
+				<br>
+			</td>
+			<td>
+				<c:if test="${customer.tryCarStatus==1||empty(customer.tryCarStatus)}">
+					未试驾				
+				</c:if>
+				<c:if test="${customer.tryCarStatus==2 }">
+					<span style="color: red;">已试驾</span><br>	
+					<fmt:formatDate value="${customer.tryCarDate }" pattern="yyyy-MM-dd"/>			
+				</c:if>
+			</td>
+			<td>
+				<fmt:formatDate value="${customer.createFolderTime }"/>
+			</td>
 			<td>
 				<fmt:formatDate value="${orderContract.createTime }" pattern="yyyy-MM-dd HH:mm"/>
-			</td>
-			<c:if test="${systemInfo.dccInvationAndRecpStatus==2 }">
-				<td>
-					${customer.invitationSalerName }/${customer.receptierSalerName }
-				</td>
-			</c:if>
-			<td>
-				<c:if test="${orderContract.status==1 }">
-					<span style="color: #DD9A4B;">审批中...</span>
-				</c:if>
-				<c:if test="${orderContract.status==3 }">
-					<span style="color: red;">驳回</span>
-				</c:if>
-				<c:if test="${orderContract.status==2 }">
-					<span style="color: green;">同意</span>
-				</c:if>
-				<c:if test="${orderContract.status==4 }">
-					<span style="color: green;">已打印合同</span>
-				</c:if>
-			</td>
-			<td style="text-align: center;">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/orderContract/viewApprovalRecord?dbid=${customer.orderContract.dbid }'">审批记录</a>
-				<c:if test="${orderContract.status==2 }">
-					|
-					<a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx}/orderContract/printContract?dbid=${customer.orderContract.dbid }')">打印合同</a>
-				</c:if>
 			</td>
 		</tr>
 		</c:forEach>

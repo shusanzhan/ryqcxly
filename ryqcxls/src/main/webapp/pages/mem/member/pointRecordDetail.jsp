@@ -39,15 +39,15 @@
   	</div>
 </c:if>
 <div class="scoreSelect" id="tab-container">
-	 <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/member/pointRecordDetail?memberId=${member.dbid}&selectType=0'" id="tab1">积分明细</a>
+	 <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/memMember/pointRecordDetail?memberId=${member.dbid}&selectType=0'" id="tab1">积分明细</a>
     <div class="score_select_line">
       <div class="score_select_linel"></div>
     </div>
-    <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/member/pointRecordDetail?memberId=${member.dbid}&selectType=1'" id="tab2">积分收入</a>
+    <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/memMember/pointRecordDetail?memberId=${member.dbid}&selectType=1'" id="tab2">积分收入</a>
     <div class="score_select_line">
       <div class="score_select_linel"></div>
     </div>
-    <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/member/pointRecordDetail?memberId=${member.dbid}&selectType=2'" id="tab3">积分支出</a> 
+    <a class="score_select_p" style="width: 30%;" href="javascript:void(-1)"  onclick="window.location.href='${ctx}/memMember/pointRecordDetail?memberId=${member.dbid}&selectType=2'" id="tab3">积分支出</a> 
 </div>
 <div class="score_show">
     <div class="score_show_available">可用积分：<span>

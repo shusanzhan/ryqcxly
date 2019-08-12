@@ -32,5 +32,8 @@
         <property name="enterpriseId" type="java.lang.Integer">
             <column name="enterpriseId" />
         </property>
+        <property name="appId" type="java.lang.Integer">
+            <column name="appId" />
+        </property>
     </class>
 </hibernate-mapping>

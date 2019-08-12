@@ -3,7 +3,7 @@
 <%@ include file="../../commons/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
-<title>战败原因</title>
+<title>推荐客户无效原因</title>
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
@@ -12,7 +12,7 @@
 <div class="location">
 	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
 	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="">战败原因</a>
+	<a href="javascript:void(-1);" onclick="">推荐客户无效原因</a>
 </div>
  <!--location end-->
 <div class="line"></div>

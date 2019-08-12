@@ -43,7 +43,7 @@
 		<c:if test="${empty(customerTrack) }">
 			<input type="hidden" name="customerId" value="${param.customerId }" id="customerId"></input>
 		</c:if>
-		<input type="hidden" name="customerTrack.createTime" id="createTime" value="${customerTrack.createTime}">
+		<input type="hidden" name="createTime" id="createTime" value="${customerTrack.createTime}">
 		<input type="hidden" name="customerTrack.dbid" id="dbid" value="${customerTrack.dbid }">
 		<input type="hidden" name="currentPage" id="currentPage" value="${param.currentPage}">
 		<input type="hidden" name="pageSize" id="pageSize" value="${param.pageSize }">
@@ -78,6 +78,7 @@
 				<select id="trackMethod" name="customerTrack.trackMethod" class="form-control" checkType="integer,1" tip="请选跟进方法" onchange="tryDriverOper()">
 					<option value="0f">请选择...</option>
 					<option value="1" ${customerTrack.trackMethod==1?'selected="selected"':'' }>电话</option>
+					<option value="2" ${customerTrack.trackMethod==2?'selected="selected"':'' }>到店</option>
 					<option value="3" ${customerTrack.trackMethod==3?'selected="selected"':'' }>短信 </option>
 					<option value="4" ${customerTrack.trackMethod==4?'selected="selected"':'' }>上户</option>
 					<option value="5" ${customerTrack.trackMethod==5?'selected="selected"':'' }>微信</option>
@@ -85,9 +86,10 @@
 				</select>
 			</c:if>
 	 		<c:if test="${!empty(param.customerRecordId) }">
-				<select id="trackMethod" name="customerTrack.trackMethod" class="form-control" checkType="integer,1" tip="请选跟进方法">
+				<select id="trackMethod" name="customerTrack.trackMethod" class="form-control" checkType="integer,1" tip="请选跟进方法" onchange="tryDriverOper()">
 					<option value="0f">请选择...</option>
 					<option value="1" ${customerTrack.trackMethod==1?'selected="selected"':'' }>电话</option>
+					<option value="2" selected="selected">到店</option>
 					<option value="3" ${customerTrack.trackMethod==3?'selected="selected"':'' }>短信 </option>
 					<option value="4" ${customerTrack.trackMethod==4?'selected="selected"':'' }>回访</option>
 				</select>
@@ -113,9 +115,26 @@
 				</select>
 			</div>	
 		</div>
-			<c:if test="${customer.lastResult==0 }" var="status">
+		<c:set value="${customer.customerShoppingRecord }" var="customerShoppingRecord"></c:set>
+			<c:if test="${empty(customerShoppingRecord.isTryDriver)||customerShoppingRecord.isTryDriver==2 }">
+			<div id="tryDriverTr" style="display: none;">
 				<div class="form-group" >
-	 			 <label class="control-label" for="inputWarning1">更新级别:&nbsp;</label>
+				  <label class="control-label" for="inputWarning1">是否试驾<span style="color: red;">*</span></label  >
+				  	<select class="form-control" id="isTryDriver" name="customerShoppingRecord.isTryDriver" >
+				  		<option value="-1">请选择...</option>
+				  		<option value="1" ${customerShoppingRecord.isTryDriver=='1'?'selected="selected"':''} >已试驾</option>
+				  		<option value="2" ${customerShoppingRecord.isTryDriver=='2'?'selected="selected"':''}>未试驾</option>
+					</select>
+				</div>
+				<div class="form-group" >
+				  <label class="control-label" for="inputWarning1">试驾专员</label  >
+					  <input type="text" class="form-control" id="tryDriver" name="customerShoppingRecord.tryDriver"  value="${customerShoppingRecord.tryDriver }">
+				</div>
+			</div>
+		</c:if>
+			<c:if test="${customer.lastResult==0 }" var="status1">
+				<div class="form-group" >
+	 			 <label class="control-label" for="inputWarning1">更新级别${customer.lastResult }:&nbsp;</label>
 						<select id="customerPhaseId" name="customerPhaseId" class="form-control" checkType="integer,1" tip="请选更新级别" onchange="addDate(this.value)">
 							<option value="0">请选择...</option>
 							<c:forEach var="customerPhase" items="${customerPhases }">
@@ -130,7 +149,7 @@
 					<input type="text" name="customerTrack.nextReservationTime" id="nextReservationTime" value="" class="form-control" onfocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'trackDate\')}',maxDate:'#F{$dp.$D(\'maxDay\')}'});"  	checkType="string,1" tip="请选择下次预约时间">
 				</div>
 			</c:if>
-			<c:if test="${status==false}">
+			<c:if test="${status1==false}">
 				<div class="form-group" >
 	 			 <label class="control-label" for="inputWarning1">更新级别:&nbsp;</label>
 						<input type="hidden" readonly="readonly" class="form-control"  name="customerPhaseId" id="customerPhaseId"  value="${customer.customerPhase.dbid }">
@@ -165,7 +184,7 @@
 		<c:if test="${param.type==1 }" var="status">
 		</c:if>
 		<c:if test="${status==false }">
-			<input type="button" name="mobileCommit" value="保存" id="tele_register" class="addbutton" onclick="submitFrm('frmId','${ctx}/qywxCustomerTrack/save')"> 
+			<input type="button" name="mobileCommit" value="保存" id="tele_register" class="addbutton" onclick="if(validateSbm()){submitFrm('frmId','${ctx}/qywxCustomerTrack/save')}"> 
 		</c:if>
 	</div>
 </div>
@@ -269,6 +288,38 @@ function submitFrm(frmId,url){
 		showMo(e,false);
 		return;
 	}
+}
+function tryDriverOper(){
+  	var trackType=parseInt($("#trackType option:selected").val());
+  	var trackMethod=parseInt($("#trackMethod option:selected").val());
+  	if(trackType>=2){
+	  	if(trackMethod==2){
+		  	$("#tryDriverTr").show();
+		}else{
+			$("#tryDriverTr").hide();
+		}
+	}else{
+		$("#tryDriverTr").hide();
+	}
+}
+function validateSbm(){
+  var trackType=parseInt($("#trackType option:selected").val());
+  var trackMethod=parseInt($("#trackMethod option:selected").val());
+  var isTryDriver=$("#isTryDriver option:selected").val();
+  var valu="${customerShoppingRecord.isTryDriver}";
+  if(valu!='1'){
+  	if(trackType>=2){
+	  	if(trackMethod==2){
+		  	if(isTryDriver==undefined||isTryDriver==""||isTryDriver==null){
+			  	alert("请选择客户试驾状态");
+			  	return false;
+			 }
+		}
+	}
+	return true;
+  }else{
+	  return true;
+  }
 }
 </script>
 </html>

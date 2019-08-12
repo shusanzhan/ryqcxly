@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import com.ystech.core.web.BaseController;
 import com.ystech.qywx.core.QywxUtil;
 import com.ystech.qywx.model.AccessToken;
+import com.ystech.qywx.model.App;
 import com.ystech.qywx.model.AppMenu;
 import com.ystech.qywx.model.QywxAccount;
 import com.ystech.qywx.service.AccessTokenManageImpl;
@@ -107,7 +108,8 @@ public class EnterpriseAuthAction extends BaseController{
 				request.setAttribute("error","未获取到跳转目标连接！");
 				return "error";
 			}
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			App app = appMenu.getApp();
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), app.getSecurity(),app.getAppId());
 			if(null==accessToken){
 				request.setAttribute("error","获取accessToken错误！");
 				return "error";
@@ -115,30 +117,36 @@ public class EnterpriseAuthAction extends BaseController{
 			String code = request.getParameter("code");
 			if(null!=code&&code.trim().length()>0){
 				String userUrl=QywxUtil.user_getuserinfo_url.replace("CODE", code).replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("AGENTID", appMenu.getApp().getAppId()+"");
+				System.err.println("==========userURL:"+userUrl);
 				JSONObject httpRequest = QywxUtil.httpRequest(userUrl, "GET", null);
 				if(null!=httpRequest){
 					System.err.println("httpRequest:"+httpRequest);
-					String userId = httpRequest.getString("UserId");
-					if(null!=userId&&userId.trim().length()>0){
-						System.err.println("getuserinfo接口返回值："+httpRequest);
-						System.err.println("userId值："+userId);
-						List<User> users = userManageImpl.findBy("userId", userId);
-						System.err.println("users已经运行完成"+userId);
-						if(null!=users&&users.size()>0){
-							User user2 = users.get(0);
-							System.err.println("users获取数据"+user2.getRealName());
-							request.getSession().setAttribute("user", user2);
-							System.out.println("===============:weixin"+user2.getRealName());
-							Cookie addCookie =CookieUtile.addCookie(user2);
-							response.addCookie(addCookie);
-							System.err.println("user添加到cookie中");
-							return "outhRemote";
+					if(httpRequest.containsKey("UserId")){
+						String userId = httpRequest.getString("UserId");
+						if(null!=userId&&userId.trim().length()>0){
+							System.err.println("getuserinfo接口返回值："+httpRequest);
+							System.err.println("userId值："+userId);
+							List<User> users = userManageImpl.findBy("userId", userId);
+							System.err.println("users已经运行完成"+userId);
+							if(null!=users&&users.size()>0){
+								User user2 = users.get(0);
+								System.err.println("users获取数据"+user2.getRealName());
+								request.getSession().setAttribute("user", user2);
+								System.out.println("===============:weixin"+user2.getRealName());
+								Cookie addCookie =CookieUtile.addCookie(user2);
+								response.addCookie(addCookie);
+								System.err.println("user添加到cookie中");
+								return "outhRemote";
+							}else{
+								request.setAttribute("error","系统中未查询到，"+userId+"用户！");
+								return "error";
+							}
 						}else{
 							request.setAttribute("error","系统中未查询到，"+userId+"用户！");
 							return "error";
 						}
 					}else{
-						request.setAttribute("error","系统中未查询到，"+userId+"用户！");
+						request.setAttribute("error","权限获取异常！");
 						return "error";
 					}
 				}else{

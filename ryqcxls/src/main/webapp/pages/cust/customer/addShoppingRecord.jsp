@@ -28,7 +28,7 @@
 <div class="location">
    	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
    	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/customer/customerShoppingRecordqueryList'">客户管理</a>-
+	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/custCustomer/customerShoppingRecordqueryList'">客户管理</a>-
 	<a href="javascript:void(-1)" class="current">
 		来店登记
 	</a>
@@ -146,16 +146,6 @@
 						<option value="">请选择...</option>
 						<c:forEach var="customerPhase" items="${customerPhases }">
 							<option value="${customerPhase.dbid }" >${customerPhase.name }</option>
-						</c:forEach>
-					</select>
-					<span style="color: red;">*</span>
-				</td>
-				<td class="formTableTdLeft">同城交叉客户：</td>
-				<td >
-						<select id="cityCrossCustomerId" name="cityCrossCustomerId" class="largeX text" checkType="integer,1" tip="请选择同城交叉客户">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${customer.cityCrossCustomer.dbid==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
 						</c:forEach>
 					</select>
 					<span style="color: red;">*</span>
@@ -278,17 +268,6 @@
 						<input  type="text" class="largeX text" id="carModel" name="customerShoppingRecord.carModel"   value="${customerShoppingRecord.carModel }">
 					</td>
 				</tr>
-				<tr>
-					<td class="formTableTdLeft">购车时间：</td>
-					<td>
-						<select id="trackingPhaseId" name="trackingPhaseId" class="largeX text">
-							<option value="">请选择...</option>
-							<c:forEach var="trackingPhase" items="${trackingPhases }">
-								<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
 				<tr style="height: 100px;">
 					<td class="formTableTdLeft">接待经过：</td>
 					<td  colspan="3">
@@ -298,7 +277,7 @@
 			</table>
 		</c:if>
 		<div class="formButton">
-			<a href="javascript:void(-1)" id="sbmId"	onclick="$('#red').val(0);if(validateFrm()){$.utile.submitAjaxForm('frmId','${ctx}/customer/saveCustomerShoppingRecord')}"	class="but butSave">保&nbsp;&nbsp;存</a> 
+			<a href="javascript:void(-1)" id="sbmId"	onclick="$('#red').val(0);if(validateFrm()){$.utile.submitAjaxForm('frmId','${ctx}/custCustomer/saveCustomerShoppingRecord')}"	class="but butSave">保&nbsp;&nbsp;存</a> 
 		    <a href="javascript:void(-1)"	onclick="goBack()" class="but butCancle">取&nbsp;&nbsp;消</a>
 		</div>
 </form>                            

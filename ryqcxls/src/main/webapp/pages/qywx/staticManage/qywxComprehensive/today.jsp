@@ -79,7 +79,7 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">回访统计</span>
-    <a class="go_home" href="${ctx }/qywxStat/index">
+    <a class="go_home" href="${ctx }/qywxSaleReport/index?role=${param.role}">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
     <c:if test="${param.type==1||param.type>=3 }">
@@ -91,9 +91,10 @@
 <br>
 <br>
 <br>
+<c:forEach items="${enterprisess }" var="enterprises" varStatus="i">
 <div class="row-fluid" style="text-align: center;border-bottom: 1px solid #ed145b;margin-bottom: 12px;color:#ed145b;">
 	<h5 style="text-align: left;font-size: 16px">
-		${enterprise.name } 回访明细
+		${enterprises.name } 回访明细
 	</h5>
 </div>
 	<div class="row-fluid" id="anEnter">
@@ -108,17 +109,21 @@
 				<c:set value="0" var="trackTotalNumt"></c:set>
 				<c:set value="0" var="trackedTotalNumt"></c:set>
 				<c:set value="0" var="trackNotNumt"></c:set>
-				<c:forEach var="usercount" items="${customerTrackStatics}"> 
-				<tr>
-					<td><a href="${ctx }/qywxCustomerTrack/needTrackCustomer?salerId=${usercount.salerId}">${usercount.salerName }</a></td>	
-					<td>${usercount.trackTotalNum}</td>
-					<td>${usercount.trackedTotalNum}</td>
-					<td>${usercount.trackNotNum}</td>
-					<c:set value="${usercount.trackTotalNum+trackTotalNumt }" var="trackTotalNumt"></c:set>
-					<c:set value="${usercount.trackedTotalNum+trackedTotalNumt }" var="trackedTotalNumt"></c:set>
-					<c:set value="${usercount.trackNotNum+trackNotNumt }" var="trackNotNumt"></c:set>
-				</tr>
-				</c:forEach>
+				<c:forEach items="${map}" var="entry"> 
+					<c:if test="${entry.key==enterprises.dbid }">
+						<c:forEach var="usercount" items="${entry.value}"> 
+						<tr>
+							<td><a href="${ctx }/qywxCustomerTrack/needTrackCustomer?salerId=${usercount.salerId}&type=${param.type}">${usercount.salerName }</a></td>	
+							<td>${usercount.trackTotalNum}</td>
+							<td>${usercount.trackedTotalNum}</td>
+							<td>${usercount.trackNotNum}</td>
+							<c:set value="${usercount.trackTotalNum+trackTotalNumt }" var="trackTotalNumt"></c:set>
+							<c:set value="${usercount.trackedTotalNum+trackedTotalNumt }" var="trackedTotalNumt"></c:set>
+							<c:set value="${usercount.trackNotNum+trackNotNumt }" var="trackNotNumt"></c:set>
+						</tr>
+						</c:forEach>
+					</c:if>
+				</c:forEach>  
 				<tr id="anEnterAfter">
 					<td align="center" width="80">合计</td>
 					<td align="center" width="40">${trackTotalNumt }</td>
@@ -128,25 +133,13 @@
 			</tbody>
 		</table>
 	</div>
+</c:forEach>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
       	<form class="form-inline" action="${ctx }/qywxComprehensiveStatic/today" name="frmId" id="frmId" method="post">
       	 <table>
-      	 <c:if test="${fn:length(enterprises)>1 }">
-	  			<tr>
-		  				<td><label>分公司：</label></td>
-		  				<td colspan="" >
-		  					<select class="form-control" id="enterpriseId" name="enterpriseId"  onchange="$('#searchPageForm')[0].submit()">
-		  						<option value="-1">请选择...</option>
-		  						<c:forEach var="enter" items="${enterprises }">
-			  						<option value="${enter.dbid }" ${enter.dbid==enterprise.dbid?'selected="selected"':'' }>${enter.name }</option>
-		  						</c:forEach>
-							</select>
-		  				</td>
-	  			</tr>
-  			</c:if>
       	 	<tr>
       	 		<td width="60"><label for="exampleInputName2">查询日期</label></td>
       	 		<td width="240">

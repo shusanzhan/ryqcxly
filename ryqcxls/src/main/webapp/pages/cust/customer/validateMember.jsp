@@ -165,13 +165,13 @@ function submitFrm(){
 	var st=checkMobilePhone(mobilePhone);
 	var customerRecordId="${param.customerRecordId }";
 	if(st==true){
-		$.post('${ctx}/customer/ajaxValidateMember?mobilePhone='+mobilePhone+"&customerRecordId="+customerRecordId,{},function(json){
+		$.post('${ctx}/custCustomer/ajaxValidateMember?mobilePhone='+mobilePhone+"&customerRecordId="+customerRecordId,{},function(json){
 			var data=json.state;
 			if(data==1||data=="1"){
-				window.location.href='${ctx }/customer/validateMember?customerRecordId='+customerRecordId;
+				window.location.href='${ctx }/custCustomer/validateMember?customerRecordId='+customerRecordId;
 			}
 			if(data==2||data=="2"){
-				window.location.href='${ctx }/customer/addShoppingRecord?customerRecordId='+customerRecordId+"&mobilePhone="+mobilePhone;
+				window.location.href='${ctx }/custCustomer/addShoppingRecord?customerRecordId='+customerRecordId+"&mobilePhone="+mobilePhone;
 			}
 			if(data==3||data=="3"){
 				window.top.art.dialog({
@@ -252,7 +252,7 @@ function comeShopeRecord(customerId,customerRecordId){
 	    		alert("请选择到店成交状态！");
 	    		return false;
 	    	}
-    		var url='${ctx}/customer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=1&customerRecordId="+customerRecordId;
+    		var url='${ctx}/custCustomer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=1&customerRecordId="+customerRecordId;
     		window.location.href=url;
 			return true;
 	    },
@@ -319,7 +319,7 @@ function comeShopeRecord2(customerId,customerRecordId,type){
 	    		alert("请选择到店成交状态！");
 	    		return false;
 	    	}
-    		var url='${ctx}/customer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=2&customerRecordId="+customerRecordId;
+    		var url='${ctx}/custCustomer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=2&customerRecordId="+customerRecordId;
     		window.location.href=url;
 			return true;
 	    },

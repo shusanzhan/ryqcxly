@@ -25,12 +25,12 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/handerOverCar')">交车确认单</a>
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/testDriveAgreement')">客户综合信息</a>
-		<a href="javascript:void(-1)" class="but button" onclick="window.open('${ctx }/customer/customerFolder')">意向跟踪卡</a> 
+		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/custCustomer/handerOverCar')">交车确认单</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/testDriveAgreement')">客户综合信息</a>
+		<a href="javascript:void(-1)" class="but button" onclick="window.open('${ctx }/custCustomer/customerFolder')">意向跟踪卡</a> 
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/customerShoppingRecordqueryList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/customerShoppingRecordqueryList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -44,15 +44,6 @@
 						</c:forEach>
 					</select>
   				</td>
-  				<td><label>购车时间：</label></td>
-  				<td>
-  					<select class="midea text" id="trackingPhaseId" name="trackingPhaseId" onchange="$('#searchPageForm')[0].submit()" >
-					<option value="">请选择...</option>
-					<c:forEach var="trackingPhase" items="${trackingPhases }">
-						<option value="${trackingPhase.dbid }" ${param.trackingPhaseId==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-					</c:forEach>
-					</select>
-				</td>
   				<td><label>常用手机号：</label></td>
   				<td><input type="text" id="mobilePhone" name="mobilePhone" class="text midea" value="${param.mobilePhone}"></input></td>
   				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
@@ -110,9 +101,6 @@
 			<td>
 				${customer.email}
 			</td>
-			<td>
-				${customer.customerBussi.trackingPhase.name}
-			</td>
 			<td>${customer.bussiStaff }</td>
 			<td>
 				<fmt:formatDate value="${customer.createFolderTime }"/>
@@ -124,7 +112,7 @@
 			<br> 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/add?customerId=${customer.dbid }','',900,520)">试驾协议</a> | 
 			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerLastBussi/add?customerId=${customer.dbid }','添加跟进记录',900,500)">成交结果</a> | 
-			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/customer/delete?dbids=${customer.dbid}','searchPageForm')" title="删除">删除</a></td> --%>
+			<a href="javascript:void(-1)" class="aedit" onclick="$.utile.deleteById('${ctx}/custCustomer/delete?dbids=${customer.dbid}','searchPageForm')" title="删除">删除</a></td> --%>
 		</tr>
 		</c:forEach>
 	</tbody>

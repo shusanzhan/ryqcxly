@@ -42,7 +42,7 @@
 			<tr height="42">
 				<td class="formTableTdLeft">车型:&nbsp;</td>
 					<td id="carModelLabel">
-					${customer.customerLastBussi.brand.name }${customer.customerLastBussi.carSeriy.name } ${customer.customerLastBussi.carModel.name }${customer.carModelStr} ${customerLastBussi.carColor.name}${customer.carColorStr}
+					${customer.customerLastBussi.brand.name }${customer.customerLastBussi.carSeriy.name }${customer.customerLastBussi.carModel.name } ${customerLastBussi.carColor.name}
 				</td>
 				<td class="formTableTdLeft">预约交车日期:&nbsp;</td>
 				<td >

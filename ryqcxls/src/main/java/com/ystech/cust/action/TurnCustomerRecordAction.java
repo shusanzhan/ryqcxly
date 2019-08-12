@@ -243,9 +243,9 @@ public class TurnCustomerRecordAction extends BaseController{
 	 * @throws Exception
 	 */
 	public void save() throws Exception {
-		Integer reBussiStaff = ParamUtil.getIntParam(request, "reBussiStaff", -1);
+		Integer reBussiStaff = ParamUtil.getIntParam(request, "reBussiStaffId", -1);
 		Integer type = ParamUtil.getIntParam(request, "type", 0);
-		Integer tarBussiStaff = ParamUtil.getIntParam(request, "tarBussiStaff", -1);
+		Integer tarBussiStaff = ParamUtil.getIntParam(request, "tarBussiStaffId", -1);
 		Integer[] customerIds = ParamUtil.getIntArrayByIds(request, "customerIds");
 		String customerNames = request.getParameter("customerNames");
 		String note=request.getParameter("note");
@@ -263,7 +263,7 @@ public class TurnCustomerRecordAction extends BaseController{
 				List<CustomerTrack> customerTracks = customerTrackManageImpl.find("from CustomerTrack where customer.dbid="+dbid+" AND taskDealStatus=1  AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE, null);
 				if(null!=customerTracks&&!customerTracks.isEmpty()){
 					CustomerTrack customerTrack = customerTracks.get(0);
-					customerTrack.setUserId(tarBussiStaffUser.getDbid());
+					customerTrack.setUser(tarBussiStaffUser);
 					customerTrackManageImpl.save(customerTrack);
 				}
 			}
@@ -277,7 +277,9 @@ public class TurnCustomerRecordAction extends BaseController{
 			customerRecord.setOperatorId(currentUser.getDbid());
 			customerRecord.setOperatorName(currentUser.getRealName());
 			customerRecord.setReBussiStaff(reBussiStaffUser.getRealName());
+			customerRecord.setReBussiStaffId(reBussiStaffUser.getDbid());
 			customerRecord.setTarBussiStaff(tarBussiStaffUser.getRealName());
+			customerRecord.setTarBussiStaffId(tarBussiStaffUser.getDbid());
 			turnCustomerRecordManageImpl.save(customerRecord);
 			
 		}catch (Exception e) {
@@ -338,7 +340,7 @@ public class TurnCustomerRecordAction extends BaseController{
 		Integer dbid = ParamUtil.getIntParam(request2, "dbid", -1);
 		try{
 			TurnCustomerRecord turnCustomerRecord = turnCustomerRecordManageImpl.get(dbid);
-			User reUser = userManageImpl.findUniqueBy("realName",turnCustomerRecord.getReBussiStaff());
+			User reUser = userManageImpl.get(turnCustomerRecord.getReBussiStaffId());
 			String customerIdStr = turnCustomerRecord.getCustomerIds().replace("[", "").replace("]","");
 			String[] customerIds = customerIdStr.split(",");
 			//更改客户销售人员
@@ -351,10 +353,10 @@ public class TurnCustomerRecordAction extends BaseController{
 					customer.setUser(reUser);
 					customerMangeImpl.save(customer);
 					
-					List<CustomerTrack> customerTracks = customerTrackManageImpl.find("from CustomerTrack where customer.dbid="+dbid+" taskDealStatus=1 AND   AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE, null);
-					if(null!=customerTracks&&customerTracks.isEmpty()){
+					List<CustomerTrack> customerTracks = customerTrackManageImpl.find("from CustomerTrack where customer.dbid="+dbid+" AND taskDealStatus=1 AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE, null);
+					if(null!=customerTracks&&!customerTracks.isEmpty()){
 						CustomerTrack customerTrack = customerTracks.get(0);
-						customerTrack.setUserId(reUser.getDbid());
+						customerTrack.setUser(reUser);
 						customerTrackManageImpl.save(customerTrack);
 					}
 				}

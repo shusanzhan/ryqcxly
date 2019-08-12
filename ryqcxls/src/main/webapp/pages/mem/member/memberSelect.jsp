@@ -27,7 +27,7 @@ function getCheckBoxMember() {
  <!--location end-->
 <div class="listOperate">
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/member/memberSelect" metdod="post">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/memMember/memberSelect" metdod="post">
   		<input type="hidden" id="members" name="members">
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<tr>

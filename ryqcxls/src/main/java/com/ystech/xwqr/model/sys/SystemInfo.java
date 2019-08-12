@@ -7,6 +7,8 @@ package com.ystech.xwqr.model.sys;
  */
 public class SystemInfo implements java.io.Serializable {
 	public static Integer ROOT=1;
+	public static int WECHATTYPE_MODEL_ONCE=1;
+	public static int WECHATTYPE_MODEL_MORE=2;
 	private Integer dbid;
 	private String name;
 	private String nameImage;
@@ -22,6 +24,8 @@ public class SystemInfo implements java.io.Serializable {
 	private Integer showRoomRecordStatus;
 	//dcc网销邀约和谈判组是否分开开启状态：1、为不开启（默认）；2、开启
 	private Integer dccInvationAndRecpStatus;
+	//微信公众号模式：1、系统唯一模式；2、自助设置模式
+	private Integer wechatType;
 	public SystemInfo() {
 	}
 
@@ -117,6 +121,14 @@ public class SystemInfo implements java.io.Serializable {
 	 */
 	public void setDccInvationAndRecpStatus(Integer dccInvationAndRecpStatus) {
 		this.dccInvationAndRecpStatus = dccInvationAndRecpStatus;
+	}
+
+	public Integer getWechatType() {
+		return wechatType;
+	}
+
+	public void setWechatType(Integer wechatType) {
+		this.wechatType = wechatType;
 	}
 	
 }

@@ -115,11 +115,11 @@ public class RedBagAction extends BaseController{
 			String departmentIds=null;
 			/*if(departmentId>0){
 				Department department = departmentManageImpl.get(departmentId);
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDepartment());
 				request.setAttribute("departmentSelect", departmentSelect);
 				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 			}else{
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDepartment());
 				request.setAttribute("departmentSelect", departmentSelect);
 			}*/
 			if(null!=startTime&&startTime.trim().length()>0){

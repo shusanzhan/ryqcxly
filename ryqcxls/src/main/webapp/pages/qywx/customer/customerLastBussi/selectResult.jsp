@@ -53,17 +53,9 @@
 	 <li class="list-group-item" onclick="window.location.href='${ctx}/qywxOrderContract/addOrderContract?customerId=${customer.dbid }&editType=1'">
 	   	提报订单
 	  </li>
-	<c:set value="true" var="status"></c:set>
-	<c:if test="${customer.receptierSaler.dbid!=customer.user.dbid }">
-		<c:if test="${customer.receptierSaler.dbid==sessionScope.user.dbid }">
-			<c:set value="false" var="status"></c:set>
-		</c:if>
-	</c:if>
-	<c:if test="${status==true }">
 	 <li class="list-group-item" onclick="window.location.href='${ctx }/qywxCustomerLastBussi/customerFlow?customerId=${customer.dbid }&type=${param.type }'">
 	   	客户流失
 	  </li>
-	</c:if>
 </ul>
 <br>
 <br>

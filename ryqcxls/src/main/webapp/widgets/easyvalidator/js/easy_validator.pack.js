@@ -4,6 +4,7 @@
 	Author:		wangking
  */
 $(function() {
+
 	var inps = $("input");
 	for ( var i = 0; i < inps.length; i++) {
 		var check_type = $(inps[i]).attr("checkType");
@@ -254,17 +255,6 @@ function validate(obj) {
 			return true;
 		}
 	}
-	else if(/^checkBox/.test(obj.attr('checkType'))){
-		if(!checkBoxIsSelect(obj)){
-			change_error_style(obj, "add");
-			change_tip(obj, null, "remove");
-			return false;
-		}else{
-			change_error_style(obj, "remove");
-			change_tip(obj, null, "remove");
-			return true;
-		}
-	}
 }
 
 function ajax_validate(obj) {
@@ -483,17 +473,6 @@ function checkFloat(obj)
 	if(floatValue > bigFloat)
 	{
 		return false;
-	}
-	return true;
-}
-function checkBoxIsSelect(obj){
-	if(obj=='checkBox'){
-		var a=$(':checked').length;
-		if(a > 0){
-			return true;
-		}else{
-			return false;
-		}
 	}
 	return true;
 }

@@ -251,6 +251,10 @@ public class OrderContractAction extends BaseController{
 			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
 			List<OrderContract> orderContracts = orderContractManageImpl.findBy("customer.dbid", customerId);
+			
+			List<CarColor> carColors = carColorManageImpl.find("from CarColor where status=? AND enterpriseId=? ", new Object[]{CarSeriy.STATUSCOMM,enterprise.getDbid()});
+			request.setAttribute("carColors", carColors);
+
 			//第一次添加订单
 			if(null==orderContracts||orderContracts.size()==0){
 				//意向车型
@@ -267,8 +271,6 @@ public class OrderContractAction extends BaseController{
 					List<CarModel> carModels = carModelManageImpl.find("from CarModel where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
 					request.setAttribute("carModels", carModels);
 					
-					List<CarColor> carColors = carColorManageImpl.find("from CarColor where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
-					request.setAttribute("carColors", carColors);
 				}
 				return "addOrderContract";
 			}
@@ -287,9 +289,6 @@ public class OrderContractAction extends BaseController{
 				if(null!=carSeriy){
 					List<CarModel> carModels = carModelManageImpl.find("from CarModel where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
 					request.setAttribute("carModels", carModels);
-					
-					List<CarColor> carColors = carColorManageImpl.find("from CarColor where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
-					request.setAttribute("carColors", carColors);
 				}
 				return "editOrderContract";
 			}
@@ -490,7 +489,7 @@ public class OrderContractAction extends BaseController{
 			return ;
 		}
 		if(null==orderContract.getDbid()){
-			renderMsg("/customer/customerShoppingRecordqueryList", "保存订单数据成功！");
+			renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存订单数据成功！");
 		}else{
 			renderMsg("/orderContract/queryList", "保存订单数据成功！");
 		}
@@ -687,11 +686,11 @@ public class OrderContractAction extends BaseController{
 			String departmentIds=null;
 			if(departmentId>0){
 				Department department = departmentManageImpl.get(departmentId);
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,null);
 				request.setAttribute("departmentSelect", departmentSelect);
 				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 			}else{
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,null);
 				request.setAttribute("departmentSelect", departmentSelect);
 			}
 			List<CustomerType> customerTypes = customerTypeManageImpl.getAll();
@@ -702,7 +701,7 @@ public class OrderContractAction extends BaseController{
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
 			
-			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brandId, carSeriyId);
+			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			
 			if(customerInfromId>0){
@@ -721,10 +720,8 @@ public class OrderContractAction extends BaseController{
 					+ " cust_Customer as cu,"
 					+ "cust_CustomerBussi as cb  where"
 					+ " orderc.customerId=cu.dbid AND  cb.customerId=cu.dbid ";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
-				sql=sql+" and cu.departmentId in ("+currentDepIds+")";
+			if(enterprise.getDbid()>0){
+				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
 			}
 			List param= new ArrayList();
 			if(null!=mobilePhone&&mobilePhone.trim().length()>0){
@@ -869,7 +866,6 @@ public class OrderContractAction extends BaseController{
 					orderContractExpensesChargeItemManageImpl.deleteByOrderId(orderContractExpenses.getDbid());
 				}
 				
-				//删除合同审批任务信息
 			}else{
 				renderErrorMsg(new Throwable("请选择操作数据！"),"");
 				return ;

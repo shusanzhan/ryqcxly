@@ -29,7 +29,10 @@ public class SecurityUserHolder {
 	public static Enterprise getEnterprise(){
 		User currentUser = SecurityUserHolder.getCurrentUser();
 		if(null==currentUser){
-			return null;
+			Enterprise company = new Enterprise();
+			// 返回个临时对象，防止空指针
+			company.setDbid(-1);
+			return company;
 		}
 		Enterprise company = currentUser.getEnterprise();
 		if (company != null) {

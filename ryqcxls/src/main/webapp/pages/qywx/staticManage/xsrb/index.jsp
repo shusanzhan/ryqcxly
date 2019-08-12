@@ -66,7 +66,7 @@
 				           <p>毛利统计</p>
 				       </a>
 				   </li>
-				     <li>
+				    <li>
 				        <a href="${ctx }/qywxComprehensiveStatic/today?type=1&role=${param.role}&type=1" onclick="">
 				           <img src="${ctx }/images/weixin/wl.jpg">
 				           <p>今日回访监控</p>

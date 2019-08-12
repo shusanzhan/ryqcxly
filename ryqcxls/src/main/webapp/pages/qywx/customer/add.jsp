@@ -58,7 +58,7 @@
 	            <div class="weui_navbar_item weui_bar_item_on">
 	                基础信息
 	            </div>
-	            <c:if test="${customerRecord.type==1 }">
+	            <c:if test="${customerRecord.customerType.dbid==1 }">
 		            <div class="weui_navbar_item">
 		                来店登记
 		            </div>
@@ -170,7 +170,7 @@
 							</c:if>
 			            </div>
 			        </div>
-			      <c:if test="${customerRecord.type==3&&!empty(customerRecord.carModels) }">
+			      <c:if test="${customerRecord.customerType.dbid==3&&!empty(customerRecord.carModels) }">
 					<div class="weui_cell">
 			            <div class="weui_cell_hd">
 			               	<label class="weui_label" style="width: 100%;color: red;">
@@ -220,19 +220,6 @@
 								<option value="0">请选择...</option>
 								<c:forEach var="carColor" items="${carColors }">
 									<option value="${carColor.dbid }" >${carColor.name }</option>
-								</c:forEach>
-							</select>
-			            </div>
-			        </div>
-			         <div class="weui_cell weui_cell_select weui_select_after">
-			            <div class="weui_cell_hd" style="width: 80px;color: red;">
-			               	交叉客户
-			            </div>
-			            <div class="weui_cell_bd weui_cell_primary">
-			               <select class="weui_select" id="cityCrossCustomerId" name="cityCrossCustomerId" checkType="integer,1" error="请选择交叉客户">
-						  		<option value="">请选择...</option>
-								<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-									<option value="${cityCrossCustomer.dbid }" ${customer.cityCrossCustomer.dbid==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
 								</c:forEach>
 							</select>
 			            </div>
@@ -298,7 +285,7 @@
 			  <br>
 			  <br>
         </div>
-        <c:if test="${customerRecord.type==1 }">
+        <c:if test="${customerRecord.customerType.dbid==1 }">
 	        <div class="weui_tab_bd">
 	        	<br>
 	        	<br>
@@ -430,19 +417,6 @@
 				            </div>
 				        </label>
 				    </div>
-				 	<div class="weui_cell weui_cell_select weui_select_after">
-			            <div class="weui_cell_hd" >
-			               购车时间
-			            </div>
-			            <div class="weui_cell_bd weui_cell_primary">
-							<select id="trackingPhaseId" name="trackingPhaseId" class="weui_select">
-								<option value="">请选择...</option>
-								<c:forEach var="trackingPhase" items="${trackingPhases }">
-									<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-								</c:forEach>
-							</select>
-			            </div>
-			        </div>
 			        <div class="weui_cells_title">接待经过</div>
 					<div class="weui_cells weui_cells_form">
 				        <div class="weui_cell">
@@ -574,7 +548,7 @@ function writeResultShow(value){
 function validateFrm(){
 	var comeInTime=$("#comeInTime").val();
 	var farwayTime=$("#farwayTime").val();
-	var comeType="${customerRecord.type}";
+	var comeType="${customerRecord.customerType.dbid}";
 	if(comeType=="1"){
 		var isTryDriver=$("input[type=radio][name='tryCarStatus']:checked").val();
 		if(null==isTryDriver||isTryDriver==""||isTryDriver==undefined){

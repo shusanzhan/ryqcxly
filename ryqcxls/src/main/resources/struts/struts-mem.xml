@@ -23,7 +23,7 @@
 		    <exception-mapping exception="java.lang.Exception" result="error"/>
 		</global-exception-mappings>
  		<!-- 会员管理11 -->
-		<action name="member" class="memberAction">
+		<action name="memMember" class="memMemberAction">
 			<result name="edit">/pages/mem/member/edit.jsp</result>
 			<result name="list">/pages/mem/member/list.jsp</result>
 			<result name="view">/pages/mem/member/view.jsp</result>
@@ -38,7 +38,7 @@
 			<result name="authMember">/pages/mem/member/authMember.jsp</result>
 			<result name="agentTotalList">/pages/mem/member/agentTotalList.jsp</result>
 		</action>	
-		 <action name="reward" class="rewardAction">
+		 <action name="memReward" class="memRewardAction">
 			<result name="edit">/pages/mem/reward/edit.jsp</result>
 			<result name="list">/pages/mem/reward/list.jsp</result>
 			<result name="viewWechat">/pages/mem/reward/viewWechat.jsp</result>
@@ -88,5 +88,17 @@
 			<result name="edit">/pages/mem/useCarArea/edit.jsp</result>
 			<result name="list">/pages/mem/useCarArea/list.jsp</result>
 		</action>
+		<action name="memSpread" class="memSpreadAction">
+           <result name="list">/pages/mem/spread/list.jsp</result>
+           <result name="myList">/pages/mem/spread/myList.jsp</result>
+           <result name="edit">/pages/mem/spread/edit.jsp</result>
+           <result name="editSpreadGroup">/pages/mem/spread/editSpreadGroup.jsp</result>
+           <result name="spreadGroupList">/pages/mem/spread/spreadGroupList.jsp</result>
+           <result name="staticQrCode">/pages/mem/spread/staticQrCode.jsp</result>
+        </action>
+        <action name="spreadDetail" class="spreadDetailAction">
+           <result name="list">/pages/mem/spreadDetail/list.jsp</result>
+           <result name="edit">/pages/mem/spreadDetail/edit.jsp</result>
+        </action>  
     </package>
 </struts>

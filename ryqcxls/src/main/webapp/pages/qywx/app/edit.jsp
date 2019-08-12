@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
 <link  href="${ctx }/widgets/easyvalidator/css/validate.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
@@ -29,12 +29,12 @@
 		<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
 			<tr height="42">
 				<td class="formTableTdLeft">名称:&nbsp;</td>
-				<td ><input type="text" name="app.name" id="name" readonly="readonly"
+				<td ><input type="text" name="app.name" id="name" 
 					value="${app.name }" class="largeX text" title="名称"	checkType="string,1,50" tip="名称不能为空"><span style="color: red;">*</span></td>
 			</tr>
 			<tr height="42">
 				<td class="formTableTdLeft">应用ID:&nbsp;</td>
-				<td ><input type="text" name="app.appId" id="appId" readonly="readonly"
+				<td ><input type="text" name="app.appId" id="appId" 
 					value="${app.appId }" class="largeX text" title="应用ID"	checkType="integer" tip="请填写应用ID"><span style="color: red;">*</span></td>
 			</tr> 
 			<tr height="42">
@@ -46,6 +46,11 @@
 				<td class="formTableTdLeft">安全随机码:&nbsp;</td>
 				<td ><input type="text" name="app.encodingAeskey" id="encodingAeskey"
 					value="${app.encodingAeskey }" class="largeXX text" title="安全随机码" style="width: 440px;"	checkType="string,1,50" tip="请填写安全随机码"><span style="color: red;">*</span></td>
+			</tr>
+			<tr height="42">
+				<td class="formTableTdLeft">Secret:&nbsp;</td>
+				<td ><input type="text" name="app.security" id=security
+					value="${app.security }" class="largeXX text" title="Secret" style="width: 440px;"	checkType="string,1,50" tip="请填写Secret"><span style="color: red;">*</span></td>
 			</tr>
 			<tr height="32">
 				<td class="formTableTdLeft">描述:&nbsp;</td>

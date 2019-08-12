@@ -908,8 +908,16 @@
   				<td><label>来源类型：</label></td>
   				<td colspan="">
   					<select class="form-control" id="type" name="type"  onchange="$('#searchPageForm')[0].submit()">
-						<option value="1" ${type==1?'selected="selected"':'' } >来店</option>
-						<option value="2" ${type==2?'selected="selected"':'' } >来电</option>
+						<option value="1" ${param.type==1?'selected="selected"':'' } >来店</option>
+						<option value="2" ${param.type==2?'selected="selected"':'' } >来电</option>
+					</select>
+  				</td>
+  				<td><label>线索有效：</label></td>
+  				<td colspan="">
+  					<select class="form-control" id="status" name="status"  onchange="$('#searchPageForm')[0].submit()">
+  						<option value="-1">请选择...</option>
+						<option value="1" ${param.status==1?'selected="selected"':'' } >有效</option>
+						<option value="2" ${param.status==2?'selected="selected"':'' } >无效</option>
 					</select>
   				</td>
   			</tr>

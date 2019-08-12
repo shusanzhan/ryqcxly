@@ -13,8 +13,6 @@
         </many-to-one>
         
         <many-to-one name="brand" class="com.ystech.xwqr.set.model.Brand" column="brandId" fetch="select" not-found="ignore"></many-to-one>
-        <many-to-one name="infoFrom" class="com.ystech.cust.model.InfoFrom" column="infoFromId" fetch="select" not-found="ignore"></many-to-one>
-        <many-to-one name="infoFromDetail" class="com.ystech.cust.model.InfoFromDetail" column="infoFromDetailId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="buyCarCare" class="com.ystech.cust.model.BuyCarCare" column="buyCarCareId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="buyCarTarget" class="com.ystech.cust.model.BuyCarTarget" column="buyCarTargetId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="buyCarType" class="com.ystech.cust.model.BuyCarType" column="buyCarTypeId" fetch="select" not-found="ignore"></many-to-one>

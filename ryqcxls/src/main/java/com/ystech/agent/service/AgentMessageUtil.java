@@ -30,7 +30,7 @@ public class AgentMessageUtil {
 			agentMesg.setMsgType("text");
 			agentMesg.setSendNum(1);
 			agentMesg.setSendStatus(AgentMesg.COMM);
-			agentMesg.setEnterpriseId(member.getEnterpriseId());
+			agentMesg.setEnterpriseId(member.getEnterprise().getDbid());
 			agentMesgManageImpl.save(agentMesg);
 		}
 	}
@@ -50,7 +50,7 @@ public class AgentMessageUtil {
 		agentMesg.setMsgType(weixinKeyAutoresponse.getMsgtype());
 		agentMesg.setSendNum(1);
 		agentMesg.setSendStatus(AgentMesg.COMM);
-		agentMesg.setEnterpriseId(member.getEnterpriseId());
+		agentMesg.setEnterpriseId(member.getEnterprise().getDbid());
 		agentMesgManageImpl.save(agentMesg);
 	}
 	

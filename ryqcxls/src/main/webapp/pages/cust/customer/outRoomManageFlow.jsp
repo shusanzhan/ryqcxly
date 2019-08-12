@@ -27,13 +27,13 @@
 <div class="line"></div>
 <div class="listOperate">
 	<%-- <div class="operate">
-		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/customer/satisfactionAssessment')">意向跟踪卡</a>
+		<a class="but button" href="javascript:void();" onclick="window.open('${ctx }/custCustomer/satisfactionAssessment')">意向跟踪卡</a>
    </div> --%>
    <div class="operate">
 		<a class="but button" href="javascript:void();" onclick="exportExcel('searchPageForm')">导出excel</a>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customer/queryRoomManageOutFlow" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/custCustomer/queryRoomManageOutFlow" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -80,15 +80,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td><label>交叉客户：</label></td>
-  				<td>
-  					<select id="cityCrossCustomerId" name="cityCrossCustomerId"  class="text small" onchange="$('#searchPageForm')[0].submit()">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${param.cityCrossCustomerId==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
-					</select>
-				</td>
   				<td><label>客户姓名：</label></td>
   				<td><input type="text" id="name" name="name" class="text small" value="${param.name}"></input></td>
   				<td><label>常用手机号：</label></td>
@@ -161,7 +152,7 @@
 		<c:forEach items="${page.result }" var="customer">
 		<tr>
 			<td style="text-align: left">
-				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'" title="点击查看客户档案明细">
+				<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'" title="点击查看客户档案明细">
 					<c:if test="${fn:length(customer.name)>12 }" var="status">
 						${fn:substring(customer.name,0,12) }...
 					</c:if>
@@ -186,7 +177,7 @@
 				${customer.bussiStaff}
 			</td>
 			<td>
-				${customer.cityCrossCustomer.name}
+				
 			</td>
 			<td>
 				${customer.customerLastBussi.customerFlowReason.name }
@@ -249,7 +240,7 @@
 			if(null!=searchFrm&&searchFrm!=undefined&&searchFrm!=''){
 				params=$("#"+searchFrm).serialize();
 			}
-			window.location.href='${ctx}/customer/exportOutFlowExcel?'+params;
+			window.location.href='${ctx}/custCustomer/exportOutFlowExcel?'+params;
 		}
 </script>
 </html>

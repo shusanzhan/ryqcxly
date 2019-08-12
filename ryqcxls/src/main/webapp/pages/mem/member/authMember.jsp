@@ -62,7 +62,7 @@
 		</table>
 	</form>
 	<div class="formButton">
-		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/member/saveAuth')"	class="but butSave">认证</a> 
+		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/memMember/saveAuth')"	class="but butSave">认证</a> 
 	    <a href="javascript:void(-1)"	onclick="art.dialog.close()" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 	</div>
@@ -110,7 +110,7 @@
 <script type="text/javascript">
 function autoCustomer(id){
 	var id1 = "#"+id;
-		$(id1).autocomplete("${ctx}/member/autoCustomer",{
+		$(id1).autocomplete("${ctx}/memMember/autoCustomer",{
 			max: 20,      
 	        width: 130,    
 	        matchSubset:false,   
@@ -149,7 +149,7 @@ function onRecordSelect(event, data, formatted) {
 		$("#carPlate").val(data.carPlate);
 }
 function ajaxMemberCarInfo(dbid){
-	$.post('${ctx}/member/ajaxMemberCarInfo?memberCarInfoId='+dbid+"&date="+new Date(),{},function(data){
+	$.post('${ctx}/memMember/ajaxMemberCarInfo?memberCarInfoId='+dbid+"&date="+new Date(),{},function(data){
 		$("#customerId").val(data.customerId);
 		$("#name").val(data.name);
 		$("#mobilePhone").val(data.mobilePhone);

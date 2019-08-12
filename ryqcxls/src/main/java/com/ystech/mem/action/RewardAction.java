@@ -27,7 +27,7 @@ import com.ystech.qywx.service.ScanPayReqDataManageImpl;
 import com.ystech.qywx.service.ScanPayRespDataManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
 
-@Component("rewardAction")
+@Component("memRewardAction")
 @Scope("prototype")
 public class RewardAction extends BaseController{
 	private RewardManageImpl rewardManageImpl;
@@ -81,9 +81,12 @@ public class RewardAction extends BaseController{
 			String sql="select * "
 					+ "from "
 					+ "mem_reward reward,mem_member mem "
-					+ "where reward.memberid=mem.dbid AND reward.enterpriseId=? ";
+					+ "where reward.memberid=mem.dbid ";
 			List params=new ArrayList();
-			params.add(enterprise.getDbid());
+			if(enterprise.getDbid()>0){
+				sql=sql+" AND reward.enterpriseId=? ";
+				params.add(enterprise.getDbid());
+			}
 			if(null!=name&&name.trim().length()>0){
 				sql=sql+" and mem.name like ? ";
 				params.add("%"+name +"%");

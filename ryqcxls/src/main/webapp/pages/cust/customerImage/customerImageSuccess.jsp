@@ -27,8 +27,8 @@
 <div class="listOperate">
 	<div class="operate">
 		 <a class="but button" href="javascript:void(-1)" onclick="window.location.href='${ctx }/customerImage/downZip'">下载图片</a>
-		<%--<a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/customerFolder')">客户综合信息</a>
-		<a href="javascript:void(-1)" class="but button" onclick="operator('${ctx }/customer/trakingCard')">意向跟踪卡</a> --%> 
+		<%--<a class="but button" href="javascript:void();" onclick="operator('${ctx }/custCustomer/customerFolder')">客户综合信息</a>
+		<a href="javascript:void(-1)" class="but button" onclick="operator('${ctx }/custCustomer/trakingCard')">意向跟踪卡</a> --%> 
    </div>
   	<div class="seracrhOperate">
   		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customerImage/customerImageSuccess" method="post" >
@@ -107,7 +107,7 @@
 					      <li><a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx}/orderContract/printContract?dbid=${customer.orderContract.dbid }')">补打合同</a> </li>
 					      <li>	<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/orderContract/viewOrderContract?dbid=${customer.orderContract.dbid }'">查看订单</a> </li>
 					      <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/outboundOrder/viewIndex?customerId=${customer.dbid}'">查看出库</a> </li>
-					       <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
+					       <li><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/custCustomer/customerFile?dbid=${customer.dbid}&type=1'">客户综合信息</a> </li>
 					    </ul>
 					  </div>
 				</div>

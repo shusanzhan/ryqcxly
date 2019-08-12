@@ -62,7 +62,6 @@ public class WechatService {
 	private WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl;
 	private SpreadDetailManageImpl spreadDetailManageImpl;
 	private WeixinAccesstokenManageImpl weixinAccesstokenManageImpl;
-	private MemberGzUserUtil memberGzUserUtil;
 	private SpreadManageImpl spreadManageImpl;
 	private SpreadDetailRecordManageImpl spreadDetailRecordManageImpl;
 	private WeixinKeyWordManageImpl weixinKeyWordManageImpl;
@@ -73,10 +72,6 @@ public class WechatService {
 	private MemberManageImpl memberManageImpl;
 	private WeixinKeyWordRoleManageImpl weixinKeyWordRoleManageImpl;
 	private AgentMesgManageImpl agentMesgManageImpl;
-	@Resource
-	public void setMemberGzUserUtil(MemberGzUserUtil memberGzUserUtil) {
-		this.memberGzUserUtil = memberGzUserUtil;
-	}
 	@Resource
 	public void setWeixinSubscribeManageImpl(
 			WeixinSubscribeManageImpl weixinSubscribeManageImpl) {
@@ -227,12 +222,12 @@ public class WechatService {
 					//设置关注用户信息
 					weixinGzuserinfo = weixinGzuserinfoManageImpl.saveWeixinGzuserinfo(fromUserName, accessToken.getAccessToken(),weixinAccount);
 				}
-				memberGzUserUtil.saveMember(weixinGzuserinfo,0);
+				weixinGzuserinfoManageImpl.saveMember(weixinGzuserinfo,0);
 			}else{
 				WeixinAccesstoken accessToken = com.ystech.weixin.core.util.WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 				//设置关注用户信息
 				weixinGzuserinfo = weixinGzuserinfoManageImpl.saveWeixinGzuserinfo(fromUserName, accessToken.getAccessToken(),weixinAccount);
-				memberGzUserUtil.saveMember(weixinGzuserinfo,0);
+				weixinGzuserinfoManageImpl.saveMember(weixinGzuserinfo,0);
 			}
 			// 默认回复此文本消息
 			TextMessageResp textMessage = new TextMessageResp();

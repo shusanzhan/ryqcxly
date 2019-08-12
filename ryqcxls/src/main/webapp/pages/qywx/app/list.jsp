@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
@@ -23,6 +23,7 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
+		<a href="#" class="aedit" onclick="window.location.href='${ctx }/app/edit'">添加应用</a>
 		<a class="but button" href="javascript:void();" onclick="synApp()" style="float: left;">同步应用</a>
 		<a class="but button" href="javascript:void();" onclick="synUser()" style="float: left;">同步用户</a>
 		<div id="errorMess1" style="float: left;display: none;" class="alert alert-error">正在同步数据，请稍后再试.....</div>

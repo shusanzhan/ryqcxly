@@ -116,17 +116,17 @@ public class CustomerTractUtile {
 		//获取客户当前客户登记
 		CustomerPhase customerPhase = customer.getCustomerPhase();
 		//客户超时统计类型 I类
-		if(customerPhase.getWarmStatus()==(int)CustomerPhase.TYPESHOW){
+		if(customerPhase.getWarmStatus()==(int)CustomerPhase.warmStatusYEAS){
 			//ii超时不统计
-			customerTrack.setCustomerPhaseType(CustomerTrack.CUSTOMERPAHSETWO);
+			customerTrack.setCustomerPhaseType(CustomerTrack.CUSTOMERPAHSEONE);
 		}else{
 			//i超时统计
-			customerTrack.setCustomerPhaseType(CustomerTrack.CUSTOMERPAHSEONE);
+			customerTrack.setCustomerPhaseType(CustomerTrack.CUSTOMERPAHSETWO);
 		}
 		
 		customerTrack.setBeforeCustomerPhase(customerPhase);
 		if(null!=user){
-			customerTrack.setUserId(user.getDbid());
+			customerTrack.setUser(user);
 		}
 		//创建客户创建任务 回访日期为第二天
 		if(taskCreateType==(int)CustomerTrack.TASkCREATETYPECREATECUSTOMER){

@@ -43,8 +43,8 @@
 				<tr>
 				<td class="formTableTdLeft">车型：</td>
 				<td colspan="3">
-					<c:set value="${customer.customerBussi.brand.name }${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }" var="carModel"></c:set>
-					${carModel}  ${customer.carModelStr}
+					<c:set value="${customer.customerBussi.brand.name }${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerPidBookingRecord.carColor.name }${customer.carColorStr}" var="carModel"></c:set>
+					${carModel }${customer.carModelStr}
 				</td>
 				
 			</tr>

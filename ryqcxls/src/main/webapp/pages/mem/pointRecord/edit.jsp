@@ -54,7 +54,7 @@
 	</form>
 	<div class="formButton">
 		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/pointRecord/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
-	    <a href="${ctx}/member/queryList"	target="contentUrl" class="but butCancle">取&nbsp;&nbsp;消</a>
+	    <a href="javascript:void(-1)" onclick="art.dialog.close()"	target="contentUrl" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 	</div>
 </body>

@@ -27,31 +27,30 @@
 	height: 32px;
 }
 </style>
-<title>会员综合页面</title>
+<title>备案经纪人明细</title>
 </head>
 <body class="bodycolor">
 <div class="location">
 	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
 	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="">会员综合信息</a>
+	<a href="javascript:void(-1);" onclick="">备案经纪人明细</a>
 </div>
  <!--location end-->
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
 		<a href="javascript:void(-1)"  class="but button" onclick="$.utile.openDialog('${ctx}/pointRecord/add?memberId=${member.dbid }&directType=2&type=2','调整积分',900,500)">调整积分</a>
-		<a href="javascript:void(-1)"  class="but button" onclick="$.utile.openDialog('${ctx}/storeMoneyRecord/add?dbid=${member.dbid }&directType=2&type=2','会员储值',1024,520)">储值</a>
 		<a class="but butCancle" href="javascript:void(-1);" onclick="window.history.go(-1)">返回</a>
    </div>
    <div style="clear: both;"></div>
 </div>
 <table class="tableContent" border="0" align="center" cellpadding="0" cellspacing="0" style="background-color:#e5e5e5 ">
 	<tr>
-		<td class="formTableTdLeft">会员姓名：</td>
+		<td class="formTableTdLeft">姓名：</td>
 		<td>
 			${member.name}&nbsp;&nbsp;&nbsp;
 		</td>
-		<td class="formTableTdLeft">会员编号：</td>
+		<td class="formTableTdLeft">编号：</td>
 		<td>
 			${member.no }
 		</td>
@@ -80,33 +79,13 @@
 				  	<a href="#member" role="tab" data-toggle="tab">基本资料</a>
 				  </li>
 		  	</c:if>
-		  <c:if test="${param.type==2 }" var="sta">
-		  	<li class="active">
-		  		<a href="#investmentRecords" role="tab" data-toggle="tab">储值记录</a>
-		  	</li>
-		  </c:if>
-		  <c:if test="${sta==false }">
-		  	<li><a href="#investmentRecords" role="tab" data-toggle="tab">储值记录</a></li>
-		  </c:if>
-		   <c:if test="${param.type==3 }" var="sta">
-		  	<li class="active"><a href="#integralRecords" role="tab" data-toggle="tab">优惠券</a></li>
-		  </c:if>
-		  <c:if test="${sta==false }">
-		  	<li><a href="#integralRecords" role="tab" data-toggle="tab">优惠券</a></li>
-		  </c:if>
 		   <c:if test="${param.type==4 }" var="sta">
 		  	<li  class="active"><a href="#point" role="tab" data-toggle="tab">积分记录</a></li>
 		  </c:if>
 		  <c:if test="${sta==false }">
 		  	<li><a href="#point" role="tab" data-toggle="tab">积分记录</a></li>
 		  </c:if>
-		   <c:if test="${param.type==5 }" var="sta">
-		  	<li  class="active"><a href="#onlineBooking" role="tab" data-toggle="tab">预约记录</a></li>
-		  </c:if>
-		  <c:if test="${sta==false }">
-		  	<li><a href="#onlineBooking" role="tab" data-toggle="tab">预约记录</a></li>
-		  </c:if>
-		  <c:if test="${param.type==6 }" var="sta">
+			  <c:if test="${param.type==6 }" var="sta">
 		  	<li  class="active"><a href="#wechat" role="tab" data-toggle="tab">微信资料</a></li>
 		  </c:if>
 		  <c:if test="${sta==false }">
@@ -123,11 +102,11 @@
 			</c:if>
 		  		<table class="tableContent" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;padding: 12px">
 					<tr>
-						<td class="formTableTdLeft">会员姓名：</td>
+						<td class="formTableTdLeft">姓名：</td>
 						<td>
 							${member.name}&nbsp;&nbsp;&nbsp;
 						</td>
-						<td class="formTableTdLeft">会员编号：</td>
+						<td class="formTableTdLeft">编号：</td>
 						<td>
 							${member.no }
 						</td>
@@ -157,9 +136,9 @@
 						<td>
 							${empty(member.phone)?'-':member.phone }
 						</td>
-						<td class="formTableTdLeft">会员等级：</td>
+						<td class="formTableTdLeft">等级：</td>
 						<td>
-							<c:if test="${member.memberShipLevel.dbid==1 }">普通会员</c:if>
+							<c:if test="${member.memberShipLevel.dbid==1 }">普通</c:if>
 						</td>
 					</tr>
 					<tr>
@@ -173,80 +152,6 @@
 						</td>
 					</tr>
 				</table>
-		  </div>
-		  	<c:if test="${param.type==2 }" var="sta">
-			   <div class="tab-pane active" id="investmentRecords" >
-			</c:if>
-			<c:if test="${sta==false }">
-			  <div class="tab-pane" id="investmentRecords">
-			</c:if>
-				<c:if test="${empty(storeMoneyRecords)||storeMoneyRecords==null }" var="status">
-					<div class="alert alert-error">
-						<strong>提示!</strong> 会员无储值记录
-					</div>
-				</c:if>
-				<c:if test="${status==false }">
-				<table width="100%"  cellpadding="0" cellspacing="0" class="mainTable" border="0">
-					<thead  class="TableHeader">
-						<tr>
-							<td class="span1">实际缴费</td>
-							<td class="span1">储值金额</td>
-							<td class="span1">付款方式</td>
-							<td class="span3">储值说明</td>
-							<td class="span3">备注</td>
-							<td class="span1">储值时间</td>
-							<td class="span1">创建人</td>
-							<td class="span1">状态</td>
-							<td class="span1">操作</td>
-						</tr>
-					</thead>
-					<c:forEach var="storeMoneyRecord" items="${storeMoneyRecords }">
-							<tr>
-								<td>
-									<ystech:urlEncrypt enCode="${storeMoneyRecord.actMoney}"/> 
-							    </td>
-								<td style="text-align: center;">
-									<ystech:urlEncrypt enCode="${storeMoneyRecord.rechargeMoney }"/> 
-								</td>
-								<td style="text-align: center;">
-									<c:if test="${storeMoneyRecord.payWay==1 }">
-										现金充值							
-									</c:if>
-									<c:if test="${storeMoneyRecord.payWay==2 }">
-										刷卡储值
-									</c:if>
-								</td>
-								<td>
-									${storeMoneyRecord.rechargeExplain }
-								</td>
-							    <td style="text-align: center;">
-									${storeMoneyRecord.note }
-								</td>
-								<td style="text-align: center;">
-									<fmt:formatDate value="${storeMoneyRecord.createTime}" pattern="yyyy-MM-dd"/>
-								</td>
-							    <td style="text-align: center;">
-									${storeMoneyRecord.user.realName }
-								</td>
-								<td style="text-align: center;">
-									<c:if test="${storeMoneyRecord.status==1 }">
-										<span style="color: green;">成功</span>							
-									</c:if>
-									<c:if test="${storeMoneyRecord.status==2 }">
-										<span style="color: red;">作废</span>
-									</c:if>
-								</td>
-							    <td style="text-align: center;">
-									<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/storeMoneyRecord/print?dbid=${storeMoneyRecord.dbid }&type=2'">查看</a>&nbsp;|
-									<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/storeMoneyRecord/print?dbid=${storeMoneyRecord.dbid }&type=1'">打印</a>
-									<c:if test="${storeMoneyRecord.status==1 }">
-										&nbsp;|<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/storeMoneyRecord/toVoid?dbids=${storeMoneyRecord.dbid}&type=2&memberId=${member.dbid }','','是否将选择储值记录设置为作废？')">作废 </a>
-									</c:if>
-								</td>
-							</tr>
-					</c:forEach>
-				</table>
-				</c:if>
 		  </div>
 		  	<c:if test="${param.type==3 }" var="sta">
 			   <div class="tab-pane active" id="integralRecords" >

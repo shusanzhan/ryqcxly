@@ -25,9 +25,11 @@
 <!--location end-->
 <div class="line"></div>
 <div class="listOperate">
-	 <div class="operate">
-		 <a href="javascript:void(-1)" class="but button" onclick="exportExcel('searchPageForm')">导出excel</a> 
-   </div>
+	<%-- <div class="operate">
+		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/handerOverCar')">交车确认单</a>
+		<a class="but button" href="javascript:void();" onclick="operator('${ctx }/customer/customerFolder')">客户综合信息</a>
+		<a href="javascript:void(-1)" class="but button" onclick="operator('${ctx }/customer/trakingCard')">意向跟踪卡</a> 
+   </div> --%>
   	<div class="seracrhOperate">
   		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/customerPidBookingRecord/queryApprovalWatingList" method="post" >
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
@@ -167,7 +169,6 @@
 					      <li class="drop_down_menu_active"><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=1'">客户信息</a></li>
 					      <li ><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=4'">客户日志</a></li>
 					      <li ><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/customer/customerFile?dbid=${customer.dbid}&type=3'">跟踪记录</a></li>
-					      <li><a href="javascript:void(-1)" class="aedit" onclick="window.open('${ctx}/orderContract/printContract?dbid=${customer.orderContract.dbid }')">补打合同</a> </li>
 					      <li ><a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/orderContract/viewApprovalRecord?dbid=${customer.orderContract.dbid }'">合同记录</a></li>
 					      <c:if test="${customer.customerPidBookingRecord.pidStatus>=3 }">
 					      	<li ><a href="#" class="aedit" onclick="window.location.href='${ctx }/processRun/viewCpidProcessFrom?customerId=${customer.dbid}'">合同流失审批记录</a></li>
@@ -177,9 +178,9 @@
 				</div>
 			</td>
 			<c:set value="${customer.customerLastBussi.carSeriy.name}${ customer.customerLastBussi.carModel.name }" var="carModel"></c:set>
-			<td title="${carModel}  ${customer.carModelStr}" style="text-align: left;">
-					${customer.customerLastBussi.brand.name}${carModel}  ${customer.carModelStr}
-					${customer.customerLastBussi.carColor.name }
+			<td title="${carModel }${customer.carModelStr}" style="text-align: left;">
+					${customer.customerLastBussi.brand.name}${carModel }${customer.carModelStr}
+					${customer.customerLastBussi.carColor.name }${customer.carColorStr}
 			</td>
 			<td>${customer.department.name }</td>
 			<td>
@@ -261,13 +262,6 @@
 	 }
 	 function hi(va){
 		 var vs=$(va).find(".show").removeClass("show").addClass("hiden");
-	 }
-	 function exportExcel(searchFrm){
-	 	var params;
-	 	if(null!=searchFrm&&searchFrm!=undefined&&searchFrm!=''){
-	 		params=$("#"+searchFrm).serialize();
-	 	}
-	 	window.location.href='${ctx}/customerPidBookingRecord/exportLeaderExcel?'+params;
 	 }
 </script>
 </html>

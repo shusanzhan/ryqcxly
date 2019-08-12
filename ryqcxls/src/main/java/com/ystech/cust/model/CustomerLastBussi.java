@@ -38,6 +38,7 @@ public class CustomerLastBussi implements java.io.Serializable {
 	private String approvalPersonName;
 	private Date approvalDate;
 	private CustomerFlowReason customerFlowReason;
+	private String notReason;
 	public CustomerLastBussi() {
 	}
 
@@ -192,6 +193,14 @@ public class CustomerLastBussi implements java.io.Serializable {
 
 	public void setCustomerFlowReason(CustomerFlowReason customerFlowReason) {
 		this.customerFlowReason = customerFlowReason;
+	}
+
+	public String getNotReason() {
+		return notReason;
+	}
+
+	public void setNotReason(String notReason) {
+		this.notReason = notReason;
 	}
 	
 

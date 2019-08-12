@@ -26,6 +26,12 @@
         <property name="note" type="string">
             <column name="note" length="5000" />
         </property>
+        <property name="reBussiStaffId" type="java.lang.Integer">
+            <column name="reBussiStaffId" />
+        </property>
+        <property name="tarBussiStaffId" type="java.lang.Integer">
+            <column name="tarBussiStaffId" />
+        </property>
         <property name="operatorId" type="java.lang.Integer">
             <column name="operatorId" />
         </property>

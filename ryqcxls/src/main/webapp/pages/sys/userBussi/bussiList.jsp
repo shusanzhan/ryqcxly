@@ -525,7 +525,7 @@
 						<a href="javascript:void(-1)"  class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/userBussi/stopOrStartUser?dbid=${user.dbid}&type=2','searchPageForm','您确定【${user.realName}】启用该用吗')">启用</a>
 					</c:if>
 					<a href="javascript:void(-1)" class="aedit"	onclick="window.location.href='${ctx }/userBussi/userRole?dbid=${user.dbid}'">授权</a>
-					<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/user/resetPassword?dbid=${user.dbid}&type=2','searchPageForm','您确定【${user.realName}】重置密码')">重置密码</a>
+					<a href="javascript:void(-1)" class="aedit"	onclick="$.utile.operatorDataByDbid('${ctx }/userBussi/resetPassword?dbid=${user.dbid}&type=2','searchPageForm','您确定【${user.realName}】重置密码')">重置密码</a>
 			</tr>
 		</c:forEach>
 		</table>

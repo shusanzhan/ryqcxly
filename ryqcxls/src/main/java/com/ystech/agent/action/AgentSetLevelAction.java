@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ystech.agent.model.AgentSet;
 import com.ystech.agent.model.AgentSetLevel;
 import com.ystech.agent.service.AgentSetLevelManageImpl;
+import com.ystech.agent.service.AgentSetManageImpl;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
 
@@ -18,11 +20,17 @@ import com.ystech.core.web.BaseController;
 @Scope("prototype")
 public class AgentSetLevelAction extends BaseController{
 	private AgentSetLevelManageImpl agentSetLevelManageImpl;
+	private AgentSetManageImpl agentSetManageImpl;
 	@Resource
 	public void setAgentSetLevelManageImpl(
 			AgentSetLevelManageImpl agentSetLevelManageImpl) {
 		this.agentSetLevelManageImpl = agentSetLevelManageImpl;
 	}
+	@Resource
+	public void setAgentSetManageImpl(AgentSetManageImpl agentSetManageImpl) {
+		this.agentSetManageImpl = agentSetManageImpl;
+	}
+
 	/**
 	 * 功能描述：
 	 * 参数描述：
@@ -61,6 +69,13 @@ public class AgentSetLevelAction extends BaseController{
 				renderText("error");
 				return ;
 			}
+			if(!validToken()){
+				renderText("error");
+				return ;
+			}
+			AgentSet agentSet = agentSetManageImpl.get(agentSetId);
+			agentSet.setAgentRewardModel(2);
+			agentSetManageImpl.save(agentSet);
 			//先判断是否存在脏数据
 			if(null!=beginNums&&beginNums.trim().length()>0){
 				String[] begins = beginNums.split(",");

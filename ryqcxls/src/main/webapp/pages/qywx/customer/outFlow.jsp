@@ -55,11 +55,12 @@
 <br>
 <br>
 <br>
-<c:if test="${empty(customers)||fn:length(customers)<=0 }" var="status">
+<c:if test="${empty(page.result)||fn:length(page.result)<=0 }" var="status">
 	未查询到客户！
 </c:if>
+
 <c:if test="${status==false }">
-	<c:forEach items="${customers }" var="customer">
+	<c:forEach items="${page.result }" var="customer">
 		<c:set value="${customer.orderContract }" var="orderContract"></c:set>
 		<div class="orderContrac">
 			<div class="title" align="left">
@@ -75,7 +76,7 @@
 						${fn:substring(carModel,0,16) }...
 					</c:if>
 					<c:if test="${ status==false}">
-						${carModel} ${customer.carModelStr}
+						${carModel }${customer.carModelStr}
 					</c:if>
 					<br>
 					顾问：${customer.bussiStaff}（${customer.department.name}）<br>
@@ -114,6 +115,11 @@
 		</div>
 	</c:forEach>
 </c:if>
+<div style="text-align: center;">
+	<jsp:include page="${ctx }/pages/commons/wechatPage.jsp"></jsp:include>
+</div>
+<br>
+<br>
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -138,6 +144,8 @@
     <div class="modal-content">
       <div class="modal-body">
       	<form class="form-inline" action="${ctx }/qywxCustomer/queryOutFlow" name="frmId" id="frmId" method="post">
+      	<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo+1}'>
+		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
       	 <table>
       	 	<tr height="">
       	 		<td width="60"><label for="exampleInputName2">品牌</label></td>
@@ -179,9 +187,7 @@
 	      	 		<select class="form-control" id="customerPhaseId" name="customerPhaseId">
 				    	<option value="">请选择...</option>
 				    	<c:forEach var="customerPhase" items="${customerPhases }">
-				    		<c:if test="${customerPhase.dbid>1&&customerPhase.dbid<5 }">	  	
-					    		<option value="${customerPhase.dbid }" ${param.customerPhaseId==customerPhase.dbid?'selected="selected"':'' } >${customerPhase.name }</option>
-					    	</c:if>
+				    		<option value="${customerPhase.dbid }" ${param.customerPhaseId==customerPhase.dbid?'selected="selected"':'' } >${customerPhase.name }</option>
 				    	</c:forEach>
 			    </select>
 			    </td>
@@ -211,15 +217,6 @@
 <br>
 <br>
 <br>
-<div class="oneMenu">
-	<ul>
-         <li>
-             <a href="${ctx}/qywxCustomerRecord/salerEdit">
-             	创建线索
-             </a>
-         </li>
-      </ul>
-</div>	
 </body>
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>

@@ -66,24 +66,6 @@
 				           <p>利润统计</p>
 				       </a>
 				   </li>
-				   <li>
-				        <a href="${ctx }/qywxCwProfitStatical/profit?role=am&type=1">
-				           <img src="${ctx }/images/weixin/hfkf.jpg">
-				           <p>财务统计</p>
-				       </a>
-				   </li>
-				   <li>
-				        <a href="${ctx }/qywxCwProfitStatical/queryDateCwStatic">
-				           <img src="${ctx }/images/weixin/cjkh.jpg">
-				           <p>财务日利润统计</p>
-				       </a>
-				   </li>
-				   <li>
-				        <a href="${ctx }/qywxStat/index">
-				           <img src="${ctx }/images/weixin/cjkh.jpg">
-				           <p>销售统计</p>
-				       </a>
-				   </li>
 				</ul>
 			</div>
 	</article>

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
 <link  href="${ctx }/widgets/easyvalidator/css/validate.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
@@ -36,11 +36,16 @@
 					value="${qywxAccount.groupId }" class="largeX text" title="groupId"	checkType="string,1,50" tip="请填写groupId"><span style="color: red;">*</span>例如：wx85614e**86d7b87f</td>
 			</tr>
 			<tr height="80">
-				<td class="formTableTdLeft">security:&nbsp;</td>
+				<td class="formTableTdLeft">通讯录security:&nbsp;</td>
 				<td >
 					<textarea class="text textare" name="qywxAccount.security" id="security" rows="8" cols="60"  title="security" style="height: 80px;"	checkType="string,1,120" tip="请填写security">${qywxAccount.security }</textarea>
 					<br>
 					<span style="color: red;">*</span>例如：KkQzTmIS1trnvqMkfjs1h1yxnZL92fwRy5Vm2whLawPGwNpyAo0gdxkBIyRfEUkd</td>
+			</tr>
+			<tr height="80">
+				<td class="formTableTdLeft">通讯录APPID:&nbsp;</td>
+				<td >
+					<input class="largeX text" name="qywxAccount.appId" id="appId" value="${qywxAccount.appId }"  title="appId" 	checkType="string,1,120" tip="请填写appId"></input>
 			</tr>
 			<tr height="42">
 				<td class="formTableTdLeft">绑定微信:&nbsp;</td>

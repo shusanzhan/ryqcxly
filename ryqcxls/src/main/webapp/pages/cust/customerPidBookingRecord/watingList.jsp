@@ -119,9 +119,14 @@
 			<td>
 				${customer.customerBussi.brand.name}
 			</td>
-			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerLastBussi.carColor.name}" var="carModel"></c:set>
-			<td title="${carModel}  ${customer.carModelStr}">
-					${carModel}  ${customer.carModelStr}${customer.carColorStr}
+			<c:set value="${customer.customerBussi.carSeriy.name}${ customer.customerBussi.carModel.name }${customer.customerLastBussi.carColor.name }${customer.carColorStr}" var="carModel"></c:set>
+			<td title="${carModel }${customer.carModelStr}">
+				<c:if test="${fn:length(carModel)>28 }" var="status">
+					${fn:substring(carModel,0,28) }...
+				</c:if>
+				<c:if test="${ status==false}">
+					${carModel }${customer.carModelStr}
+				</c:if>
 			</td>
 			<td>
 				<c:if test="${customer.customerPidBookingRecord.pidStatus==1 }">
@@ -177,22 +182,18 @@
 				<fmt:formatDate value="${customer.createFolderTime }"/>
 			</td>
 			<td style="text-align: center;">
-				<c:if test="${customer.orderContractExpenses.cashierStatus==1||empty(customer.orderContractExpenses) }">
-					<c:if test="${customer.customerPidBookingRecord.pidStatus==1||customer.customerPidBookingRecord.pidStatus==5 }">
-						<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/orderContractCancel?customerId=${customer.dbid }','合同流失申请',720,380)">合同流失申请</a>
-					</c:if>
+				<c:if test="${customer.customerPidBookingRecord.pidStatus==1||customer.customerPidBookingRecord.pidStatus==5 }">
+					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.openDialog('${ctx}/customerPidBookingRecord/orderContractCancel?customerId=${customer.dbid }','合同流失申请',720,380)">合同流失申请</a>
 				</c:if>
 				<c:if test="${customer.customerPidBookingRecord.pidStatus>=3 }">
 					<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx}/processRun/viewCpidProcessFrom?customerId=${customer.dbid }'" title="查看审批记录">审批记录</a>
 				</c:if>
-				<c:if test="${customer.orderContractExpenses.cashierStatus>1 }">
-					<c:if test="${customer.orderContractExpenses.cashierStatus==2}">
-						<span style="color: red">财务已收款:【${customer.orderContractExpenses.totalCollection }】</span>
-					</c:if>
-					<c:if test="${customer.orderContractExpenses.cashierStatus==3}">
-						<span style="color: red">财务已收款:【${customer.orderContractExpenses.totalCollection }】</span>
-					</c:if>
+				<%-- <c:if test="${customer.customerPidBookingRecord.pidStatus==5 }">
+					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/customerPidBookingRecord/cancelContract?customerId=${customer.dbid }','searchPageForm','提示：合同流失后该客户将会还原成来店登记客户，同时删除该客户合同记录，客户意向等级降为【A】级，请慎重操作！')">合同流失</a>
+					<br>
+					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx }/customerPidBookingRecord/turnBackContract?customerId=${customer.dbid }','searchPageForm','提示：撤销合同流失变更为合同有效状态！')">撤销合同流失</a>
 				</c:if>
+				<ystech:emptyOrderExpressTag customerId="${customer.dbid }"/> --%>
 			</td>
 		</tr>
 		</c:forEach>

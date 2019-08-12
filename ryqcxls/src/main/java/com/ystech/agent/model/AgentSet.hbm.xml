@@ -35,9 +35,7 @@
         <property name="agentRewardParentNum" type="java.lang.Integer">
             <column name="agentRewardParentNum" />
         </property>
-        <property name="enterpriseId" type="java.lang.Integer">
-            <column name="enterpriseId" />
-        </property>
+        <many-to-one name="enterprise" column="enterpriseId" class="com.ystech.xwqr.model.sys.Enterprise" not-found="ignore"></many-to-one>
         <property name="agentRewardModel" type="java.lang.Integer">
             <column name="agentRewardModel" />
         </property>
@@ -49,6 +47,9 @@
         </property>
         <property name="modifyTime" type="timestamp" length="19">
             <column name="modifyTime" />
+        </property>
+        <property name="enterpriseName" type="string">
+            <column name="enterpriseName" />
         </property>
     </class>
 </hibernate-mapping>

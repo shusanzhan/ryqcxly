@@ -31,6 +31,8 @@ import com.ystech.weixin.service.WeixinAccountManageImpl;
 import com.ystech.weixin.service.WeixinMenuentityGroupManageImpl;
 import com.ystech.weixin.service.WeixinMenuentityManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.SystemInfo;
+import com.ystech.xwqr.service.sys.SystemInfoMangeImpl;
 @Component("weixinMenuentityAction")
 @Scope("prototype")
 public class WeixinMenuentityAction extends BaseController{
@@ -40,6 +42,7 @@ public class WeixinMenuentityAction extends BaseController{
 	private WeixinMenuentity weixinMenuentity;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
 	private WeixinMenuentityGroupManageImpl weixinMenuentityGroupManageImpl;
+	private SystemInfoMangeImpl systemInfoMangeImpl;
 
 	public WeixinMenuentity getWeixinMenuentity() {
 		return weixinMenuentity;
@@ -73,6 +76,10 @@ public class WeixinMenuentityAction extends BaseController{
 	public void setWeixinMenuentityGroupManageImpl(WeixinMenuentityGroupManageImpl weixinMenuentityGroupManageImpl) {
 		this.weixinMenuentityGroupManageImpl = weixinMenuentityGroupManageImpl;
 	}
+	@Resource
+	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
+		this.systemInfoMangeImpl = systemInfoMangeImpl;
+	}
 	/**
 	 * 功能描述：
 	 * 参数描述：
@@ -84,10 +91,21 @@ public class WeixinMenuentityAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer groupId = ParamUtil.getIntParam(request, "groupId", -1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
 				WeixinMenuentityGroup weixinMenuentityGroup = weixinMenuentityGroupManageImpl.get(groupId);
 				request.setAttribute("weixinMenuentityGroup", weixinMenuentityGroup);
 				List<WeixinMenuentity> weixinMenuentities = weixinMenuentityManageImpl.find("from WeixinMenuentity where accountid=? AND weixinMenuentityGroupId=? and weixinMenuentity.dbid IS NULL order by orders", new Object[]{weixinAccount.getDbid()+"",groupId});
@@ -109,10 +127,21 @@ public class WeixinMenuentityAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer groupId = ParamUtil.getIntParam(request, "groupId", -1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
 				request.setAttribute("weixinAccount", weixinAccount);
 				WeixinMenuentityGroup weixinMenuentityGroup = weixinMenuentityGroupManageImpl.get(groupId);
 				request.setAttribute("weixinMenuentityGroup", weixinMenuentityGroup);
@@ -137,10 +166,21 @@ public class WeixinMenuentityAction extends BaseController{
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
 		Integer groupId = ParamUtil.getIntParam(request, "groupId", -1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
 				if(dbid>0){
 					WeixinMenuentity weixinMenuentity2 = weixinMenuentityManageImpl.get(dbid);
 					String productCateGorySelect = weixinMenuentityManageImpl.getProductCateGorySelect(weixinAccount.getDbid(),weixinMenuentity2,groupId);
@@ -173,14 +213,26 @@ public class WeixinMenuentityAction extends BaseController{
 		Integer parendId = ParamUtil.getIntParam(request, "parentId", -1);
 		Integer weixinMenuentityGroupId = ParamUtil.getIntParam(request, "weixinMenuentityGroupId", -1);
 		try{
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
+				return ;
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
 				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
 				return ;
 			}
 			WeixinMenuentityGroup weixinMenuentityGroup = weixinMenuentityGroupManageImpl.get(weixinMenuentityGroupId);
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			WeixinMenuentity parent=null;
 			if(parendId>0){
 				parent = weixinMenuentityManageImpl.get(parendId);
@@ -262,13 +314,25 @@ public class WeixinMenuentityAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer groupId = ParamUtil.getIntParam(request, "groupId", -1);
 		try {
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
+				return ;
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
 				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
 				return ;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			WeixinAccesstoken weixinAccesstoken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 			String sql = "select * from weixin_menuentity where fatherid is null and accountId ='"+ weixinAccount.getDbid() + "' and weixinMenuentityGroupId="+groupId+"  order by  orders asc";
 			List<WeixinMenuentity> menuList = weixinMenuentityManageImpl.executeSql(sql, null);
@@ -372,13 +436,25 @@ public class WeixinMenuentityAction extends BaseController{
 	 */
 	public void deleteWechatMenu() throws Exception {
 		try {
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
+				return ;
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
 				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
 				return ;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			WeixinAccesstoken accessToken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 			if(null==accessToken){
 				renderErrorMsg(new Throwable("同步菜单失败！"), "");
@@ -430,14 +506,26 @@ public class WeixinMenuentityAction extends BaseController{
 				renderErrorMsg(new Throwable("同步失败，个性化菜单匹配条件为空"), "");
 				return ;
 			}
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
+				return ;
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
 				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
 				return ;
 			}
 			WeixinMenuentityGroupMatchRule weixinMenuentityGroupMatchRule = weixinMenuentityGroup.getWeixinMenuentityGroupMatchRule();
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			WeixinAccesstoken weixinAccesstoken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 			String sql = "select * from weixin_menuentity where fatherid is null and accountId ='"+ weixinAccount.getDbid() + "' and weixinMenuentityGroupId="+groupId+"  order by  orders asc";
 			List<WeixinMenuentity> menuList = weixinMenuentityManageImpl.executeSql(sql, null);
@@ -567,13 +655,25 @@ public class WeixinMenuentityAction extends BaseController{
 				renderErrorMsg(new Throwable("删除失败，无个性化菜单信息"), "");
 				return ;
 			}
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
-				renderErrorMsg(new Throwable("删除失败,无公众号信息"), "");
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
 				return ;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
+				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
+				return ;
+			}
 			WeixinAccesstoken weixinAccesstoken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 			JSONObject jsonObject= new JSONObject();
 			jsonObject.put("menuid", menuid);
@@ -615,13 +715,25 @@ public class WeixinMenuentityAction extends BaseController{
 				renderErrorMsg(new Throwable("发送失败，测试微信号为空"), "");
 				return ;
 			}
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
-				renderErrorMsg(new Throwable("发送失败,无公众号信息"), "");
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				renderErrorMsg(new Throwable("同步菜单失败,请先设置微信公众号类型"), "");
 				return ;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null==weixinAccount){
+				renderErrorMsg(new Throwable("同步菜单失败,无公众号信息"), "");
+				return ;
+			}
 			WeixinAccesstoken weixinAccesstoken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
 			JSONObject jsonObject= new JSONObject();
 			jsonObject.put("user_id", user_id);

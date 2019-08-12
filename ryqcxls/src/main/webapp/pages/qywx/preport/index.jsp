@@ -30,14 +30,14 @@
 		font-weight: bold;
 	}
 </style>
-<title>瑞一经营检测</title>
+<title>西物中锐经营检测</title>
 </head>
 <body>
 <div id="hearder_nav" class="views content_title navbar-fixed-top">
     <a id="back" href="javascript:history.back()">
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
-    <span id="page_title">瑞一经营检测</span>
+    <span id="page_title">西物中锐经营检测</span>
      <a id="search_action" class="go_search" onclick="showSearch()" style="right: 5px">
     	<img src="${ctx }/images/jm/search_list.png" class="search">
     </a>
@@ -47,7 +47,7 @@
 <br>
 <div class="orderContrac detail">
 	<div class="title" align="left">
- 		经销商：瑞一<br/>
+ 		经销商：西物中锐<br/>
 	</div>
 	<div class="line"></div>
 	<div style="margin: 0 auto;margin: 5px;">

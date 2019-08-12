@@ -28,11 +28,9 @@ import com.ystech.cust.model.CustomerPidBookingRecord;
 import com.ystech.cust.model.CustomerShoppingRecord;
 import com.ystech.cust.model.DayComeShop;
 import com.ystech.cust.model.HasNoCarOrder;
-import com.ystech.cust.model.InfoFrom;
 import com.ystech.cust.model.InfoFromTotal;
 import com.ystech.cust.model.OrderContract;
 import com.ystech.cust.service.CustomerMangeImpl;
-import com.ystech.cust.service.InfoFromManageImpl;
 import com.ystech.cust.service.StatisticalManageImpl;
 import com.ystech.cust.service.StatisticalSalerManageImpl;
 import com.ystech.xwqr.model.sys.Department;
@@ -54,7 +52,6 @@ public class StatisticsAction extends BaseController{
 	private DepartmentManageImpl departmentManageImpl;
 	private StatisticalManageImpl statisticalManageImpl;
 	private HttpServletRequest request=this.getRequest();
-	private InfoFromManageImpl infoFromManageImpl;
 	private CarSeriyManageImpl carSeriyManageImpl; 
 	private StatisticalSalerManageImpl statisticalSalerManageImpl;
 	private UserManageImpl userManageImpl;
@@ -76,10 +73,6 @@ public class StatisticsAction extends BaseController{
 	@Resource
 	public void setCarSeriyManageImpl(CarSeriyManageImpl carSeriyManageImpl) {
 		this.carSeriyManageImpl = carSeriyManageImpl;
-	}
-	@Resource
-	public void setInfoFromManageImpl(InfoFromManageImpl infoFromManageImpl) {
-		this.infoFromManageImpl = infoFromManageImpl;
 	}
 	@Resource
 	public void setStatisticalSalerManageImpl(
@@ -296,50 +289,6 @@ public class StatisticsAction extends BaseController{
 			return null;
 		}
 		return carSerCounts2;
-	}
-	
-	private List<InfoFromTotal> filterInfoCounts(List<InfoFrom> resource,List<InfoFromTotal> infoFromTotals){
-		List<InfoFromTotal> infoFromTotales=new ArrayList<InfoFromTotal>();
-		if(null!=resource){
-			int carSeriysLength = resource.size();
-			if(null!=infoFromTotals){
-				int carSerCountsLenth = infoFromTotals.size();
-				if(carSerCountsLenth==carSeriysLength){
-					return infoFromTotals;
-				}else{
-					for (InfoFrom infoFrom : resource) {
-						boolean state=false;
-						for (InfoFromTotal infoFromTotal : infoFromTotals) {
-							if(infoFrom.getDbid()==infoFromTotal.getDbid()){
-								state=true;
-								infoFromTotales.add(infoFromTotal);
-								break;
-							}
-						}
-						if(state==false){
-							InfoFromTotal infoFromTotal=new InfoFromTotal();
-							infoFromTotal.setTotalCount(0);
-							infoFromTotal.setPer(Double.valueOf("0.0"));
-							infoFromTotal.setDbid(infoFrom.getDbid());
-							infoFromTotal.setInName(infoFrom.getName());
-							infoFromTotales.add(infoFromTotal);
-						}
-					}
-				}
-			}else{
-				for (InfoFrom infoFrom :resource ) {
-					InfoFromTotal infoFromTotal=new InfoFromTotal();
-					infoFromTotal.setTotalCount(0);
-					infoFromTotal.setPer(Double.valueOf("0.0"));
-					infoFromTotal.setDbid(infoFrom.getDbid());
-					infoFromTotal.setInName(infoFrom.getName());
-					infoFromTotales.add(infoFromTotal);
-				}
-			}
-		}else{
-			return null;
-		}
-		return infoFromTotales;
 	}
 	
 	
@@ -604,19 +553,8 @@ public class StatisticsAction extends BaseController{
 			Department department = departmentManageImpl.get(departmentId);
 			request.setAttribute("department", department);
 			String departmentIds2 = departmentManageImpl.getDepartmentIds(department);
-			//车型信息
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? order by dbid ",InfoFrom.SELFYES);
-			
-			List<InfoFromTotal> infoFromTotals = statisticalManageImpl.queryCountInfo(start, end, departmentIds2);
-			List<InfoFromTotal> infoFromTotal = filterInfoCounts(infoFroms, infoFromTotals);
-			request.setAttribute("infoFromTotals", infoFromTotal);
 			
 			Integer totalCount = statisticalManageImpl.queryCountInfoTotal(start, end,  departmentIds2);
-			
-			
-			String jsonInfoData = jsonInfoData(infoFromTotals);
-			
-			request.setAttribute("jsonInfoData", jsonInfoData);
 			
 			request.setAttribute("start", start);
 			request.setAttribute("totalcCountCar", totalCount);

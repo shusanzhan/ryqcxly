@@ -62,9 +62,9 @@ public class FlowReasonAction extends BaseController{
 			try {
 				Page<FlowReason> page=null;
 				if(null!=name&&name.trim().length()>0){
-					page = flowReasonManageImpl.pagedQuerySql(pageNo, pageSize,FlowReason.class, "select * from agent_FlowReason where   name like '%"+name+"%'", new Object[]{});
+					page = flowReasonManageImpl.pagedQuerySql(pageNo, pageSize,FlowReason.class, "select * from agent_FlowReason where   name like '%"+name+"%' order by orderNum ", new Object[]{});
 				}else{
-					page = flowReasonManageImpl.pagedQuerySql(pageNo, pageSize,FlowReason.class, "select * from agent_FlowReason  ", new Object[]{});
+					page = flowReasonManageImpl.pagedQuerySql(pageNo, pageSize,FlowReason.class, "select * from agent_FlowReason  order by orderNum ", new Object[]{});
 				}
 				request.setAttribute("page", page);
 				

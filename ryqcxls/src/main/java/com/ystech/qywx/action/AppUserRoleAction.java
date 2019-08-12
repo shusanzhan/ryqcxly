@@ -100,13 +100,13 @@ public class AppUserRoleAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		User currentUser = SecurityUserHolder.getCurrentUser();
 		try {
+			Enterprise enterprise2 = currentUser.getEnterprise();
 			if(currentUser.getUserId().contains("super")){
 				Department parent = departmentManageImpl.get(Department.ROOT);
-				//String departmentSelect = departmentManageImpl.getDepartmentSelect(null,parent);
-				//request.setAttribute("departmentSelect", departmentSelect);
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise2.getDbid());
+				request.setAttribute("departmentSelect", departmentSelect);
 			}else{
-				Enterprise enterprise = currentUser.getEnterprise();
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise2.getDbid());
 				request.setAttribute("departmentSelect", departmentSelect);
 			}
 		} catch (Exception e) {

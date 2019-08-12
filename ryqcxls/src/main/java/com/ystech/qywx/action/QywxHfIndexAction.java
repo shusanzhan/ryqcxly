@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
+import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.set.model.Brand;
 import com.ystech.xwqr.set.service.BrandManageImpl;
 
@@ -32,7 +34,9 @@ public class QywxHfIndexAction extends BaseController{
 	public String index() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try {
-			List<Brand> brands = brandManageImpl.getAll();
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
 		} catch (Exception e) {
 			e.printStackTrace();

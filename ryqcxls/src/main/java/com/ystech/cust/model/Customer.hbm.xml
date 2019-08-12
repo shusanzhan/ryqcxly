@@ -130,7 +130,6 @@
         <many-to-one name="profession" class="com.ystech.cust.model.Profession" column="professionId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="industry" class="com.ystech.cust.model.Industry" column="industryId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="educational" class="com.ystech.cust.model.Educational" column="educationalId" fetch="select" not-found="ignore"></many-to-one>
-        <many-to-one name="infoFrom" class="com.ystech.cust.model.InfoFrom" column="infoFromId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="distributor" class="com.ystech.cust.model.Distributor" column="distributorId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="customerInfrom" class="com.ystech.cust.model.CustomerInfrom" column="customerInfromId" fetch="select" not-found="ignore"></many-to-one>
         <many-to-one name="recommendCustomer" class="com.ystech.agent.model.RecommendCustomer" column="recommendCustomerId" fetch="select" not-found="ignore"></many-to-one>

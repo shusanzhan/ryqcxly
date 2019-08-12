@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.ystech.core.dao.Page;
 import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
@@ -18,6 +19,7 @@ import com.ystech.cust.model.Customer;
 import com.ystech.cust.model.CustomerBussi;
 import com.ystech.cust.model.CustomerPhase;
 import com.ystech.cust.model.CustomerRecord;
+import com.ystech.cust.model.CustomerShoppingRecord;
 import com.ystech.cust.model.CustomerTrack;
 import com.ystech.cust.service.CustMarketingActManageImpl;
 import com.ystech.cust.service.CustomerMangeImpl;
@@ -148,7 +150,7 @@ public class QywxCustomerTrackAction extends BaseController{
 			Customer customer2 = customerMangeImpl.get(customerId);
 			request.setAttribute("customer", customer2);
 			
-			List<CustomerTrack> customerTracks = customerTrackManageImpl.findByCustIdAndUserId(customerId, sessionUser.getDbid());
+			List<CustomerTrack> customerTracks = customerTrackManageImpl.executeSql("SELECT * FROM cust_customertrack where customerId=? and taskDealStatus="+CustomerTrack.TASKDEALSTATUSCREATE+"  ORDER BY createTime DESC LIMIT 1 ", new Object[]{customer2.getDbid()});
 			if(null!=customerTracks&&customerTracks.size()>0){
 				CustomerTrack customerTrack2 = customerTracks.get(0);
 				request.setAttribute("customerTrack", customerTrack2);
@@ -252,10 +254,21 @@ public class QywxCustomerTrackAction extends BaseController{
 			String nextReservationTime = request.getParameter("customerTrack.nextReservationTime");
 			Date string2Date=null;
 			if(null!=nextReservationTime){
-				string2Date = DateUtil.string2Date(nextReservationTime);
+				string2Date = DateUtil.stringDateWithHHMM(nextReservationTime);
 			}
 			customerTractUtile.dealPreTaskAndCreateTask(customer, customerTrack2, string2Date,sessionUser);
-			
+			Integer trackType = customerTrack.getTrackType();
+			//更新跟踪回访 客户次数
+			Integer trackMethod = customerTrack.getTrackMethod();
+			if(trackMethod==2){
+				Integer comeShopNum = customer.getComeShopNum();
+				if(comeShopNum!=null){
+					comeShopNum=comeShopNum+1;
+				}else{
+					comeShopNum=1;
+				}
+				customer.setComeShopNum(comeShopNum);
+			}
 			Integer trackNum = customer.getTrackNum();
 			if(trackNum!=null){
 				trackNum=trackNum+1;
@@ -263,9 +276,17 @@ public class QywxCustomerTrackAction extends BaseController{
 				trackNum=1;
 			}
 			customer.setTrackNum(trackNum);
-			
 			//更新客户信息的跟踪状态
 			customerMangeImpl.save(customer);
+			
+			if(isTryDriver>0&&trackMethod==2&&trackType>=2){
+				CustomerShoppingRecord customerShoppingRecord = customer.getCustomerShoppingRecord();
+				customerShoppingRecord.setIsTryDriver(isTryDriver);
+				customerShoppingRecord.setTryDriver(tryDriver);
+				customerShoppingRecordManageImpl.save(customerShoppingRecord);
+			}
+			
+			
 			customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "客户跟踪记录登记", "");
 			
 			CustMarketingAct custMarketingAct = customerTrack2.getCustMarketingAct();
@@ -360,17 +381,18 @@ public class QywxCustomerTrackAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User currentUser = getSessionUser();
+			Enterprise enterprise = currentUser.getEnterprise();
 			String selSql="";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				selSql=selSql+" cust.enterpriseId="+currentUser.getEnterprise().getDbid();
-			}else{
-				selSql=selSql+" cust.departmentId="+currentUser.getDepartment().getDbid();
-			}
+			selSql=selSql+" cust.enterpriseId="+enterprise.getDbid();
 			//审阅跟踪记录
-			String waitingReadSql="select * from cust_customertrack as custtrack, cust_customer AS cust " +
+			String waitingReadSql="select * from "
+					+ "	cust_customertrack as custtrack "
+					+ "	inner JOIN "
+					+ "	cust_customer AS cust "
+					+ "	ON cust.dbid=custtrack.customerId "+
 					" where "+
-					" cust.dbid=custtrack.customerId AND  custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+ " AND taskDealStatus="+CustomerTrack.TASKDEALSTATUSDEALED+
-					" AND "+selSql+" AND  custtrack.readStatus="+CustomerTrack.COMMON +" limit 10 ";
+					"  taskDealStatus="+CustomerTrack.TASKFINISHTYPETRACKED+" AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+
+					" AND "+selSql+" AND  custtrack.readStatus="+CustomerTrack.COMMON +" limit 50 ";
 			List<CustomerTrack> customerTracks = customerTrackManageImpl.executeSqlQuery(CustomerTrack.class, waitingReadSql, null).list();
 			request.setAttribute("customerTracks", customerTracks);
 			long waitingReadNum = customerTrackManageImpl.countSqlResult(waitingReadSql, null);
@@ -380,6 +402,186 @@ public class QywxCustomerTrackAction extends BaseController{
 			log.error(e);
 		}
 		return "customerTrackRecord";
+	}
+	/**
+	 * 功能描述：
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public String querySalerList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
+		Integer taskOverTimeStatus = ParamUtil.getIntParam(request, "taskOverTimeStatus", -1);
+		Integer taskDealStatus = ParamUtil.getIntParam(request, "taskDealStatus", -1);
+		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+		String name = request.getParameter("name");
+		String phone= request.getParameter("phone");
+		String startFinishDate= request.getParameter("startFinishDate");
+		String endFinishDate= request.getParameter("endFinishDate");
+		try{
+				User user = getSessionUser();
+				Enterprise enterprise = user.getEnterprise();
+				List<CustomerPhase> customerPhases = customerPhaseManageImpl.findBy("type", CustomerPhase.TYPESHOW);
+				request.setAttribute("customerPhases", customerPhases);
+				List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
+				request.setAttribute("brands", brands);
+				//车系
+				List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
+				request.setAttribute("carSeriys", carSeriys);
+				
+				List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+				request.setAttribute("carModels", carModels);
+				String sql="select * from cust_customertrack as track,cust_Customer as cu,cust_CustomerBussi as cb "
+						+ "where"
+						+ " cu.dbid=track.customerId and  track.userId=? and track.taskDealStatus>=? AND cb.customerId=cu.dbid ";
+				List param=new ArrayList();
+				param.add(user.getDbid());
+				param.add(CustomerTrack.TASKDEALSTATUSDEALED);
+				if(null!=name&&name.trim().length()>0){
+					sql=sql+" and cu.name like ? ";
+					param.add("%"+name+"%");
+				}
+				if(null!=phone&&phone.trim().length()>0){
+					sql=sql+" and cu.mobilePhone like ? ";
+					param.add("%"+phone+"%");
+				}
+				if(carSeriyId>0){
+					sql=sql+" and cb.carSeriyId=? ";
+					param.add(carSeriyId);
+				}
+				if(brandId>0){
+					sql=sql+" and cb.brandId=? ";
+					param.add(brandId);
+				}
+				if(carModelId>0){
+					sql=sql+" and cb.carModelId=? ";
+					param.add(carModelId);
+				}
+				if(customerPhaseId>0){
+					sql=sql+" and cu.customerPhaseId=? ";
+					param.add(customerPhaseId);
+				}
+				if(taskOverTimeStatus>0){
+					sql=sql+" and track.taskOverTimeStatus=? ";
+					param.add(taskOverTimeStatus);
+				}
+				if(taskDealStatus>0){
+					sql=sql+" and track.taskDealStatus=? ";
+					param.add(taskDealStatus);
+				}
+				if(startFinishDate!=null&&startFinishDate.trim().length()>0){
+					sql=sql+" and track.finishDate>='"+startFinishDate+"' ";
+				}
+				if(endFinishDate!=null&&endFinishDate.trim().length()>0){
+					sql=sql+" and track.finishDate<='"+startFinishDate+"' ";
+				}
+				sql=sql+" order by track.finishDate DESC";
+				
+				Page<CustomerTrack> page= customerTrackManageImpl.pagedQuerySql(pageNo,pageSize,CustomerTrack.class,sql,param.toArray());
+				request.setAttribute("page", page);
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+		}
+		return "salerList";
+	}
+	/**
+	 * 功能描述：
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public String queryCompList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
+		Integer taskOverTimeStatus = ParamUtil.getIntParam(request, "taskOverTimeStatus", -1);
+		Integer taskDealStatus = ParamUtil.getIntParam(request, "taskDealStatus", -1);
+		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+		String name = request.getParameter("name");
+		String phone= request.getParameter("phone");
+		String userName= request.getParameter("userName");
+		String startFinishDate= request.getParameter("startFinishDate");
+		String endFinishDate= request.getParameter("endFinishDate");
+		try{
+			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
+			List<CustomerPhase> customerPhases = customerPhaseManageImpl.findBy("type", CustomerPhase.TYPESHOW);
+			request.setAttribute("customerPhases", customerPhases);
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
+			request.setAttribute("brands", brands);
+			//车系
+			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
+			request.setAttribute("carSeriys", carSeriys);
+			
+			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			request.setAttribute("carModels", carModels);
+			String sql="select * from cust_customertrack as track,cust_Customer as cu,cust_CustomerBussi as cb "
+					+ "where"
+					+ " cu.dbid=track.customerId and track.taskDealStatus>=? AND cb.customerId=cu.dbid ";
+			List param=new ArrayList();
+			sql=sql+" AND cu.enterpriseId="+enterprise.getDbid();
+			param.add(CustomerTrack.TASKDEALSTATUSDEALED);
+			if(null!=name&&name.trim().length()>0){
+				sql=sql+" and cu.name like ? ";
+				param.add("%"+name+"%");
+			}
+			if(null!=phone&&phone.trim().length()>0){
+				sql=sql+" and cu.mobilePhone like ? ";
+				param.add("%"+phone+"%");
+			}
+			if(null!=userName&&userName.trim().length()>0){
+				sql=sql+" and cu.bussiStaff like ? ";
+				param.add("%"+userName+"%");
+			}
+			if(carSeriyId>0){
+				sql=sql+" and cb.carSeriyId=? ";
+				param.add(carSeriyId);
+			}
+			if(brandId>0){
+				sql=sql+" and cb.brandId=? ";
+				param.add(brandId);
+			}
+			if(carModelId>0){
+				sql=sql+" and cb.carModelId=? ";
+				param.add(carModelId);
+			}
+			if(customerPhaseId>0){
+				sql=sql+" and cu.customerPhaseId=? ";
+				param.add(customerPhaseId);
+			}
+			if(taskOverTimeStatus>0){
+				sql=sql+" and track.taskOverTimeStatus=? ";
+				param.add(taskOverTimeStatus);
+			}
+			if(taskDealStatus>0){
+				sql=sql+" and track.taskDealStatus=? ";
+				param.add(taskDealStatus);
+			}
+			if(startFinishDate!=null&&startFinishDate.trim().length()>0){
+				sql=sql+" and track.finishDate>='"+startFinishDate+"' ";
+			}
+			if(endFinishDate!=null&&endFinishDate.trim().length()>0){
+				sql=sql+" and track.finishDate<='"+DateUtil.format(DateUtil.nextDay(endFinishDate)) +"' ";
+			}
+			sql=sql+" order by track.finishDate DESC";
+			Page<CustomerTrack> page= customerTrackManageImpl.pagedQuerySql(pageNo,pageSize,CustomerTrack.class,sql,param.toArray());
+			request.setAttribute("page", page);
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+		}
+		return "compList";
 	}
 	/**
 	 * 功能描述：
@@ -398,15 +600,19 @@ public class QywxCustomerTrackAction extends BaseController{
 			
 			String selSql="";
 			if(sessionUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				selSql=selSql+" cust.enterpriseId="+sessionUser.getEnterprise().getDbid();
+				selSql=selSql+" cust.enterpriseId in("+sessionUser.getCompnayIds()+") ";
 			}else{
 				selSql=selSql+" cust.departmentId="+sessionUser.getDepartment().getDbid();
 			}
 			
-			String waitingReadSql="select * from cust_customertrack as custtrack, cust_customer AS cust " +
+			String waitingReadSql="select * from "
+					+ "	cust_customertrack as custtrack "
+					+ "	inner JOIN "
+					+ "	cust_customer AS cust "
+					+ "	ON cust.dbid=custtrack.customerId "+
 					" where "+
-					" cust.dbid=custtrack.customerId AND  custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+ " AND taskDealStatus="+CustomerTrack.TASKDEALSTATUSDEALED+
-					" AND "+selSql+" AND  custtrack.readStatus="+CustomerTrack.COMMON +"  ";
+					"  taskDealStatus="+CustomerTrack.TASKFINISHTYPETRACKED+" AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+
+					" AND "+selSql+" AND  custtrack.readStatus="+CustomerTrack.COMMON;
 			List<CustomerTrack> customerTracks = customerTrackManageImpl.executeSqlQuery(CustomerTrack.class, waitingReadSql, null).list();
 			/*判断页面是否有上一条，下一条数据*/
 			int size = customerTracks.size();
@@ -466,116 +672,6 @@ public class QywxCustomerTrackAction extends BaseController{
 		return;
 	}
 	/**
-	 * 功能描述：
-	 * 参数描述： 
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public String queryCompList() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
-		Integer taskOverTimeStatus = ParamUtil.getIntParam(request, "taskOverTimeStatus", -1);
-		Integer taskDealStatus = ParamUtil.getIntParam(request, "taskDealStatus", -1);
-		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
-		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
-		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
-		String name = request.getParameter("name");
-		String phone= request.getParameter("phone");
-		String userName= request.getParameter("userName");
-		String startFinishDate= request.getParameter("startFinishDate");
-		String endFinishDate= request.getParameter("endFinishDate");
-		try{
-			List<CustomerPhase> customerPhases = customerPhaseManageImpl.findBy("type", CustomerPhase.TYPESHOW);
-			request.setAttribute("customerPhases", customerPhases);
-			List<Brand> brands = brandManageImpl.getAll();
-			request.setAttribute("brands", brands);
-			String hql="from CarModel where 1=1 ";
-			if(brandId>0){
-				//车系
-				List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("brand.dbid", brandId);
-				hql=hql+" and brand.dbid="+brandId;
-				request.setAttribute("carSeriys", carSeriys);
-			}else{
-				//车系
-				List<CarSeriy> carSeriys = carSeriyManageImpl.getAll();
-				request.setAttribute("carSeriys", carSeriys);
-			}
-			
-			if(carSeriyId>0){
-				//车型
-				hql=hql+" and carseries.dbid="+carSeriyId;
-			}
-			List<CarModel> carModels = carModelManageImpl.find(hql, null);
-			request.setAttribute("carModels", carModels);
-			User sessionUser = getSessionUser();
-			String sql="select * from cust_customertrack as track,cust_Customer as cu,cust_CustomerBussi as cb "
-					+ "where"
-					+ " cu.dbid=track.customerId and track.taskDealStatus>=? AND cb.customerId=cu.dbid ";
-			List param=new ArrayList();
-			if(sessionUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" AND cu.enterpriseId in("+sessionUser.getCompnayIds()+") ";
-			}else{
-				sql=sql+" AND cu.departmentId="+sessionUser.getDepartment().getDbid();
-			}
-			param.add(CustomerTrack.TASKDEALSTATUSDEALED);
-			if(null!=name&&name.trim().length()>0){
-				sql=sql+" and cu.name like ? ";
-				param.add("%"+name+"%");
-			}
-			if(null!=phone&&phone.trim().length()>0){
-				sql=sql+" and cu.mobilePhone like ? ";
-				param.add("%"+phone+"%");
-			}
-			if(null!=userName&&userName.trim().length()>0){
-				sql=sql+" and cu.bussiStaff like ? ";
-				param.add("%"+userName+"%");
-			}
-			if(carSeriyId>0){
-				sql=sql+" and cb.carSeriyId=? ";
-				param.add(carSeriyId);
-			}
-			if(brandId>0){
-				sql=sql+" and cb.brandId=? ";
-				param.add(brandId);
-			}
-			if(carModelId>0){
-				sql=sql+" and cb.carModelId=? ";
-				param.add(carModelId);
-			}
-			if(customerPhaseId>0){
-				sql=sql+" and cu.customerPhaseId=? ";
-				param.add(customerPhaseId);
-			}
-			if(taskOverTimeStatus>0){
-				sql=sql+" and track.taskOverTimeStatus=? ";
-				param.add(taskOverTimeStatus);
-			}
-			if(taskDealStatus>0){
-				sql=sql+" and track.taskDealStatus=? ";
-				param.add(taskDealStatus);
-			}
-			if(startFinishDate==null&&endFinishDate==null){
-				sql=sql+" AND  track.finishDate>=date_sub(curdate(),interval 0 day) ";
-			}else{
-				if(startFinishDate!=null&&startFinishDate.trim().length()>0){
-					sql=sql+" and track.finishDate>='"+startFinishDate+"' ";
-				}
-				if(endFinishDate!=null&&endFinishDate.trim().length()>0){
-					sql=sql+" and track.finishDate<='"+DateUtil.format(DateUtil.nextDay(endFinishDate)) +"' ";
-				}
-			}
-			sql=sql+"order by track.finishDate DESC";
-			
-			List<CustomerTrack> customerTracks = customerTrackManageImpl.executeSql(sql,param.toArray());
-			request.setAttribute("customerTracks", customerTracks);
-		}catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "compList";
-	}
-	/**
 	 * 功能描述：次日需要跟踪客户
 	 * 参数描述：
 	 * 逻辑描述：
@@ -586,11 +682,10 @@ public class QywxCustomerTrackAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User sessionUser = getSessionUser();
+			Enterprise enterprise = sessionUser.getEnterprise();
 			String selSql="";
-			if(sessionUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				selSql=selSql+" cust.enterpriseId in("+sessionUser.getCompnayIds()+") ";
-			}else{
-				selSql=selSql+" cust.departmentId="+sessionUser.getDepartment().getDbid();
+			if(enterprise.getDbid()>0){
+				selSql=selSql+" cust.enterpriseId="+enterprise.getDbid();
 			}
 			//查询今日需要回访客户
 			String theNextSql="select * from  cust_customertrack AS custtrack,cust_customer AS cust"+
@@ -622,17 +717,16 @@ public class QywxCustomerTrackAction extends BaseController{
 			//
 			User sessionUser = getSessionUser();
 			String selSql="";
-			if(sessionUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				selSql=selSql+" cu.enterpriseId="+sessionUser.getEnterprise().getDbid();
-			}else{
-				selSql=selSql+" cu.departmentId="+sessionUser.getDepartment().getDbid();
+			Enterprise enterprise = sessionUser.getEnterprise();
+			if(enterprise.getDbid()>0){
+				selSql=selSql+" cu.enterpriseId="+sessionUser.getCompnayIds();
 			}
-			
 			//查询今日需要回访客户
 			String theNextSql="select * from  cust_customertrack AS custtrack,cust_customer AS cu"+
 					" where "+ 
 					" cu.dbid=custtrack.customerId  AND "+selSql+"  AND  custtrack.taskDealStatus="+CustomerTrack.TASKDEALSTATUSCREATE+ 
-					"  AND  custtrack.nextReservationTime<=date_sub(curdate(),interval -1 day) AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+					"  AND "
+					+ " custtrack.nextReservationTime<date_sub(curdate(),interval -1 day) AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
 			if(salerId>0){
 				theNextSql=theNextSql+" AND custtrack.userId="+salerId;
 			}
@@ -698,7 +792,6 @@ public class QywxCustomerTrackAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User sessionUser = getSessionUser();
-			//查询今日需要回访客户
 			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerThreeDayTrack(sessionUser);
 			request.setAttribute("customerTracks", customerTracks);
 		} catch (Exception e) {

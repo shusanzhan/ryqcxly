@@ -43,17 +43,6 @@
 	<input type="hidden" id="customerBussiId" name="customerBussi.dbid" value="${customerBussi.dbid }">
 	<input type="hidden" id="customerId" name="customer.dbid" value="${customer.dbid }">
 	<div class="form-group" >
-	  <label  class="control-label" for="inputWarning1">客户来源</label  >
-	  	<select class="form-control" id="infoFromId" name="infoFromId" class="largeX text" checkType="integer,1" error='请选择客户来源'>
-			<option value="">请选择...</option>
-			<c:forEach var="infoFrom" items="${infoFroms }">
-				<c:if test="${ infoFrom.dbid>58}">
-					<option value="${infoFrom.dbid }" ${customerBussi.infoFrom.dbid==infoFrom.dbid?'selected="selected"':'' } >${infoFrom.name }</option>
-				</c:if>
-			</c:forEach>
-		</select>
-	</div>
-	<div class="form-group" >
 	  <label  class="control-label" for="inputWarning1">购车关注点</label  >
 	  	<select class="form-control" id="buyCarCareId" name="buyCarCareId" class="largeX text">
 			<option value="">请选择...</option>
@@ -95,15 +84,6 @@
 			<option value="">请选择...</option>
 			<c:forEach var="buyCarMainUse" items="${buyCarMainUses }">
 				<option value="${buyCarMainUse.dbid }" ${customerBussi.buyCarMainUse.dbid==buyCarMainUse.dbid?'selected="selected"':'' } >${buyCarMainUse.name }</option>
-			</c:forEach>
-		</select>
-	</div>
-	<div class="form-group" >
-	  <label class="control-label" for="inputWarning1">购车时间</label  >
-	  	<select class="form-control" id="trackingPhaseId" name="trackingPhaseId" class="largeX text">
-			<option value="">请选择...</option>
-			<c:forEach var="trackingPhase" items="${trackingPhases }">
-				<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
 			</c:forEach>
 		</select>
 	</div>

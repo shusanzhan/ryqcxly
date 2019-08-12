@@ -25,7 +25,7 @@
         <many-to-one name="parent" class="com.ystech.mem.model.Member" column="parentId" not-found="ignore"></many-to-one>
         <many-to-one name="spread" class="com.ystech.mem.model.Spread" column="spreadId" not-found="ignore"></many-to-one>
         <many-to-one name="user" class="com.ystech.xwqr.model.sys.User" column="userId" not-found="ignore"></many-to-one>
-        <many-to-one name="useCarArea" class="com.ystech.mem.model.UseCarArea" column="useCarAreaId" not-found="ignore"></many-to-one>
+        <many-to-one name="enterprise" class="com.ystech.xwqr.model.sys.Enterprise" column="enterpriseId" not-found="ignore"></many-to-one>
         <property name="carNo" type="string">
             <column name="carNo" length="50" />
         </property>
@@ -40,9 +40,6 @@
         </property>
         <property name="totalPoint" type="java.lang.Integer">
             <column name="totalPoint" />
-        </property>
-        <property name="enterpriseId" type="java.lang.Integer">
-            <column name="enterpriseId" />
         </property>
         <property name="consumpiontPoint" type="java.lang.Integer">
             <column name="ConsumpiontPoint" />

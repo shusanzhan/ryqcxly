@@ -48,7 +48,7 @@
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			总价：<span class="price"><fmt:formatNumber value="${orderContract.totalPrice }" pattern="￥#,#00.00"></fmt:formatNumber></span>
@@ -98,11 +98,11 @@
 					</td>
 			</tr>
 			<tr>
-					<td class="formTableTdLeft">咨询服务费：&nbsp;</td>
+					<td class="formTableTdLeft">按揭手续费：&nbsp;</td>
 					<td >
 						${orderContractExpenses.ajsxf }
 					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">咨询服务费成本：&nbsp;</td>
+					<td class="formTableTdLeft" style="font-size: 11px;">按揭手续费成本：&nbsp;</td>
 					<td >
 						0
 					</td>

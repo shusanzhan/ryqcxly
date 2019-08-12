@@ -20,7 +20,7 @@
 <link href="${ctx }/widgets/bootstrap3/css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="${ctx }/widgets/iscroll/scrollbar.css">
 <script type="application/javascript" src="${ctx }/widgets/iscroll/iscroll.js"></script>
-<title>线索管理</title>
+<title>登记线索</title>
 <style type="text/css">
 	.form-controlSe{
 		margin-top: 5px;
@@ -53,244 +53,255 @@
 	 <a id="back" href="javascript:history.back()">
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
-    <span id="page_title">线索管理</span>
-      <a class="go_home" href="${ctx }/qywxCustomerRecord/index">
+    <span id="page_title">登记线索</span>
+      <a class="go_home" href="${ctx}/qywxCustomerTrack/index">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
      <a id="search_action" class="go_search" onclick="showSearch()">
     	<img src="${ctx }/images/jm/search_list.png" class="search">
     </a>
 </div>
-<c:set value="${page.result }" var="customerRecords"></c:set>
+<br>
+<br>
+<br>
 <c:if test="${empty(page.result)||fn:length(page.result)<=0 }" var="status">
 	您还未添加线索！
 </c:if>
 <c:if test="${status==false }">
-<div id="wrapper">
-	<div id="scroller">
-		<div id="thelist">
-			<c:forEach items="${customerRecords }" var="customerRecord">
-				<div class="orderContrac">
-					<div class="title" align="left">
-						<c:if test="${empty(customerRecord.name) }">
-							客户：	
-							<c:if test="${empty(customerRecord.customer.name) }">
-								无
-							</c:if>
-							<c:if test="${!empty(customerRecord.customer.name) }">
-								${customerRecord.customer.name }（${customerRecord.sex }）
-							</c:if>
-						</c:if>
-						<c:if test="${!empty(customerRecord.name) }">
-							客户：	${customerRecord.name }（${customerRecord.sex }）<br>
-							联系电话：${customerRecord.mobilePhone }<br>
-							<c:if test="${!empty(customerRecord.address) }">
-								所在区域：${customerRecord.address }
-							</c:if>
-						</c:if>
-		  			</div>
-		  			<div class="line"></div>
-					<div style="margin: 0 auto;margin: 5px;" onclick="window.location.href='${ctx}/qywxCustomerRecord/view?dbid=${customerRecord.dbid }&type=2'">
-						<div style="color:#8a8a8a;padding-left: 5px; ">
-							登记日期：<fmt:formatDate value="${customerRecord.createDate }" pattern="yyyy-MM-dd"/><br/>
-				  			线索类型：
-					  			<c:if test="${customerRecord.type==1 }">
-									<span style="color: red;">来店</span>
-								</c:if>
-								<c:if test="${customerRecord.type==2 }">
-									<span style="color:green;">来电</span>
-								</c:if>
-								<c:if test="${customerRecord.type==3 }">
-									<span style="color: blue;">网销</span>
-								</c:if>
-								<c:if test="${customerRecord.type==4 }">
-									<span style="color:orange;">活动</span>
-								</c:if>
-								<c:if test="${customerRecord.type==5 }">
-									<span style="color:orange;">其他</span>
-								</c:if>
-							<br>
-							<c:if test="${customerRecord.type==1 }">
-								进店线索类型：
-								<c:if test="${customerRecord.customerType==1 }">
-									展厅到店
-								</c:if>
-								<c:if test="${customerRecord.customerType==2 }">
-									网销到店
-								</c:if>
-								<c:if test="${empty(customerRecord.customerType) }">
-									展厅到店
-								</c:if>
-								<br>
-							</c:if>
-							进店/来电时间：
-							<c:if test="${customerRecord.type==3 }">
-								<fmt:formatDate value="${customerRecord.createDate }" pattern="yyyy-MM-dd HH:mm"/> 
-							</c:if>
-							<c:if test="${customerRecord.type!=3 }">
-								${customerRecord.comeInTime}
-							</c:if>
-							<br>
-							进店/来电目的：
-							${customerRecord.customerRecordTarget.name}
-							<br>
-							线索有效状态：
-							<c:if test="${customerRecord.status==1 }">
-								<span style="color: green;">登记有效</span>
-							</c:if>
-							<c:if test="${customerRecord.status==2 }">
-								<span style="color: red;">登记无效</span>
-							</c:if>
-							<br>
-							<c:if test="${customerRecord.status==1 }">
-								进店人数：
-									<c:if test="${customerRecord.type==3 }">
-										?
-									</c:if>
-									<c:if test="${customerRecord.type!=3 }">
-										${customerRecord.customerNum}
-										人
-									</c:if>
-								<br>
-								信息来源：${customerRecord.customerInfrom.name }
-								<br>
-								线索状态：
-								<c:if test="${customerRecord.resultStatus==2 }">
-									<span style="color: green;">转为登记</span>
-								</c:if>
-								<c:if test="${customerRecord.resultStatus==1 }">
-									<span style="color: pink;">等待...</span>
-								</c:if>
-								<c:if test="${customerRecord.resultStatus==3 }">
-									<span style="color: red;">无效</span>
-								</c:if>
-								<c:if test="${customerRecord.resultStatus==4 }">
-									<span style="color: green;">已绑定</span>
-								</c:if><br>
-								来店次数：
-								<c:if test="${customerRecord.comeinNum==0 }">
-									未到店
-								</c:if>
-								<c:if test="${customerRecord.comeinNum==1 }">
-									初次到店
-								</c:if>
-								<c:if test="${customerRecord.comeinNum==2 }">
-									二次来店
-								</c:if>
-								<br>
-								车型：
-								<c:if test="${empty(customerRecord.brand) }">
-									<c:if test="${empty(customerRecord.carModels)}">
-										-
-									</c:if>
-									<c:if test="${!empty(customerRecord.carModels)}">
-										${customerRecord.carModels }
-									</c:if>
-								</c:if>
-								${customerRecord.brand.name }
-								${customerRecord.carSeriy.name }
-								${customerRecord.carModel.name }${customerRecord.carModelStr}
-								<br>
-								销售顾问：
-								${customerRecord.saler.realName }
-								[${customerRecord.saler.department.name }]
-								 <br/>
-								<c:if test="${!empty(customerRecord.agentUser) }">
-									代办人：
-									${customerRecord.agentUser.realName }
-									 <br/>
-								</c:if>
-							</c:if>
-						</div>
-					</div>
-					<div class="line"></div>
-					<div style="margin: 0 auto;margin: 5px;height: 30px;line-height: 30px;">
-						<c:if test="${customerRecord.resultStatus==1 }">
-							<c:if test="${customerRecord.type==1 }">
-								<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx }/qywxCustomerRecord/editComeShop?dbid=${customerRecord.dbid}'">编辑</a> 
-							</c:if>
-							<c:if test="${customerRecord.type==2 }">
-								<a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx }/qywxCustomerRecord/editPhone?dbid=${customerRecord.dbid}'">编辑</a> 
-							</c:if>
-						</c:if> 
-						<c:if test="${customerRecord.resultStatus==2 }">
-								<span style="color: green;">转为登记 </span>
-						</c:if>
-						<c:if test="${customerRecord.resultStatus==3 }">
-								<span style="color: red;">线索无效 </span>
-						</c:if>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-		<div id="pullUp">
-			<span class="pullUpIcon"></span><span class="pullUpLabel" id="pullUpLabel">上拉加载更多...</span>
+	<div style="line-height: 40px;width: 96%;margin: 0 auto;font-size: 16px;">
+		<div class="title" align="left">
+			查询总数数据   ${page.totalCount} 条
 		</div>
 	</div>
-</div>
 </c:if>
+<c:if test="${status==false }">
+	<c:forEach items="${page.result }" var="customerRecord">
+		<div class="orderContrac">
+			<div class="title" align="left">
+				
+				<c:if test="${empty(customerRecord.name) }">
+					客户：	
+					<c:if test="${empty(customerRecord.customer.name) }">
+						无
+					</c:if>
+					<c:if test="${!empty(customerRecord.customer.name) }">
+						${customerRecord.customer.name }
+					</c:if>
+				</c:if>
+				<c:if test="${!empty(customerRecord.name) }">
+					客户：	${customerRecord.name }<br>
+					联系电话：<a href="tel:${customerRecord.mobilePhone }">${customerRecord.mobilePhone }</a><br>
+					所在区域：${customerRecord.address }
+				</c:if><br>
+  			</div>
+  			<div class="line"></div>
+			<div style="margin: 0 auto;margin: 5px;" onclick="window.location.href='${ctx}/qywxCustomerRecord/view?dbid=${customerRecord.dbid }&type=2'">
+				<div style="color:#8a8a8a;padding-left: 5px; ">
+					登记日期：<fmt:formatDate value="${customerRecord.createDate }" pattern="yyyy-MM-dd"/><br/>
+					销售顾问：${customerRecord.user.realName }<br/>
+					<c:if test="${!empty(customerRecord.agentUser) }">
+					代办：${customerRecord.agentUser.realName}[代办]<br>
+					</c:if>
+		  			线索类型：
+					${customerRecord.customerType.name }
+					<br>
+					车型：
+					<c:if test="${empty(customerRecord.brand) }">
+						<c:if test="${empty(customerRecord.carModels)}">
+							-
+						</c:if>
+						<c:if test="${!empty(customerRecord.carModels)}">
+							${customerRecord.carModels }
+						</c:if>
+					</c:if>
+					${customerRecord.brand.name }
+					${customerRecord.carSeriy.name }
+					${customerRecord.carModel.name }${customerRecord.carModelStr}
+					<br>
+					进店/来电时间：
+					<c:if test="${customerRecord.customerType.dbid!=1 }">
+						<fmt:formatDate value="${customerRecord.createDate }" pattern="yyyy-MM-dd HH:mm"/> 
+					</c:if>
+					<c:if test="${customerRecord.customerType.dbid==1 }">
+						${customerRecord.comeInTime}
+					</c:if>
+					进店人数：
+						<c:if test="${customerRecord.customerType.dbid!=1 }">
+							?
+						</c:if>
+						<c:if test="${customerRecord.customerType.dbid==1 }">
+							${customerRecord.customerNum}
+							人
+						</c:if>
+					<br>
+					信息来源：${customerRecord.customerInfrom.name }
+					<br>
+					线索状态：
+					<c:if test="${customerRecord.resultStatus==2 }">
+						<span style="color: green;">转为登记</span>
+					</c:if>
+					<c:if test="${customerRecord.resultStatus==1 }">
+						<span style="color: pink;">等待...</span>
+					</c:if>
+					<c:if test="${customerRecord.resultStatus==3 }">
+						<span style="color: red;">无效</span>
+					</c:if>
+					<c:if test="${customerRecord.resultStatus==4 }">
+						<span style="color: green;">已绑定</span>
+					</c:if><br>
+					来店次数：
+					<c:if test="${customerRecord.comeinNum==0 }">
+						未到店
+					</c:if>
+					<c:if test="${customerRecord.comeinNum==1 }">
+						初次到店
+					</c:if>
+					<c:if test="${customerRecord.comeinNum==2 }">
+						二次来店
+					</c:if>
+					 <br/>
+					 备注：
+					${customerRecord.note }
+					<br>
+				</div>
+			</div>
+			<div class="line"></div>
+			<div style="margin: 0 auto;margin: 5px;height: 30px;line-height: 30px;">
+				<c:if test="${customerRecord.resultStatus==1 }">
+					<a href="javascript:void(-1)" class="aedit" onclick="vlidateCustomer(${customerRecord.dbid},${customerRecord.customerType.dbid})">转登记</a> 
+						|
+					<a href="${ctx }/qywxCustomerRecord/invalid?dbid=${customerRecord.dbid}" class="aedit" >线索无效</a>
+				</c:if>
+				<c:if test="${customerRecord.resultStatus==1 }">
+					<c:if test="${sessionScope.user.dbid==customerRecord.user.dbid}">
+						| <a href="javascript:void(-1)" class="aedit" onclick="window.location.href='${ctx }/qywxCustomerRecord/salerEdit?dbid=${customerRecord.dbid}'">编辑</a> 
+					</c:if>
+				</c:if>
+				<c:if test="${customerRecord.resultStatus==2 }">
+					<span style="color: green;">已登记</span>
+				</c:if>
+				<c:if test="${customerRecord.resultStatus==3 }">
+					<span style="color: green;">已回访</span>
+				</c:if>
+				<c:if test="${customerRecord.resultStatus==4 }">
+					<span style="color: red;">线索无效</span>
+				</c:if>
+			</div>
+		</div>
+	</c:forEach>
+</c:if>
+<div style="text-align: center;">
+	<jsp:include page="${ctx }/pages/commons/wechatPage.jsp"></jsp:include>
+</div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
-      	<form class="form-inline" action="${ctx }/qywxCustomerRecord/queryList" name="frmId" id="frmId" method="post">
-      	<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo+1}'>
+      	<form class="form-inline" action="${ctx }/qywxCustomerRecord/queryLeaderList" name="searchPageForm" id="searchPageForm" method="post">
+      	<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
       	 <table>
-      	 	<tr height="">
-      	 		<td width="60"><label for="exampleInputName2">类型</label></td>
-      	 		<td width="240">
-	      	 		<select class="form-control " id="type" name="type"  onchange="$('#searchPageForm')[0].submit()">
+      	 	<tr>
+  				<td><label>类型：</label></td>
+  				<td>
+  					<select class="form-control" id="customerTypeId" name="customerTypeId"  onchange="$('#searchPageForm')[0].submit()">
 						<option value="-1" >请选择...</option>
-						<option value="1" ${param.type==1?'selected="selected"':'' } >进店</option>
-						<option value="2" ${param.type==2?'selected="selected"':'' } >来电</option>
-						<option value="3" ${param.type==3?'selected="selected"':'' } >网销</option>
-						<option value="4" ${param.type==4?'selected="selected"':'' } >活动</option>
-						<option value="5" ${param.type==5?'selected="selected"':'' } >其他</option>
+						<c:forEach var="customerType" items="${customerTypes }">
+							<option value="${customerType.dbid }" ${param.customerTypeId==customerType.dbid?'selected="selected"':'' } >${customerType.name }</option>
+						</c:forEach>
 					</select>
-			    </td>
-      	 	</tr>
-      	 	
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">来店次数</label></td>
-      	 		<td width="240" id="carSeriyDiv">
-	      	 		<select class="form-control" id="comeinNum" name="comeinNum" onchange="$('#searchPageForm')[0].submit()" >
-						<option value="-1">请选择...</option>
-						<option value="0" ${param.comeinNum==0?'selected="selected"':'' } >未到店</option>
-						<option value="1" ${param.comeinNum==1?'selected="selected"':'' } >初次来店</option>
-						<option value="2" ${param.comeinNum==2?'selected="selected"':'' } >2次来店</option>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>信息来源：</label></td>
+  				<td>
+  					<select class="form-control" id="customerInfromId" name="customerInfromId"  onchange="$('#searchPageForm')[0].submit()">
+						<option value="-1" >请选择...</option>
+						${customerInfromSelect }
 					</select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">客户状态</label></td>
-      	 		<td width="240" id="carModelDiv">
-	      	 		<select class="form-control" id="status" name="status" onchange="$('#searchPageForm')[0].submit()" >
+  				</td>
+  			</tr>
+  			<tr>
+  				<td><label>有效状态：</label></td>
+  				<td>
+  					<select class="form-control" id="status" name="status" onchange="$('#searchPageForm')[0].submit()" >
 						<option value="-1">请选择...</option>
 						
 						<option value="1" ${param.status==1?'selected="selected"':'' } >有效</option>
 						<option value="2" ${param.status==2?'selected="selected"':'' } >无效</option>
 					</select>
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">登记时间开始</label></td>
-      	 		<td width="240">
-      	 			<input type="date" class="form-control" id="startTime" name="startTime"  value="${param.startTime }" >~
-			    </td>
-      	 	</tr>
-      	 	<tr>
-      	 		<td width="60"><label for="exampleInputName2">登记时间结束</label></td>
-      	 		<td width="240">
-  					<input type="date" class="form-control" id="endTime" name="endTime"  value="${param.endTime }">
-			    </td>
-      	 	</tr>
+				</td>
+			</tr>
+			<tr>
+  				<td><label>处理结果：</label></td>
+  				<td>
+  					<select class="form-control" id="resultStatus" name="resultStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="1" ${param.resultStatus==1?'selected="selected"':'' } >待处理</option>
+						<option value="2" ${param.resultStatus==2?'selected="selected"':'' } >转为登记</option>
+						<option value="3" ${param.resultStatus==3?'selected="selected"':'' } >已回访</option>
+						<option value="4" ${param.resultStatus==4?'selected="selected"':'' } >无效</option>
+					</select>
+				</td>
+			</tr>
+				<tr>
+				<td><label>来店次数：</label></td>
+  				<td>
+  					<select class="form-control" id="comeinNum" name="comeinNum" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="0" ${param.comeinNum==0?'selected="selected"':'' } >未到店</option>
+						<option value="1" ${param.comeinNum==1?'selected="selected"':'' } >初次来店</option>
+						<option value="2" ${param.comeinNum==2?'selected="selected"':'' } >二次来店</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label>超时状态：</label></td>
+  				<td>
+  					<select class="form-control" id="overtimeStatus" name="overtimeStatus" onchange="$('#searchPageForm')[0].submit()" >
+						<option value="-1">请选择...</option>
+						<option value="1" ${param.overtimeStatus==1?'selected="selected"':'' } >未超时</option>
+						<option value="2" ${param.overtimeStatus==2?'selected="selected"':'' } >已超时</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label>销售顾问：</label></td>
+  				<td>
+  					<input class="form-control" id="saler" name="saler" value="${param.saler }">
+				</td>
+			</tr>
+			<tr>
+				<td><label>登记开始：</label></td>
+  				<td>
+  					<input class="form-control" id="startTime" name="startTime" onFocus="WdatePicker({isShowClear:true})" value="${param.startTime }" type="date">
+  				</td>
+  			</tr>
+  			<tr>
+				<td><label>登记结束：</label></td>
+  				<td>
+  					<input class="form-control" id="endTime" name="endTime" onFocus="WdatePicker({isShowClear:true})" value="${param.endTime }" type="date">
+  				</td>
+  			</tr>
+  			<tr>
+				<td><label>处理开始：</label></td>
+  				<td>
+  					<input class="form-control" id="resultStartTime" name="resultStartTime" onFocus="WdatePicker({isShowClear:true})" value="${param.resultStartTime }" type="date">
+  				</td>
+  			</tr>
+  			<tr>
+				<td><label>处理结束：</label></td>
+  				<td>
+  					<input class="form-control" id="resultEndTime" name="resultEndTime" onFocus="WdatePicker({isShowClear:true})" value="${param.resultEndTime }" type="date">
+  				</td>
+  				<td><div href="javascript:void(-1)" onclick="$('#searchPageForm')[0].submit()" class="searchIcon"></div></td>
+   			</tr>
       	 </table>
 		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;&nbsp;消</button>
-        <button type="button" class="btn btn-primary" onclick="$('#currentPage').val(1);$('#frmId')[0].submit()">查询</button>
+        <button type="button" class="btn btn-primary" onclick="$('#currentPage').val(1);$('#searchPageForm')[0].submit()">查询</button>
       </div>
     </div>
   </div>
@@ -298,6 +309,28 @@
 <br>
 <br>
 <br>
+<div style="display: none; width: 320px;" id="template2Id">
+	<table id="noLine" border="0"  cellpadding="0" cellspacing="0" style="width: 300px;margin-top: 5px;text-align: left;margin-left: 5px;float: left;">
+		<tr style="height: 60px;" height="60">
+			<td class="formTableTdLeft" width="120">到店成交:&nbsp;</td>
+			<td colspan="3">
+				<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="1">到店成交</label>
+				<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="2">到店未成交</label>
+			</td>
+		</tr>
+	</table>
+</div>
+<div style="display: none; width: 340px;" id="templateId">
+		<table id="noLine" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 320px;margin-top: 5px;">
+			<tr style="height: 60px;" height="60">
+				<td class="formTableTdLeft" width="120">到店成交:&nbsp;</td>
+				<td colspan="3">
+					<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="1">到店成交</label>
+					<label><input  type="radio"  id="comeShopeStatus" name="comeShopeStatus" value="2">到店未成交</label>
+				</td>
+			</tr>
+		</table>
+	</div>
 </body>
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>
@@ -312,24 +345,6 @@ function showSearch(){
 	$('#exampleModal').modal();
 }
 $(function () {
-	var window_w=window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
-	var window_h=window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
-	if($('.go_top').length==0){
-	    $('body').append('<a href="#" class="go_top"><img src="${ctx}/images/jm/icon_top.png" data-original=${ctx}/images/jm/icon_top.png" alt=""></a>');
-	}
-	$(window).scroll(function(e){
-	    if(document.body.scrollTop+document.documentElement.scrollTop>window_h){
-	        $('.go_top').show();
-	    }
-	    else{
-	        $('.go_top').hide();
-	    }
-	});
-	$('.go_top').click(function(){
-	    document.body.scrollTop = 0;
-	    document.documentElement.scrollTop = 0;
-	    return false;
-	})
 })
 function ajaxCarSeriy(val){
 		if(val==''||val==undefined){
@@ -367,150 +382,161 @@ function ajaxCarModel(sel){
 }
 </script>
 <script type="text/javascript">
-var myScroll,
-	pullUpEl, pullUpOffset,
-	generatedCount = 0;
-/**
- * 滚动翻页 （自定义实现此方法）
- * myScroll.refresh();		// 数据加载完成后，调用界面更新方法
- */
-function pullUpAction () {
-	setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
-		var params = $("#frmId").serialize();
-		$.post("${ctx}/qywxCustomerRecord/ajaxList",params,function callBack(data) {
-			if(data.data!='1'){
-				$("#currentPage").val(data.pageNo);
-			}
-			createData(data.data);
-			myScroll.refresh();		
-		}
-		);
-	}, 1000);	// <-- Simulate network congestion, remove setTimeout from production!
-}
-/**
- * 初始化iScroll控件
- */
-function loaded() {
-	pullUpEl = document.getElementById('pullUp');	
-	pullUpOffset = pullUpEl.offsetHeight;
-	
-	myScroll = new iScroll('wrapper', {
-		scrollbarClass: 'myScrollbar', /* 重要样式 */
-		useTransition: false, /* 此属性不知用意，本人从true改为false */
-		onRefresh: function () {
-		},
-		onScrollMove: function () {
-			if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
-				pullUpEl.className = 'flip';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
-				this.maxScrollY = this.maxScrollY;
-			} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
-				pullUpEl.className = '';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
-				this.maxScrollY = pullUpOffset;
-			}
-		},
-		onScrollEnd: function () {
-			 if (pullUpEl.className.match('flip')) {
-				pullUpEl.className = 'loading';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
-				pullUpAction();	// Execute custom function (ajax call?)
-			}
-		}
-	});
-	setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
-}
-
-//初始化绑定iScroll控件 
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-document.addEventListener('DOMContentLoaded', loaded, false); 
-function createData(datas){
-	var el, li, i;
-	el = document.getElementById('thelist');
-	if(datas!='1'){
-		if(datas.length<10){
-			$("#pullUpLabel").text("数据已经加载完毕");
-		}
-		//var dataValues=$.parseJSON(datas);
-		for(i=0;i<datas.length;i++){
-			var data=datas[i];
-			var valueStr='<div class="orderContrac" id="orderContrac'+data.dbid+'">'+
-			'<div class="title" align="left">'+
-			'客户：'+data.name+'<br/>'+
-			'联系电话：<a href="tel:'+data.mobilePhone+'">'+data.mobilePhone+'</a><br>';
-			'所在区域：'+data.address+'<br>';
-			valueStr=valueStr+'</div>';
-			valueStr=valueStr+'<div class="line"></div>';
-			valueStr=valueStr+'<div style="margin: 0 auto;margin: 5px;" onclick="window.location.href=\'${ctx}/qywxCustomerRecord/view?dbid='+data.dbid+'&type=1\'">';
-			valueStr=valueStr+'<div style="color:#8a8a8a;padding-left: 5px; ">';
-			valueStr=valueStr+'登记日期：'+data.createDate+'<br>';
-			valueStr=valueStr+'线索类型：'+data.types+'<br>';
-			valueStr=valueStr+'进店/来电时间：'+data.comeInTime+'<br>';
-			valueStr=valueStr+'车型：'+data.brand+'&#12288;'+data.carSeriy+''+data.carModel+'<br>';
-			valueStr=valueStr+'进店人数：'+data.customerNum+'<br>';
-			valueStr=valueStr+'线索状态：'+data.resultStatus+'<br>';
-			valueStr=valueStr+'来店次数：'+data.comeinNum+'<br>';
-			valueStr=valueStr+'销售顾问：'+data.saler+'['+data.dep+']<br>';
-			
-			valueStr=valueStr+'</div>';
-			valueStr=valueStr+'</div>';
-			valueStr=valueStr+'<div class="line"></div>';
-			valueStr=valueStr+'<div style="margin: 0 auto;margin: 5px;height: 30px;line-height: 30px;">';
-			if(data.result==1){
-				if(data.type==1){
-					valueStr=valueStr+'<a href="javascript:void(-1)" class="aedit" onclick="window.location.href=\'${ctx }/qywxCustomerRecord/editComeShop?dbid='+data.dbid+'\'">编辑</a>';
-				}
-				if(data.type==2){
-					valueStr=valueStr+'<a href="javascript:void(-1)" class="aedit" onclick="window.location.href=\'${ctx }/qywxCustomerRecord/editPhone?dbid='+data.dbid+'\'">编辑</a>';
-				}
-			}
-			if(data.result==2){
-				valueStr=valueStr+'<span style="color: green;">转为登记 </span>';
-			}
-			if(data.result==3){
-				valueStr=valueStr+'<span style="color: red;">线索无效</span>';
-			}
-			
-			valueStr=valueStr+'</div>';
-			valueStr=valueStr+'</div>';
-			$("#thelist").append(valueStr);
-		}
-	}else{
-		$("#pullUpLabel").text("数据已经加载完毕");
-	}
-	
-}
-function vlidateCustomer(customerRecordId){
+function vlidateCustomer(customerRecordId,type){
 	$.post('${ctx}/qywxCustomerRecord/vlidateCustomer?customerRecordId='+customerRecordId+'&dateTime='+new Date(),{},function(json){
 		var data=json.state;
 		if(data==1||data=="1"){
-			window.location.href='${ctx }/qywxCustomer/add?customerRecordId='+customerRecordId;
+			//进店客户
+			window.location.href='${ctx }/qywxCustomerRecord/validateCustomerRecord?customerRecordId='+customerRecordId;
 		}
 		if(data==2||data=="2"){
+			//新增客户
 			window.location.href='${ctx }/qywxCustomer/add?customerRecordId='+customerRecordId;
 		}
 		if(data==3||data=="3"){
 			window.top.art.dialog({
-				content : '系统已经存在【'+json.mobilePhone+'】客户，点击【确定】继续完善客户资料同时标记线索已经处理。',
+				content : json.message,
+				icon : 'question',
+				width:"320px",
+				height:"120px",
+				lock : true,
+				cancel : true
+			})
+		}
+		if(data==4||data=="4"){
+			window.top.art.dialog({
+				content : '系统已经存在【'+json.mobilePhone+'】客户，点击【确定】继续完成到店记录填写。',
 				icon : 'question',
 				width:"320px",
 				height:"120px",
 				lock : true,
 				ok : function() {
-					$.post('${ctx}/qywxCustomerRecord/updateCustomerRecord?customerRecordId='+customerRecordId+'&customerId='+json.dbid+'&dateTime='+new Date(),{},function(json){
-						var data=json.state;
-						if(data==1||data=="1"){
-							window.location.href=json.url;
-						}
-						if(data==0||data=="0"){
-							$.utile.tips(json.mesg);
-						}
-					})
+					if(type==1){
+						comeShopeRecord(json.dbid,customerRecordId);
+					}else{
+						window.location.href='${ctx}/qywxCustomerTrack/add?customerId='+json.dbid+'&typeRedirect=4&customerRecordId='+customerRecordId;
+					}
+				},
+				cancel : true
+			})
+		}
+		if(data==5||data=="5"){
+			window.top.art.dialog({
+				content : json.message,
+				icon : 'question',
+				width:"320px",
+				height:"120px",
+				lock : true,
+				cancel : true
+			})
+		}
+		if(data==6||data=="6"){
+			window.top.art.dialog({
+				content : "该电话号码销售顾问已登记，点击【确定】继续填网销邀约到店谈判记",
+				icon : 'question',
+				height:"120px",
+				lock : true,
+				ok : function() {
+					customerRecordResult(customerRecordId,json.messageHtml);
 				},
 				cancel : true
 			})
 		}
 	})
+}
+function customerRecordResult(customerRecordId,content){
+	art.dialog({
+	    title: '谈判结果',
+	    content: content,
+	    width:350,
+	    height:240,
+		fixed : true,
+	    ok: function () {
+	    	var doms = document.getElementsByName("customerIdValue");
+	    	var customerId=0;
+	    	var j=0;
+	    	for ( var i = 0; i < doms.length; i++) {
+    			if(doms[i].checked){
+        			j=i;
+        			customerId=doms[i].value;
+    			}
+	    	}
+	    	var customerName=window.document.getElementsByName("customerName")[j].value;
+	    	if(customerName==undefined||customerName==''){
+		    	alert("请选择要登记客户");
+		    	return false;
+		    }
+		    if(confirm("确定登记【"+customerName+"】客户客户谈判记录吗？")){
+		    	$("#customerName2").val(customerName);
+		    	comeShopeRecord2(customerId,customerRecordId,1);
+			}
+			return true;
+	    },
+	    cancel:function(){
+			return true;
+	    }
+	});
+}
+function comeShopeRecord2(customerId,customerRecordId,type){
+	if(type==undefined||type==''){
+		$("#infor").hide();
+	}else{
+		$("#infor").show();
+	}
+	top.art.dialog({
+	    title: '客户到店登记',
+	    content: document.getElementById('template2Id'),
+	    lock : true,
+	    width:320,
+	    height:200,
+		fixed : true,
+	    ok: function () {
+	    	var comeShopeStatus=window.parent.document.getElementsByName("comeShopeStatus");
+	    	var selectvalue="";   //  selectvalue为radio中选中的值
+            for(var i=0;i<comeShopeStatus.length;i++){
+                if(comeShopeStatus[i].checked==true) {
+                	selectvalue=comeShopeStatus[i].value; 
+               }
+            }
+	    	if(null==selectvalue||selectvalue==''){
+	    		alert("请选择到店成交状态！");
+	    		return false;
+	    	}
+    		var url= "${ctx }/qywxCustomer/comeShopRecord?customerId="+customerId+"&comeShopeStatus="+selectvalue+"&redirectType=2&customerRecordId="+customerRecordId;
+    		window.location.href=url;
+			return true;
+	    },
+	    cancel:function(){
+			return true;
+	    }
+	});
+}
+function comeShopeRecord(customerId,customerRecordId){
+	top.art.dialog({
+	    title: '客户到店登记',
+	    content: document.getElementById('templateId'),
+	    lock : true,
+		fixed : true,
+	    ok: function () {
+	    	var comeShopeStatus=window.parent.document.getElementsByName("comeShopeStatus");
+	    	var selectvalue="";   //  selectvalue为radio中选中的值
+            for(var i=0;i<comeShopeStatus.length;i++){
+                if(comeShopeStatus[i].checked==true) {
+                	selectvalue=comeShopeStatus[i].value; 
+               }
+            }
+	    	if(null==selectvalue||selectvalue==''){
+	    		alert("请选择到店成交状态！");
+	    		return false;
+	    	}
+    		var url='${ctx}/qywxCustomer/comeShopRecord?customerId='+customerId+'&comeShopeStatus='+selectvalue+"&redirectType=1&customerRecordId="+customerRecordId;
+    		window.location.href=url;
+			return true;
+	    },
+	    cancel:function(){
+			return true;
+	    }
+	});
 }
 </script>
 </html>

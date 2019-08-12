@@ -37,20 +37,18 @@
 	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr>
-				<td align="center">新登记</td>
-				<td align="center">流失</td>
-				<td align="center">订单</td>
-				<td align="center">待交车</td>
-				<td align="center">成交</td>
+				<c:forEach var="customerPhase" items="${customerPhases }">
+					<td align="center">${customerPhase.name }</td>
+				</c:forEach>
 				<td align="center">总计</td>
 			</tr>
 			<tr>
+				<c:set value="0" var="newsCount"></c:set>
+				<c:forEach var="customerPhase" items="${customerPhases }">
+					<td align="center">${customerPhase.totalNum }</td>
+					<c:set value="${customerPhase.totalNum+newsCount }" var="newsCount"></c:set>
+				</c:forEach>
 				<td align="center">${newsCount }</td>
-				<td align="center">${canncelCount }</td>
-				<td align="center">${orderCount }</td>
-				<td align="center">${waitingCar }</td>
-				<td align="center">${customerSuccess }</td>
-				<td align="center">${total }</td>
 			</tr>
 		</tbody>
 	</table>
@@ -99,18 +97,7 @@ $(function () {
         series: [{
             type: 'pie',
             name: '客户占比',
-            data: [
-				{
-				    name: '新登记',
-				    y: ${newsCount},
-				    sliced: true,
-				    selected: true
-				},
-                ['流失',  ${canncelCount}],
-                ['订单', ${orderCount}],
-                ['待交车',${waitingCar}],
-                ['成交',   ${customerSuccess}]
-            ]
+            data: ${customerPhaseJson}
         }]
     });
 });

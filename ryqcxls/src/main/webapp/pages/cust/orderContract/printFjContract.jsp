@@ -52,13 +52,8 @@ $().ready(function() {
 
 <div style="width: 100%;margin: 0px auto;font-size: 14px;">
 <div style="margin:0px auto;width: 600px;text-align: center;padding: 20px 0px;">
-	<c:if test="${enterprise.bussiType==3 }" var="status">
-		<h1>${customer.enterprise.allName }汽车销售合同书</h1>
-	</c:if>
-	<c:if test="${status==false }">
-		<h1>${customer.customerBussi.brand.name }汽车销售有限公司授权销售服务中心</h1>
-		<h2>${enterprise.allName }汽车销售合同书</h2>
-	</c:if>
+	<h1>${customer.customerBussi.brand.name }汽车销售有限公司授权销售服务中心</h1>
+	<h2>${customer.enterprise.allName }销售附加合同书</h2>
 </div>
 <table width="99%"  cellpadding="0" cellspacing="0" style="font-size: 16px;">
   <tr>
@@ -115,36 +110,20 @@ $().ready(function() {
     <th style="width: 300px;text-align: center;" width="300">备注</th>
   </tr>
    <c:set value="0" var="totalPrice"></c:set>
-   <c:if test="${customer.enterprise.bussiType==3 }" var="status">
-  	<c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
-		  <tr>
-		  	 <th>明细</th>
-		    <td>&nbsp;${customer.carModelStr}</td>
-		    <td>&nbsp;</td>
-		    <td>&nbsp;${customer.carColorStr }</td>
-		    <td colspan="2" >&nbsp;${orderContractProduct.note }
-		    	<c:if test="${orderContract.isShowNote==true }">
-		   			车型颜色不换,定金不退只用于冲抵车款	
-		   		</c:if>
-		    </td>
-		  </tr>
-	  </c:forEach>
-  </c:if>
-  <c:if test="${status==false }">
-	  <c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
-		  <tr>
-		   <th>明细</th>
-		    <td>&nbsp;${orderContractProduct.carseriy.brand.name }&nbsp;&nbsp;${orderContractProduct.carseriy.name }</td>
-		    <td>&nbsp;${orderContractProduct.carModel.name }</td>
-		    <td>&nbsp;${orderContractProduct.carColor.name }</td>
-		    <td colspan="2" >&nbsp;${orderContractProduct.note }
-		    	<c:if test="${orderContract.isShowNote==true }">
-		   			车型颜色不换,定金不退只用于冲抵车款	
-		   		</c:if>
-		    </td>
-		  </tr>
-	  </c:forEach>
-  </c:if>
+  <c:forEach var="orderContractProduct" items="${orderContractProducts }" varStatus="i">
+	  <tr>
+	   <th style="text-align: center;">明细</th>
+	    <td>&nbsp;${orderContractProduct.carseriy.brand.name }&nbsp;&nbsp;${orderContractProduct.carseriy.name }</td>
+	    <td>&nbsp;${orderContractProduct.carModel.name }</td>
+	    <td>&nbsp;${orderContractProduct.carColor.name }</td>
+	    <td>&nbsp;${orderContractProduct.note }
+	    	<c:if test="${orderContract.isShowNote==true }">
+	   			车型颜色不换,定金不退只用于冲抵车款	
+	   		</c:if>
+	    </td>
+	    <c:set value="${ totalPrice+orderContractProduct.price}" var="totalPrice"></c:set>
+	  </tr>
+  </c:forEach>
  <tr>
  	<td style="border: 0" colspan="5">
 		<div >
@@ -171,7 +150,7 @@ $().ready(function() {
             <td height="24" style="text-align: center;" class="selectTdClass">
             	1
             </td>
-            <td colspan="2" style="" class="selectTdClass">咨询服务费</td>
+            <td colspan="2" style="" class="selectTdClass">按揭手续费</td>
             <td  class="selectTdClass" style="text-align: center;">${orderContractExpenses.ajsxf }</td>
             <td colspan="4" style="border-left:none" class="selectTdClass"></td>
         </tr>
@@ -290,8 +269,8 @@ $().ready(function() {
     <td style="width: 50%">
     	<div style="float: left;">销售代表：</div>
     	<div style="border-bottom: 1px solid #000000;width: 120px;float: left;margin-top: -12px;">&nbsp;&nbsp;${orderContract.salesRepresentative }</div>
-   		<div style="float: left;">销售经理：</div>
-   		<div style="border-bottom: 1px solid #000000;width: 120px;float: left;margin-top: -12px;">&nbsp;&nbsp;${processFrom.taskUserName }</div>
+   		<div style="float: left;">展厅经理：</div>
+   		<div style="border-bottom: 1px solid #000000;width: 120px;float: left;margin-top: -12px;">&nbsp;&nbsp;${orderContract.showRoomManager }</div>
    		<div style="clear: both;"></div>
    	</td>
   </tr>

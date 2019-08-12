@@ -67,9 +67,7 @@ public class PointRecordAction extends BaseController{
 			String sql="select * from mem_PointRecord  where 1=1 ";
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
+			if(enterprise.getDbid()>0){
 				sql=sql+" and enterpriseId="+enterprise.getDbid();
 			}
 			Page<PointRecord> page= pointRecordManageImpl.pagedQuerySql(pageNo, pageSize, PointRecord.class, sql, null);
@@ -168,7 +166,7 @@ public class PointRecordAction extends BaseController{
 		if(null!=dbid&&dbid>0){
 			renderMsg("/pointRecord/queryList", "保存数据成功！");
 		}else{
-			renderMsg("/member/queryList", "保存数据成功！");
+			renderMsg("/memMember/queryList", "保存数据成功！");
 		}
 		return ;
 	}
@@ -221,9 +219,7 @@ public class PointRecordAction extends BaseController{
 			String sql="select * from mem_PointRecord  where 1=1 ";
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
+			if(enterprise.getDbid()>0){
 				sql=sql+" and enterpriseId="+enterprise.getDbid();
 			}
 			if(null!=creator&&creator.trim().length()>0){
@@ -280,10 +276,7 @@ public class PointRecordAction extends BaseController{
 			List param=new ArrayList();
 			String sql="select * from mem_PointRecord where 1=1 ";
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			User currentUser = SecurityUserHolder.getCurrentUser();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
+			if(enterprise.getDbid()>0){
 				sql=sql+" and enterpriseId="+enterprise.getDbid();
 			}
 			if(null!=creator&&creator.trim().length()>0){

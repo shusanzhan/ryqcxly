@@ -32,7 +32,7 @@
 	    </a>
     </c:if>
     <c:if test="${param.type==2 }">
-      <a class="go_home" href="${ctx }/qywxCustomerRecord/index">
+      <a class="go_home" href="${ctx }/qywxCustomerTrack/index">
 	    	<img src="${ctx }/images/jm/go_home.png" alt="">
 	    </a>
     </c:if>
@@ -156,7 +156,7 @@
 				线索状态：
 				<c:if test="${customerRecord.resultStatus==2 }">
 					<span style="color: green;">转为登记</span>
-					<a href="${ctx}/qywxCustomer/customerDetail?customerId=${customerRecord.customer.dbid }&type=1">客户档案</a>
+					<a href="${ctx}/qywxCustomer/customerDetail?customerId=${customerRecord.customer.dbid }&type=${param.type}">客户档案</a>
 				</c:if>
 				<c:if test="${customerRecord.resultStatus==1 }">
 					<span style="color: pink;">等待...</span>

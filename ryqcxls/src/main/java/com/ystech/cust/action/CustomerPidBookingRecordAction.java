@@ -1,6 +1,6 @@
 /**
  * 
- *//*
+ */
 package com.ystech.cust.action;
 
 import java.util.ArrayList;
@@ -74,11 +74,11 @@ import com.ystech.xwqr.set.service.CarColorManageImpl;
 import com.ystech.xwqr.set.service.CarModelManageImpl;
 import com.ystech.xwqr.set.service.CarSeriyManageImpl;
 
-*//**
+/**
  * 功能描述：交车预约表，类似合同管理
  * @author shusanzhan
  * @date 2014-2-28
- *//*
+ */
 @Component("customerPidBookingRecordAction")
 @Scope("prototype")
 public class CustomerPidBookingRecordAction extends BaseController{
@@ -250,164 +250,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			CustomerInfromManageImpl customerInfromManageImpl) {
 		this.customerInfromManageImpl = customerInfromManageImpl;
 	}
-	*//**
-	 * 功能描述：物流部调配车辆信息
-	 * 参数描述： 
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	@SuppressWarnings({ "unchecked", "static-access" })
-	public String queryWlbWatingList() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
-		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
-		String vinCode = request.getParameter("paramVinCode");
-		String userName = request.getParameter("userName");
-		String name = request.getParameter("name");
-		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
-		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
-		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
-		Integer carColorId = ParamUtil.getIntParam(request, "carColorId", -1);
-		Integer hasCarOrder = ParamUtil.getIntParam(request, "hasCarOrder", -1);
-		Integer departmentId = ParamUtil.getIntParam(request, "departmentId", -1);
-		Integer pidStatus = ParamUtil.getIntParam(request, "pidStatus", -1);
-		Integer wlStatus = ParamUtil.getIntParam(request, "wlStatus", -1);
-		Integer orderNum = ParamUtil.getIntParam(request, "orderNum", -1);
-		Integer appOrder = ParamUtil.getIntParam(request, "appOrder", -1);
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-		try{
-			User currentUser = SecurityUserHolder.getCurrentUser();
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			request.setAttribute("enterprise", enterprise);
-			String departmentIds=null;
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				Department parent = departmentManageImpl.get(Department.ROOT);
-				if(departmentId>0){
-					Department department = departmentManageImpl.get(departmentId);
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,parent);
-					request.setAttribute("departmentSelect", departmentSelect);
-					departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
-				}else{
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,parent);
-					request.setAttribute("departmentSelect", departmentSelect);
-				}
-			}else{
-				if(departmentId>0){
-					Department department = departmentManageImpl.get(departmentId);
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-					departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
-				}else{
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-				}
-			}
-			//车系
-			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
-			request.setAttribute("brands", brands);
-			//车系
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
-			request.setAttribute("carSeriys", carSeriys);
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
-			request.setAttribute("carColors", carColors);
-			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
-			request.setAttribute("carModels", carModels);
-			String sql="select * from cust_Customer as cu,cust_CustomerPidBookingRecord as cpid,cust_customerbussi as cb " +
-					" where " +
-					" cpid.customerId=cu.dbid and cb.customerId=cu.dbid and cpid.pidStatus>=? and cpid.wlStatus>=? and cpid.pidStatus!=2";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
-				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
-			}
-			List param= new ArrayList();
-			param.add(CustomerPidBookingRecord.PRINT);
-			param.add(CustomerPidBookingRecord.WLWATING);
-			if(null!=vinCode&&vinCode.trim().length()>0){
-				sql=sql+" and cpid.vinCode like ? ";
-				param.add("%"+vinCode+"%");
-			}
-			if(null!=wlStatus&&wlStatus>0){
-				sql=sql+" and cpid.wlStatus=? ";
-				param.add(wlStatus);
-			}
-			if(null!=userName&&userName.trim().length()>0){
-				sql=sql+" and cu.bussiStaff like ? ";
-				param.add("%"+userName+"%");
-			}
-			if(null!=hasCarOrder&&hasCarOrder>0){
-				sql=sql+" and cpid.hasCarOrder=? ";
-					param.add(hasCarOrder);
-			}
-			if(null!=departmentIds){
-				System.out.println(departmentIds);
-				sql=sql+" and cu.departmentId in("+departmentIds+")";
-			}
-			if(null!=name&&name.trim().length()>0){
-				sql=sql+" and cu.name like ? ";
-				param.add("%"+name+"%");
-			}
-			if(carSeriyId>0){
-				sql=sql+" and cb.carSeriyId=? ";
-				param.add(carSeriyId);
-			}
-			if(brandId>0){
-				sql=sql+" and cb.brandId=? ";
-				param.add(brandId);
-			}
-			if(carModelId>0){
-				sql=sql+" and cb.carModelId=? ";
-				param.add(carModelId);
-			}
-			if(carColorId>0){
-				sql=sql+" and cpid.carColorid=? ";
-				param.add(carColorId);
-			}
-			if(null!=startTime&&startTime.trim().length()>0){
-				sql=sql+" and cpid.createTime>= ? ";
-				param.add(DateUtil.string2Date(startTime));
-			}
-			if(null!=endTime&&endTime.trim().length()>0){
-				sql=sql+" and cpid.createTime< ? ";
-				param.add(DateUtil.nextDay(endTime));
-			}
-			if(pidStatus>0){
-				sql=sql+" and cpid.pidStatus=? ";
-				param.add(pidStatus);
-			}
-			if(appOrder==-1&&orderNum==-1){
-				sql=sql+" order by cpid.wlStatus,cpid.createTime";
-			}
-			if(appOrder==1){
-				sql=sql+" order by cpid.wlCreateTime DESC";
-			}
-			if(appOrder==2){
-				sql=sql+" order by cpid.wlCreateTime";
-			}
-			if(orderNum==1){
-				sql=sql+" order by cpid.bookingDate DESC";
-			}
-			if(orderNum==2){
-				sql=sql+" order by cpid.bookingDate";
-			}
-			System.err.println(sql);
-			Page<Customer> page = customerMangeImpl.pagedQuerySql(pageNo, pageSize, Customer.class, sql, param.toArray());
-			request.setAttribute("page", page);
-		}catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "wlbList";
-	}
-	*//** 
+	/** 
 	 * 功能描述：查询代交车记录（打印合同记录）
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@SuppressWarnings("unchecked")
 	public String queryWatingList() throws Exception {
 		HttpServletRequest request = this.getRequest();
@@ -429,13 +278,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "watingList";
 	}
-	*//**
+	/**
 	 * 功能描述：查询代交车记录（打印合同记录）销售副总经理
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@SuppressWarnings("unchecked")
 	public String queryApprovalWatingList() throws Exception {
 		HttpServletRequest request = this.getRequest();
@@ -459,7 +308,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			String departmentIds=null;
 			if(departmentId>0){
 				Department department = departmentManageImpl.get(departmentId);
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,null);
 				request.setAttribute("departmentSelect", departmentSelect);
 				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 			}else{
@@ -473,7 +322,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
 			
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
@@ -549,13 +398,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "watingApprovalList";
 	}
-	*//**
+	/**
 	 * 功能描述：查询代交车记录（打印合同记录）销总经理
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@SuppressWarnings("unchecked")
 	public String queryManageWatingList() throws Exception {
 		HttpServletRequest request = this.getRequest();
@@ -590,13 +439,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "watingManageList";
 	}
-	*//**
+	/**
 	 * 功能描述：成交客户信息表
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	@SuppressWarnings("unchecked")
 	public String customerSuccess() throws Exception {
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
@@ -721,13 +570,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "customerSuccess";
 	}
-	*//**
+	/**
 	 * 功能描述：成交客户信息表(物流部成交客户)
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String wlbCustomerManageSuccess() throws Exception {
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
@@ -762,7 +611,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			//车系
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
@@ -829,13 +678,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "wlbCustomerManageSuccess";
 	}
-	*//**
+	/**
 	 * 功能描述：成交客户信息表(装饰部查看)
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String decoreCustomerManageSuccess() throws Exception {
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
@@ -870,7 +719,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			//车系
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
@@ -937,13 +786,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "decoreCustomerManageSuccess";
 	}
-	*//**
+	/**
 	 * 功能描述：成交客户信息表
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String customerManageSuccess() throws Exception {
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
@@ -1003,17 +852,15 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
 			
-			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brandId, carSeriyId);
+			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			String sql="select * from "
 					+ "cust_Customer as cu,"
 					+ " cust_CustomerPidBookingRecord as cpid "
 					+ "  where"
 					+ "  cpid.customerId=cu.dbid   and cpid.pidStatus=? ";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and (cu.enterpriseId in("+currentUser.getCompnayIds()+") or cu.sourceEnterPriseId in("+currentUser.getCompnayIds()+"))";
-			}else{
-				sql=sql+" and (cu.enterpriseId="+enterprise.getDbid()+" or cu.sourceEnterPriseId="+enterprise.getDbid()+" )";
+			if(enterprise.getDbid()>0){
+				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
 			}
 			List param= new ArrayList();
 			param.add(CustomerPidBookingRecord.FINISHED);
@@ -1118,13 +965,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "customerManageSuccess";
 	}
-	*//**
+	/**
 	 * 功能描述：客户部成交客户信息表
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String serviceCustomerManageSuccess() throws Exception {
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
@@ -1143,11 +990,11 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				Department parent = departmentManageImpl.get(Department.ROOT);
 				if(departmentId>0){
 					Department department = departmentManageImpl.get(departmentId);
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,parent);
+					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
 					request.setAttribute("departmentSelect", departmentSelect);
 					departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 				}else{
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,parent);
+					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
 					request.setAttribute("departmentSelect", departmentSelect);
 				}
 			}else{
@@ -1208,14 +1055,14 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "serviceCustomerManageSuccess";
 	}
-	*//**
+	/**
 	 * 功能描述： 
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String add() throws Exception {
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
@@ -1256,14 +1103,14 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		return "edit";
 	}
 
-	*//**
+	/**
 	 * 功能描述：编辑交车预约记录
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String edit() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
@@ -1278,14 +1125,14 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "edit";
 	}
-	*//**
+	/**
 	 * 功能描述： 物流部编辑信息
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String wlbEdit() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
@@ -1313,161 +1160,20 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				OrderContractDecore orderContractDecore = orderContractDecores.get(0);
 				request.setAttribute("orderContractDecore", orderContractDecore);
 			}
-			List<CustCartrialer> custCartrialers = custCartrialerManageImpl.findBy("customer.dbid", customer.getDbid());
-			if(!custCartrialers.isEmpty()){
-				CustCartrialer custCartrialer = custCartrialers.get(0);
-				request.setAttribute("custCartrialer", custCartrialer);
-			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
 		}
 		return "wlbEdit";
 	}
-	*//**
-	 * 功能描述： 物流部库存编辑交车信息
-	 * 参数描述： 
-	 * 逻辑描述：
-	 * 
-	 * @return
-	 * @throws Exception
-	 *//*
-	public String wlbEditStock() throws Exception {
-		Integer factoryOrderId = ParamUtil.getIntParam(request, "factoryOrderId", -1);
-		try{
-			FactoryOrder factoryOrder = factoryOrderManageImpl.get(factoryOrderId);
-			request.setAttribute("factoryOrder", factoryOrder);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "wlbEditStock";
-	}
-	*//**
-	 * 功能描述：保存物流部库存
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	public void saveWlbStock() throws Exception {
-		HttpServletRequest request = getRequest();
-		Integer dbid = ParamUtil.getIntParam(request, "customerPidRecordId", -1);
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		String vinCode = request.getParameter("vinCode");
-		String wlNote = request.getParameter("wlNote");
-		try{
-			 if(null!=dbid&&dbid>0){
-			    CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
-			    List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-			    FactoryOrder factoryOrder=null;
-			    //设置奖励金额
-			    if(null!=factoryOrders&&factoryOrders.size()>0){
-			    	factoryOrder = factoryOrders.get(0);
-			    	if(factoryOrder.getCarStatus()>1){
-			    		String carSource="";
-			    		StoreArea storeArea = factoryOrder.getCarReceiving().getStoreArea();
-			    		if(null!=storeArea){
-			    			//网点
-			    			customerPidBookingRecord2.setWebSite(storeArea.getName());
-			    		}
-			    		StoreRoom storeRoom = factoryOrder.getCarReceiving().getStoreRoom();
-			    		if(null!=storeRoom){
-			    			carSource=carSource+storeRoom.getName();
-			    		}
-			    		Storage storage = factoryOrder.getCarReceiving().getStorage();
-			    		if(null!=storage){
-			    			carSource=carSource+storage.getName();
-			    		}
-			    		//库存点
-			    		customerPidBookingRecord2.setCarSource(carSource);
-			    	}
-			    	//车辆等级
-			    	customerPidBookingRecord2.setHasCarWl(factoryOrder.getStoreAgeLevel().getDbid());
-			    }
-			    customerPidBookingRecord2.setWlCreateTime(new Date());
-			    customerPidBookingRecord2.setWlCreator(currentUser.getRealName());
-				customerPidBookingRecord2.setVinCode(vinCode);
-				//设置跨店销售为正常销售状态
-				customerPidBookingRecord2.setKdStatus(CustomerPidBookingRecord.KDCOMM);
-				//物流备注
-				customerPidBookingRecord2.setWlNote(wlNote);
-				//车源情况
-				if(factoryOrder.getCarStatus()==FactoryOrder.CARSTATUSCOMM){
-					customerPidBookingRecord2.setHasCarOrder(CustomerPidBookingRecord.HASCARORDERING);
-				}
-				if(factoryOrder.getCarStatus()==FactoryOrder.CARSTATUSIN){
-					customerPidBookingRecord2.setHasCarOrder(CustomerPidBookingRecord.HASCARORDERWIN);
-				}
-				customerPidBookingRecord2.setWlStatus(CustomerPidBookingRecord.WLDEALED);
-				//保存跟踪记录信息
-				customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-				
-				//更新车辆库存信息 设置车辆已经预定
-				if(null!=factoryOrder){
-					factoryOrder.setReserveStatus(FactoryOrder.RESERVED);
-					factoryOrderManageImpl.save(factoryOrder);
-				}
-				
-				//保存工厂订单信息
-				CarOperateLog carOperateLog=new CarOperateLog();
-				carOperateLog.setFactoryOrder(factoryOrder);
-				carOperateLog.setOperateDate(new Date());
-				carOperateLog.setOperator(currentUser.getRealName());
-				carOperateLog.setType("交车预约绑定车架号");
-				carOperateLog.setNote("绑定车架号，销售顾问["+customerPidBookingRecord2.getCustomer().getUser().getRealName()+"]");
-				carOperateLogManageImpl.save(carOperateLog);
-				
-				Customer customer = customerPidBookingRecord2.getCustomer();
-				String touser=customer.getUser().getUserId();
-				String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-				String dis="物流部已经为客户【"+customer.getName()+"】绑定车架号，车架号"+vinCode;
-				qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "绑定车架号通知", request);
-			 }
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-			renderErrorMsg(e, "");
-			return ;
-		}
-		renderMsg("/factoryOrder/queryWlbStock", "交车预约成功！");
-		return;
-	}
-	*//**
-	 * 功能描述：选择待交车列表
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	public String selectCustomerPidRecord() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer factoryOrderId = ParamUtil.getIntParam(request, "factoryOrderId", -1);
-		try {
-			FactoryOrder factoryOrder = factoryOrderManageImpl.get(factoryOrderId);
-			if(null!=factoryOrder){
-				String sql="select * from cust_CustomerPidBookingRecord " +
-						"where " +
-						"brandId="+factoryOrder.getBrand().getDbid()+" and carSeriyId="+factoryOrder.getCarSeriy().getDbid()+" " +
-								"and carModelId="+factoryOrder.getCarModel().getDbid()+" and carColorId="+factoryOrder.getCarColor().getDbid()+" and (pidStatus=1 or pidStatus>5) and vinCode is NULL" ;
-				List<CustomerPidBookingRecord> customerPidBookingRecords = customerPidBookingRecordManageImpl.executeSql(sql,null);
-				request.setAttribute("customerPidBookingRecords", customerPidBookingRecords);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "selectCustomerPidRecord";
-	}
-	*//**
+	/**
 	 * 功能描述：更新交车预约记录表
 	 * 参数描述： 
 	 * 逻辑描述：交车预约记录在打印合同时就生成（orderContractAction），
 	 * 此处是对交车预约记录数据进行编辑；更新最终能交车记录的交车信息（CustomerLastBussi），CustomerBussi表
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void save() throws Exception {
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
@@ -1523,10 +1229,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				customerPidBookingRecord.setOrderDate(DateUtil.stringDateWithHHMM(orderDate));
 				customerPidBookingRecord.setPidStatus(CustomerPidBookingRecord.FINISHED);
 				customerPidBookingRecord.setHfStatus(CustomerPidBookingRecord.HFWATING);
-				//归档日期
-				customerPidBookingRecord.setCwStatus(CwCustomer.COMM);
-				customerPidBookingRecord.setCwDate(new Date());
-				customerPidBookingRecord.setCwAppStatus(CwCustomer.COMM);
 				customerPidBookingRecord.setCartrialerWlStatus(CustomerPidBookingRecord.WLDEALED);
 				customerPidBookingRecordManageImpl.save(customerPidBookingRecord);
 				//删除重复数据
@@ -1591,261 +1293,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		renderMsg("/customerPidBookingRecord/customerSuccess", "保存数据成功！");
 		return ;
 	}
-	
-	*//**
-	 * 功能描述：物流部填写物流信息
-	 * 参数描述：交车预约记录表信Id
-	 * 逻辑描述：1、获取车架号
-	 * 			 2、计算奖励金额
-	 * 			 3、跟新车辆状态
-	 * @return
-	 * @throws Exception
-	 *//*
-	public void saveWlb() throws Exception {
-		HttpServletRequest request = getRequest();
-		Integer dbid=customerPidBookingRecord.getDbid();
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		String vinCode = request.getParameter("vinCode");
-		try{
-			 Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			 if(null!=dbid){
-			    CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
-			    List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-			    FactoryOrder factoryOrder=null;
-			    if(null!=factoryOrders&&factoryOrders.size()>0){
-			    	factoryOrder = factoryOrders.get(0);
-			    	if(factoryOrder.getCarStatus()>1){
-			    		String carSource="";
-			    		StoreArea storeArea = factoryOrder.getCarReceiving().getStoreArea();
-			    		if(null!=storeArea){
-			    			//网点
-			    			customerPidBookingRecord2.setWebSite(storeArea.getName());
-			    		}
-			    		StoreRoom storeRoom = factoryOrder.getCarReceiving().getStoreRoom();
-			    		if(null!=storeRoom){
-			    			carSource=carSource+storeRoom.getName();
-			    		}
-			    		Storage storage = factoryOrder.getCarReceiving().getStorage();
-			    		if(null!=storage){
-			    			carSource=carSource+storage.getName();
-			    		}
-			    		//库存点
-			    		customerPidBookingRecord2.setCarSource(carSource);
-			    	}
-			    	StoreAgeLevel storeAgeLevel = factoryOrder.getStoreAgeLevel();
-			    	if(null!=storeAgeLevel){
-			    		//车辆等级
-			    		customerPidBookingRecord2.setHasCarWl(factoryOrder.getStoreAgeLevel().getDbid());
-			    	}
-			    }
-			    customerPidBookingRecord2.setWlCreateTime(new Date());
-			    customerPidBookingRecord2.setWlCreator(currentUser.getRealName());
-				customerPidBookingRecord2.setVinCode(vinCode);
-				//设置跨店销售状态为默认正常状态
-				customerPidBookingRecord2.setKdStatus(CustomerPidBookingRecord.KDCOMM);
-				//物流备注
-				customerPidBookingRecord2.setWlNote(customerPidBookingRecord.getWlNote());
-				//车源情况\
-				customerPidBookingRecord2.setHasCarOrder(customerPidBookingRecord.getHasCarOrder());
-				customerPidBookingRecord2.setWlStatus(CustomerPidBookingRecord.WLDEALED);
-				//保存跟踪记录信息
-				customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-				
-				Customer customer = customerPidBookingRecord2.getCustomer();
-				
-				
-				//发送微信消息
-				// 初始化 保险业务模块客户信息   //////////////////////////////////////////////////end/////////////////////////
-				//更新车辆库存信息 设置车辆已经预定
-				if(null!=factoryOrder){
-					factoryOrder.setReserveStatus(FactoryOrder.RESERVED);
-					factoryOrderManageImpl.save(factoryOrder);
-					//保存工厂订单信息
-					CarOperateLog carOperateLog=new CarOperateLog();
-					carOperateLog.setFactoryOrder(factoryOrder);
-					carOperateLog.setOperateDate(new Date());
-					carOperateLog.setOperator(currentUser.getRealName());
-					carOperateLog.setType("交车预约绑定车架号");
-					if(null!=customerPidBookingRecord2.getCustomer()){
-						User user = customerPidBookingRecord2.getCustomer().getUser();
-						if(null!=user){
-							carOperateLog.setNote("绑定车架号，销售顾问["+user.getRealName()+"]");
-						}
-					}
-					carOperateLogManageImpl.save(carOperateLog);
-					
-					//判断绑定的车量不属于自家车辆，如果不是发起邦车申请
-					if(factoryOrder.getEnterprise().getDbid()!=(int)enterprise.getDbid()){
-						saveOrderBuySaler(factoryOrder, customerPidBookingRecord2);
-					}
-					
-					if(null!=customer.getUser()){
-						String touser=customer.getUser().getUserId();
-						String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-						String dis="物流部已经为客户【"+customer.getName()+"】绑定车架号，车架号"+vinCode;
-						qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "绑定车架号通知", request);
-					}
-				}else{
-					//发送微信消息
-					Customer customer2 = customerPidBookingRecord2.getCustomer();
-					String touser=customer2.getUser().getUserId();
-					String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-					String dis="物流部已处理你的交车预约，订单处于无车订单";
-					qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "绑定车架号通知", request);
-				}
-				
-				// 初始化 保险业务模块客户信息   ///////////////////////////////////////////////////begin////////////////////////
-				List<InsCustomer> insCustomers = insCustomerManageImpl.findBy("customer.dbid", customer.getDbid());
-				if(null==insCustomers||insCustomers.size()<=0){
-					InsCustomer insCustomer=new InsCustomer();
-					insCustomer.setBrand(customerPidBookingRecord2.getBrand());
-					insCustomer.setCarModel(customerPidBookingRecord2.getCarModel());
-					insCustomer.setCarseriy(customerPidBookingRecord2.getCarSeriy());
-					insCustomer.setCreator(currentUser);
-					insCustomer.setCreatorName(currentUser.getRealName());
-					insCustomer.setCustomerType(InsCustomer.CUSTYPESELF);
-					insCustomer.setHistoryBuyMoney(Float.valueOf("0"));
-					insCustomer.setMobilePhone(customer.getMobilePhone());
-					insCustomer.setBuyInsuranceStatus(1);
-					insCustomer.setSex(customer.getSex());
-					insCustomer.setName(customer.getName());
-					if(null!=factoryOrder){
-						insCustomer.setSqrNo(factoryOrder.getSqrNo());
-						insCustomer.setVinCode(factoryOrder.getVinCode());
-					}
-					insCustomer.setBuyDate(customerPidBookingRecord2.getModifyTime());
-					List<OutboundOrder> outboundOrders = outboundOrderManageImpl.findBy("customerId", customer.getDbid());
-					if(null!=outboundOrders&&outboundOrders.size()>0){
-						OutboundOrder outboundOrder = outboundOrders.get(0);
-						insCustomer.setShanghuArea(outboundOrder.getShanghuArea().getFullName());
-					}
-					insCustomer.setCustomer(customer);
-					String carName="";
-					if(null!=customerPidBookingRecord2.getBrand()){
-						carName=carName+customerPidBookingRecord2.getBrand().getName();
-					}
-					if(null!=customerPidBookingRecord2.getCarSeriy()){
-						carName=carName+customerPidBookingRecord2.getCarSeriy().getName();
-					}
-					if(null!=customerPidBookingRecord2.getCarModel()){
-						carName=carName+customerPidBookingRecord2.getCarModel().getName();
-					}
-					insCustomer.setCarName(carName);
-					insCustomer.setWarmingStatus(InsCustomer.WARMINGCOMM);
-					insCustomer.setHistoryBuyNum(0);
-					insCustomer.setOutFlowStatus(0);
-					insCustomer.setRecordDate(new Date());
-					insCustomer.setSaler(customer.getUser());
-					if(null!=customer.getUser()){
-						insCustomer.setSalerName(customer.getUser().getRealName());
-					}
-					insCustomer.setEnterprise(customer.getEnterprise());
-					insCustomerManageImpl.save(insCustomer);
-				}else{
-					InsCustomer insCustomer = insCustomers.get(0);
-					if(null!=factoryOrder){
-						insCustomer.setVinCode(factoryOrder.getVinCode());
-						insCustomer.setSqrNo(factoryOrder.getSqrNo());
-					}
-					insCustomer.setName(customer.getName());
-					List<OutboundOrder> outboundOrders = outboundOrderManageImpl.findBy("customerId", customer.getDbid());
-					if(null!=outboundOrders&&outboundOrders.size()>0){
-						OutboundOrder outboundOrder = outboundOrders.get(0);
-						insCustomer.setShanghuArea(outboundOrder.getShanghuArea().getFullName());
-					}
-					insCustomer.setMobilePhone(customer.getMobilePhone());
-					insCustomerManageImpl.save(insCustomer);
-				}
-				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(),"物流邦车处理",currentUser.getRealName()+"邦车处理");
-			 }else{
-				 renderErrorMsg(new Throwable("未选中操作数据！") , "");
-				 return ;
-			 }
-		}catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-			renderErrorMsg(e, "");
-			return  ;
-		}
-		renderMsg("/customerPidBookingRecord/queryWlbWatingList", "保存数据成功！");
-		return ;
-	}
-	*//**
-	 * 功能描述：经销商买车申请
-	 * @param factoryOrder
-	 * @param customerPidBookingRecord
-	 *//*
-	private void saveOrderBuySaler(FactoryOrder factoryOrder,CustomerPidBookingRecord customerPidBookingRecord){
-		HttpServletRequest request2 = this.getRequest();
-		String buySalerNote = request2.getParameter("buySalerNote");
-		
-		OrderBuySaler buySaler=new OrderBuySaler();
-		//设置绑定车架号 工厂订单信息（跨店销售状态、申请时间、申请人、申请状态、车辆来源状态）
-		Enterprise enterprise = SecurityUserHolder.getEnterprise();
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		factoryOrder.setKdSaleStatus(FactoryOrder.KDSTATUSYES);
-		factoryOrder.setSaleApplyDate(new Date());
-		factoryOrder.setSaleApplyEnterPrise(enterprise);
-		factoryOrder.setSaleApplyStatus(FactoryOrder.SALEWAITING);
-		factoryOrder.setFromType(1);
-		factoryOrderManageImpl.save(factoryOrder);
-		
-		//保存申请记录
-		OrderBuySaler orderBuySaler=new OrderBuySaler();
-		orderBuySaler.setCustomerPidBookingRecord(customerPidBookingRecord);
-		orderBuySaler.setAcceptDate(null);
-		orderBuySaler.setAcceptPerson(null);
-		orderBuySaler.setAcceptStatus(OrderBuySaler.ACCEPTCOMM);
-		orderBuySaler.setApplayDate(new Date());
-		orderBuySaler.setApplayPerson(currentUser.getRealName());
-		orderBuySaler.setBuyCompany(enterprise);
-		orderBuySaler.setConfireDate(null);
-		orderBuySaler.setConfirePerson(null);
-		orderBuySaler.setConfireStatus(OrderBuySaler.CONFIRECOMM);
-		orderBuySaler.setStatementStatus(OrderBuySaler.STATEMENTCOMM);
-		orderBuySaler.setApplayTurnBackStatus(OrderBuySaler.APPLYCOMM);
-		orderBuySaler.setFactoryOrder(factoryOrder);
-		orderBuySaler.setNote(buySalerNote);
-		orderBuySaler.setSaleCompnay(factoryOrder.getEnterprise());
-		orderBuySaler.setSendCarDate(null);
-		orderBuySaler.setSendCarPerson(null);
-		orderBuySaler.setSendCarStatus(OrderBuySaler.SENDCOMM);
-		orderBuySalerManageImpl.save(orderBuySaler);
-		//删除重复数据
-		orderBuySalerManageImpl.deleteDuplicateDataId(factoryOrder.getDbid(),enterprise.getDbid());
-		
-		//设置交车预约为跨店销售车辆；
-		customerPidBookingRecord.setKdStatus(CustomerPidBookingRecord.KDAPPLAYING);
-		customerPidBookingRecordManageImpl.save(customerPidBookingRecord);
-		
-		String noteLog=enterprise.getName()+"店，【"+currentUser.getRealName()+"】发起绑车申请，时间："+DateUtil.format(new Date());
-		saveCarOperateLog(factoryOrder, "绑车申请",noteLog);
-		buySaler.setNote(buySalerNote);
-	}
-	*//**
-	 * 功能描述：邦车操作日志
-	 * @param factoryOrder
-	 * @param type
-	 * @param note
-	 *//*
-	private void saveCarOperateLog(FactoryOrder factoryOrder,String type,String note){
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		//保存工厂订单信息
-		CarOperateLog carOperateLog=new CarOperateLog();
-		carOperateLog.setFactoryOrder(factoryOrder);
-		carOperateLog.setOperateDate(new Date());
-		carOperateLog.setOperator(currentUser.getRealName());
-		carOperateLog.setType(type);
-		carOperateLog.setNote(note);
-		carOperateLogManageImpl.save(carOperateLog);
-	}
-	*//**
+	/**
 	 * 功能描述：合同流失申请页面
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String orderContractCancel() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		try{
@@ -1860,13 +1314,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "orderContractCancel";
 	}
-	*//**
+	/**
 	 * 功能描述：保存订合同流失申请记录
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void saveOrderContractCancel() throws Exception {
 		Integer dbid=customerPidBookingRecord.getDbid();
 		String cancelNote = request.getParameter("cancelNote");
@@ -1888,8 +1342,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			    
 			    //发起合同流失审批流程
 			    User currentUser2 = SecurityUserHolder.getCurrentUser();
-			    ProcessRun processRun = processManageImpl.startRun(currentUser2, customerPidBookingRecord2.getCustomer(), ProcessRun.TYPECPID);
-			    processManageImpl.sendTaskMessage(processRun, request);
 			    //保存客户合同流失日志
 			    customerOperatorLogManageImpl.saveCustomerOperatorLog(customerPidBookingRecord2.getCustomer().getDbid(), "客户合同流失申请", "");
 			    
@@ -1906,13 +1358,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		renderMsg("/customerPidBookingRecord/queryWatingList", "申请发送成功!");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：客户归档跳转页面
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String toCutomerFile() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try {
@@ -1924,10 +1376,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
 				request.setAttribute("customerPidBookingRecord", customerPidBookingRecord2);
 				
-				List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", customerPidBookingRecord2.getVinCode());
-				if(null!=factoryOrders&&factoryOrders.size()>0){
-					request.setAttribute("factoryOrder",factoryOrders.get(0));
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1935,7 +1383,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "toCutomerFile";
 	}
-	*//**
+	/**
 	 * 功能描述：客户状态设置为归档状态
 	 * 参数描述：customerId
 	 * 逻辑描述：通过customerId设置客户状态为归档,
@@ -1947,7 +1395,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void customerFile() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		Integer dmsStatus = ParamUtil.getIntParam(request, "dmsStatus", -1);
@@ -1957,76 +1405,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			if(customerId>0){
 				Customer customer = customerMangeImpl.get(customerId);
 				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
-				if(customerPidBookingRecord2.getKdStatus()>CustomerPidBookingRecord.KDCOMM){
-					if(customerPidBookingRecord2.getKdStatus()!=(int)CustomerPidBookingRecord.KDCARRECIVED){
-						String mess="";
-						if(customerPidBookingRecord2.getKdStatus()!=(int)CustomerPidBookingRecord.KDYES){
-							mess="待发车";
-						}
-						if(customerPidBookingRecord2.getKdStatus()!=(int)CustomerPidBookingRecord.KDYSENDINGCAR){
-							mess="待收车";
-						}
-						renderErrorMsg(new Throwable("该车在系统中发生了经销商买卖，并且买卖流程处于【"+mess+"】状态，请操作完毕后在进行归档操作！"), "");
-						return ;
-					}
-				}
-				String vinCode = customerPidBookingRecord2.getVinCode();
-				List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-				FactoryOrder factoryOrder=null;
-				if(!factoryOrders.isEmpty()){
-					factoryOrder = factoryOrders.get(0);
-					if(factoryOrder.getCarStatus()==FactoryOrder.CARSTATUSCOMM){
-						renderErrorMsg(new Throwable("车辆在途不能出库归档！"), "");
-						return ;
-					}
-				}
-				//挂车归档操作
-				String cartrialerVinCode = customerPidBookingRecord2.getCartrialerVinCode();
-				if(null!=cartrialerVinCode&&cartrialerVinCode.trim().length()>0){
-					List<FactoryOrder> factoryOrder2s = factoryOrderManageImpl.findBy("vinCode", cartrialerVinCode);
-					FactoryOrder factoryOrder2=null;
-					if(!factoryOrder2s.isEmpty()){
-						factoryOrder2 = factoryOrder2s.get(0);
-						if(factoryOrder2.getCarStatus()==FactoryOrder.CARSTATUSCOMM){
-							renderErrorMsg(new Throwable("车辆在途不能出库归档！"), "");
-							return ;
-						}
-					}
-					if(factoryOrder2!=null){
-						factoryOrder2.setCarStatus(FactoryOrder.CARSTATUSFILE);
-						factoryOrder2.setOutStockDate(fileDate);
-						factoryOrderManageImpl.save(factoryOrder2);
-						
-						//设置销售车辆的原始进货商
-						customer.setSourceEnterprise(factoryOrder2.getSourceCompany());
-						
-						//保存工厂订单信息
-						CarOperateLog carOperateLog=new CarOperateLog();
-						carOperateLog.setFactoryOrder(factoryOrder2);
-						carOperateLog.setOperateDate(new Date());
-						carOperateLog.setOperator(currentUser.getRealName());
-						carOperateLog.setType("车辆归档");
-						carOperateLog.setNote("");
-						carOperateLogManageImpl.save(carOperateLog);
-					}
-				}
-				if(factoryOrder!=null){
-					factoryOrder.setCarStatus(FactoryOrder.CARSTATUSFILE);
-					factoryOrder.setOutStockDate(fileDate);
-					factoryOrderManageImpl.save(factoryOrder);
-					
-					//设置销售车辆的原始进货商
-					customer.setSourceEnterprise(factoryOrder.getSourceCompany());
-					
-					//保存工厂订单信息
-					CarOperateLog carOperateLog=new CarOperateLog();
-					carOperateLog.setFactoryOrder(factoryOrder);
-					carOperateLog.setOperateDate(new Date());
-					carOperateLog.setOperator(currentUser.getRealName());
-					carOperateLog.setType("车辆归档");
-					carOperateLog.setNote("");
-					carOperateLogManageImpl.save(carOperateLog);
-				}
 				if(null!=customer&&customer.getDbid()>0){
 					if(customerPidBookingRecord2.getKdStatus()>(int)CustomerPidBookingRecord.KDCOMM){
 						customer.setKdStatus(Customer.KDYEAS);
@@ -2043,15 +1421,11 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				}
 				customerMangeImpl.save(customer);
 				
-				Integer total = factoryOrder.getTotalRewardMoney();
-				customerPidBookingRecord2.setRewardMoney(total);
 				customerPidBookingRecord2.setPidStatus(CustomerPidBookingRecord.FINISHED);
 				customerPidBookingRecord2.setHfStatus(CustomerPidBookingRecord.HFWATING);
 				//归档日期
 				customerPidBookingRecord2.setModifyTime(fileDate);
-				customerPidBookingRecord2.setCwStatus(CwCustomer.COMM);
 				customerPidBookingRecord2.setCwDate(new Date());
-				customerPidBookingRecord2.setCwAppStatus(CwCustomer.COMM);
 				customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
 				
 				Date modifyTime = customerPidBookingRecord2.getModifyTime();
@@ -2077,86 +1451,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 					}
 				}
 				
-				
-				//归档初始化回访记信息表，先判断改客户已经初始化回访记录，如果没有初始化回访记录那么创建，如果存在
-				VisitRecord vRecord = visitRecordManageImpl.findUniqueBy("customer.dbid", customer.getDbid());
-				if(null==vRecord){
-					VisitRecord visitRecord=new VisitRecord();
-					visitRecord.setCustomer(customer);
-					visitRecord.setTaskStatus(VisitRecord.TASKCREATE);
-					visitRecord.setFileDate(new Date());
-					visitRecord.setVinCode(customerPidBookingRecord2.getVinCode());
-					//买车给客户方承担回访权限直接用 登记客户所在公司
-					if(dmsStatus==(int)Customer.DMSSALER){
-						visitRecord.setEnterprise(customer.getEnterprise());
-					}
-					//车辆原始进货商进行回访
-					if(dmsStatus==(int)Customer.DMSSURCE){
-						if(null!=factoryOrder){
-							visitRecord.setEnterprise(factoryOrder.getSourceCompany());
-						}
-					}
-					if(dmsStatus<0){
-						visitRecord.setEnterprise(customer.getEnterprise());
-					}
-					visitRecordManageImpl.save(visitRecord);
-				}else{
-					//买车给客户方承担回访权限直接用 登记客户所在公司
-					if(dmsStatus==(int)Customer.DMSSALER){
-						vRecord.setEnterprise(customer.getEnterprise());
-					}
-					//车辆原始进货商进行回访
-					if(dmsStatus==(int)Customer.DMSSURCE){
-						if(null!=factoryOrder){
-							vRecord.setEnterprise(factoryOrder.getSourceCompany());
-						}
-					}
-					if(dmsStatus<0){
-						vRecord.setEnterprise(customer.getEnterprise());
-					}
-					vRecord.setVinCode(customerPidBookingRecord2.getVinCode());
-					visitRecordManageImpl.save(vRecord);
-				}
-				
-				//////////////////////////////////////贷款客户物流归档设置客户已经买车//////////////////////////////////
-				List<FinCustomer> finCustomers = finCustomerManageImpl.findBy("customer.dbid", customer.getDbid());
-				if(null!=finCustomers&&finCustomers.size()>0){
-					for (FinCustomer finCustomer2 : finCustomers) {
-						finCustomer2.setFileDate(new Date());
-						finCustomer2.setFileStatus(FinCustomer.FILEED);
-						finCustomerManageImpl.save(finCustomer2);
-					}
-				}
-				//保存发送交车红包
-				Enterprise enterprise = customer.getEnterprise();
-				if(null!=enterprise){
-					//判断是否开启发红包
-					if(enterprise.getPayStatus()==(int)Enterprise.PAYSENDYEAS){
-						Date date=DateUtil.string2Date("2016-08-01");
-						if(customerPidBookingRecord2.getModifyTime().after(date)){
-							//验证客户是否发过红包
-							List<RedBag> redBags = redBagManageImpl.findBy("customerId", customer.getDbid());
-							if(null==redBags||redBags.size()<=0){
-								if(null!=factoryOrder){
-									total = factoryOrder.getTotalRewardMoney();
-									if(total>0){
-										User user = customer.getUser();
-										String carModel=factoryOrder.getBrand().getName()+factoryOrder.getCarSeriy().getName()+ factoryOrder.getCarModel().getName();
-										String note="销售顾问："+user.getRealName()+",车型："+carModel+",车架号："+factoryOrder.getVinCode();
-										String remoteAddr = request.getRemoteAddr();
-										sendRedBagUtil.redBag(customer, new Double(total),remoteAddr,note);
-									}
-								}
-							}
-						}
-					}
-				}
-				
-				//财务数据
-				cwCustomerManageImpl.saveCwCustomer(customer, factoryOrder);
-				
-				
-				
 				//推荐客户修改状态为客户流失
 				RecommendCustomer recommendCustomer = customer.getRecommendCustomer();
 				if(null!=recommendCustomer){
@@ -2181,13 +1475,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		renderMsg("/customerPidBookingRecord/queryWlbWatingList"+query, "客户归档成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：撤销归档客户
 	 * 参数描述：customerId
 	 * 逻辑描述：通过customerId设置客户状态为归档
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void cancelCustomerFile() throws Exception {
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
 		User currentUser = SecurityUserHolder.getCurrentUser();
@@ -2206,26 +1500,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				Customer customer = customerMangeImpl.get(customerId);
 				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
 				String vinCode = customerPidBookingRecord2.getVinCode();
-				List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-				if(null!=factoryOrders&&factoryOrders.size()>0){
-					FactoryOrder factoryOrder = factoryOrders.get(0);
-					if(factoryOrder.getCarStatus()==FactoryOrder.CARSTATUSCOMM){
-						renderErrorMsg(new Throwable("车辆在途不能出库归档！"), "");
-						return ;
-					}
-					factoryOrder.setCarStatus(FactoryOrder.CARSTATUSIN);
-					factoryOrder.setOutStockDate(new Date());
-					factoryOrderManageImpl.save(factoryOrder);
-					
-					//保存工厂订单信息
-					CarOperateLog carOperateLog=new CarOperateLog();
-					carOperateLog.setFactoryOrder(factoryOrder);
-					carOperateLog.setOperateDate(new Date());
-					carOperateLog.setOperator(currentUser.getRealName());
-					carOperateLog.setType("车辆撤销出库");
-					carOperateLog.setNote("");
-					carOperateLogManageImpl.save(carOperateLog);
-				}
 				
 				if(null!=customer&&customer.getDbid()>0){
 					CustomerPhase customerPhase = customerPhaseManageImpl.findUniqueBy("name", "O");
@@ -2238,15 +1512,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				
 				customerPidBookingRecordManageImpl.delete(customerPidBookingRecord2);
 				
-				//////////////////////////////////////贷款客户物流撤销归档 设置未买车//////////////////////////////////
-				List<FinCustomer> finCustomers = finCustomerManageImpl.findBy("customer.dbid", customer.getDbid());
-				if(null!=finCustomers){
-					for (FinCustomer finCustomer2 : finCustomers) {
-						finCustomer2.setFileDate(null);
-						finCustomer2.setFileStatus(FinCustomer.FILECOMM);
-						finCustomerManageImpl.save(finCustomer2);
-					}
-				}
 				
 				//推荐客户修改状态为客户流失
 				RecommendCustomer recommendCustomer = customer.getRecommendCustomer();
@@ -2265,14 +1530,14 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		renderMsg("/customerPidBookingRecord/customerSuccess"+query, "客户撤销归档成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：交车预约删除 
 	 * 参数描述： 
 	 * 逻辑描述：
 	 * 
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void delete() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer[] dbids = ParamUtil.getIntArraryByDbids(request,"dbids");
@@ -2296,7 +1561,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		return;
 	}
 	
-	*//**
+	/**
 	 * 功能描述：取消车架号
 	 * 参数描述：customerPidDbid
 	 * 逻辑描述：
@@ -2306,7 +1571,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 	 * 			4、出库单核查状态重置未未核查
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void cancelVinCode() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer pidDbid = ParamUtil.getIntParam(request, "pidDbid", -1);
@@ -2354,54 +1619,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
     			renderErrorMsg(new Throwable("释放车架号出错，无车架号信息"), "");
     			return ;
     		}
-    		List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", reulvinCode);
-    		//////////////////////设置车辆交车记录 为未预定//////////////////////////////
-		    if(null!=factoryOrders&&factoryOrders.size()>0){
-		    	FactoryOrder factoryOrder= factoryOrders.get(0);
-		    	//跨店销售为申请中：1、删除申请记录；2、重置车辆订单;申请已经同意（发车、收车都不做任何操作）
-		    	if(kdStatus==(int)CustomerPidBookingRecord.KDAPPLAYING||kdStatus==(int)CustomerPidBookingRecord.KDYES){
-		    		//车辆订单数据重置
-		    		factoryOrder.setKdSaleStatus(FactoryOrder.KDSTATUSCOMM);
-		    		factoryOrder.setSaleApplyDate(null);
-		    		factoryOrder.setSaleApplyEnterPrise(null);
-		    		factoryOrder.setSaleApplyStatus(FactoryOrder.SALECOMM);
-		    		factoryOrder.setFromType(1);
-		    		//删除买车申请记录
-		    		List<OrderBuySaler> orderBuySalers = orderBuySalerManageImpl.find("from OrderBuySaler where factoryOrder.dbid=? and customerPidBookingRecord.dbid=?", new Object[]{factoryOrder.getDbid(),customerPidBookingRecord2.getDbid()});
-		    		for (OrderBuySaler orderBuySaler : orderBuySalers) {
-		    			orderBuySalerManageImpl.delete(orderBuySaler);
-		    			OrderBuySalerExpress orderBuySalerExpress = orderBuySaler.getOrderBuySalerExpress();
-		    			//删除结算单
-		    			if(null!=orderBuySalerExpress){
-		    				orderBuySalerExpressManageImpl.delete(orderBuySalerExpress);
-		    			}
-					}
-		    	}
-		    	factoryOrder.setReserveStatus(FactoryOrder.RESERVECOM);
-		    	factoryOrderManageImpl.save(factoryOrder);
-		    	
-		    	Enterprise enterprise = SecurityUserHolder.getEnterprise();
-		    	//添加车架号释放记录
-		    	CarVinCode carVinCode=new CarVinCode();
-				carVinCode.setVinCode(reulvinCode);
-				carVinCode.setCreateTime(new Date());
-				carVinCode.setCar(factoryOrder.getCarSeriy().getName()+""+factoryOrder.getCarModel().getName());
-				if(null!=customer){
-					carVinCode.setBuffName(customer.getBussiStaff());
-					carVinCode.setCustomerName(customer.getName());
-				}
-				carVinCode.setEnterprise(enterprise);
-				carVinCodeManageImpl.save(carVinCode);
-				
-				//保存工厂订单信息
-				CarOperateLog carOperateLog=new CarOperateLog();
-				carOperateLog.setFactoryOrder(factoryOrder);
-				carOperateLog.setOperateDate(new Date());
-				carOperateLog.setOperator(currentUser.getRealName());
-				carOperateLog.setType("交车预约释放车架号");
-				carOperateLogManageImpl.save(carOperateLog);
-		    }
-		    
 		    //发送微信消息 已经结束
 			if(null!=customer&&null!=customer.getUser()){
 				String touser=customer.getUser().getUserId();
@@ -2423,13 +1640,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：销售顾问查看物流部处理情况
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String viewWlbCustomerPidRecord() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
@@ -2441,15 +1658,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
 				request.setAttribute("customerPidBookingRecord",customerPidBookingRecord2);
 				
-				String vinCode = customerPidBookingRecord2.getVinCode();
-				if(null!=vinCode){
-					List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-					if(null!=factoryOrders&&factoryOrders.size()>0){
-						FactoryOrder factoryOrder = factoryOrders.get(0);
-						request.setAttribute("factoryOrder", factoryOrder);
-					}
-				}
-				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2457,7 +1665,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		}
 		return "viewWlbCus";
 	}
-	*//**
+	/**
 	 * 功能描述：取消合同
 	 * 参数描述：customerId
 	 * 逻辑描述：根据customerId获取客户信息，
@@ -2477,7 +1685,7 @@ public class CustomerPidBookingRecordAction extends BaseController{
 	 * 交车审批记录信息。取消合同删除交车预约记录、审批记录
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	private void cancelContract(Integer customerId) throws Exception {
 		User currentUser = SecurityUserHolder.getCurrentUser();
 		try{
@@ -2546,55 +1754,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				//删除图片上传数据库
 				customerImageApprovalManageImpl.deleteBy(customerId);
 				
-				//记录一条合同vin码流失信息 通知物流部
-				if((int)customerPidBookingRecord2.getWlStatus()==(int)CustomerPidBookingRecord.WLDEALED){
-					if(null!=customerPidBookingRecord2.getVinCode()&&customerPidBookingRecord2.getVinCode().trim().length()>0){
-						
-						List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", customerPidBookingRecord2.getVinCode());
-			    		//////////////////////设置车辆交车记录 为未预定//////////////////////////////
-					    if(null!=factoryOrders&&factoryOrders.size()>0){
-					    	FactoryOrder factoryOrder= factoryOrders.get(0);
-					    	factoryOrder.setReserveStatus(FactoryOrder.RESERVECOM);
-					    	factoryOrderManageImpl.save(factoryOrder);
-					    	
-					    	Enterprise enterprise = SecurityUserHolder.getEnterprise();
-					    	//添加车架号释放记录
-					    	CarVinCode carVinCode=new CarVinCode();
-							carVinCode.setVinCode(customerPidBookingRecord2.getVinCode());
-							carVinCode.setCustomerName(customer.getName());
-							carVinCode.setCreateTime(new Date());
-							carVinCode.setCar(customerPidBookingRecord2.getCarSeriy().getName()+""+customerPidBookingRecord2.getCarModel().getName());
-							carVinCode.setBuffName(customer.getBussiStaff());
-							carVinCode.setEnterprise(enterprise);
-							carVinCodeManageImpl.save(carVinCode);
-							
-							//保存工厂订单信息
-							CarOperateLog carOperateLog=new CarOperateLog();
-							carOperateLog.setFactoryOrder(factoryOrder);
-							carOperateLog.setOperateDate(new Date());
-							carOperateLog.setOperator(currentUser.getRealName());
-							carOperateLog.setType("交车预约释放车架号");
-							carOperateLogManageImpl.save(carOperateLog);
-					    }
-						
-						//物流部发送合同流失审批通知记录
-						List<User> users = userManageImpl.find("from User where department.name like ? ", new Object[]{"%物流部%"});
-						if(null!=users&&users.size()>0){
-							Integer[] receiveMessageUserIds=new Integer[users.size()];
-							int i=0;
-							for (User user : users) {
-								receiveMessageUserIds[i]=user.getDbid();
-								i=i+1;
-							}
-							MessageUtile messageUtile=new MessageUtile();
-							String url="/factoryOrder/storageList";
-							String content=customer.getDepartment().getName()+"["+customer.getBussiStaff()+"]的客户【"+customer.getName()+"】合同已经取消，车架号："+customerPidBookingRecord2.getVinCode()+"已经释放!";
-							messageUtile.sendMessageByRecvier("【"+customer.getBussiStaff()+"】取消合同车架号释放通知",content ,url, receiveMessageUserIds);
-							
-						
-						}
-					}
-				}
 			}else{
 				System.out.println("请选择取消合同数据！");
 				return ;
@@ -2607,13 +1766,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		System.out.println("取消合同成功！");
 		return ;
 	}
-	*//**
+	/**
 	 * 功能描述：挂车物流邦车处理
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public String wlbCartrialerEdit() {
 		HttpServletRequest request = getRequest();
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
@@ -2642,225 +1801,15 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				OrderContractDecore orderContractDecore = orderContractDecores.get(0);
 				request.setAttribute("orderContractDecore", orderContractDecore);
 			}
-			List<CustCartrialer> custCartrialers = custCartrialerManageImpl.findBy("customer.dbid", customer.getDbid());
-			if(!custCartrialers.isEmpty()){
-				CustCartrialer custCartrialer = custCartrialers.get(0);
-				request.setAttribute("custCartrialer", custCartrialer);
-			}
 		} catch (Exception e) {
 			log.error(e);
 		}
 		return "wlbCartrialerEdit";
 	}
-	*//**
-	 * 功能描述：保存物流加挂车辆绑定
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	public void saveWlbCartrialer() {
-		HttpServletRequest request = getRequest();
-		Integer dbid=customerPidBookingRecord.getDbid();
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		String vinCode = request.getParameter("vinCode");
-		try{
-			 Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			 if(null!=dbid){
-			    CustomerPidBookingRecord customerPidBookingRecord2 = customerPidBookingRecordManageImpl.get(dbid);
-			    List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", vinCode);
-			    FactoryOrder factoryOrder=null;
-			    if(!factoryOrders.isEmpty()){
-			    	factoryOrder = factoryOrders.get(0);
-			    }
-				customerPidBookingRecord2.setCartrialerVinCode(vinCode);
-				//物流备注
-				customerPidBookingRecord2.setCartrialerWlNote(customerPidBookingRecord.getCartrialerWlNote());
-				//车源情况\
-				customerPidBookingRecord2.setCartrialerHasCarOrder(customerPidBookingRecord.getCartrialerHasCarOrder());
-				customerPidBookingRecord2.setCartrialerWlStatus(CustomerPidBookingRecord.WLDEALED);
-				customerPidBookingRecord2.setCreateTime(new Date());
-				//保存跟踪记录信息
-				customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-				
-				Customer customer = customerPidBookingRecord2.getCustomer();
-				
-				//发送微信消息
-				// 初始化 保险业务模块客户信息   //////////////////////////////////////////////////end/////////////////////////
-				//更新车辆库存信息 设置车辆已经预定
-				if(null!=factoryOrder){
-					factoryOrder.setReserveStatus(FactoryOrder.RESERVED);
-					factoryOrderManageImpl.save(factoryOrder);
-					//保存工厂订单信息
-					CarOperateLog carOperateLog=new CarOperateLog();
-					carOperateLog.setFactoryOrder(factoryOrder);
-					carOperateLog.setOperateDate(new Date());
-					carOperateLog.setOperator(currentUser.getRealName());
-					carOperateLog.setType("交车预约挂车绑定车架号");
-					if(null!=customerPidBookingRecord2.getCustomer()){
-						User user = customerPidBookingRecord2.getCustomer().getUser();
-						if(null!=user){
-							carOperateLog.setNote("挂车绑定车架号，销售顾问["+user.getRealName()+"]");
-						}
-					}
-					carOperateLogManageImpl.save(carOperateLog);
-					
-					//判断绑定的车量不属于自家车辆，如果不是发起邦车申请
-					if(factoryOrder.getEnterprise().getDbid()!=(int)enterprise.getDbid()){
-						saveOrderBuySaler(factoryOrder, customerPidBookingRecord2);
-					}
-					
-					if(null!=customer.getUser()){
-						String touser=customer.getUser().getUserId();
-						String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-						String dis="物流部已经为客户【"+customer.getName()+"】绑定挂车车架号，车架号"+vinCode;
-						qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "绑定挂车车架号通知", request);
-					}
-				}else{
-					//发送微信消息
-					Customer customer2 = customerPidBookingRecord2.getCustomer();
-					String touser=customer2.getUser().getUserId();
-					String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-					String dis="物流部已处理你的交车预约，订单处于无车订单";
-					qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "绑定车架号通知", request);
-				}
-			 }
-
-		} catch (Exception e) {
-			log.error(e);
-			renderErrorMsg(new Throwable("保存数据失败，请确认"), "");
-			return ;
-		}
-		renderMsg("/customerPidBookingRecord/queryWlbWatingList", "保存数据成功！");
-		return;
-	}
-	*//**
-	 * 功能描述：释放挂车车架号
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	public void cancelCartrialerVinCode() {
-		HttpServletRequest request = this.getRequest();
-		Integer pidDbid = ParamUtil.getIntParam(request, "pidDbid", -1);
-		User currentUser = SecurityUserHolder.getCurrentUser();
-		String vinCode=request.getParameter("vinCode");
-		CustomerPidBookingRecord customerPidBookingRecord2=null;
-		try {
-			if(null!=vinCode&&vinCode.trim().length()>0){
-				List<CustomerPidBookingRecord> customerPidBookingRecords = customerPidBookingRecordManageImpl.findBy("cartrialerVinCode", vinCode);
-				if(!customerPidBookingRecords.isEmpty()){
-					customerPidBookingRecord2=customerPidBookingRecords.get(0);
-				}
-			}else{
-				customerPidBookingRecord2= customerPidBookingRecordManageImpl.get(pidDbid);
-			}
-			if(customerPidBookingRecord2==null){
-				renderErrorMsg(new Throwable("释放车架号失败,无交车记录"), "");
-				return ;
-			}
-			String reulvinCode = customerPidBookingRecord2.getCartrialerVinCode();
-			//////////////////////清空customerPidBookingRecord表的物流部交车记录//////////////////////////////
-    		customerPidBookingRecord2.setCartrialerVinCode(null);
-    		//设置出库单核查状态为 未核查
-    		//设置无车
-    		customerPidBookingRecord2.setCartrialerHasCarOrder(CustomerPidBookingRecord.HASCARORDERNO);
-    		customerPidBookingRecord2.setCartrialerWlStatus(CustomerPidBookingRecord.WLWATING);
-    		customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-    		
-    		List<FactoryOrder> factoryOrders = factoryOrderManageImpl.findBy("vinCode", reulvinCode);
-    		Customer customer = customerPidBookingRecord2.getCustomer();
-    		//////////////////////设置车辆交车记录 为未预定//////////////////////////////
-		    if(null!=factoryOrders&&factoryOrders.size()>0){
-		    	FactoryOrder factoryOrder= factoryOrders.get(0);
-		    	factoryOrder.setReserveStatus(FactoryOrder.RESERVECOM);
-		    	factoryOrderManageImpl.save(factoryOrder);
-		    	
-		    	Enterprise enterprise = SecurityUserHolder.getEnterprise();
-		    	//添加车架号释放记录
-		    	CarVinCode carVinCode=new CarVinCode();
-				carVinCode.setVinCode(customerPidBookingRecord2.getVinCode());
-				carVinCode.setCustomerName(customer.getName());
-				carVinCode.setCreateTime(new Date());
-				carVinCode.setCar(customerPidBookingRecord2.getCarSeriy().getName()+""+customerPidBookingRecord2.getCarModel().getName());
-				carVinCode.setBuffName(customer.getBussiStaff());
-				carVinCode.setEnterprise(enterprise);
-				carVinCodeManageImpl.save(carVinCode);
-				
-				//保存工厂订单信息
-				CarOperateLog carOperateLog=new CarOperateLog();
-				carOperateLog.setFactoryOrder(factoryOrder);
-				carOperateLog.setOperateDate(new Date());
-				carOperateLog.setOperator(currentUser.getRealName());
-				carOperateLog.setType("交车预约挂车释放车架号");
-				carOperateLogManageImpl.save(carOperateLog);
-		    }
-		    
-		    //发送微信消息 已经结束
-			if(null!=customer.getUser()){
-				String touser=customer.getUser().getUserId();
-				String url="/qywxCustomer/customerDetail?customerId="+customer.getDbid();
-				String dis="物流部已经释放挂车车架号，车架号"+reulvinCode;
-				qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "释放挂车车架号通知", request);
-			}
-		    
-		    if(null==vinCode||vinCode.trim().length()<=0){
-		    	renderMsg("/customerPidBookingRecord/queryWlbWatingList", "【"+reulvinCode+"】释放挂车车架号成功！");
-		    }else{
-		    	renderMsg("/factoryOrder/queryWlbStock", "【"+vinCode+"】释放车架号成功！");
-		    }
-
-		} catch (Exception e) {
-			log.error(e);
-		}
-		return;
-	}
-	*//**
-	 * 功能描述：打印惠民政策
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 *//*
-	public String printHuimin() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
-		Integer huiminTemplateId = ParamUtil.getIntParam(request, "huiminTemplateId", -1);
-		try {
-			Customer customer = customerMangeImpl.get(customerId);
-			FactoryOrder factoryOrder = factoryOrderManageImpl.findUniqueBy("vinCode", customer.getCustomerPidBookingRecord().getVinCode());
-			if(null!=factoryOrder){
-				if(factoryOrder.getHuimin().equals("非惠民")){
-					request.setAttribute("message", "非惠民");
-				}else{
-					request.setAttribute("customer", customer);
-					request.setAttribute("factoryOrder", factoryOrder);
-					OutboundOrder outboundOrder = outboundOrderManageImpl.findUniqueBy("customerId", customer.getDbid());
-					request.setAttribute("outboundOrder",outboundOrder);
-					String carPlateNo=customer.getCustomerLastBussi().getCarPlateNo();
-					request.setAttribute("carPlateNo", carPlateNo);
-					
-					List<HuiminTemplate> huiminTemplates = huiminTemplateManageImpl.getAll();
-					request.setAttribute("huiminTemplates", huiminTemplates);
-					if(huiminTemplateId>0){
-						HuiminTemplate huiminTemplate = huiminTemplateManageImpl.get(huiminTemplateId);
-						request.setAttribute("huiminTemplate", huiminTemplate);
-					}
-				}
-			}else{
-				request.setAttribute("message", "无库存信息");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e);
-		}
-		return "printHuimin";
-	}
-	*//**
+	/**
 	 * 功能描述：导出库存到excel
 	 * @throws Exception
-	 *//*
+	 */
 	public void exportExcel() throws Exception {
 		HttpServletResponse response = getResponse();
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
@@ -2952,10 +1901,10 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			e.printStackTrace();
 		}
 	}
-	*//**
+	/**
 	 * 功能描述：导出库存到excel
 	 * @throws Exception
-	 *//*
+	 */
 	public void exportCustomerPidExcel() throws Exception {
 		HttpServletResponse response = getResponse();
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
@@ -3077,13 +2026,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 			e.printStackTrace();
 		}
 	}
-	*//**
+	/**
 	 * 功能描述：提交财务
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void subCwCpidCustomer() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
@@ -3098,29 +2047,6 @@ public class CustomerPidBookingRecordAction extends BaseController{
 				renderErrorMsg(new Throwable("提报失败，客户资料为空"), "");
 				return ;
 			}
-			CwCustomer cwCustomer = cwCustomerManageImpl.queryByCustomerId(customer.getDbid());
-			if(cwCustomer==null){
-				renderErrorMsg(new Throwable("提报失败，客户资料为空"), "");
-				return ;
-			}
-			if(null!=cwCustomer){
-				//
-				cwCustomer.setLogisticsAppStatus(CwCustomer.StatuCOMM);
-				cwCustomer.setLogisticsDate(new Date());
-				cwCustomer.setLogisticsStatus(CwCustomer.HANDUP);
-				cwCustomerManageImpl.save(cwCustomer);
-				
-				//
-				customerPidBookingRecord2.setCwAppStatus(CwCustomer.StatuCOMM);
-				customerPidBookingRecord2.setCwStatus(CwCustomer.HANDUP);
-				customerPidBookingRecord2.setCwDate(new Date());
-				
-				customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-				
-			}else{
-				renderErrorMsg(new Throwable("提报失败，客户资料为空"), "");
-				return ;
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
@@ -3130,13 +2056,13 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		renderMsg("/customerPidBookingRecord/wlbCustomerManageSuccess", "提报财务数据成功");
 		return;
 	}
-	*//**
+	/**
 	 * 功能描述：批量提交财务
 	 * 参数描述：
 	 * 逻辑描述：
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 	public void subCwCpidMoreCustomer() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer[] dbids = ParamUtil.getIntArrayByIds(request, "dbids");
@@ -3159,37 +2085,10 @@ public class CustomerPidBookingRecordAction extends BaseController{
 					continue;
 				}
 				
-				CwCustomer cwCustomer = cwCustomerManageImpl.queryByCustomerId(customer.getDbid());
-				if(null==cwCustomer){
-					errors.append("提报失败，财务客户资料为空");
-					errors.append("\n");
-					status=true;
-				}
-				
 			}
 			if(status==true){
 				renderErrorMsg(new Throwable(errors.toString()), "");
 				return ;
-			}
-			for (Integer dbid : dbids) {
-				Customer customer = customerMangeImpl.get(dbid);
-				CustomerPidBookingRecord customerPidBookingRecord2 = customer.getCustomerPidBookingRecord();
-				CwCustomer cwCustomer = cwCustomerManageImpl.queryByCustomerId(customer.getDbid());
-				if(null!=cwCustomer){
-					if(cwCustomer.getLogisticsStatus()==(int)CwCustomer.COMM){
-						//
-						//
-						cwCustomer.setLogisticsAppStatus(CwCustomer.StatuCOMM);
-						cwCustomer.setLogisticsDate(new Date());
-						cwCustomer.setLogisticsStatus(CwCustomer.HANDUP);
-						cwCustomerManageImpl.save(cwCustomer);
-						//
-						customerPidBookingRecord2.setCwAppStatus(CwCustomer.StatuCOMM);
-						customerPidBookingRecord2.setCwStatus(CwCustomer.HANDUP);
-						customerPidBookingRecord2.setCwDate(new Date());
-						customerPidBookingRecordManageImpl.save(customerPidBookingRecord2);
-					}
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3201,12 +2100,12 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		return;
 	}
 	
-	*//**
+	/**
 	 * 功能描述：保存操作日志
 	 * @param type
 	 * @param note
 	 * @param finCustomerId
-	 *//*
+	 */
 	public void saveAgentOperatorLog(String type,String note,Integer customerId,User currentUser){
 		AgentOperatorLog agentOperatorLog=new AgentOperatorLog();
 		agentOperatorLog.setCustomerId(customerId);
@@ -3217,4 +2116,3 @@ public class CustomerPidBookingRecordAction extends BaseController{
 		agentOperatorLogManageImpl.save(agentOperatorLog);
 	}
 }
-*/

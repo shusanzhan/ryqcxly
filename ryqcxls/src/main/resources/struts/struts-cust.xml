@@ -91,10 +91,6 @@
 			<result name="edit">/pages/cust/buyCarType/edit.jsp</result>
 			<result name="list">/pages/cust/buyCarType/list.jsp</result>
 		</action>
-		<action name="cityCrossCustomer" class="cityCrossCustomerAction">
-			<result name="edit">/pages/cust/cityCrossCustomer/edit.jsp</result>
-			<result name="list">/pages/cust/cityCrossCustomer/list.jsp</result>
-		</action>
 		<action name="buyCarBudget" class="buyCarBudgetAction">
 			<result name="edit">/pages/cust/buyCarBudget/edit.jsp</result>
 			<result name="list">/pages/cust/buyCarBudget/list.jsp</result>
@@ -155,7 +151,7 @@
 			<result name="stopList">/pages/cust/productPackage/stopList.jsp</result>
 		</action>
 		<!-- 客户管理 开始-->
-		<action name="customer" class="customerAction">
+		<action name="custCustomer" class="custCustomerAction">
 			<!-- 客户登记记录 -->
 			<result name="addShoppingRecord">/pages/cust/customer/addShoppingRecord.jsp</result>
 			<result name="edit">/pages/cust/customer/edit.jsp</result>

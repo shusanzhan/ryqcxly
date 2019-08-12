@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>成都瑞一汽车有限公司销售合同书</title>
+<title>销售合同书</title>
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet">
 <link  href="${ctx }/widgets/easyvalidator/css/validate.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
@@ -195,8 +195,30 @@ function atoc(numberValue){
 				</td>
 			</tr>
 		</c:if>
+		<c:if test="${customer.bussiType==2 }">
+			<c:if test="${empty(custCartrialer) }">
+				<tr>
+					<td>挂车车型</td><td colspan="3"><a href="javascript:void(-1)" onclick="$.utile.openDialog('${ctx}/custCartrialer/edit?customerId=${customer.dbid}','添加挂车车型',700,300)" class="aedit">添加挂车信息</a></td>
+				</tr>
+			</c:if>
+			<c:if test="${!empty(custCartrialer) }">
+				<tr>
+					<td>挂车车型</td>
+					<td colspan="3">
+						<a href="javascript:void(-1)" onclick="$.utile.openDialog('${ctx}/custCartrialer/edit?customerId=${customer.dbid }&dbid=${custCartrialer.dbid }','更改挂车信息',700,300)" class="aedit">更改挂车信息</a> |
+						<a href="javascript:void(-1)" onclick="$.utile.operatorDataByDbid('${ctx }/custCartrialer/delete?dbid=${custCartrialer.dbid}&customerId=${customer.dbid }','searchPageForm','您确定删除挂车信息吗')" class="aedit">删除</a>
+					</td>
+				</tr>
+				<tr>
+					<td>挂车车型</td>
+					<td>${custCartrialer.brand.name }${custCartrialer.carSeriy.name }${custCartrialer.carModel.name }</td>
+					<td>挂车颜色</td>
+					<td>${custCartrialer.carColor.name }</td>
+				</tr>
+			</c:if>
+		</c:if>
 		<tr  height="42" >
-					<td class="formTableTdLeft">购买车型:&nbsp;</td>
+					<td class="formTableTdLeft">购买车型<span style="color: red">*</span>:&nbsp;</td>
 					<td id="carModelLabel">
 						<select id="brandId" name="brandId" class="smallX text" onchange="ajaxCarSeriy(this.value)" checkType="integer,1" tip="请选择品牌">
 							<option value="">请选择...</option>
@@ -217,7 +239,7 @@ function atoc(numberValue){
 							</c:forEach>
 						</select>
 					</td>
-						<td class="formTableTdLeft">购车颜色:&nbsp;</td>
+					<td class="formTableTdLeft">购车颜色<span style="color: red">*</span>:&nbsp;</td>
 					<c:if test="${enterprise.bussiType==3 }" var="statusss">
 						<td >
 							<input type="text" class="largeX text" name="carColorStr" id="carColorStr"  value="${customer.carColorStr }"  checkType="string,1,50" placeholder="请输入车辆颜色"  tip="请输入车辆颜色！"/>
@@ -229,91 +251,82 @@ function atoc(numberValue){
 							<select id="carColor" name="carColor" class="largeX text"  checkType="integer,1">
 								<option value="0">请选择...</option>
 								<c:forEach var="carColor" items="${carColors }">
-									<option value="${carColor.dbid }" >${carColor.name }</option>
+									<option value="${carColor.dbid }" ${customerLastBussi.carColor.dbid==carColor.dbid?'selected="selected"':'' }>${carColor.name }</option>
 								</c:forEach>
 							</select>
-							<span style="color: red">*</span>
 						</td>
 					</c:if>
 				</tr>
 				<c:if test="${enterprise.bussiType==3 }" var="statusss">
 				<tr>
-						<td class="formTableTdLeft">具体车型：</td>
+						<td class="formTableTdLeft">具体车型	<span style="color: red">*</span>：</td>
 						<td>
 							<input type="text" class="largeX text" name="carModelStr" id="carModelStr"  value="${customer.carModelStr }" onfocus="ajaxCarModel('carModelStr')" checkType="string,1,50" placeholder="请输入车型"  tip="请输入车型！"/>
 						</td>
-						<td class="formTableTdLeft">指导价：</td>
+						<td class="formTableTdLeft">指导价	<span style="color: red">*</span>：</td>
 						<td>
 							<input type="text" class="largeX text" name="navPrice" id="navPrice"  value="${customer.navPrice }" checkType="float"  tip="请输入指导价"/>
 							<span style="color: red;">*</span>
 						</td>
 					</tr>
 				</c:if>
-				<tr height="42">
-					<td class="formTableTdLeft">是否上牌:&nbsp;</td>
-					<td colspan="3">
-						<label><input type="checkbox" id="isCarPlate" name="customerLastBussi.isCarPlate" value="true" ${customerLastBussi.isCarPlate==true?'checked="checked"':'' } ></input>&nbsp;&nbsp;是否上牌</label>&nbsp;&nbsp;&nbsp;&nbsp;
-						<label><input type="checkbox" id="isBuySafe" name="customerLastBussi.isBuySafe" ${customerLastBussi.isBuySafe==true?'checked="checked"':'' }  value="true"></input>&nbsp;&nbsp;是否购买保险</label>&nbsp;&nbsp;&nbsp;&nbsp;
-						<label><input type="checkbox" id="isBoutique" name="customerLastBussi.isBoutique" ${customerLastBussi.isBoutique==true?'checked="checked"':'' }  value="true"></input>&nbsp;&nbsp;是否加装精品</label>
-						<label><input type="checkbox" name="orderContract.isShowNote" id="isShowNote" value="true" checked="checked"/><span style="color: red;cursor: pointer;">车型颜色不换,定金不退只用于冲抵车款（勾选显示备注信息）</span></label>    	
+			<tr >
+				<td>定金<span style="color: red">*</span>：</td>
+				<td colspan="3">
+					<input  class="largeXXX text" id="orderMoney" name="orderContract.orderMoney" value="${orderContract.orderMoney }"  onfocus="target32(this.value)"  checkType="float,0" tip="请输入合同定金" ></input>
+					<input type="hidden" readonly="readonly" name="orderContract.bigOrderMoney" id="bigOrderMoney" value="${orderContract.bigOrderMoney }" class="largeX text" ></input>
+				</td>
+			</tr>
+			<tr >
+				<td>合同金额	<span style="color: red">*</span>：</td>
+				<td colspan="3">
+					<input  class="largeXXX text" id="totalPrice" name="orderContract.totalPrice" value="${orderContract.totalPrice }"   checkType="float,0" tip="请输入合同金额" ></input>
+				</td>
+			</tr>
+			<tr >
+				<td>交车备注	<span style="color: red">*</span>：</td>
+				<td colspan="3">
+					<input  class="largeXXX text" id="handerOverCarDate" name="orderContract.handerOverCarDate" value="${orderContract.handerOverCarDate }"   checkType="string,1,20000" placeholder="交车时间等信息" tip="请输入交货日期信息" ></input>
+				</td>
+			</tr>
+			<tr style="height: 60px;">
+				<td>合同备注	<span style="color: red">*</span>：</td>
+				<td colspan="3">
+					<textarea  class="largeXXX text" style="height: 50px;"  name="orderContract.note"  id="note" placeholder="装饰信息及特别约定">${orderContract.note }</textarea>
+				</td>
+			</tr>
+			<c:if test="${empty(orderContract) }">
+				<tr>
+					<td>需方：</td>
+					<td>
+						<input type="text" class="largeX text" name="" id=""  value="${customer.name}" />
 					</td>
-				</tr> 
-		<tr style="height: 60px;">
-			<td>交货日期：</td>
-			<td colspan="3">
-				<input  class="largeXXX text" id="handerOverCarDate" name="orderContract.handerOverCarDate" value="${orderContract.handerOverCarDate }"   checkType="string,1,20000" tip="请输入交货日期信息" ></input>
-			</td>
-		</tr>
-		<tr style="height: 60px;">
-			<td>备注：</td>
-			<td colspan="3">
-				<textarea  class="largeXXX text" style="height: 50px;"  name="orderContract.note"  id="note" placeholder="装饰信息及特别约定">${orderContract.note }</textarea>
-			</td>
-		</tr>
-		<tr style="height: 60px;">
-			<td>附加合同备注：</td>
-			<td colspan="3">
-				<textarea  class="largeXXX text" style="height: 50px;"  name="orderContract.additionalNote"  id="additionalNote" placeholder="贴息信息等说明">${orderContract.additionalNote }</textarea>
-			</td>
-		</tr>
-		<c:if test="${empty(orderContract) }">
-			<tr>
-				<td>需方：</td>
-				<td>
-					<input type="text" readonly="readonly" class="largeX text" name="" id=""  value="${customer.name}" />
-				</td>
-				<td>销售代表：</td>
-				<td>
-					<input readonly="readonly" type="text" class="largeX text" name="orderContract.salesRepresentative" id="salesRepresentative"  value="${sessionScope.user.realName}" />
-				</td>
-			</tr>
-		</c:if>
-		<c:if test="${!empty(orderContract) }">
-			<tr>
-				<td>需方：</td>
-				<td>
-					<input readonly="readonly" type="text" class="largeX text" name="" id=""  value="${customer.name }" />
-				</td>
-				<td>销售代表：</td>
-				<td>
-					<input type="text" readonly="readonly" class="largeX text" name="orderContract.salesRepresentative" id="salesRepresentative"  value="${orderContract.salesRepresentative }" />
-				</td>
-			</tr>
-		</c:if>
-			<tr>
-			<td>需方代表：</td>
-			<td>
-				<input type="text" class="largeX text" name="orderContract.needRepresentative" id="needRepresentative"  value="${orderContract.needRepresentative }" />
-			</td>
-			<%-- <td>展厅经理：</td>
-			<td>
-				<input type="text" class="largeX text" name="orderContract.showRoomManager" id="showRoomManager"  value="${orderContract.showRoomManager }" />
-			</td> --%>
-		</tr>
+				</tr>
+				<tr>
+					<td>销售代表：</td>
+					<td>
+						<input readonly="readonly" type="text" class="largeX text" name="orderContract.salesRepresentative" id="salesRepresentative"  value="${sessionScope.user.realName}" />
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${!empty(orderContract) }">
+				<tr>
+					<td>需方：</td>
+					<td>
+						<input type="text" class="largeX text" name="" id=""  value="${orderContract.name }" />
+					</td>
+				</tr>
+				<tr>
+					<td>销售代表：</td>
+					<td>
+						<input type="text" readonly="readonly" class="largeX text" name="orderContract.salesRepresentative" id="salesRepresentative"  value="${orderContract.salesRepresentative }" />
+					</td>
+				</tr>
+			</c:if>
 		</table>
 		</form>
 	<div class="formButton">
-			<a href="javascript:void(-1)"	onclick="$.utile.submitFrm('frmId','${ctx}/orderContract/saveOrderContract')"	class="but butSave">保存并继续填写附加通知单</a> 
+			<a href="javascript:void(-1)"	onclick="$.utile.submitFrm('frmId','${ctx}/orderContract/saveOrderContract')" id="submitFrm" class="but butSave">保存并继续填写附加通知单</a> 
 	   		<a href="javascript:void(-1)"	onclick="goBack()" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 </div>
@@ -411,7 +424,7 @@ function validateFrmBeforeSmb(){
 		return false;
 	}
 	if(null==ajsxf||ajsxf==''){
-		alert("请填写咨询服务费！");
+		alert("请填写按揭手续费！");
 		$("#ajsxf").focus();
 		return false;
 	}

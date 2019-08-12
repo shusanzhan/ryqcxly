@@ -41,10 +41,12 @@ public class PointRecordManageImpl extends HibernateEntityDao<PointRecord>{
 		return page;
 	}
 	
-	public Object count(String creator,String startTime,String endTime,Boolean status,Integer  bussinesId){
-		String countSql="select sum(num) from mem_PointRecord where 1=1  and enterpriseId=? ";
+	public Object count(String creator,String startTime,String endTime,Boolean status,Integer  enterpriseId){
+		String countSql="select sum(num) from mem_PointRecord where 1=1  ";
 		List param=new ArrayList();
-		param.add(bussinesId);
+		if(enterpriseId>0){
+			countSql=countSql+" and enterpriseId="+enterpriseId;
+		}
 		if(null!=creator&&creator.trim().length()>0){
 			countSql=countSql+" and creator like  ? ";
 			param.add("%"+creator+"%");
@@ -64,36 +66,6 @@ public class PointRecordManageImpl extends HibernateEntityDao<PointRecord>{
 		}
 		Object count = count(countSql, param.toArray());
 		return count;
-	}
-
-	/**
-	 * @param creator
-	 * @param startTime
-	 * @param endTime
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public List<PointRecord> queryToExcel(String creator, String startTime,
-			String endTime,Integer  bussinesId) {
-		@SuppressWarnings("rawtypes")
-		List param=new ArrayList();
-		String sql="select * from mem_PointRecord where 1=1 and businessId=? ";
-		param.add(bussinesId);
-		if(null!=creator&&creator.trim().length()>0){
-			sql=sql+" and creator like  ? ";
-			param.add("%"+creator+"%");
-		}
-		if(null!=startTime&&startTime.trim().length()>0){
-			sql=sql+" and createTime >= ? ";
-			param.add(DateUtil.string2Date(startTime));
-		}
-		if(null!=endTime&&endTime.trim().length()>0){
-			sql=sql+" and createTime < ? ";
-			param.add(DateUtil.nextDay(endTime));
-		}
-		sql=sql+" order by createTime DESC";
-		List<PointRecord> pointRecords = executeSql(sql, param.toArray());
-		return pointRecords;
 	}
 
 	/**

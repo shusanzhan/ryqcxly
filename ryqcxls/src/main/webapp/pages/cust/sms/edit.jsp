@@ -117,7 +117,7 @@ function submitAjaxForm (frmId, url, state) {
 						<span style="color: red;">* </span>
 					</div>
 					<div style="float: left;height: 125px;margin-top: px;">
-						<a href="javascript:void(-1)" class="but" style="margin-top: 40px;position: relative;background-color: #1476F1" onclick="commonSelect('选择客户','${ctx}/customer/customerSelect','customerNames','phones','smsTemplates',900,500,true)">选择接收客户</a>
+						<a href="javascript:void(-1)" class="but" style="margin-top: 40px;position: relative;background-color: #1476F1" onclick="commonSelect('选择客户','${ctx}/custCustomer/customerSelect','customerNames','phones','smsTemplates',900,500,true)">选择接收客户</a>
 						<a href="Javascript:void(-1)" class="but butCancle" style="" onclick="$('#customerNames').val('');$('#phones').val('')">清除</a>
 					</div>
 					<div  style="clear: both;"></div>

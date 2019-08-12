@@ -50,7 +50,7 @@
 					<input type="hidden" id="carSeriyId" name="carSeriyId" value="${customer.customerLastBussi.carSeriy.dbid }" />
 					<input type="text" readonly="readonly" class="small text" name="carSeriyName" id="carSeriyName" value="${customer.customerLastBussi.carSeriy.name }" />
 					<input type="hidden" id="carModelId" name="carModelId" value="${customer.customerLastBussi.carModel.dbid }" />
-					<input type="text" readonly="readonly" class="largeXX text" name="carSeriyName" id="carSeriyName" value=" ${customer.customerLastBussi.carModel.name }${customer.carModelStr}" />
+					<input type="text" readonly="readonly" class="largeXX text" name="carSeriyName" id="carSeriyName" value="${customer.customerLastBussi.carModel.name }" />
 				</td>
 				<td class="formTableTdLeft">具体车型:&nbsp;</td>
 				<td >

@@ -41,10 +41,10 @@
 					${fn:substring(carModel,0,16) }...
 				</c:if>
 				<c:if test="${ status==false}">
-					${carModel} ${customer.carModelStr}
+					${carModel }${customer.carModelStr}
 				</c:if>
 				<br>
-				颜色:${customerLastBussi.carColor.name}${customer.carColorStr}
+				颜色:${customerLastBussi.carColor.name}
 				<br>
 				顾问：${customer.bussiStaff}（${customer.department.name}）<br>
 				意向级别：${customer.customerPhase.name}<br>
@@ -63,16 +63,7 @@
 		<input type="hidden" name="customerPidBookingRecord.dbid" id="dbid" value="${customerPidBookingRecord.dbid }">
 		<s:token></s:token>
 		<div class="form-group">
-	 		<label class="control-label" for="name">流失原因:&nbsp;</label>
-			<select id="customerpidFlowReasonId" name="customerpidFlowReasonId" class="form-control" checkType="integer,1">
-				<option>请选择...</option>
-				<c:forEach var="customerpidFlowReason" items="${customerpidFlowReasons }">
-					<option value="${customerpidFlowReason.dbid }">${customerpidFlowReason.name }</option>	
-				</c:forEach>
-			</select>
-		</div>
-		<div class="form-group">
-	 		 <label class="control-label" for="name">流失备注:&nbsp;</label>
+	 		 <label class="control-label" for="name">流失原因:&nbsp;</label>
 			 <textarea   name="cancelNote" id="cancelNote" checkType="string,1" tip="请输入合同流失原因！"	 class="form-control" style="width: 100%" title="流失原因"></textarea>
 		</div>
 	</form>

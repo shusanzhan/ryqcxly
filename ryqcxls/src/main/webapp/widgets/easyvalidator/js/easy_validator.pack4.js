@@ -1,4 +1,9 @@
-﻿$(function() {
+﻿﻿/*
+	Copyright (C) 2009 - 2012
+	WebSite:	Http://wangking717.javaeye.com/
+	Author:		wangking
+ */
+$(function() {
 
 	var inps = $("input");
 	for ( var i = 0; i < inps.length; i++) {

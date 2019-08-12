@@ -1577,7 +1577,7 @@ public class CustomerRecordAction extends BaseController{
 			}
 			customerMangeImpl.save(customer);
 			object.put("state", 1);
-			object.put("url","/customer/edit?dbid="+customer.getDbid()+"&type=2");
+			object.put("url","/custCustomer/edit?dbid="+customer.getDbid()+"&type=2");
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);

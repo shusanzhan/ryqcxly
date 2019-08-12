@@ -1,92 +1,116 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../commons/taglib.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html  lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-<!-- Mobile Devices Support @begin -->
-<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
-<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
-<meta content="no-cache" http-equiv="pragma">
-<meta content="0" http-equiv="expires">
-<meta content="telephone=no, address=no" name="format-detection">
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<!-- apple devices fullscreen -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<link href="${ctx }/css/qywx.css?da=${now}" type="text/css" rel="stylesheet"/>
-<link href="${ctx }/widgets/bootstrap3/css/bootstrap.min.css?da=${now}" type="text/css" rel="stylesheet"/>
-<link href="${ctx }/widgets/bootstrap3/css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"/>
-<title>展厅管理</title>
+ <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <!-- Mobile Devices Support @begin -->
+    <meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <meta content="telephone=no, address=no" name="format-detection">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+   	<link rel="stylesheet" href="${ctx }/weui-master/css/weui.css"/>
+    <link rel="stylesheet" href="${ctx }/weui-master/css/weuix.css"/>
+<title>客户综合管理</title>
+<style type="text/css">
+	.header{
+		background: #18b4ed;height: 40px;line-height: 40px;font-size: 14px;color: #FFF;text-align: center;
+	}
+</style>
 </head>
 <body>
-<div class="views content_title">
-    <span id="page_title">展厅管理</span>
+<div class="header">
+	客户综合管理
 </div>
-	<div class="mycenterMian" style="">
-	  	 <article>
-                <div class="mycenterTow">
-                    <ul>
-                    	<li>
-                            <a href="${ctx }/qywxCustomerTrack/customerTrackRecord">
-                               <img src="${ctx }/images/todayTrack.png">
-                                <p>回访记录查阅</p>
-                            </a>
-                        </li>
-                    	<li>
-                            <a href="${ctx }/qywxCustomerTrack/tommorrowNeedTrackCustomer">
-                                <img src="${ctx }/images/nextDay.jpg">	
-                                <p>需次日跟踪客户</p>
-                            </a>
-                        </li>
-                         <li>
-                            <a href="${ctx }/qywxCustomerTrack/needTrackCustomer">
-                                <img src="${ctx }/images/threeday.jpg">
-                                <p>待回访客户</p>
-                            </a>
-                        </li>
-                         <li>
-                            <a href="${ctx }/qywxCustomer/leaderList">
-                                <img src="${ctx }/images/myInfo.png">
-                                <p>登记客户</p>
-                            </a>
-                        </li>
-                         <li>
-                            <a href="${ctx}/qywxCustomer/queryLeaderOutFlow">
-                                <img src="${ctx }/images/kecheng.png">
-                                <p>流失客户</p>
-                            </a>
-                        </li>
-                             <li>
-                            <a href="${ctx }/qywxCustomer/queryLeaderOrderCustomer">
-                                <img src="${ctx }/images/myPoint.png">
-                                <p>订单客户</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${ctx }/qywxCustomer/queryLeaderWaitingHandCar">
-                                <img src="${ctx }/images/myOrder.png">
-                                <p>待交车客户</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${ctx }/qywxCustomer/queryLeaderSuccessCustomer">
-                                <img src="${ctx }/images/add.png">
-                                <p>成交客户</p>
-                            </a>
-                        </li>
-                           <li>
-				        <a href="${ctx }/qywxCustomerTrack/queryCompList">
-				           <img src="${ctx }/images/weixin/kc.jpg">
-					           <p>回访记录</p>
-					       </a>
-					   </li>
-                    </ul>
-                </div>
-            </article>
-	</div>
-	</body>
-<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
-<script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>
+<div class="page-bd">
+	<div class="weui-cells__title">线索统计</div>
+	<div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerRecord/queryLeaderList">
+            <div class="weui-cell__bd">
+               <p>登记线索</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerRecord/queryLeaderEffList">
+            <div class="weui-cell__bd">
+                <p>有效线索</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+    </div>
+	<div class="weui-cells__title">跟踪回访管理</div>
+	<div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerTrack/needTrackCustomer">
+            <div class="weui-cell__bd">
+                <p>今日需回访客户</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerTrack/tommorrowNeedTrackCustomer">
+            <div class="weui-cell__bd">
+                <p>次日需回访客户</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerTrack/customerTrackRecord">
+            <div class="weui-cell__bd">
+                <p>回访记录批阅</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+     </div>
+    <div class="weui-cells__title">客户管理</div>
+	<div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomer/leaderList">
+            <div class="weui-cell__bd">
+                <p>登记客户</p>
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomerTrack/queryCompList">
+            <div class="weui-cell__bd">
+                <p>跟踪记录</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx}/qywxCustomer/queryLeaderOutFlow">
+            <div class="weui-cell__bd">
+                <p>流失客户</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomer/queryLeaderOrderCustomer">
+            <div class="weui-cell__bd">
+                <p>订单客户</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustomer/queryLeaderSuccessCustomer">
+            <div class="weui-cell__bd">
+                <p>成交客户</p>
+            </div>
+            <div class="weui-cell__ft f11">
+            	
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+ <script src="${ctx }/weui-master/js/zepto.min.js"></script>
+ <script src="${ctx }/weui-master/js/swipe.js"></script>
+ <script src="${ctx }/weui-master/js/zepto.weui.min.js"></script>
 </html>

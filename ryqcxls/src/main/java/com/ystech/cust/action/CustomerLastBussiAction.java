@@ -373,7 +373,7 @@ public class CustomerLastBussiAction extends BaseController{
 		if(type==2){
 			renderMsg("/main/salerContent", "保存数据成功！");
 		}else{
-			renderMsg("/customer/customerShoppingRecordqueryList", "保存数据成功！");
+			renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存数据成功！");
 		}
 		return ;
 	}
@@ -505,7 +505,7 @@ public class CustomerLastBussiAction extends BaseController{
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/customer/customerShoppingRecordqueryList", "保存数据成功！");
+		renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存数据成功！");
 		return ;
 	}
 	/**
@@ -557,7 +557,7 @@ public class CustomerLastBussiAction extends BaseController{
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/customer/queryOutFlow", "流失客户已经转换为登记客户，请到登记客户页面查看！");
+		renderMsg("/custCustomer/queryOutFlow", "流失客户已经转换为登记客户，请到登记客户页面查看！");
 		return ;
 	}
 	
@@ -641,16 +641,16 @@ public class CustomerLastBussiAction extends BaseController{
 		}
 		if(type>0){
 			if(type==1){
-				renderMsg("/customer/queryRoomManageOutFlow", "审批成功！");
+				renderMsg("/custCustomer/queryRoomManageOutFlow", "审批成功！");
 			}
 			if(type==2){
-				renderMsg("/customer/queryLeaderOutFlow", "审批成功！");
+				renderMsg("/custCustomer/queryLeaderOutFlow", "审批成功！");
 			}
 			if(type==3){
 				renderMsg("/main/mangerContent", "审批成功！");
 			}
 		}else{
-			renderMsg("/customer/queryRoomManageOutFlow", "审批成功！");
+			renderMsg("/custCustomer/queryRoomManageOutFlow", "审批成功！");
 		}
 		return ;
 	}

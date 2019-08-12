@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 import com.ystech.core.util.DateUtil;
 import com.ystech.core.web.BaseController;
 import com.ystech.cust.model.CarSerCount;
-import com.ystech.cust.model.Customer;
 import com.ystech.cust.model.CustomerPhase;
 import com.ystech.cust.model.CustomerPidBookingRecord;
-import com.ystech.cust.model.OrderContract;
 import com.ystech.cust.service.StatisticalSalerManageImpl;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.UserManageImpl;
@@ -62,36 +60,25 @@ public class QywxStaticAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User currentUser = getSessionUser();
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer where (lastResult="+Customer.NORMAL+" or (lastResult="+Customer.SUCCESS+" and orderContractStatus="+Customer.ORDERNOT+")) AND bussiStaffId="+currentUser.getDbid();
-			String totalCountSql="SELECT COUNT(*) as total FROM cust_customer where bussiStaffId="+currentUser.getDbid();
-			
-			String canncelCountSql="SELECT COUNT(*) as total FROM cust_customer where lastResult="+Customer.CANCCEL+" AND bussiStaffId="+currentUser.getDbid();
-
-			String orderCountSql=" SELECT COUNT(*) as total FROM cust_customer AS cuts,cust_ordercontract AS ord where cuts.dbid=ord.customerId AND ord.`status`>"+OrderContract.WATINGDECORE+" and ord.`status`<"+OrderContract.PRINT +" and cuts.bussiStaffId="+currentUser.getDbid();
-			
-			String waitingCarSql=" SELECT COUNT(*) as total FROM cust_customer AS cuts,cust_customerpidbookingrecord AS cpr WHERE cuts.dbid=cpr.customerId AND cpr.pidStatus!="+CustomerPidBookingRecord.FINISHED +" and cuts.bussiStaffId="+currentUser.getDbid();
-			
-			String customerSuccessSql=" SELECT COUNT(*) as total FROM cust_customer AS cuts,cust_customerpidbookingrecord AS cpr WHERE cuts.dbid=cpr.customerId AND cpr.pidStatus="+CustomerPidBookingRecord.FINISHED +" and cuts.bussiStaffId="+currentUser.getDbid();
-			
-			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
-			request.setAttribute("newsCount", newsCount);
-			
-			Object canncelCount = statisticalSalerManageImpl.queryCount(canncelCountSql);
-			request.setAttribute("canncelCount", canncelCount);
-			
-			Object orderCount = statisticalSalerManageImpl.queryCount(orderCountSql);
-			request.setAttribute("orderCount", orderCount);
-			
-			
-			Object waitingCar = statisticalSalerManageImpl.queryCount(waitingCarSql);
-			request.setAttribute("waitingCar", waitingCar);
-			
-			
-			Object customerSuccess = statisticalSalerManageImpl.queryCount(customerSuccessSql);
-			request.setAttribute("customerSuccess", customerSuccess);
-			
-			Object total = statisticalSalerManageImpl.queryCount(totalCountSql);
-			request.setAttribute("total", total);
+			List<CustomerPhase> customerPhases = statisticalSalerManageImpl.queryCountLevel(null, null, currentUser.getDbid(),1);
+			request.setAttribute("customerPhases", customerPhases);
+			StringBuffer buffer=new StringBuffer();
+			if(!customerPhases.isEmpty()){
+				buffer.append("[");
+				int i=0;
+				for (CustomerPhase customerPhase : customerPhases) {
+					if(i==(customerPhases.size()-1)){
+						buffer.append("['"+customerPhase.getName()+"',"+customerPhase.getTotalNum()+"]");
+					}else{
+						buffer.append("['"+customerPhase.getName()+"',"+customerPhase.getTotalNum()+"],");
+					}
+				}
+				buffer.append("]");
+			}else{
+				buffer.append("[");
+				buffer.append("]");
+			}
+			request.setAttribute("customerPhaseJson", buffer.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
@@ -124,18 +111,28 @@ public class QywxStaticAction extends BaseController{
 			}else{
 				end=DateUtil.nextDay(new Date());
 			}
-			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer where (lastResult="+Customer.NORMAL+" or (lastResult="+Customer.SUCCESS+" and orderContractStatus="+Customer.ORDERNOT+")) AND bussiStaffId="+userDbid+" AND createFolderTime>='"+DateUtil.format(start)+"'" +" AND createFolderTime<'"+DateUtil.format(end)+"'";;
+			String newsCountSql="SELECT COUNT(*) as total FROM cust_customer where bussiStaffId="+userDbid+" AND createFolderTime>='"+DateUtil.format(start)+"'" +" AND createFolderTime<'"+DateUtil.format(end)+"'";;
 			Object newsCount = statisticalSalerManageImpl.queryCount(newsCountSql);
 			request.setAttribute("newsCount", newsCount);
-			Object levelCO = statisticalSalerManageImpl.queryCountLevelCount(start, end, userDbid, CustomerPhase.LEVELO);
-			Object levelCA = statisticalSalerManageImpl.queryCountLevelCount(start, end, userDbid, CustomerPhase.LEVELA);
-			Object levelCB = statisticalSalerManageImpl.queryCountLevelCount(start, end, userDbid, CustomerPhase.LEVELB);
-			Object levelCC = statisticalSalerManageImpl.queryCountLevelCount(start, end, userDbid, CustomerPhase.LEVELC);
-			request.setAttribute("levelCO", levelCO);
-			request.setAttribute("levelCA", levelCA);
-			request.setAttribute("levelCB", levelCB);
-			request.setAttribute("levelCC", levelCC);
-			
+			List<CustomerPhase> customerPhases = statisticalSalerManageImpl.queryCountLevel(start, end, userDbid,null);
+			request.setAttribute("customerPhases", customerPhases);
+			StringBuffer buffer=new StringBuffer();
+			if(!customerPhases.isEmpty()){
+				buffer.append("[");
+				int i=0;
+				for (CustomerPhase customerPhase : customerPhases) {
+					if(i==(customerPhases.size()-1)){
+						buffer.append("['"+customerPhase.getName()+"',"+customerPhase.getTotalNum()+"]");
+					}else{
+						buffer.append("['"+customerPhase.getName()+"',"+customerPhase.getTotalNum()+"],");
+					}
+				}
+				buffer.append("]");
+			}else{
+				buffer.append("[");
+				buffer.append("]");
+			}
+			request.setAttribute("customerPhaseJson", buffer.toString());
 			request.setAttribute("start", start);
 			request.setAttribute("end", DateUtil.preDay(end));
 		}catch (Exception e) {

@@ -34,7 +34,6 @@ import com.ystech.cust.service.OrderContractDecoreManageImpl;
 import com.ystech.cust.service.OrderContractExpensesManageImpl;
 import com.ystech.cust.service.OrderContractManageImpl;
 import com.ystech.cust.service.ProductManageImpl;
-import com.ystech.xwqr.model.sys.Department;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 
@@ -160,7 +159,6 @@ public class QywxOrderContractDecoreAction extends BaseController{
 		//确定保持成功后页面是否跳转到订单列表页面，还是来店登记页面
 		Integer editType = ParamUtil.getIntParam(request2, "editType", -1);
 		Integer dbid=null;
-		User currentUser = getSessionUser();
 		try{
 			if(orderContractId<0){
 				renderErrorMsg(new Throwable("请先提报订单信息！"),"");
@@ -170,16 +168,6 @@ public class QywxOrderContractDecoreAction extends BaseController{
 			Customer customer = customerMangeImpl.get(customerId);
 			OrderContract orderContract = orderContractManageImpl.get(orderContractId);
 			dbid = orderContractDecore.getDbid();
-			//更新做合同谈判人员信息
-			customer.setReceptierSaler(currentUser);
-			customer.setReceptierSalerName(currentUser.getRealName());
-			//更新接待销售顾问信
-			customer.setUser(currentUser);
-			customer.setBussiStaff(currentUser.getRealName());
-			Department department = currentUser.getDepartment();
-			if(null!=department){
-				customer.setSuccessDepartment(department);
-			}
 			if(dbid==null||dbid<0){
 				orderContractDecore.setOrderContract(orderContract);
 				orderContractDecore.setCustomer(customer);
@@ -187,17 +175,38 @@ public class QywxOrderContractDecoreAction extends BaseController{
 				orderContractDecoreManageImpl.deleteDuplicateDataByCustomerId(customerId);
 				saveOrderContractProduct(request2, orderContractDecore);
 				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "合同添加装饰保存草稿","",customer.getUser());
-				//政策盈利估算
-				Double carGrofitPrice = orderContractExpenses.getCarGrofitPrice();
-				if(null==carGrofitPrice){
-					carGrofitPrice=Double.valueOf(0);
+				//整车盈利估算
+				Double totalGrofitPrice= orderContractExpenses.getTotalGrofitPrice();
+				if(null==totalGrofitPrice){
+					totalGrofitPrice=Double.valueOf(0);
 				}
 				Double salerTotalPrice = orderContractDecore.getSalerTotalPrice();		
 				if(salerTotalPrice!=null){
-					carGrofitPrice=carGrofitPrice-salerTotalPrice;
-					orderContractExpenses.setCarGrofitPrice(carGrofitPrice);
-					orderContractExpensesManageImpl.save(orderContractExpenses);
+					totalGrofitPrice=totalGrofitPrice-salerTotalPrice;
+					//装饰销售顾问结算价
+					orderContractExpenses.setDecoreCostMoney(salerTotalPrice);
+					//装饰销售利润
+					Double decoreMoney = orderContractExpenses.getDecoreMoney();
+					if(decoreMoney==null){
+						decoreMoney=Double.valueOf(0);
+					}
+					Double decoreGrofitPrice=decoreMoney-salerTotalPrice;
+					orderContractExpenses.setDecoreGrofitPrice(decoreGrofitPrice);
+					//总毛利
+					orderContractExpenses.setTotalGrofitPrice(totalGrofitPrice);
+				}else{
+					salerTotalPrice=Double.valueOf(0);
+					//装饰销售顾问结算价
+					orderContractExpenses.setDecoreCostMoney(salerTotalPrice);
+					//装饰销售利润
+					Double decoreMoney = orderContractExpenses.getDecoreMoney();
+					if(decoreMoney==null){
+						decoreMoney=Double.valueOf(0);
+					}
+					Double decoreGrofitPrice=decoreMoney-salerTotalPrice;
+					orderContractExpenses.setDecoreGrofitPrice(decoreGrofitPrice);
 				}
+				orderContractExpensesManageImpl.save(orderContractExpenses);
 			}else{
 				OrderContractDecore orderContractDecore2 = orderContractDecoreManageImpl.get(dbid);
 				Set<OrderContractDecoreItem> orderContractDecoreItems = orderContractDecore2.getOrderContractDecoreItem();
@@ -221,17 +230,38 @@ public class QywxOrderContractDecoreAction extends BaseController{
 				
 				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "合同装饰编辑保存草稿","",customer.getUser());
 				
-				//政策盈利估算
-				Double carGrofitPrice = orderContractExpenses.getCarGrofitPrice();
-				if(null==carGrofitPrice){
-					carGrofitPrice=Double.valueOf(0);
+				//整车盈利估算
+				Double totalGrofitPrice= orderContractExpenses.getTotalGrofitPrice();
+				if(null==totalGrofitPrice){
+					totalGrofitPrice=Double.valueOf(0);
 				}
 				Double salerTotalPrice = orderContractDecore.getSalerTotalPrice();		
 				if(salerTotalPrice!=null){
-					carGrofitPrice=carGrofitPrice-salerTotalPrice;
-					orderContractExpenses.setCarGrofitPrice(carGrofitPrice);
-					orderContractExpensesManageImpl.save(orderContractExpenses);
+					totalGrofitPrice=totalGrofitPrice-salerTotalPrice;
+					//装饰销售顾问结算价
+					orderContractExpenses.setDecoreCostMoney(salerTotalPrice);
+					//装饰销售利润
+					Double decoreMoney = orderContractExpenses.getDecoreMoney();
+					if(decoreMoney==null){
+						decoreMoney=Double.valueOf(0);
+					}
+					Double decoreGrofitPrice=decoreMoney-salerTotalPrice;
+					orderContractExpenses.setDecoreGrofitPrice(decoreGrofitPrice);
+					//总毛利
+					orderContractExpenses.setTotalGrofitPrice(totalGrofitPrice);
+				}else{
+					salerTotalPrice=Double.valueOf(0);
+					//装饰销售顾问结算价
+					orderContractExpenses.setDecoreCostMoney(salerTotalPrice);
+					//装饰销售利润
+					Double decoreMoney = orderContractExpenses.getDecoreMoney();
+					if(decoreMoney==null){
+						decoreMoney=Double.valueOf(0);
+					}
+					Double decoreGrofitPrice=decoreMoney-salerTotalPrice;
+					orderContractExpenses.setDecoreGrofitPrice(decoreGrofitPrice);
 				}
+				orderContractExpensesManageImpl.save(orderContractExpenses);
 			}
 			if(smtType==2){
 				User user = customer.getUser();
@@ -261,11 +291,6 @@ public class QywxOrderContractDecoreAction extends BaseController{
 				customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "合同提交审批","",customer.getUser());
 			}
 			
-			//归档 初始化装饰信息表/////////////////////////END///////////////////////////
-			////////////////////更新物流部核查装饰通知单/////////////////////////////
-			
-			
-			////////////////////更新物流部核查装饰通知单/////////////////////////////
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);

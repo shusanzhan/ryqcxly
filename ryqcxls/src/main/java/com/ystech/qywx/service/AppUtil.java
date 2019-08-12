@@ -97,9 +97,10 @@ public class AppUtil {
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String agent_list_url = QywxUtil.agent_list_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 			JSONObject httpRequest = QywxUtil.httpRequest(agent_list_url, "GET", null);
+			System.out.println("erro+++++"+httpRequest.toString());
 			if(null!=httpRequest){
 				ErrorMessage errorMessage = ErrorMessageUtil.paraseErrorMessage(httpRequest);
 				if(errorMessage.getErrcode().equals("0")){
@@ -110,7 +111,7 @@ public class AppUtil {
 						app.setAppId(jsonObject.getInt("agentid"));
 						app.setName(jsonObject.getString("name"));
 						app.setSquare_logo_url(jsonObject.getString("square_logo_url"));
-						app.setRound_logo_url(jsonObject.getString("round_logo_url"));
+						//app.setRound_logo_url(jsonObject.getString("round_logo_url"));
 						apps.add(app);
 					}
 				}
@@ -129,7 +130,7 @@ public class AppUtil {
 			List<App> localAppList = getLocalAppList();
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
-			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity());
+			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			for (App app : localAppList) {
 				String agent_get_url = QywxUtil.agent_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken());
 				agent_get_url=agent_get_url.replace("AGENTID", app.getAppId()+"");

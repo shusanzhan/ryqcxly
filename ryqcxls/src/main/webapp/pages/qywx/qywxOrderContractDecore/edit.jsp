@@ -103,7 +103,7 @@ table th, table td {
 				${fn:substring(carModel,0,16) }...
 			</c:if>
 			<c:if test="${ status==false}">
-				${carModel} ${customer.carModelStr}
+				${carModel }${customer.carModelStr}
 			</c:if>
 			<br>
 			登记时间：<fmt:formatDate value="${customer.createFolderTime }"/> <br/>
@@ -157,7 +157,6 @@ table th, table td {
 								</select>
 							</td>
 							<td id="sno${i+1 }" style="text-align: center;"></td>
-							<td id="brand${i+1 }" style="text-align: center;display: none;"></td>
 							<td style="text-align: center;display: none;">
 								<input type="text" readonly="readonly"  name="price" id="price${i+1 }" class="smallX text" style="width: 92%;" onfocus="count()">
 							</td>
@@ -196,8 +195,6 @@ table th, table td {
 							 <td id="sno${i.index+1 }" style="text-align: center;">
 								<a href='javascript:;' onclick="$.utile.openDialog('${ctx}/product/viewProduct?productId=${orderContractDecoreItem.product.dbid }','商品明细',760,320)">${orderContractDecoreItem.product.sn }</a>
 							</td>
-							<td id="brand${i.index+1 }" style="text-align: center;display: none;">
-							</td>
 							<td style="text-align: center;display: none;">
 								<input type="text" readonly="readonly"  name="price" id="price${i.index+1 }" value="${orderContractDecoreItem.price }" class="smallX text" style="width: 92%;" onfocus="count()">
 							</td>
@@ -229,7 +226,6 @@ table th, table td {
 								</select>
 							</td>
 							<td id="sno${i+1 }" style="text-align: center;"></td>
-							<td id="brand${i+1 }" style="text-align: center;display: none;"></td>
 							<td style="text-align: center;display: none;">
 								<input type="text" readonly="readonly"  name="price" id="price${i+1 }" class="smallX text" style="width: 92%;" onfocus="count()">
 							</td>
@@ -430,8 +426,6 @@ function crateTr() {
 			+'</td>'
 			+ '<td id="sno'+size+'" style="text-align: center;">'
 			+ '</td>' 
-			+ '<td id="brand'+size+'" style="text-align: center;display:none">'
-			+ '</td>'
 			+ '<td  style="text-align: center;display: none;">'
 				+ '<input  type="text" readonly="readonly"  name="price" id="price'+size+'"  onfocus="count()" class="smallX text" style="width: 92%;">'
 			+ '</td>'
@@ -463,7 +457,7 @@ function autoProductByName(id){
 		   		return rows;   
 		    }, 
 			formatItem: function(row, i, total) {   
-		       return "<span>名称："+row.name+"&nbsp;&nbsp;序号： "+row.sn+"&nbsp;&nbsp;价格："+row.price+"&nbsp;&nbsp; 品牌："+row.brand+"&nbsp;&nbsp; </span>";   
+		       return "<span>名称："+row.name+"&nbsp;&nbsp;序号： "+row.sn+"&nbsp;&nbsp;价格："+row.price+"&nbsp;&nbsp;&nbsp;&nbsp; </span>";   
 		    },   
 		    formatMatch: function(row, i, total) {   
 		       return row.name;   
@@ -481,8 +475,6 @@ function onRecordSelect(event, data, formatted) {
 		var sn=id.substring(11,id.length);
 		$("#productName"+sn).val(data.name);
 		$("#productDbid"+sn).val(data.dbid);
-		$("#brand"+sn).text("");
-		$("#brand"+sn).text(data.brand);
 		 $("#sno"+sn).text("");
 		var on="<a href='javascript:;' onclick=\"$.utile.openDialog('${ctx}/product/viewProduct?productId="+data.dbid+"','商品明细',760,320)\">"+data.sn+"</a>";
 		$("#sno"+sn).append(on);

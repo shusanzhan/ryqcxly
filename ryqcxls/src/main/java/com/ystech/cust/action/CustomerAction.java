@@ -50,8 +50,6 @@ import com.ystech.cust.model.CustomerTrack;
 import com.ystech.cust.model.CustomerType;
 import com.ystech.cust.model.Educational;
 import com.ystech.cust.model.Industry;
-import com.ystech.cust.model.InfoFrom;
-import com.ystech.cust.model.InfoFromDetail;
 import com.ystech.cust.model.OrderContract;
 import com.ystech.cust.model.OrderContractProduct;
 import com.ystech.cust.model.Paperwork;
@@ -78,8 +76,6 @@ import com.ystech.cust.service.CustomerTractUtile;
 import com.ystech.cust.service.CustomerTypeManageImpl;
 import com.ystech.cust.service.EducationalManageImpl;
 import com.ystech.cust.service.IndustryManageImpl;
-import com.ystech.cust.service.InfoFromDetailManageImpl;
-import com.ystech.cust.service.InfoFromManageImpl;
 import com.ystech.cust.service.OrderContractProductManageImpl;
 import com.ystech.cust.service.PaperworkManageImpl;
 import com.ystech.cust.service.ProfessionManageImpl;
@@ -106,7 +102,7 @@ import com.ystech.xwqr.set.service.CarSeriyManageImpl;
  * @author shusanzhan
  * @date 2014-2-21
  */
-@Component("customerAction")
+@Component("custCustomerAction")
 @Scope("prototype")
 public class CustomerAction extends BaseController{
 	private static int errorNum=1;
@@ -121,7 +117,6 @@ public class CustomerAction extends BaseController{
 	private AreaManageImpl areaManageImpl;
 	private IndustryManageImpl industryManageImpl;
 	private EducationalManageImpl educationalManageImpl;
-	private InfoFromManageImpl infoFromManageImpl;
 	private BuyCarCareManageImpl buyCarCareManageImpl;
 	private BuyCarTargetManageImpl buyCarTargetManageImpl;
 	private BuyCarTypeManageImpl buyCarTypeManageImpl;
@@ -130,7 +125,6 @@ public class CustomerAction extends BaseController{
 	private BuyCarMainUseManageImpl buyCarMainUseManageImpl;
 	private CustomerPhaseManageImpl customerPhaseManageImpl;
 	private DepartmentManageImpl departmentManageImpl;
-	private InfoFromDetailManageImpl infoFromDetailManageImpl;
 	private CustomerShoppingRecordManageImpl customerShoppingRecordManageImpl;
 	private CustomerPidBookingRecordManageImpl customerPidBookingRecordManageImpl;
 	private OrderContractProductManageImpl orderContractProductManageImpl;
@@ -217,10 +211,6 @@ public class CustomerAction extends BaseController{
 		this.educationalManageImpl = educationalManageImpl;
 	}
 	@Resource
-	public void setInfoFromManageImpl(InfoFromManageImpl infoFromManageImpl) {
-		this.infoFromManageImpl = infoFromManageImpl;
-	}
-	@Resource
 	public void setBuyCarCareManageImpl(BuyCarCareManageImpl buyCarCareManageImpl) {
 		this.buyCarCareManageImpl = buyCarCareManageImpl;
 	}
@@ -280,11 +270,6 @@ public class CustomerAction extends BaseController{
 	public void setTimeoutsTrackRecordManageImpl(
 			TimeoutsTrackRecordManageImpl timeoutsTrackRecordManageImpl) {
 		this.timeoutsTrackRecordManageImpl = timeoutsTrackRecordManageImpl;
-	}
-	@Resource
-	public void setInfoFromDetailManageImpl(
-			InfoFromDetailManageImpl infoFromDetailManageImpl) {
-		this.infoFromDetailManageImpl = infoFromDetailManageImpl;
 	}
 	@Resource
 	public void setCustomerShoppingRecordManageImpl(
@@ -422,14 +407,6 @@ public class CustomerAction extends BaseController{
 			List<Area> areas = areaManageImpl.find("from Area where area.dbid IS NULL", new Object[]{});
 			request.setAttribute("areas", areas);
 			
-			List<Department> departments = departmentManageImpl.getAll();
-			request.setAttribute("departments", departments);
-			//客户来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? and enterpriseId=? ",new Object[]{InfoFrom.SELFYES,enterprise.getDbid()});
-			request.setAttribute("infoFroms", infoFroms);
-			
-			List<InfoFromDetail> infoFromDetails = infoFromDetailManageImpl.findBy("enterpriseId",enterprise.getDbid());
-			request.setAttribute("infoFromDetails", infoFromDetails);
 			
 			//购车类型
 			List<BuyCarType> buyCarTypes = buyCarTypeManageImpl.getAll();
@@ -600,11 +577,6 @@ public class CustomerAction extends BaseController{
 			
 			customer.setDepartment(currentUser.getDepartment());
 			customer.setSuccessDepartment(currentUser.getDepartment());
-			Integer infoFromId = ParamUtil.getIntParam(request, "infoFromId", -1);
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customer.setInfoFrom(infoFrom);
-			}
 			customer.setRecordType(Customer.CUSTOMERTYPECOMM);
 			customer.setKdStatus(Customer.KDCOMM);
 			customer.setDmsStatus(Customer.DMSCOMM);
@@ -641,15 +613,6 @@ public class CustomerAction extends BaseController{
 			if(buyCarCareId>0){
 				BuyCarCare buyCarCare = buyCarCareManageImpl.get(buyCarCareId);
 				customerBussi.setBuyCarCare(buyCarCare);
-			}
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customerBussi.setInfoFrom(infoFrom);
-			}
-			Integer infoFromDetaillId = ParamUtil.getIntParam(request, "infoFromDetaillId", -1);
-			if(infoFromDetaillId>0){
-				InfoFromDetail infoFromDetail = infoFromDetailManageImpl.get(infoFromDetaillId);
-				customerBussi.setInfoFromDetail(infoFromDetail);
 			}
 			Integer buyCarTargetId = ParamUtil.getIntParam(request, "buyCarTargetId", -1);
 			if(buyCarTargetId>0){
@@ -726,10 +689,10 @@ public class CustomerAction extends BaseController{
 			return ;
 		}
 		if(red==0){
-			//renderMsg("/customer/addShoppingRecord", "保存数据成功！");
-			//renderMsg("/customer/customerShoppingRecordqueryList", "保存数据成功！");
+			//renderMsg("/custCustomer/addShoppingRecord", "保存数据成功！");
+			//renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存数据成功！");
 		}else if(red==1){
-			//renderMsg("/customer/addShoppingRecord", "保存数据成功！");
+			//renderMsg("/custCustomer/addShoppingRecord", "保存数据成功！");
 		}
 		renderMsg("/customerRecord/querySalerList", "保存数据成功！");
 		return ;
@@ -855,8 +818,6 @@ public class CustomerAction extends BaseController{
 				Customer customer2 = customerMangeImpl.get(dbid);
 				request.setAttribute("customer", customer2);
 			}
-			List<InfoFrom> infoFroms = infoFromManageImpl.findBy("self",InfoFrom.SELFYES);
-			request.setAttribute("infoFroms", infoFroms);
 			
 			List<BuyCarCare> buyCarCares = buyCarCareManageImpl.getAll();
 			request.setAttribute("buyCarCares", buyCarCares);
@@ -924,8 +885,6 @@ public class CustomerAction extends BaseController{
 			}
 			
 			
-			List<InfoFrom> infoFroms = infoFromManageImpl.findBy("self",InfoFrom.SELFYES);
-			request.setAttribute("infoFroms", infoFroms);
 			
 			List<BuyCarCare> buyCarCares = buyCarCareManageImpl.getAll();
 			request.setAttribute("buyCarCares", buyCarCares);
@@ -1196,27 +1155,14 @@ public class CustomerAction extends BaseController{
 			}
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			String departmentIds=null;
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				Department parent = departmentManageImpl.get(Department.ROOT);
-				if(departmentId>0){
-					Department department = departmentManageImpl.get(departmentId);
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,parent.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-					departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
-				}else{
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,parent.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-				}
+			if(departmentId>0){
+				Department department = departmentManageImpl.get(departmentId);
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
+				request.setAttribute("departmentSelect", departmentSelect);
+				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
 			}else{
-				if(departmentId>0){
-					Department department = departmentManageImpl.get(departmentId);
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-					departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
-				}else{
-					String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
-					request.setAttribute("departmentSelect", departmentSelect);
-				}
+				String departmentSelect = departmentManageImpl.getDepartmentSelect(null,enterprise.getDbid());
+				request.setAttribute("departmentSelect", departmentSelect);
 			}
 			
 			if(customerInfromId>0){
@@ -1232,8 +1178,6 @@ public class CustomerAction extends BaseController{
 			List<CustomerPhase> customerPhases = customerPhaseManageImpl.getAll();
 			request.setAttribute("customerPhases", customerPhases);
 			//信息来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where enterpriseId=? and self=?",new Object[]{enterprise.getDbid(),InfoFrom.SELFYES});
-			request.setAttribute("infoFroms", infoFroms);
 			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
 			//车系
@@ -1253,11 +1197,8 @@ public class CustomerAction extends BaseController{
 					+ " cust_customerlastbussi custlb "
 					+ " ON cu.dbid=custlb.customerId "
 					+ "   where  1=1 ";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
-				String currentDepIds = departmentManageImpl.getDepartmentIds(currentUser.getDepartment());
-				sql=sql+" and cu.departmentId in ("+currentDepIds+")";
+			if(enterprise.getDbid()>0){
+				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
 			}
 			List param= new ArrayList();
 			if(null!=userName&&userName.trim().length()>0){
@@ -1490,12 +1431,6 @@ public class CustomerAction extends BaseController{
 			List<Department> departments = departmentManageImpl.getAll();
 			request.setAttribute("departments", departments);
 			
-			//客户来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? and enterpriseId=? ",new Object[]{InfoFrom.SELFYES,enterprise.getDbid()});
-			request.setAttribute("infoFroms", infoFroms);
-			
-			List<InfoFromDetail> infoFromDetails = infoFromDetailManageImpl.findBy("enterpriseId",enterprise.getDbid());
-			request.setAttribute("infoFromDetails", infoFromDetails);
 			//职业信息表
 			List<Profession> professions = professionManageImpl.getAll();
 			request.setAttribute("professions", professions);
@@ -1574,12 +1509,6 @@ public class CustomerAction extends BaseController{
 				List<Department> departments = departmentManageImpl.getAll();
 				request.setAttribute("departments", departments);
 				
-				//客户来源
-				List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? and enterpriseId=? ",new Object[]{InfoFrom.SELFYES,enterprise.getDbid()});
-				request.setAttribute("infoFroms", infoFroms);
-				
-				List<InfoFromDetail> infoFromDetails = infoFromDetailManageImpl.findBy("enterpriseId",enterprise.getDbid());
-				request.setAttribute("infoFromDetails", infoFromDetails);
 				
 				//职业信息表
 				List<Profession> professions = professionManageImpl.getAll();
@@ -1718,11 +1647,6 @@ public class CustomerAction extends BaseController{
 				Educational educational = educationalManageImpl.get(educationalId);
 				customer2.setEducational(educational);
 			}
-			Integer infoFromId = ParamUtil.getIntParam(request, "infoFromId", -1);
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customer2.setInfoFrom(infoFrom);
-			}
 			if(recommendCustomerId>0){
 				RecommendCustomer recommendCustomer = recommendCustomerManageImpl.get(recommendCustomerId);
 				customer2.setRecommendCustomer(recommendCustomer);
@@ -1807,10 +1731,6 @@ public class CustomerAction extends BaseController{
 				BuyCarCare buyCarCare = buyCarCareManageImpl.get(buyCarCareId);
 				customerBussi2.setBuyCarCare(buyCarCare);
 			}
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customerBussi2.setInfoFrom(infoFrom);
-			}
 			Integer buyCarTargetId = ParamUtil.getIntParam(request, "buyCarTargetId", -1);
 			if(buyCarTargetId>0){
 				BuyCarTarget buyCarTarget = buyCarTargetManageImpl.get(buyCarTargetId);
@@ -1851,7 +1771,7 @@ public class CustomerAction extends BaseController{
 		if(type==2){
 			renderMsg("/customerRecord/querySalerList", "保存数据成功！");
 		}else{
-			renderMsg("/customer/customerShoppingRecordqueryList", "保存数据成功！");
+			renderMsg("/custCustomer/customerShoppingRecordqueryList", "保存数据成功！");
 		}
 		return ;
 	}
@@ -1886,7 +1806,7 @@ public class CustomerAction extends BaseController{
 			return ;
 		}
 		String query = ParamUtil.getQueryUrl(request);
-		renderMsg("/customer/customerShoppingRecordqueryList"+query, "删除数据成功！");
+		renderMsg("/custCustomer/customerShoppingRecordqueryList"+query, "删除数据成功！");
 		return;
 	}
 	
@@ -2071,22 +1991,18 @@ public class CustomerAction extends BaseController{
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
 			
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
 			
-			User currentUser = SecurityUserHolder.getCurrentUser();
 			String sql="select cu.* " +
 					"	from " +
 					"	cust_Customer as cu,cust_CustomerLastBussi as clb,cust_customerbussi cb  " +
 					"	where  " +
 					"	clb.customerId=cu.dbid and cu.lastResult>? AND cb.customerId=cu.dbid ";
-			String currentDepIds = departmentManageImpl.getDepartmentIds(currentUser.getDepartment());
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
-				sql=sql+" and cu.departmentId in ("+currentDepIds+")";
+			if(enterprise.getDbid()>0){
+				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
 			}
 			List param= new ArrayList();
 			param.add(Customer.SUCCESS);
@@ -2140,7 +2056,6 @@ public class CustomerAction extends BaseController{
 			}
 			if(null!=departmentIds&&departmentIds.trim().length()>0){
 				sql=sql+" and cu.departmentId in ("+departmentIds+")";
-				//param.add("("+departmentIds+")");
 			}
 			if(cityCrossCustomerId>0){
 				sql=sql+"  and  cu.cityCrossCustomerId=? ";
@@ -2163,48 +2078,6 @@ public class CustomerAction extends BaseController{
 			log.equals(e);
 		}
 		return "outLeaderFlow";
-	}
-	/**
-	 * 功能描述：总经理领导审批流失客户
-	 * 参数描述： 
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public String queryLeaderManageOutFlow() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
-		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
-		Integer departmentId = ParamUtil.getIntParam(request, "departmentId", -1);
-		Integer userId = ParamUtil.getIntParam(request, "userId", -1);
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-		String mobilePhone = request.getParameter("mobilePhone");
-		String userName = request.getParameter("userName");
-		Integer lastResultId = ParamUtil.getIntParam(request, "lastResultId", -1);
-		Integer cityCrossCustomerId = ParamUtil.getIntParam(request, "cityCrossCustomerId", -1);
-		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			String departmentIds=null;
-			if(departmentId>0){
-				Department department = departmentManageImpl.get(departmentId);
-				String departmentSelect = departmentManageImpl.getDepartmentSelect(department,enterprise.getDbid());
-				request.setAttribute("departmentSelect", departmentSelect);
-				departmentIds = departmentManageImpl.getDepartmentIdsByDbid(departmentId);
-			}else{
-				//String departmentSelect = departmentManageImpl.getDepartmentSelect(enterprise.getDbid(),enterprise.getDbid());
-				//request.setAttribute("departmentSelect", departmentSelect);
-			}
-			
-			
-			Page<Customer> page= customerMangeImpl.pageQueryLeaderOutFlow(pageNo, pageSize, lastResultId, mobilePhone, startTime, endTime, userName, departmentIds,cityCrossCustomerId);
-			request.setAttribute("page", page);
-		}catch (Exception e) {
-			e.printStackTrace();
-			log.equals(e);
-		}
-		return "outLeaderManageFlow";
 	}
 	/**
 	 * @param memberInfo2
@@ -2400,10 +2273,6 @@ public class CustomerAction extends BaseController{
 			}
 			
 			
-			//信息来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.findBy("self",InfoFrom.SELFYES);
-			request.setAttribute("infoFroms", infoFroms);
-			
 			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
 			//车系
@@ -2568,7 +2437,7 @@ public class CustomerAction extends BaseController{
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
 			
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
@@ -2730,10 +2599,6 @@ public class CustomerAction extends BaseController{
 				List<User> users = userManageImpl.findBy("department.dbid",department.getDbid());
 				request.setAttribute("users", users);
 			}
-			
-			//信息来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.findBy("self",InfoFrom.SELFYES);
-			request.setAttribute("infoFroms", infoFroms);
 			
 			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
@@ -2906,7 +2771,7 @@ public class CustomerAction extends BaseController{
 			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(),brandId);
 			request.setAttribute("carSeriys", carSeriys);
 			
-			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
+			List<CarColor>  carColors= carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
 			request.setAttribute("carColors", carColors);
 			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(),brandId,carSeriyId);
 			request.setAttribute("carModels", carModels);
@@ -3028,12 +2893,6 @@ public class CustomerAction extends BaseController{
 			List<Department> departments = departmentManageImpl.getAll();
 			request.setAttribute("departments", departments);
 			
-			//客户来源
-			List<InfoFrom> infoFroms = infoFromManageImpl.find("from InfoFrom where self=? and enterpriseId=? ",new Object[]{InfoFrom.SELFYES,enterprise.getDbid()});
-			request.setAttribute("infoFroms", infoFroms);
-			
-			List<InfoFromDetail> infoFromDetails = infoFromDetailManageImpl.findBy("enterpriseId",enterprise.getDbid());
-			request.setAttribute("infoFromDetails", infoFromDetails);
 			
 			//职业信息表
 			List<Profession> professions = professionManageImpl.getAll();
@@ -3355,7 +3214,7 @@ public class CustomerAction extends BaseController{
 			return ;
 		}
 		errorNum=1;
-		renderMsg("/customer/customerFile?dbid="+customerId+"&type=1","保存数据成功");
+		renderMsg("/custCustomer/customerFile?dbid="+customerId+"&type=1","保存数据成功");
 		return;
 	}
 	/**
@@ -3442,11 +3301,6 @@ public class CustomerAction extends BaseController{
 			if(carSeriyId>0){
 				CarSeriy carSeriy = carSeriyManageImpl.get(carSeriyId);
 				customerBussi.setCarSeriy(carSeriy);
-			}
-			Integer infoFromId = ParamUtil.getIntParam(request, "infoFromId", -1);
-			if(infoFromId>0){
-				InfoFrom infoFrom = infoFromManageImpl.get(infoFromId);
-				customer2.setInfoFrom(infoFrom);
 			}
 			if(recommendCustomerId>0){
 				RecommendCustomer recommendCustomer = recommendCustomerManageImpl.get(recommendCustomerId);

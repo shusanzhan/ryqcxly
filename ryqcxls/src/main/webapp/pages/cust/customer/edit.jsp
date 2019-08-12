@@ -24,7 +24,7 @@
 <div class="location">
    	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
    	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/customer/queryList'">登记记录</a>-
+	<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/custCustomer/queryList'">登记记录</a>-
 	<a href="javascript:void(-1)" class="current">
 		<c:if test="${customer.dbid>0 }" var="status">编辑客户</c:if>
 		<c:if test="${status==false }">添加客户</c:if>
@@ -161,16 +161,6 @@
 						<input type="text" readonly="readonly" class="largeX text"    value="${customer.customerPhase.name }">
 					</c:if>
 				</td>
-				<td class="formTableTdLeft">同城交叉客户：</td>
-				<td >
-					<select id="cityCrossCustomerId" name="cityCrossCustomerId" class="largeX text" checkType="integer,1" tip="请选择同城交叉客户">
-						<option value="">请选择...</option>
-						<c:forEach var="cityCrossCustomer" items="${cityCrossCustomers }">
-							<option value="${cityCrossCustomer.dbid }" ${customer.cityCrossCustomer.dbid==cityCrossCustomer.dbid?'selected="selected"':'' } >${cityCrossCustomer.name }</option>
-						</c:forEach>
-					</select>
-					<span style="color: red;">*</span>
-				</td>
 			</tr>
 			<c:if test="${customer.orderContract.status>=1}" var="status">
 				<tr>
@@ -293,17 +283,6 @@
 					<input  type="text" class="largeX text" id="carModel" name="customerShoppingRecord.carModel"   value="${customerShoppingRecord.carModel }">
 				</td>
 			</tr>
-			<tr>
-				<td class="formTableTdLeft">购车时间：</td>
-				<td>
-					<select id="trackingPhaseId" name="trackingPhaseId" class="largeX text">
-						<option value="">请选择...</option>
-						<c:forEach var="trackingPhase" items="${trackingPhases }">
-							<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-						</c:forEach>
-					</select>
-				</td>
-			</tr>
 			<tr style="height: 100px;">
 				<td class="formTableTdLeft">接待经过：</td>
 				<td  colspan="3">
@@ -409,17 +388,6 @@
 					</select>
 				</td>
 			</tr>
-			<tr >
-				<td class="formTableTdLeft">兴趣爱好：</td>
-				<td  colspan="1">
-					<select id="interestId" name="interestId" class="largeX text">
-						<option value="">请选择...</option>
-						<c:forEach var="interest" items="${interests }">
-							<option value="${interest.dbid }" ${customer.interest.dbid==interest.dbid?'selected="selected"':'' } >${interest.name }</option>
-						</c:forEach>
-					</select>
-				</td>
-			</tr>
 	</table>
 	<div class="frmTitle" onclick="showOrHiden('contactTable')">需求评估</div>
 	 <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 98%;">
@@ -473,15 +441,6 @@
 						</c:forEach>
 					</select>
 				</td>
-				<td class="formTableTdLeft">购车时间：</td>
-				<td>
-					<select id="trackingPhaseId" name="trackingPhaseId" class="largeX text">
-						<option value="">请选择...</option>
-						<c:forEach var="trackingPhase" items="${trackingPhases }">
-							<option value="${trackingPhase.dbid }" ${customerBussi.trackingPhase.dbid==trackingPhase.dbid?'selected="selected"':'' } >${trackingPhase.name }</option>
-						</c:forEach>
-					</select>
-				</td>
 			</tr>
 			<tr >
 				<td class="formTableTdLeft">备注：</td>
@@ -521,7 +480,7 @@
 		</table>
 </form>                            
 <div class="formButton">
-		<a href="javascript:void(-1)" id="sbmId"	onclick="$.utile.submitAjaxForm('frmId','${ctx}/customer/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
+		<a href="javascript:void(-1)" id="sbmId"	onclick="$.utile.submitAjaxForm('frmId','${ctx}/custCustomer/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
 	    <a href="javascript:void(-1)"	onclick="goBack()" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 </div>

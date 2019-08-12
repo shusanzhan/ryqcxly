@@ -9,12 +9,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.ystech.core.dao.Page;
 import com.ystech.core.excel.CustomerSalerTrackCountToExcel;
+import com.ystech.core.excel.CustomerTrackToExcel;
 import com.ystech.core.security.SecurityUserHolder;
 import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.ParamUtil;
@@ -270,7 +272,6 @@ public class CustomerTrackAction extends BaseController{
 		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
 		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		Integer bussiStaffId = ParamUtil.getIntParam(request, "bussiStaffId", -1);
-		Integer isNewlyAdd = ParamUtil.getIntParam(request, "isNewlyAdd", -1);
 		String name = request.getParameter("name");
 		String phone= request.getParameter("phone");
 		String userName = request.getParameter("userName");
@@ -295,11 +296,9 @@ public class CustomerTrackAction extends BaseController{
 					+ "LEFT JOIN cust_customer AS cu ON ct.customerId=cu.dbid WHERE 1=1 ";
 			sql=sql+" and ct.taskDealStatus="+CustomerTrack.TASKDEALSTATUSDEALED;
 			String selSql="";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			if(enterprise.getDbid()>0){
 				selSql=selSql+" AND cu.enterpriseId="+enterprise.getDbid()+" ";
-			}else{
-				selSql=selSql+" AND cu.departmentId="+department.getDbid()+" ";
 			}
 			sql=sql+selSql;
 			List param=new ArrayList();
@@ -414,11 +413,9 @@ public class CustomerTrackAction extends BaseController{
 					+ "from "
 					+ "cust_CustomerTrack as ct "
 					+ "LEFT JOIN cust_customer AS cu ON ct.customerId=cu.dbid "
-					+ "LEFT JOIN cust_customerbussi  AS cb ON cu.dbid=cb.customerId WHERE 1=1 ";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and cu.enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
-				sql=sql+" and cu.departmentId in ("+currentDepIds+")";
+					+ "LEFT JOIN cust_customerbussi  AS cb ON cu.dbid=cb.customerId WHERE 1=1 AND ct.taskDealStatus="+CustomerTrack.TASKDEALSTATUSDEALED;
+			if(enterprise.getDbid()>0){
+				sql=sql+" and cu.enterpriseId="+enterprise.getDbid();
 			}
 			List param=new ArrayList();
 			if(customerPhaseId>0){
@@ -468,7 +465,7 @@ public class CustomerTrackAction extends BaseController{
 				sql=sql+" and cb.carModelId=? ";
 				param.add(carModelId);
 			}
-			sql=sql+"order by ct.salesReadStatus,ct.createTime DESC";
+			sql=sql+" order by ct.salesReadStatus,ct.createTime DESC";
 			Page<CustomerTrack> page= customerTrackManageImpl.pagedQuerySql(pageNo, pageSize, CustomerTrack.class, sql,param.toArray());
 			request.setAttribute("page", page);
 			
@@ -853,7 +850,7 @@ public class CustomerTrackAction extends BaseController{
 				}
 				else{
 					 if(dbid==null||dbid<0){
-						renderMsg("/customer/customerShoppingRecordqueryList?pageSize="+pageSize+"&currentPage="+pageNo, "保存数据成功！");
+						renderMsg("/custCustomer/customerShoppingRecordqueryList?pageSize="+pageSize+"&currentPage="+pageNo, "保存数据成功！");
 					}else if(dbid>0){
 						renderMsg("/customerTrack/queryWaitingList?pageSize="+pageSize+"&currentPage="+pageNo, "保存数据成功！");
 					}
@@ -962,19 +959,93 @@ public class CustomerTrackAction extends BaseController{
 	 */
 	public String dayRoomManageCustomerTrack() throws Exception {
 		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 20);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
 		Integer salerId = ParamUtil.getIntParam(request, "salerId", -1);
+		Integer beginTaskOverTimeNum = ParamUtil.getIntParam(request, "beginTaskOverTimeNum", -1);
+		Integer endTaskOverTimeNum = ParamUtil.getIntParam(request, "endTaskOverTimeNum", -1);
+		String mobilePhone = request.getParameter("mobilePhone");
+		String salerName = request.getParameter("salerName");
+		String name = request.getParameter("name");
+		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		Integer taskOverTimeStatus = ParamUtil.getIntParam(request, "taskOverTimeStatus", -1);
+		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
 		try{
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			Department department = currentUser.getDepartment();
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			
+			
+			//意向级别
+			List<CustomerPhase> customerPhases = customerPhaseManageImpl.getAll();
+			request.setAttribute("customerPhases", customerPhases);
 			
 			String selSql="";
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				selSql=selSql+" AND cu.enterpriseId in("+currentUser.getCompnayIds()+") ";
-			}else{
-				selSql=selSql+" AND cu.departmentId="+department.getDbid();
+			if(enterprise.getDbid()>0){
+				selSql=selSql+" AND cu.enterpriseId="+enterprise.getDbid();
 			}
-			List<CustomerTrack> todayCustomerTracks = customerTrackManageImpl.findByLeaderTodayTrack(selSql, salerId);
-			request.setAttribute("todayCustomerTracks", todayCustomerTracks);
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
+			request.setAttribute("brands", brands);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(), brandId);
+			request.setAttribute("carSeriys", carSeriys);
+			List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brandId, carSeriyId);
+			request.setAttribute("carModels", carModels);
+			List params=new ArrayList();
+			String sql="select * from  "
+					+ "cust_customertrack AS custtrack "
+					+ "left JOIN "
+					+ "cust_customer AS cu "
+					+ "ON cu.dbid=custtrack.customerId "
+					+ "left JOIN "
+					+ " cust_CustomerBussi cb "
+					+ " ON  cu.dbid=cb.customerId "+
+					" where "+ 
+					"  1=1 "+selSql+" "
+					+ " AND  custtrack.taskDealStatus="+CustomerTrack.TASKDEALSTATUSCREATE+ 
+					"  AND  custtrack.nextReservationTime<date_sub(curdate(),interval -1 day) AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+			if(salerId>0){
+				sql=sql+" AND custtrack.userId="+salerId;
+			}
+			if(salerName!=null&&salerName.trim().length()>0){
+				sql=sql+" AND bussiStaff like ? ";
+				params.add("%"+salerName+"%");
+			}
+			if(mobilePhone!=null&&mobilePhone.trim().length()>0){
+				sql=sql+" AND mobilePhone like ? ";
+				params.add("%"+mobilePhone+"%");
+			}
+			if(name!=null&&name.trim().length()>0){
+				sql=sql+" AND name like ? ";
+				params.add("%"+name+"%");
+			}
+			if(beginTaskOverTimeNum>0){
+				sql=sql+" AND custtrack.TaskOverTimeNum>="+beginTaskOverTimeNum;
+			}
+			if(customerPhaseId>0){
+				sql=sql+" AND customerPhaseId="+customerPhaseId;
+			}
+			if(endTaskOverTimeNum>0){
+				sql=sql+" AND custtrack.TaskOverTimeNum<="+endTaskOverTimeNum;
+			}
+			if(taskOverTimeStatus>0){
+				sql=sql+" AND custtrack.taskOverTimeStatus<="+taskOverTimeStatus;
+			}
+			if(brandId>0){
+				sql=sql+" and cb.brandId=? ";
+				params.add(brandId);
+			}
+			if(carSeriyId>0){
+				sql=sql+" and cb.carSeriyId=? ";
+				params.add(carSeriyId);
+			}
+			if(carModelId>0){
+				sql=sql+" and cb.carModelId=? ";
+				params.add(carModelId);
+			}
+			sql=sql+" order by TaskOverTimeNum DESC ";
+			Page<CustomerTrack> page = customerTrackManageImpl.pagedQuerySql(pageNo, pageSize, CustomerTrack.class, sql, params.toArray());
+			request.setAttribute("page", page);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -1194,5 +1265,94 @@ public class CustomerTrackAction extends BaseController{
 			log.error(e);
 		}
 		return "salerCustomerTrackDetail";
+	}
+	/**
+	 * 功能描述：销售副总导出来电登记记录表
+	 * @throws Exception
+	 */
+	public void exportExcel() throws Exception {
+		HttpServletRequest request = getRequest();
+		HttpServletResponse response = getResponse();
+		String fileName="待回访客户表";
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 20);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer salerId = ParamUtil.getIntParam(request, "salerId", -1);
+		Integer beginTaskOverTimeNum = ParamUtil.getIntParam(request, "beginTaskOverTimeNum", -1);
+		Integer endTaskOverTimeNum = ParamUtil.getIntParam(request, "endTaskOverTimeNum", -1);
+		String mobilePhone = request.getParameter("mobilePhone");
+		String salerName = request.getParameter("salerName");
+		String name = request.getParameter("name");
+		Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+		Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+		Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+		Integer taskOverTimeStatus = ParamUtil.getIntParam(request, "taskOverTimeStatus", -1);
+		Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
+		try{
+			User currentUser = SecurityUserHolder.getCurrentUser();
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			Department department = currentUser.getDepartment();
+			String selSql="";
+			if(enterprise.getDbid()>0){
+				selSql=selSql+" AND cu.enterpriseId="+enterprise.getDbid();
+			}
+			List params=new ArrayList();
+			String sql="select * from  "
+					+ "cust_customertrack AS custtrack "
+					+ "left JOIN "
+					+ "cust_customer AS cu "
+					+ "ON cu.dbid=custtrack.customerId "
+					+ "left JOIN "
+					+ " cust_CustomerBussi cb "
+					+ " ON  cu.dbid=cb.customerId "+
+					" where "+ 
+					"  1=1 "+selSql+" "
+					+ " AND  custtrack.taskDealStatus="+CustomerTrack.TASKDEALSTATUSCREATE+ 
+					"  AND  custtrack.nextReservationTime<date_sub(curdate(),interval -1 day) AND custtrack.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+			if(salerId>0){
+				sql=sql+" AND custtrack.userId="+salerId;
+			}
+			if(salerName!=null&&salerName.trim().length()>0){
+				sql=sql+" AND bussiStaff like ? ";
+				params.add("%"+salerName+"%");
+			}
+			if(mobilePhone!=null&&mobilePhone.trim().length()>0){
+				sql=sql+" AND mobilePhone like ? ";
+				params.add("%"+mobilePhone+"%");
+			}
+			if(name!=null&&name.trim().length()>0){
+				sql=sql+" AND name like ? ";
+				params.add("%"+name+"%");
+			}
+			if(beginTaskOverTimeNum>0){
+				sql=sql+" AND custtrack.TaskOverTimeNum>="+beginTaskOverTimeNum;
+			}
+			if(customerPhaseId>0){
+				sql=sql+" AND customerPhaseId="+customerPhaseId;
+			}
+			if(endTaskOverTimeNum>0){
+				sql=sql+" AND custtrack.TaskOverTimeNum<="+endTaskOverTimeNum;
+			}
+			if(taskOverTimeStatus>0){
+				sql=sql+" AND custtrack.taskOverTimeStatus<="+taskOverTimeStatus;
+			}
+			if(brandId>0){
+				sql=sql+" and cb.brandId=? ";
+				params.add(brandId);
+			}
+			if(carSeriyId>0){
+				sql=sql+" and cb.carSeriyId=? ";
+				params.add(carSeriyId);
+			}
+			if(carModelId>0){
+				sql=sql+" and cb.carModelId=? ";
+				params.add(carModelId);
+			}
+			sql=sql+" order by TaskOverTimeNum DESC ";
+			List<CustomerTrack> customerTracks = customerTrackManageImpl.executeSql(sql, params.toArray());
+			String filePath = CustomerTrackToExcel.writeExcel(fileName,customerTracks);
+			downFile(request, response, filePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

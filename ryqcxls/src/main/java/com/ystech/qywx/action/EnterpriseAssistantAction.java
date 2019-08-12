@@ -69,10 +69,12 @@ public class EnterpriseAssistantAction extends BaseController{
 			Integer appid = ParamUtil.getIntParam(request, "appid", 0);
 			List<App> apps = appManageImpl.find("from App where appId=?", appid);
 			if(null==apps||apps.size()<=0){
+				System.out.println("========null");
 				return ;
 			}
 			
 			App app = apps.get(0);
+			System.out.println("========"+app.getName());
 			WXBizMsgCrypt wxcpt = new WXBizMsgCrypt(app.getToken(),app.getEncodingAeskey(), qywxAccount.getGroupId());
 			//消息体签名(msg_signature)
 			String sVerifyMsgSig = request.getParameter("msg_signature");

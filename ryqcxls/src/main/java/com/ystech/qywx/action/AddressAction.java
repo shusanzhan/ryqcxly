@@ -72,7 +72,9 @@ public class AddressAction extends BaseController{
 			String hql="select * from sys_user where 1=1 ";
 			List params=new ArrayList();
 			hql=hql+" and userState=? ";
+			hql=hql+" and adminType=? ";
 			params.add(1);
+			params.add(2);
 			if(null!=userId&&userId.trim().length()>0){
 				hql=hql+" and userId like ? ";
 				params.add("%"+userId+"%");

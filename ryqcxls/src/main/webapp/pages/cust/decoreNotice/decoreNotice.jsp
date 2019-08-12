@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="${ctx }/css/print.css" />
 <link rel="stylesheet" href="${ctx }/widgets/auto/jquery.autocomplete.css" />
 <script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script type="text/javascript"	src="${ctx}/widgets/auto/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
-<script type="text/javascript"	src="${ctx}/widgets/auto/jquery.autocomplete.js"></script>
 <style type="text/css">
 
 body {

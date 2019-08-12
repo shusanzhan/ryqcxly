@@ -18,7 +18,9 @@ import com.ystech.core.web.BaseController;
 import com.ystech.weixin.model.WeixinAccount;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.SystemInfo;
 import com.ystech.xwqr.model.sys.User;
+import com.ystech.xwqr.service.sys.SystemInfoMangeImpl;
 import com.ystech.xwqr.service.sys.UserManageImpl;
 @Component("weixinAccountAction")
 @Scope("prototype")
@@ -26,6 +28,7 @@ public class WeixinAccountAction extends BaseController{
 	private WeixinAccount weixinAccount;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
 	private UserManageImpl userManageImpl;
+	private SystemInfoMangeImpl systemInfoMangeImpl;
 	public WeixinAccount getWeixinAccount() {
 		return weixinAccount;
 	}
@@ -41,6 +44,10 @@ public class WeixinAccountAction extends BaseController{
 	@Resource
 	public void setUserManageImpl(UserManageImpl userManageImpl) {
 		this.userManageImpl = userManageImpl;
+	}
+	@Resource
+	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
+		this.systemInfoMangeImpl = systemInfoMangeImpl;
 	}
 
 	/**
@@ -75,22 +82,31 @@ public class WeixinAccountAction extends BaseController{
 	public String editSelf() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> findBy = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=findBy&&findBy.size()>0){
-				WeixinAccount weixinAccount = findBy.get(0);
-				if(null!=weixinAccount){
-					request.setAttribute("weixinAccount", weixinAccount);
-					if(null==weixinAccount.getCode()||weixinAccount.getCode().trim().length()<=0){
-						String formatFile = DateUtil.formatFile(new Date());
-						String calcMD5 = Md5.calcMD5(formatFile);
-						request.setAttribute("code", calcMD5);
-					}
-				}else{
+			List<SystemInfo> systemInfos = systemInfoMangeImpl.getAll();
+			if(null==systemInfos||systemInfos.isEmpty()){
+				return "error";
+			}
+			SystemInfo systemInfo = systemInfos.get(0);
+			Integer wechatType = systemInfo.getWechatType();
+			WeixinAccount weixinAccount=null;
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_ONCE){
+				weixinAccount=weixinAccountManageImpl.get(SystemInfo.ROOT);
+			}
+			if(wechatType==SystemInfo.WECHATTYPE_MODEL_MORE){
+				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+				weixinAccount= weixinAccountManageImpl.findUniqueBy("enterpriseId", enterprise.getDbid());
+			}
+			if(null!=weixinAccount){
+				request.setAttribute("weixinAccount", weixinAccount);
+				if(null==weixinAccount.getCode()||weixinAccount.getCode().trim().length()<=0){
 					String formatFile = DateUtil.formatFile(new Date());
 					String calcMD5 = Md5.calcMD5(formatFile);
 					request.setAttribute("code", calcMD5);
 				}
+			}else{
+				String formatFile = DateUtil.formatFile(new Date());
+				String calcMD5 = Md5.calcMD5(formatFile);
+				request.setAttribute("code", calcMD5);
 			}
 		}catch (Exception e) {
 			// TODO: handle exception

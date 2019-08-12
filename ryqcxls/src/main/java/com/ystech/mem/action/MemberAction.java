@@ -65,7 +65,7 @@ import com.ystech.xwqr.set.service.CarSeriyManageImpl;
  * @author shusanzhan
  * @date 2014-1-17
  */
-@Component("memberAction")
+@Component("memMemberAction")
 @Scope("prototype")
 public class MemberAction extends BaseController{
 	private Member member;
@@ -220,9 +220,7 @@ public class MemberAction extends BaseController{
 		try{
 			String sql="select * from mem_Member where 1=1 ";
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				sql=sql+" and enterpriseId in("+currentUser.getCompnayIds()+")";
-			}else{
+			if(enterprise.getDbid()>0){
 				sql=sql+" and enterpriseId="+enterprise.getDbid();
 			}
 			List param= new ArrayList();
@@ -523,21 +521,9 @@ public class MemberAction extends BaseController{
 			Member member2 = memberManageImpl.get(dbid);
 			request.setAttribute("member", member2);
 			
-			//会员优惠券
-			List<CouponMember> couponMembers = couponMemberManageImpl.findBy("member.dbid", dbid);
-			request.setAttribute("couponMembers", couponMembers);
-			
 			//会员积分记录
 			List<PointRecord> pointRecords= pointRecordManageImpl.findBy("member.dbid", dbid);
 			request.setAttribute("pointRecords", pointRecords);
-			
-			//储值记录
-			List<StoreMoneyRecord> storeMoneyRecords = storeMoneyRecordManageImpl.findBy("member.dbid", dbid);
-			request.setAttribute("storeMoneyRecords", storeMoneyRecords);
-			
-			List<OnlineBooking> onlineBookings = onlineBookingManageImpl.findBy("microId", member2.getMicroId());
-			request.setAttribute("onlineBookings", onlineBookings);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
@@ -576,13 +562,15 @@ public class MemberAction extends BaseController{
 				member.setConsumpiontPoint(0);
 				//是否同步到微信平台
 				memberManageImpl.save(member);
-				
+				Enterprise enterprise = member.getEnterprise();
 				//保存积分记录
 				if(null!=member.getTotalPoint()&&member.getTotalPoint()>0){
 					PointRecord pointRecord=new PointRecord();
 					pointRecord.setCreateTime(new Date());
 					pointRecord.setMember(member);
-					pointRecord.setEnterpriseId(member.getEnterpriseId());
+					if(null!=enterprise){
+						pointRecord.setEnterpriseId(enterprise.getDbid());
+					}
 					pointRecord.setNote("第一次创建会员赠送积分");
 					pointRecord.setPointFrom("开通会员赠送积分");
 					pointRecord.setType(PointRecord.TYPECOMMON);
@@ -669,7 +657,10 @@ public class MemberAction extends BaseController{
 					PointRecord pointRecord=new PointRecord();
 					pointRecord.setCreateTime(new Date());
 					pointRecord.setMember(member);
-					pointRecord.setEnterpriseId(member.getEnterpriseId());
+					Enterprise enterprise = member.getEnterprise();
+					if(null!=enterprise){
+						pointRecord.setEnterpriseId(enterprise.getDbid());
+					}
 					pointRecord.setNote("第一次创建会员赠送积分");
 					pointRecord.setPointFrom("开通会员赠送积分");
 					pointRecord.setType(PointRecord.TYPECOMMON);
@@ -915,7 +906,6 @@ public class MemberAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer memberId = ParamUtil.getIntParam(request, "memberId", -1);
 		Integer customerId = ParamUtil.getIntParam(request, "customerId", -1);
-		Integer useCarAreaId = ParamUtil.getIntParam(request, "useCarAreaId", -1);
 		try {
 			if(null!=memberCarInfo.getDbid()){
 				MemberCarInfo memberCarInfo2 = memberCarInfoManageImpl.get(memberCarInfo.getDbid());
@@ -994,8 +984,6 @@ public class MemberAction extends BaseController{
 				}else{
 					member2.setVinNo(memberCarInfo.getVinCode());
 				}
-				UseCarArea useCarArea = useCarAreaManageImpl.get(useCarAreaId);
-				member2.setUseCarArea(useCarArea);
 				memberManageImpl.save(member2);
 				//认证成功赠送积分通知
 				registerSendPoint(member2);
@@ -1379,11 +1367,11 @@ public class MemberAction extends BaseController{
 		if(null==member){
 			return ;
 		}
-		Integer enterpriseId = member.getEnterpriseId();
-		if(null==enterpriseId||enterpriseId<=0){
+		Enterprise enterprise = member.getEnterprise();
+		if(null==enterprise||enterprise.getDbid()<=0){
 			return ;
 		}
-		List<MemPointrecordSet> memPointrecordSets = memPointrecordSetManageImpl.findBy("enterpriseId",enterpriseId);
+		List<MemPointrecordSet> memPointrecordSets = memPointrecordSetManageImpl.findBy("enterpriseId",enterprise.getDbid());
 		if(null==memPointrecordSets||memPointrecordSets.size()<=0){
 			return ;
 		}
@@ -1397,7 +1385,7 @@ public class MemberAction extends BaseController{
 				PointRecord pointRecord=new PointRecord();
 				pointRecord.setCreateTime(new Date());
 				pointRecord.setCreator("系统管理员");
-				pointRecord.setEnterpriseId(enterpriseId);
+				pointRecord.setEnterpriseId(enterprise.getDbid());
 				pointRecord.setMember(member);
 				buffer.append("车主认证成功赠送积分，赠送："+customerSuccessNum+" 积分。");
 				pointRecord.setNote(buffer.toString());

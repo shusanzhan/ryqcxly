@@ -26,7 +26,7 @@
 		<%-- <a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/rewardSet/edit'">返利设置</a> --%>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/reward/queryList" method="post">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/memReward/queryList" method="post">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
@@ -107,7 +107,7 @@
 				
 			</td>
 			<td style="">
-				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/reward/viewWechat?dbid=${reward.dbid}&type=1'" >红包明细</a>
+				<a href="javascript:void(-1)" onclick="window.location.href='${ctx}/memReward/viewWechat?dbid=${reward.dbid}&type=1'" >红包明细</a>
 			</td>
 		</tr>
 	</c:forEach>

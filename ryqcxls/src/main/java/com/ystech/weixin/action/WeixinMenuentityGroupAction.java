@@ -66,7 +66,10 @@ public class WeixinMenuentityGroupAction extends BaseController{
 		String username = request.getParameter("title");
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			String sql="select * from weixin_menuentitygroup where 1=1 and enterpriseId="+enterprise.getDbid();
+			String sql="select * from weixin_menuentitygroup where 1=1 ";
+			if(enterprise.getDbid()>0){
+				sql=sql+" and enterpriseId="+enterprise.getDbid();
+			}
 			Page<WeixinMenuentityGroup> page=weixinMenuentityGroupManageImpl.pagedQuerySql(pageNo, pageSize,WeixinMenuentityGroup.class,sql, new Object[]{});
 			request.setAttribute("page", page);
 		} catch (Exception e) {

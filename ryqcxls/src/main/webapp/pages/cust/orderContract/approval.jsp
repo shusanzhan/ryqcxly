@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>成都瑞一中锐汽车有限公司销售合同书</title>
+<title>销售合同书</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
@@ -101,8 +101,8 @@ border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表�
 					<span style="color: red;font-size: 15px;">
 						${customer.customerLastBussi.brand.name }&nbsp;&nbsp;
 						${customer.customerLastBussi.carSeriy.name }
-						 ${customer.customerLastBussi.carModel.name }${customer.carModelStr}
-						${customer.customerLastBussi.carColor.name }
+						${customer.customerLastBussi.carModel.name }
+						${customer.customerLastBussi.carColor.name }${customer.carColorStr}
 					</span>
 				</td>
 				<td>合同总金额：</td>
@@ -245,11 +245,11 @@ border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表�
 					</td>
 			</tr>
 			<tr>
-					<td class="formTableTdLeft">咨询服务费：&nbsp;</td>
+					<td class="formTableTdLeft">按揭手续费：&nbsp;</td>
 					<td >
 						${orderContractExpenses.ajsxf }
 					</td>
-					<td class="formTableTdLeft" style="font-size: 11px;">咨询服务费成本：&nbsp;</td>
+					<td class="formTableTdLeft" style="font-size: 11px;">按揭手续费成本：&nbsp;</td>
 					<td >
 						0
 					</td>
