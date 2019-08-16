@@ -22,7 +22,7 @@ import com.ystech.xwqr.service.sys.EnterpriseManageImpl;
 import com.ystech.xwqr.set.model.CarSeriy;
 import com.ystech.xwqr.set.service.CarSeriyManageImpl;
 
-@Component("custAction")
+@Component("statCustAction")
 @Scope("prototype")
 public class CustAction extends BaseController{
 	public CustManageImpl custManageImpl;

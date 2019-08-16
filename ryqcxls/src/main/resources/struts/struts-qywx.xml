@@ -7,11 +7,13 @@
 	<package name="qywx"  extends="struts-default">
 		<interceptors>
 			<interceptor name="oAuth2" class="com.ystech.qywx.interceptor.OAuth2Interceptor"/>
+			<interceptor name="tokenSelf" class="com.ystech.core.interceptor.TokenSelfInterceptor"/>
 			<interceptor-stack name="qywxOAuth2Stack">
 				<interceptor-ref name="oAuth2"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 			<interceptor-stack name="qywx-stack">
+				<interceptor-ref name="tokenSelf"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
@@ -32,13 +34,13 @@
         	 <result name="oAuth">/pages/qywx/enterpriseAuth/oAuth.jsp</result>
         	 <result name="error">/pages/qywx/enterpriseAuth/error.jsp</result>
         </action>
-		 <action name="address" class="addressAction">
+		 <action name="addressQywx" class="addressQywxAction">
         	 <result name="list">/pages/qywx/address/list.jsp</result>
         </action>
 		 <action name="account" class="qywxAccountAction">
         	 <result name="list">/pages/qywx/account/edit.jsp</result>
         </action>
-		 <action name="app" class="appAction">
+		 <action name="appQywx" class="appQywxAction">
         	 <result name="list">/pages/qywx/app/list.jsp</result>
         	 <result name="edit">/pages/qywx/app/edit.jsp</result>
         </action>
@@ -380,14 +382,6 @@
        	</action> 
       	<action name="qywxCustSuccess" class="qywxCustSuccessAction">
         	 <result name="custSuccess">/pages/qywx/staticManage/custsuccess/custSuccess.jsp</result>
-        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
-        	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
-       	</action> 
-      	<action name="qywxOrderStatic" class="qywxOrderStaticAction">
-        	 <result name="order">/pages/qywx/staticManage/order/order.jsp</result>
-        	 <result name="orderList">/pages/qywx/staticManage/order/orderList.jsp</result>
-        	 <result name="noCar">/pages/qywx/staticManage/order/noCar.jsp</result>
-        	 <result name="waitingCar">/pages/qywx/staticManage/order/waitingCar.jsp</result>
         	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
         	 <interceptor-ref name="qywxOAuth2Stack"></interceptor-ref> 
        	</action> 

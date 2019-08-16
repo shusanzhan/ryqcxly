@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
@@ -23,14 +23,14 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a href="#" class="aedit" onclick="window.location.href='${ctx }/app/edit'">添加应用</a>
+		<a href="#" class="aedit" onclick="window.location.href='${ctx }/appQywx/edit'">添加应用</a>
 		<a class="but button" href="javascript:void();" onclick="synApp()" style="float: left;">同步应用</a>
 		<a class="but button" href="javascript:void();" onclick="synUser()" style="float: left;">同步用户</a>
 		<div id="errorMess1" style="float: left;display: none;" class="alert alert-error">正在同步数据，请稍后再试.....</div>
 		<div id="errorMess2" style="float: left;display: none;" class="alert alert-error">请勿重复提交数据，正在同步数据，请稍后再试.....</div>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/app/queryList" metdod="get">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/appQywx/queryList" metdod="get">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
    		</form>
@@ -60,13 +60,13 @@
 			<td style="text-align: left;">${app.encodingAeskey} </td>
 			<td style="text-align: center;">${app.appId} </td>
 			<td>
-				<a href="#" class="aedit" onclick="window.location.href='${ctx }/app/edit?dbid=${app.dbid}'">编辑</a>
+				<a href="#" class="aedit" onclick="window.location.href='${ctx }/appQywx/edit?dbid=${app.dbid}'">编辑</a>
 				|
 				<a href="#" class="aedit" onclick="window.location.href='${ctx }/appUser/list?dbid=${app.dbid}'">用户</a>
 				|
 				<a href="#" class="aedit" onclick="window.location.href='${ctx }/appMenu/queryList?appDbid=${app.dbid}'">设置菜单</a>
 				|
-				<a href="#" class="aedit" onclick="$.utile.deleteById('${ctx }/app/delete?dbids=${app.dbid}')">删除</a>
+				<a href="#" class="aedit" onclick="$.utile.deleteById('${ctx }/appQywx/delete?dbids=${app.dbid}')">删除</a>
 		</tr>
 	</c:forEach>
 </table>
@@ -84,7 +84,7 @@ function synApp(){
 	}
 	status=2;
 	$("#errorMess1").show();
-	$.post('${ctx}/app/synApp',{},function (data){
+	$.post('${ctx}/appQywx/synApp',{},function (data){
 		if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 			$.utile.tips(data[0].message+"");
 			status=1;
@@ -108,7 +108,7 @@ function synUser(){
 	}
 	status=2;
 	$("#errorMess1").show();
-	$.post('${ctx}/app/synUser',{},function (data){
+	$.post('${ctx}/appQywx/synUser',{},function (data){
 		if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 			$.utile.tips(data[0].message+"");
 			status=1;

@@ -185,6 +185,7 @@
     <div class="modal-content">
       <div class="modal-body">
       	<form class="form-inline" action="${ctx }/qywxCustomerImage/successCustomer" name="frmId" id="frmId" method="post">
+      	<s:token></s:token>
       	 <table>
       	 	<tr height="">
       	 		<td width="60"><label for="exampleInputName2">品牌</label></td>

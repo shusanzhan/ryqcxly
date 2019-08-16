@@ -19,24 +19,14 @@
 <title>全民经纪人</title>
 </head>
 <body>
-	<h1>惠购车</h1>
+	<h1>推荐客户</h1>
 	<ul>
-		<li><a href="${ctx }/carModelWechat/carModelList">车型展示</a></li>
-		<li><a href="${ctx }/agentWechat/jionIn?code=36c32f92fe5458abe53ce7b908031073&openId=oVrJCuOcJcSUtqFKabDqwzZIVUWc">瑞一经纪人</a></li>
+		<li><a href="${ctx }/carModelWechat/carModelList">报名推荐指南</a></li>
+		<li><a href="${ctx }/agentWechat/jionIn?code=36c32f92fe5458abe53ce7b908031073&openId=oVrJCuOcJcSUtqFKabDqwzZIVUWc">推荐规则</a></li>
 	</ul>
-	<h1>汇便捷</h1>
+	<h1>经纪人中心</h1>
 	<ul>
-		<li><a href="${ctx }/onlineBookingWechat/onlineBookingEaxmined?code=83a3e919bcb0b83fc264d78ed92bb521">年审预约</a></li>
-		<li><a href="${ctx }${ctx}/onlineBookingWechat/onlineBookingSM?serviceType=1&code=83a3e919bcb0b83fc264d78ed92bb521">保养维修</a></li>
-		<li><a href="${ctx }/onlineBookingWechat/onlineBookingOCC?code=83a3e919bcb0b83fc264d78ed92bb521">旧车置换</a></li>
-		<li><a href="${ctx }/onlineBookingWechat/onlineBooking?code=83a3e919bcb0b83fc264d78ed92bb521">试乘试驾</a></li>
-		<li><a href="${ctx }/emergencyHelpWechat/emergencyHelp?code=83a3e919bcb0b83fc264d78ed92bb521">紧急救援</a></li>
-	</ul>
-	<h1>会生活</h1>
-	<ul>
-		<li><a href="${ctx}/memberWechat/memberCenter?code=36c32f92fe5458abe53ce7b908031073&state=no&openId=oVrJCuOcJcSUtqFKabDqwzZIVUWc">会员中心</a></li>
-		<li><a href="${ctx}/bussiCardWechat/bussiCard?code=36c32f92fe5458abe53ce7b908031073&cardCode=97e6dd49a81b4260f235b17972b3fa76">个人名片</a></li>
-		<li><a href="${ctx}/corporateCultureWechat/corporateCulture?code=36c32f92fe5458abe53ce7b908031073">企业形象</a></li>
+		<li><a href="${ctx }/agentWechat/jionIn?code=36c32f92fe5458abe53ce7b908031073&openId=oVrJCuOcJcSUtqFKabDqwzZIVUWc">会员中心</a></li>
 	</ul>
 </body>
 </html>

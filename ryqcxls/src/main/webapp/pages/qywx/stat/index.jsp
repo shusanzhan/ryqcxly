@@ -91,28 +91,12 @@
             	客户流失率指标
             </div>
         </a>
-        <a class="weui-cell weui-cell_access" href="${ctx }/qywxComplex/generalManager?type=1&role=gm">
-            <div class="weui-cell__bd">
-                <p>集客统计</p>
-            </div>
-            <div class="weui-cell__ft f11">
-            	集客等级统计
-            </div>
-        </a>
         <a class="weui-cell weui-cell_access" href="${ctx }/qywxCustSuccess/custSuccess?type=1&role=gm">
             <div class="weui-cell__bd">
                 <p>成交统计</p>
             </div>
             <div class="weui-cell__ft f11">
             	交车、归档
-            </div>
-        </a>
-        <a class="weui-cell weui-cell_access" href="${ctx }/qywxCityCross/queryCityCrossCount">
-            <div class="weui-cell__bd">
-                <p>交叉客户</p>
-            </div>
-            <div class="weui-cell__ft f11">
-            	
             </div>
         </a>
         <a class="weui-cell weui-cell_access" href="${ctx }/qywxCust/queryList">
@@ -140,13 +124,6 @@
             </div>
             <div class="weui-cell__ft f11">
             	留存订单综合分析
-            </div>
-        </a>
-        <a class="weui-cell weui-cell_access" href="${ctx }/qywxOrderStatic/noCar">
-            <div class="weui-cell__bd">
-                <p>无车订单</p>
-            </div>
-            <div class="weui-cell__ft f11">
             </div>
         </a>
     </div>

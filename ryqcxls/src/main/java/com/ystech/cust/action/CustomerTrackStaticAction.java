@@ -62,16 +62,11 @@ public class CustomerTrackStaticAction extends BaseController{
 			List<Enterprise> enterprisess = findEnterprise(role, sessionUser);
 			request.setAttribute("enterprisess", enterprisess);
 			
+			Enterprise enterprise = sessionUser.getEnterprise();
 			Map<String, List<CustomerTrackStatic>> map=new HashMap<String, List<CustomerTrackStatic>>();
-			for (Enterprise enter : enterprisess) {
-				List<CustomerTrackStatic> customerTrackStatics=null;
-				if(sessionUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-					customerTrackStatics=customerTrackStaticManageImpl.findByDate(start, enter.getDbid(), null);
-				}else{
-					customerTrackStatics= customerTrackStaticManageImpl.findByDate(start, null, sessionUser.getDepartment().getDbid());
-				}
-				map.put(enter.getDbid()+"",customerTrackStatics);
-			}
+			List<CustomerTrackStatic> customerTrackStatics=null;
+			customerTrackStatics=customerTrackStaticManageImpl.findByDate(start, enterprise.getDbid(), null);
+			map.put(enterprise.getDbid()+"",customerTrackStatics);
 			request.setAttribute("map", map);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -62,6 +62,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post" >
+	<s:token></s:token>
 	 <input type="hidden" name="customerTypeId" id="customerTypeId" value="2">
    	<input type="hidden" name="red" id="red" value="1">
    	<c:if test="${empty(customerRecord) }">

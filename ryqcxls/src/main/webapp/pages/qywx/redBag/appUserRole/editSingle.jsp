@@ -67,6 +67,7 @@ table th, table td {
 <div class="line"></div>
 <div class="frmContent" >
 <form action="" id="frmId" name="frmId" target="_self">
+<s:token></s:token>
 <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 100%;">
 	<tr id="single" height="42">
 		<td class="formTableTdLeft">姓名:&nbsp;</td>
@@ -187,7 +188,7 @@ table th, table td {
 </form>
 </div>
 </body>
-<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/bootstrap/jquery.ui.custom.js"></script>
 <script src="${ctx }/widgets/bootstrap/bootstrap.min.js"></script>
 <script src="${ctx }/widgets/bootstrap/jquery.uniform.js"></script>

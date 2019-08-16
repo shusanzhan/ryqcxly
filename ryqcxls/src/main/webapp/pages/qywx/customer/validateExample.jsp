@@ -29,6 +29,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post">
+	<s:token></s:token>
 	<div class="form-group">
 	  <label class="control-label" for="inputSuccess1">姓名</label>
 	  <input type="text" class="form-control" id="inputSuccess1" checkType="string,2,3">

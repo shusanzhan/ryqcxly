@@ -489,6 +489,7 @@
       </div>
       <div class="modal-body">
         <form id="frmId" name="frmId" method="post" >
+        	<s:token></s:token>
 				<input type="hidden" id="orderContractId" name="orderContractId" value="${orderContract.dbid}"/>
 				<input type="hidden" id="processFromId" name="processFromId" value="${processFrom.dbid}"/>
 				<input type="hidden" id="carGrofitPrice" name="carGrofitPrice" value="${carGrofitPrice }"/>

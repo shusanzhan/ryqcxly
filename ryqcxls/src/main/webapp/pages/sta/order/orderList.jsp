@@ -80,12 +80,12 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a href="javascript:void(-1)"  onclick="window.location.href='${ctx}/order/queryOrderYearList'" style="color: #2b7dbc;">订单客户客户年统计</a>
+		<a href="javascript:void(-1)"  onclick="window.location.href='${ctx}/statOrder/queryOrderYearList'" style="color: #2b7dbc;">订单客户客户年统计</a>
 		<span style="color:#2b7dbc ">|</span> 
 		<a href="javascript:void(-1)"  onclick="window.history.go(-1)" style="color: #2b7dbc;">返回</a>  
    </div>
   	<div class="seracrhOperate" style="margin: 20px 1px;">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/order/queryOrderList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/statOrder/queryOrderList" method="post" >
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   				<c:if test="${fn:length(enterprises)>1 }">
 	  				<tr>
@@ -101,15 +101,7 @@
 		  			</tr>
   				</c:if>
   				<tr>
-  					<td><label>客户类型1：</label></td>
-	  				<td >
-	  					<select class="text small" id="customerType" name="customerType"  onchange="$('#searchPageForm')[0].submit()">
-	  						<option value="-1">请选择...</option>
-	  						<option value="1" ${param.customerType==1?'selected="selected"':'' } >自有店</option>
-	  						<option value="2" ${param.customerType==2?'selected="selected"':'' } >二网</option>
-						</select>
-	  				</td>
-  					<td><label>客户型类2：</label></td>
+  					<td><label>客户型类：</label></td>
 	  				<td >
 	  					<select class="text small" id="type" name="type"  onchange="$('#searchPageForm')[0].submit()">
 	  						<option value="-1">请选择...</option>

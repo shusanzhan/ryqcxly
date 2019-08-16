@@ -134,7 +134,7 @@ public class QywxStatCustomerRecordAction extends BaseController{
 			
 			
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//每日有效关注车型统计数据
 			List<StaDateNum> customerRecordCarSeriyTotals = staCustomerRecordRoomManageImpl.getCustomerRecordCarSeriyTotal(statCustomerRecordTimes);
@@ -257,7 +257,7 @@ public class QywxStatCustomerRecordAction extends BaseController{
 			
 			
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//每日有效关注车型统计数据
 			List<StaDateNum> customerRecordCarSeriyTotals = staCustomerRecordRoomManageImpl.getCustomerRecordCarSeriyTotal(statCustomerRecordTimes);
@@ -556,7 +556,7 @@ public class QywxStatCustomerRecordAction extends BaseController{
 			Set<Entry<StaDateNum, List<CarSerCount>>> entrySet = mapCarSerCount.entrySet();
 			for (Entry<StaDateNum, List<CarSerCount>> entry : entrySet) {
 				List<CarSerCount> carSerCounts = entry.getValue();
-				if(null!=carSerCounts){
+				if(null!=carSerCounts&&!carSeriys.isEmpty()){
 					CarSerCount carSerCount = carSerCounts.get(j);
 					bufferNum.append(carSerCount.getCountNum());
 					if(tempSize!=keySize){

@@ -63,25 +63,25 @@
 			<result name="twoComeShopList">/pages/sta/twoComeShop/twoComeShopList.jsp</result>
 			<result name="twoComeShopYearList">/pages/sta/twoComeShop/twoComeShopYearList.jsp</result>
 		</action>
-		<action name="flow" class="flowAction">
+		<action name="statFlow" class="statFlowAction">
 			<result name="flowList">/pages/sta/flow/flowList.jsp</result>
 			<result name="flowYearList">/pages/sta/flow/flowYearList.jsp</result>
 		</action>
-		<action name="track" class="trackAction">
+		<action name="statTrack" class="statTrackAction">
 			<result name="flowList">/pages/sta/track/trackList.jsp</result>
 			<result name="flowYearList">/pages/sta/track/trackYearList.jsp</result>
 		</action>
 		<action name="wlbOrderFactRef" class="wlbOrderFactRefAction">
 			<result name="wlbOrderFactRef">/pages/sta/wlbOrderFactRef/wlbOrderFactRef.jsp</result>
 		</action>
-		<action name="order" class="orderAction">
+		<action name="statOrder" class="statOrderAction">
 			<result name="orderList">/pages/sta/order/orderList.jsp</result>
 			<result name="orderYearList">/pages/sta/order/orderYearList.jsp</result>
 		</action>
 		<action name="cityCross" class="cityCrossAction">
 			<result name="cityCrossCount">/pages/sta/cityCross/cityCrossCount.jsp</result>
 		</action>
-		<action name="cust" class="custAction">
+		<action name="statCust" class="statCustAction">
 			<result name="list">/pages/sta/cust/list.jsp</result>
 		</action>
 	</package>

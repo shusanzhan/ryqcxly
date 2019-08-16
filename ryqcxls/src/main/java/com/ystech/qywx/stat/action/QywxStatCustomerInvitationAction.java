@@ -149,7 +149,7 @@ public class QywxStatCustomerInvitationAction extends BaseController{
 			
 			
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//当月潜客统计、当月潜客邀约到店客户
 			List<CustomerInfromStaSet> customerInfromStaSetCustomerInvitationSummarys = staCustomerInvationManageImpl.queryCustomerInfromStaSetCustomerInvitationSummary(beginDate, endDate, enterprise, dateType,type);
@@ -304,7 +304,7 @@ public class QywxStatCustomerInvitationAction extends BaseController{
 			
 			
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//当月潜客统计、当月潜客邀约到店客户
 			List<CustomerInfromStaSet> customerInfromStaSetCustomerInvitationSummarys = staCustomerInvationManageImpl.queryCustomerInfromStaSetCustomerInvitationSummary(beginDate, endDate, enterprise, dateType,type);
@@ -552,7 +552,7 @@ public class QywxStatCustomerInvitationAction extends BaseController{
 				beginDate=DateUtil.formatPatten(start, "yyyy-MM");
 				endDate=DateUtil.formatPatten(end,"yyyy-MM");
 			}
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			String customerInfromIds=null;

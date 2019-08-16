@@ -403,6 +403,11 @@ public class TwoComeShopAction extends BaseController {
 		StringBuffer dataBuf=new StringBuffer();
 		int i=0;
 		int size = carSerCountTotals.size();
+		if(carSerCountTotals.isEmpty()){
+			dataBuf.append("[");
+			dataBuf.append("]");
+			return dataBuf.toString();
+		}
 		CarSerCount maxCount=carSerCountTotals.get(0);
 		for (CarSerCount carSerCount : carSerCountTotals) {
 			if(maxCount.getCountNum()<carSerCount.getCountNum()){

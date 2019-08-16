@@ -37,6 +37,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post" >
+	<s:token></s:token>
 	<input type="hidden" value="${customer.dbid }" id="customerId" name="customerId">
 	<div class="form-group">
 	  <label class="control-label" for="name">单位信息</label>

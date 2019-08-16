@@ -1,5 +1,6 @@
 package com.ystech.stat.customerrecord.action;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ystech.core.security.SecurityUserHolder;
 import com.ystech.core.util.DataFormatUtil;
 import com.ystech.core.util.DateUtil;
@@ -99,20 +101,15 @@ public class StatCustomerRecordNetAction extends BaseController{
 			}else{
 				end=new Date();
 			}
-			String enterpriseIds="";
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				enterpriseIds=currentUser.getCompnayIds();
-			}else{
-				enterpriseIds=enterpriseIds+currentUser.getEnterprise().getDbid()+"";
-			}
+			Enterprise enterprise = currentUser.getEnterprise();
 			List<Enterprise> enterprises=null;
-			if(null!=enterpriseIds){
-				enterprises = enterpriseManageImpl.executeSql("select * from sys_Enterprise where dbid in("+enterpriseIds+")", null);
+			if(enterprise.getDbid()>0){
+				enterprises = new ArrayList<Enterprise>();
+				enterprises.add(enterprise);
 			}else{
 				enterprises = enterpriseManageImpl.getAll();
 			}
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			if(enterpriseId>0){
 				enterprise = enterpriseManageImpl.get(enterpriseId);
 			}

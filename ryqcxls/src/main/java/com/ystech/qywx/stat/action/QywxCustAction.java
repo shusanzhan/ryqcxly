@@ -97,7 +97,7 @@ public class QywxCustAction extends BaseController{
 			Map<CustUser, List<CustPhase>> mapCustUserPhases = custManageImpl.findByCustPhases(custUsers, enterprise.getDbid(),tryCarStatus,comeShopStatus);
 			Map<CustUser, Map<CustPhase, List<CarSerCount>>> mapCarSerCounts = custManageImpl.findByCarSerCount(mapCustUserPhases, enterprise.getDbid(),tryCarStatus,comeShopStatus);
 			request.setAttribute("mapCarSerCounts", mapCarSerCounts);
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			
 			request.setAttribute("carSeriys",carSeriys);
 		} catch (Exception e) {

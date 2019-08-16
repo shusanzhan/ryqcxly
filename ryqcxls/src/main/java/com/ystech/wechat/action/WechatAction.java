@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.ystech.core.web.BaseController;
 
-@Component("wechatAction")
+@Component("wechatAdminAction")
 @Scope("prototype")
 public class WechatAction extends BaseController{
 	/**

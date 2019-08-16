@@ -45,6 +45,7 @@
     </a>
 </div>
  <form action="" id="frmId" name="frmId" method="post" target="_self">
+ <s:token></s:token>
 <input type="hidden" id="customerBussiId" name="customerBussi.dbid" value="">
 <input type="hidden" id="customerId" name="customer.dbid" value="">
 <input type="hidden" id="type" name="type" value="1">

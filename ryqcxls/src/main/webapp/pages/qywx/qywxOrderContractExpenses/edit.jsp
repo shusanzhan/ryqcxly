@@ -101,6 +101,7 @@ table th, table td {
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 	<form  method="post" action="" 	name="frmId" id="frmId">
+	<s:token></s:token>
 		<c:if test="${empty(orderContractExpenses) }">
 			<input type="hidden" name="editType" id="editType" value="${param.editType }" class="largeX text"></input>
 			<input type="hidden" name="orderContractId" id="orderContractId" value="${orderContract.dbid }" class="largeX text"></input>

@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/plugins/iframeTools.source.js"></script>

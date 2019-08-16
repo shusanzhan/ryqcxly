@@ -38,6 +38,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post" >
+	<s:token></s:token>
 	<c:set value="${customer.customerShoppingRecord }" var="customerShoppingRecord"></c:set>
 	<input type="hidden" id="customerShoppingRecordId" name="customerShoppingRecord.dbid" value="${customerShoppingRecord.dbid }">
 	<input type="hidden" id="customerId" name="customer.dbid" value="${customer.dbid }">

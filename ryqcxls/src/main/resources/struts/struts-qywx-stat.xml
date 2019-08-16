@@ -74,5 +74,12 @@
 		<action name="qywxCust" class="qywxCustAction">
 			<result name="list">/pages/qywx/stat/cust/list.jsp</result>
 		</action>
+		<action name="qywxOrderStatic" class="qywxOrderStaticAction">
+        	 <result name="order">/pages/qywx/stat/orderStatic/order.jsp</result>
+        	 <result name="orderList">/pages/qywx/stat/orderStatic/orderList.jsp</result>
+        	 <result name="noCar">/pages/qywx/stat/orderStatic/noCar.jsp</result>
+        	 <result name="waitingCar">/pages/qywx/stat/orderStatic/waitingCar.jsp</result>
+        	 <result name="error">/pages/qywx/qyredBag/error.jsp</result>
+       	</action> 
     </package>
 </struts>

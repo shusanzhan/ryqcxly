@@ -1206,16 +1206,13 @@ public class CustomerTrackAction extends BaseController{
 			}
 			String beginDate=DateUtil.format(start);
 			String endDate=DateUtil.format(end);
-			User currentUser = SecurityUserHolder.getCurrentUser();
 			Integer enterpriseId=null;
 			Integer departmentId=null;
-			if(currentUser.getQueryOtherDataStatus()==(int)User.QUERYYES){
-				Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			if(enterprise.getDbid()>0){
 				enterpriseId=enterprise.getDbid();
-			}else{
-				departmentId = currentUser.getDepartment().getDbid();
 			}
-			List<CustomerTrackCount> customerTrackCounts = customerTractUtile.querySalerCustomerTrackCount(beginDate, endDate, userName, enterpriseId,departmentId);
+			List<CustomerTrackCount> customerTrackCounts = customerTractUtile.querySalerCustomerTrackCount(beginDate, endDate, userName, enterpriseId);
 			request.setAttribute("customerTrackCounts", customerTrackCounts);
 			request.setAttribute("beginDate", beginDate);
 			request.setAttribute("endDate", endDate);

@@ -227,11 +227,11 @@ public class CustomerTractUtile {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<CustomerTrackCount> querySalerCustomerTrackCount(String beginDate,String endDate,String userName,Integer companyId,Integer departmentId) throws Exception{
+	public List<CustomerTrackCount> querySalerCustomerTrackCount(String beginDate,String endDate,String userName,Integer companyId) throws Exception{
 		List<CustomerTrackCount> customerTrackCounts=new ArrayList<CustomerTrackCount>();
 		try {
 			String sql="SELECT "
-					+ "cust.bussiStaffId AS companyId,dep.name as depName,cust.bussiStaff as companyName,"
+					+ "cust.bussiStaffId AS companyId,cust.bussiStaff as companyName,"
 					+ "COUNT(cust.bussiStaffId) AS total,"
 					+ "count(if(track.taskDealStatus=2,true,null)) AS trackedNum,"
 					+ "count(if(track.taskDealStatus=1,true,null)) AS notTrackNum,"
@@ -241,14 +241,11 @@ public class CustomerTractUtile {
 					+ "count(if(track.taskOverTimeStatus=2 AND track.taskDealStatus=2,true,null)) AS overTimeTrackedNum, "
 					+ "count(if(track.taskOverTimeStatus=2 AND track.taskDealStatus=3,true,null)) AS overTimeCloseNum "
 					+ "FROM "
-					+ "cust_customer cust,cust_customertrack track,sys_department dep "
+					+ "cust_customer cust,cust_customertrack track "
 					+ "WHERE "
-					+ "cust.dbid=track.customerId and dep.dbid=cust.departmentId and track.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+" and cust.recordType="+Customer.CUSTOMERTYPECOMM;
+					+ "cust.dbid=track.customerId  and track.customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+" and cust.recordType="+Customer.CUSTOMERTYPECOMM;
 			if(null!=userName&&userName.trim().length()>0){
 				sql=sql+" AND cust.bussiStaff like '%"+userName+"%'";
-			}
-			if(null!=departmentId){
-				sql=sql+" AND cust.departmentId="+departmentId+" ";
 			}
 			if(null!=companyId&&companyId>0){
 				sql=sql+" AND cust.enterpriseId="+companyId;

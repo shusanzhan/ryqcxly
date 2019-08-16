@@ -406,6 +406,7 @@
 		   </div>
 		  	<div class="seracrhOperate">
 		  	<form name="searchPageForm" id="searchPageForm" action="${ctx}/appUserRole/queryList" method="post">
+		  	<s:token></s:token>
 				<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 				<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 				<input type="hidden" id="departmentId" name="departmentId" value='${departmentId}'>

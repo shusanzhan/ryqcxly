@@ -228,7 +228,7 @@ public class StaCustomerInvationManageImpl {
 				+ "		SELECT  customerInfromId,COUNT(customerInfromId) AS totalNum"
 				+ "		FROM cust_customer "
 				+ "		WHERE"
-				+ "		enterpriseId="+enterprise.getDbid()+" and type="+type;
+				+ "		enterpriseId="+enterprise.getDbid()+" and customerTypeId="+type;
 		if(null!=startDate&&startDate.trim().length()>0){
 			sql=sql+" AND DATE_FORMAT(comeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")>='"+startDate+"' ";
 		}
@@ -268,7 +268,7 @@ public class StaCustomerInvationManageImpl {
 				+ "		SELECT  customerInfromId,COUNT(customerInfromId) AS totalNum"
 				+ "		FROM cust_customer "
 				+ "		WHERE"
-				+ "		enterpriseId="+enterprise.getDbid()+" and type="+type;
+				+ "		enterpriseId="+enterprise.getDbid()+" and customerTypeId="+type;
 		if(null!=startDate&&startDate.trim().length()>0){
 			sql=sql+" AND DATE_FORMAT(createFolderTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")>='"+startDate+"' ";
 		}

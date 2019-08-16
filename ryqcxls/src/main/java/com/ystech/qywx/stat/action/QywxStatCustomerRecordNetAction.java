@@ -160,7 +160,7 @@ public class QywxStatCustomerRecordNetAction extends BaseController{
 			
 			//网销每日关注车型
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//每日有效关注车型统计数据
 			Map<StaDateNum, List<CarSerCount>> mapCarSerCount = staCustomerRecordNetManageImpl.findCustomerRecordCarSeriy(effStaCustomerRecordDateNums, type, enterprise,dateType,null);
@@ -289,7 +289,7 @@ public class QywxStatCustomerRecordNetAction extends BaseController{
 			
 			//网销每日关注车型
 			//来店车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			//每日有效关注车型统计数据
 			Map<StaDateNum, List<CarSerCount>> mapCarSerCount = staCustomerRecordNetManageImpl.findCustomerRecordCarSeriy(effStaCustomerRecordDateNums, type, enterprise,dateType,null);
@@ -568,7 +568,7 @@ public class QywxStatCustomerRecordNetAction extends BaseController{
 				beginDate=DateUtil.formatPatten(start, "yyyy-MM");
 				endDate=DateUtil.formatPatten(end,"yyyy-MM");
 			}
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			String customerInfromIds=null;

@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>同城交叉客户</title>
+<title>基盘客户统计</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -83,7 +83,7 @@
    </div>
    
   	<div class="seracrhOperate" style="margin: 20px 1px;">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/cityCross/queryCityCrossCount" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/statCust/queryList" method="post" >
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   				<c:if test="${fn:length(enterprises)>1 }">
 	  				<tr>

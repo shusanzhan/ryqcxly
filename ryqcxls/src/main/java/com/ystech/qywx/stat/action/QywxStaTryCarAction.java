@@ -124,7 +124,7 @@ public class QywxStaTryCarAction extends BaseController {
 			
 			
 			//来店试乘试驾客户明细
-			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where 1=1 AND tryCarStatus=? AND status=? ", new Object[]{1,1});
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where 1=1 AND tryCarStatus=? AND status=? AND enterpriseId=? ", new Object[]{1,1,enterprise.getDbid()});
 			request.setAttribute("carSeriys",carSeriys);
 			Map<StaDateNum, List<CarSerCount>> map = tryCarManageImpl.queryTryCarCarSeriy(staTryCars, enterprise, dateType,type);
 			request.setAttribute("maps", map);
@@ -251,7 +251,7 @@ public class QywxStaTryCarAction extends BaseController {
 			
 			
 			//来店试乘试驾客户明细
-			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where 1=1 AND tryCarStatus=? AND status=? ", new Object[]{1,1});
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where 1=1 AND tryCarStatus=? AND status=? AND enterpriseId=?", new Object[]{1,1,enterprise.getDbid()});
 			request.setAttribute("carSeriys",carSeriys);
 			Map<StaDateNum, List<CarSerCount>> map = tryCarManageImpl.queryTryCarCarSeriy(staTryCars, enterprise, dateType,type);
 			request.setAttribute("maps", map);

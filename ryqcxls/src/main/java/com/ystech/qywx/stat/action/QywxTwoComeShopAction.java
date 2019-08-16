@@ -122,7 +122,7 @@ public class QywxTwoComeShopAction extends BaseController {
 			
 			
 			//二次到店客户车型明细
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			Map<StaDateNum, List<CarSerCount>> map = twoComeShopManageImpl.queryTwoComeShopCarSeriy(twoComeShops, enterprise, dateType,type);
 			request.setAttribute("maps", map);
@@ -242,7 +242,7 @@ public class QywxTwoComeShopAction extends BaseController {
 			
 			
 			//二次到店客户车型明细
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			Map<StaDateNum, List<CarSerCount>> map = twoComeShopManageImpl.queryTwoComeShopCarSeriy(twoComeShops, enterprise, dateType,type);
 			request.setAttribute("maps", map);

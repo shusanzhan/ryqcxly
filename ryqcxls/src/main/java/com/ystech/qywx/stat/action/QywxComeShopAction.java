@@ -129,7 +129,7 @@ public class QywxComeShopAction extends BaseController{
 			ComeShopType comeShopTypeTotal = comeShopManageImpl.queryComeShopTypeTotal(beginDate, endDate, type, enterprise, dateType, null);
 			request.setAttribute("comeShopTypeTotal",comeShopTypeTotal);
 			
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			//建档客户车型明细
@@ -303,7 +303,7 @@ public class QywxComeShopAction extends BaseController{
 			ComeShopType comeShopTypeTotal = comeShopManageImpl.queryComeShopTypeTotal(beginDate, endDate, type, enterprise, dateType, null);
 			request.setAttribute("comeShopTypeTotal",comeShopTypeTotal);
 			
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			//建档客户车型明细

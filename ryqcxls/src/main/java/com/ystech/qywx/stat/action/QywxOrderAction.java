@@ -143,7 +143,7 @@ public class QywxOrderAction extends BaseController{
 			request.setAttribute("pieOrderType", pieOrderTypeData);
 			
 			//每日订单车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			Map<Order, List<CarSerCount>> mapCarseriys = orderManageImpl.queryOrderCarSeriy(orders, enterprise, type, dateType, tryCarStatus, comeShopStatus, customerType);
 			request.setAttribute("mapCarseriys", mapCarseriys);
@@ -175,9 +175,6 @@ public class QywxOrderAction extends BaseController{
 			StaYearByYearChain staSelfYearByYearChain = orderManageImpl.queryOrderStaYearByYearChain(start, type, enterprise, dateType, null, tryCarStatus, comeShopStatus, 1);
 			request.setAttribute("staSelfYearByYearChain", staSelfYearByYearChain);
 			
-			//二网订单同比怀比
-			StaYearByYearChain staNetYearByYearChain = orderManageImpl.queryOrderStaYearByYearChain(start, type, enterprise, dateType, null, tryCarStatus, comeShopStatus, 2);
-			request.setAttribute("staNetYearByYearChain", staNetYearByYearChain);
 			
 			request.setAttribute("beginDate", beginDate);
 			request.setAttribute("endDate", endDate);
@@ -265,7 +262,7 @@ public class QywxOrderAction extends BaseController{
 			request.setAttribute("pieOrderType", pieOrderTypeData);
 			
 			//每日订单车型统计
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			Map<Order, List<CarSerCount>> mapCarseriys = orderManageImpl.queryOrderCarSeriy(orders, enterprise, type, dateType, tryCarStatus, comeShopStatus, customerType);
 			request.setAttribute("mapCarseriys", mapCarseriys);
@@ -300,10 +297,6 @@ public class QywxOrderAction extends BaseController{
 			//自有店订单同比怀比
 			StaYearByYearChain staSelfYearByYearChain = orderManageImpl.queryOrderStaYearByYearChain(start, type, enterprise, dateType, null, tryCarStatus, comeShopStatus, 1);
 			request.setAttribute("staSelfYearByYearChain", staSelfYearByYearChain);
-			
-			//二网订单同比怀比
-			StaYearByYearChain staNetYearByYearChain = orderManageImpl.queryOrderStaYearByYearChain(start, type, enterprise, dateType, null, tryCarStatus, comeShopStatus, 2);
-			request.setAttribute("staNetYearByYearChain", staNetYearByYearChain);
 			
 			
 			request.setAttribute("beginDate", beginDate);

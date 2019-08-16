@@ -19,7 +19,7 @@
    	<http  pattern="/pages/login/login.jsp" security="none"></http> 
    	<http  pattern="/MP_verify_IKh97cgksnIp8rhJ.txt" security="none"></http> 
    	<http  pattern="/**qywx**/**" security="none"></http>
-   	<http  pattern="/**echat/**" security="none"></http>
+   	<http  pattern="/**wechat**/**" security="none"></http>
    	<http  pattern="/js/" security="none"></http> 
    	
 	<!-- 当访问被拒绝时，会转到login/login -->  

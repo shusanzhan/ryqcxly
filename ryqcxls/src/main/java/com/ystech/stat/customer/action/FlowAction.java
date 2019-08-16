@@ -31,7 +31,7 @@ import com.ystech.xwqr.service.sys.EnterpriseManageImpl;
 import com.ystech.xwqr.set.model.CarSeriy;
 import com.ystech.xwqr.set.service.CarSeriyManageImpl;
 
-@Component("flowAction")
+@Component("statFlowAction")
 @Scope("prototype")
 public class FlowAction extends BaseController{
 	private EnterpriseManageImpl enterpriseManageImpl;
@@ -401,6 +401,11 @@ public class FlowAction extends BaseController{
 		StringBuffer dataBuf=new StringBuffer();
 		int i=0;
 		int size = flowUser.size();
+		if(flowUser.isEmpty()){
+			dataBuf.append("[");
+			dataBuf.append("]");
+			return dataBuf.toString();
+		}
 		FlowUser maxCount=flowUser.get(0);
 		for (FlowUser carSerCount : flowUser) {
 			if(maxCount.getFlowNum()<carSerCount.getFlowNum()){

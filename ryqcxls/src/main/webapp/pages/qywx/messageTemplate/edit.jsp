@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${ctx }/css/common.css" type="text/css" rel="stylesheet">
 <link  href="${ctx }/widgets/easyvalidator/css/validate.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/easyvalidator/js/easy_validator.pack.js"></script>
@@ -44,6 +44,7 @@
 </div>
 <div class="frmContent">
    <form class="form-horizontal" method="post" action="" 	name="frmId" id="frmId">
+   	<s:token></s:token>
 	<input type="hidden" value="${messageTemplate.dbid }" id="dbid" name="messageTemplate.dbid">
    <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
 		<tr>

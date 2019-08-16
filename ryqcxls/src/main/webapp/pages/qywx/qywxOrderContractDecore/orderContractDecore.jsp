@@ -72,6 +72,7 @@ table th, table td {
 	</div>
 <div class="frmTitle" onclick="showOrHiden('contactTable')" style="margin-top: 2px;">&nbsp;</div>
 <form action="" id="frmId" name="frmId" target="_self">
+<s:token></s:token>
 <input type="hidden" id="editType" name="editType" value="${param.editType}">
 <input type="hidden" id="customerId" name="customerId" value="${customer.dbid }">
 <input type="hidden" id="orderContractId" name="orderContractId" value="${orderContract.dbid }">
@@ -261,7 +262,7 @@ table th, table td {
 </form>
 </div>
 </body>
-<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 <script src="${ctx }/widgets/bootstrap/jquery.ui.custom.js"></script>
 <script src="${ctx }/widgets/bootstrap/bootstrap.min.js"></script>
 <script src="${ctx }/widgets/bootstrap/jquery.uniform.js"></script>

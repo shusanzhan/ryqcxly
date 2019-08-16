@@ -147,7 +147,7 @@
 		<div id="errorMess2" style="float: left;display: none;" class="alert alert-error">请勿重复提交数据，正在同步数据，请稍后再试.....</div>
    </div>
 	<div class="seracrhOperate">
-	  		 <form name="searchPageForm" id="searchPageForm" action="${ctx}/address/queryList" method="post">
+	  		 <form name="searchPageForm" id="searchPageForm" action="${ctx}/addressQywx/queryList" method="post">
 			<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 			<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 			<input type="hidden" id="departmentId" name="departmentId" value='${departmentId}'>
@@ -209,7 +209,7 @@
 			<c:forEach var="user" items="${page.result }">
 				<tr height="32" align="center">
 					<td>${user.userId }</td>
-					<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; ${user.staff.sex }</td>
+					<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp;</td>
 					<td align="left" style="text-align: left;">${user.department.name }</td>
 					<td align="left">${user.mobilePhone }</td>
 					<td align="left">${user.email }</td>
@@ -235,10 +235,10 @@
 					</td>
 					<td>
 						<c:if test="${!empty(user.wechatId) }">
-							<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/address/synSingleUser?dbid=${user.dbid }','searchPageForm','确定同步用户资料信息吗？')">同步</a>
+							<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/addressQywx/synSingleUser?dbid=${user.dbid }','searchPageForm','确定同步用户资料信息吗？')">同步</a>
 							<c:if test="${user.sysWeixinStatus==2}">
 								|
-								<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/address/synSingleAtt?dbid=${user.dbid }','searchPageForm','确定更新关注状态？')">更新状态</a>
+								<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/addressQywx/synSingleAtt?dbid=${user.dbid }','searchPageForm','确定更新关注状态？')">更新状态</a>
 							</c:if>
 						</c:if>
 					</td>
@@ -261,10 +261,10 @@
 		}
 		status=2;
 		$("#errorMess1").show();
-		$.post('${ctx}/address/synDataDepartment',{},function (data){
+		$.post('${ctx}/addressQywx/synDataDepartment',{},function (data){
 			if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 				$.utile.tips(data[0].message+",正在同步用户数据！");
-				$.post('${ctx}/address/synUser',{},function (data){
+				$.post('${ctx}/addressQywx/synUser',{},function (data){
 					if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 						$.utile.tips(data[0].message+"");
 						status=1;
@@ -292,7 +292,7 @@
 		}
 		status=2;
 		$("#errorMess1").show();
-		$.post('${ctx}/address/synDataUserAttention',{},function (data){
+		$.post('${ctx}/addressQywx/synDataUserAttention',{},function (data){
 			if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 				$.utile.tips(data[0].message+",同步数据成功！");
 				$("#errorMess2").hide();

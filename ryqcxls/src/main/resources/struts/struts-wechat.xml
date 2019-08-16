@@ -31,7 +31,7 @@
 		<global-exception-mappings>
 		    <exception-mapping exception="java.lang.Exception" result="error"/>
 		</global-exception-mappings>
-		<action name="wechat" class="wechatAction">
+		<action name="wechatAdmin" class="wechatAdminAction">
 			<result name="index">/pages/wechat/index.jsp</result>
 		</action>
 		<action name="agentWechat" class="agentWechatAction">

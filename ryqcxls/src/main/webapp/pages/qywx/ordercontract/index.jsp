@@ -18,7 +18,7 @@
 <!-- apple devices fullscreen -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <!-- Mobile Devices Support @end -->
-<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 
 </head>
 <body>

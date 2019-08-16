@@ -21,6 +21,7 @@
 <title>维护挂车信息</title>
 </head>
 	<form action="" name="frmId" id="frmId" style="margin-bottom: 40px;" target="_parent">
+		<s:token></s:token>
 		<input type="hidden" name="custCartrialer.dbid" id="dbid" value="${custCartrialer.dbid }">
 		<input type="hidden" name="customerId" id="customerId" value="${param.customerId }">
 		<input type="hidden" name="editType" id="editType" value="${param.editType }">

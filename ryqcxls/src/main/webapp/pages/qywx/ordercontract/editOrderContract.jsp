@@ -112,6 +112,7 @@
 			<p>如果未填写证件信息，请先填写证件信息，填写完证件信息后在填写购车费用信息!</p>
 	</div>
 	<form  method="post" action="" 	name="frmId" id="frmId">
+		<s:token></s:token>
 		<input type="hidden" value="${orderContract.dbid }" id="dbid" name="orderContract.dbid"></input>
 		<input type="hidden" value="${param.editType }" id="editType" name="editType"></input>
 		<input type="hidden" value="${orderContract.createTime }" id="createTime" name="orderContract.createTime"></input>

@@ -309,7 +309,7 @@ public class ComeShopManageImpl {
 				+ "cust_customertype type "
 				+ "LEFT JOIN ("
 				+ "	SELECT"
-				+ "		type,"
+				+ "		customerTypeId as type,"
 				+ "		COUNT(*) AS createFolderNum"
 				+ "	FROM"
 				+ "		cust_customer"
@@ -324,15 +324,15 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(createFolderTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
-		sql=sql+" GROUP BY type "
+		sql=sql+" GROUP BY customerTypeId "
 				+ ")A "
 				+ "ON A.type=type.dbid "
 				+ "LEFT JOIN "
 				+ "("
 				+ "	SELECT"
-				+ "	type,"
+				+ "	customerTypeId as type,"
 				+ "	COUNT(*) AS retainNum"
 				+ "	FROM"
 				+ "	cust_customer cust,"
@@ -347,14 +347,14 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(custc.createDate,'%Y-%m')='"+formatPatten+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
-		sql=sql+" GROUP BY type"
+		sql=sql+" GROUP BY customerTypeId"
 				+ ")B "
 				+ "ON type.dbid=B.type "
 				+ "LEFT JOIN( "
 				+ "SELECT "
-				+ "type,"
+				+ "customerTypeId as type,"
 				+ "COUNT(*) AS comeShopNum "
 				+ "FROM "
 				+ "cust_customer "
@@ -369,14 +369,14 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(comeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
-		sql=sql+" GROUP BY type)C "
+		sql=sql+" GROUP BY customerTypeId)C "
 				+ "ON type.dbid=C.type "
 				+ "LEFT JOIN "
 				+ "("
 				+ "	SELECT"
-				+ "	type,"
+				+ "	customerTypeId as type,"
 				+ "	COUNT(*) AS twoComeShopNum "
 				+ "FROM"
 				+ "	cust_customer "
@@ -391,9 +391,9 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(twoComeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
-		sql=sql+" GROUP BY type "
+		sql=sql+" GROUP BY customerTypeId "
 				+ ")D ON type.dbid=D.type";
 		DatabaseUnitHelper databaseUnitHelper=new DatabaseUnitHelper();
 		List<ComeShopType> comeShopTypes=new ArrayList<ComeShopType>();
@@ -432,7 +432,7 @@ public class ComeShopManageImpl {
 				+ "FROM "
 				+ " ("
 				+ "	SELECT"
-				+ "		type,"
+				+ "		customerTypeId as type,"
 				+ "		COUNT(*) AS createFolderNum"
 				+ "	FROM"
 				+ "		cust_customer"
@@ -447,13 +447,13 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(createFolderTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" )A "
 				+ ", "
 				+ "("
 				+ "	SELECT"
-				+ "	type,"
+				+ "	customerTypeId as type,"
 				+ "	COUNT(*) AS retainNum"
 				+ "	FROM"
 				+ "	cust_customer cust,"
@@ -468,12 +468,12 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(custc.createDate,'%Y-%m')='"+formatPatten+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" )B "
 				+ ",( "
 				+ "SELECT "
-				+ "type,"
+				+ "customerTypeId as type,"
 				+ "COUNT(*) AS comeShopNum "
 				+ "FROM "
 				+ "cust_customer "
@@ -488,13 +488,13 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(comeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" )C "
 				+ ", "
 				+ "("
 				+ "	SELECT"
-				+ "	type,"
+				+ "	customerTypeId as type,"
 				+ "	COUNT(*) AS twoComeShopNum "
 				+ "FROM"
 				+ "	cust_customer "
@@ -509,7 +509,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND DATE_FORMAT(twoComeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")<='"+endDate+"'";
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" )D";
 		DatabaseUnitHelper databaseUnitHelper=new DatabaseUnitHelper();
@@ -545,7 +545,7 @@ public class ComeShopManageImpl {
 					sql=sql+" AND enterpriseId="+enterprise.getDbid();
 				}
 				if(type>0){
-					sql=sql+" AND type="+type;
+					sql=sql+" AND customerTypeId="+type;
 				}
 			sql=sql+" AND DATE_FORMAT(createFolderTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")='QUERYDATE' ";
 			sql=sql	+ "	GROUP BY carSeriyId "
@@ -592,7 +592,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND enterpriseId="+enterprise.getDbid();
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		if(null!=startDate&&startDate.trim().length()>0){
 			sql=sql+" AND DATE_FORMAT(createFolderTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")>='"+startDate+"'";
@@ -634,7 +634,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND enterpriseId="+enterprise.getDbid();
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" AND DATE_FORMAT(comeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")='QUERYDATE' ";
 		sql=sql	+ "	GROUP BY carSeriyId "
@@ -681,7 +681,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND enterpriseId="+enterprise.getDbid();
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		if(null!=startDate&&startDate.trim().length()>0){
 			sql=sql+" AND DATE_FORMAT(comeShopDate,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")>='"+startDate+"'";
@@ -726,7 +726,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND enterpriseId="+enterprise.getDbid();
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		sql=sql+" AND DATE_FORMAT(custo.createTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")='QUERYDATE' ";
 		sql=sql	+ "	GROUP BY carSeriyId "
@@ -775,7 +775,7 @@ public class ComeShopManageImpl {
 			sql=sql+" AND enterpriseId="+enterprise.getDbid();
 		}
 		if(type>0){
-			sql=sql+" AND type="+type;
+			sql=sql+" AND customerTypeId="+type;
 		}
 		if(null!=startDate&&startDate.trim().length()>0){
 			sql=sql+" AND DATE_FORMAT(custo.createTime,"+(dateType==1?"'%Y-%m-%d'":"'%Y-%m'")+")>='"+startDate+"'";

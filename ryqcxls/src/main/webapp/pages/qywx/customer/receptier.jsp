@@ -50,6 +50,7 @@
 	</h3>
 </div>
  <form action="" id="frmId" name="frmId" method="post" target="_self">
+ <s:token></s:token>
 <div class="weui_cells weui_cells_form">
 		<table class="table table-bordered table-striped">
 			<c:forEach var="customerRecord" items="${customerRecords }">

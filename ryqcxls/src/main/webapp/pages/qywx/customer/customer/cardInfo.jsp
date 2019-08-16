@@ -37,6 +37,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post" >
+	<s:token></s:token>
 	<input type="hidden" value="${customer.dbid }" id="customerId" name="customerId">
 	<input type="hidden" value="${param.type }" id="type" name="type">
 	<div class="form-group">

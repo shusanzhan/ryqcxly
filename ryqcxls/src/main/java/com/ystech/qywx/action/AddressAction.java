@@ -20,7 +20,7 @@ import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.DepartmentManageImpl;
 import com.ystech.xwqr.service.sys.UserManageImpl;
 
-@Component("addressAction")
+@Component("addressQywxAction")
 @Scope("prototype")
 public class AddressAction extends BaseController{
 	private DepartmentManageImpl departmentManageImpl;

@@ -83,5 +83,5 @@
       </ul>
 </div>	
 </body>
-<script src="${ctx }/widgets/bootstrap/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
 </html>

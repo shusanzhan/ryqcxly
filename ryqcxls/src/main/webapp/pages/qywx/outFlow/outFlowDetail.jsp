@@ -107,6 +107,7 @@
 		</div>
 </c:if>
 <form action="" id="frmId" name="frmId">
+	<s:token></s:token>
 	<input type="hidden" id="customerId" name="customerId" value="${customer.dbid }">
 	<input type="hidden" id="lastResult" name="lastResult" value="">
 </form>

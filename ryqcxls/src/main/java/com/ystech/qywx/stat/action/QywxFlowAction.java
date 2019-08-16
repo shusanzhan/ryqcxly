@@ -130,7 +130,7 @@ public class QywxFlowAction extends BaseController{
 			FlowComeShopType flowComeShopTypeTotal = fLowManageImpl.queryFlowComeShopTypeAll(beginDate, endDate, type, enterprise, dateType, null,tryCarStatus,comeShopStatus);
 			request.setAttribute("flowComeShopTypeTotal",flowComeShopTypeTotal);
 			
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			//建档客户车型明细
@@ -255,7 +255,7 @@ public class QywxFlowAction extends BaseController{
 			FlowComeShopType flowComeShopTypeTotal = fLowManageImpl.queryFlowComeShopTypeAll(beginDate, endDate, type, enterprise, dateType, null,tryCarStatus,comeShopStatus);
 			request.setAttribute("flowComeShopTypeTotal",flowComeShopTypeTotal);
 			
-			List<CarSeriy> carSeriys = carSeriyManageImpl.findBy("status", 1);
+			List<CarSeriy> carSeriys = carSeriyManageImpl.find("from CarSeriy where status=1 AND enterpriseId="+enterprise.getDbid(),null);
 			request.setAttribute("carSeriys",carSeriys);
 			
 			//建档客户车型明细

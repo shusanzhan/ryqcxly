@@ -35,7 +35,7 @@ public class OAuth2Interceptor extends AbstractInterceptor {
 				return invocation.invoke();
 			}
 		}
-		WeixinGzuserinfo weixinGzuserinfo = weixinGzuserinfoManageImpl.findUniqueBy("openid", "oVrJCuOcJcSUtqFKabDqwzZIVUWc");
+		WeixinGzuserinfo weixinGzuserinfo = weixinGzuserinfoManageImpl.findUniqueBy("openid", "oVdlDxNEHpbJ4Xh4R3M29C0eMhFw");
 		//WeixinGzuserinfo weixinGzuserinfo = (WeixinGzuserinfo)session.getAttribute("weixinGzuserinfo");
 		//第一步：先判断session中是否包含user，包含user直接跳转到目标页面
 		if(null!=weixinGzuserinfo){

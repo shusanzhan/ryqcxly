@@ -117,6 +117,7 @@ table th, table td {
 		<div style="width: 100%" class="alert alert-danger">${orderContract.note }</div>
 	</div>
 	<form  method="post" action="" 	name="frmId" id="frmId">
+		<s:token></s:token>
 		<input type="hidden" id="editType" name="editType" value="${param.editType}">
 		<input type="hidden" id="customerId" name="customerId" value="${customer.dbid }">
 		<input type="hidden" id="orderContractId" name="orderContractId" value="${orderContract.dbid }">

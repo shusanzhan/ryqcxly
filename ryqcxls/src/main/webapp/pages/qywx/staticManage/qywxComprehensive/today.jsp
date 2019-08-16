@@ -79,7 +79,7 @@
         <img src="${ctx }/images/jm/NavButtonBack.png" class="return">
     </a>
     <span id="page_title">回访统计</span>
-    <a class="go_home" href="${ctx }/qywxSaleReport/index?role=${param.role}">
+    <a class="go_home" href="${ctx }/qywxStat/index">
     	<img src="${ctx }/images/jm/go_home.png" alt="">
     </a>
     <c:if test="${param.type==1||param.type>=3 }">

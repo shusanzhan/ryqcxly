@@ -5,7 +5,7 @@
 <html>
 <html lang="en">
 <head>
-<title>Unicorn Admin</title>
+<title>统计分析</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="${ctx}/css/bootstrap/bootstrap.min.css" />
@@ -88,15 +88,28 @@
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/comeShop/queryComeShopList'">客户到店统计</a>
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/staTryCar/queryTryCarList'">试乘试驾统计</a>
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/twoComeShop/queryTwoComeShopList'">二次到店统计</a>
-						<a href="${ctx }/roomManage/cityCrossCustomer" class="label label-info" style="padding: 8px 12px;margin-right: 12px;">
-							同城交叉客户
+						<a href="${ ctx}/statCust/queryList" class="label label-info" style="padding: 8px 12px;margin-right: 12px;">
+							基盘客户统计
 						</a>
-						<a href="${ctx}/qywxRoomManageSaleReport/index" class="label label-info" style="padding: 8px 12px;margin-right: 12px;">
-							销售报表
-						</a>
-						<a href="${ctx}/flow/queryFlowList" class="label label-info" style="padding: 8px 12px;margin-right: 12px;">
+						<a href="${ctx}/statFlow/queryFlowList" class="label label-info" style="padding: 8px 12px;margin-right: 12px;">
 							流失客户统计
 						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon">
+							<i class="icon-signal"></i>
+						</span>
+						<h5>订单分析</h5>
+					</div>
+					<div class="widget-content">
+						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/customerOrder'">留存订单</a>
+						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/statOrder/queryOrderList'">订单报表</a>
 					</div>
 				</div>
 			</div>
@@ -113,7 +126,7 @@
 					<div class="widget-content">
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/customerTrack/queryCustomerTrackCountList'">跟踪超时统计</a>
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/customerTrackStatic/today?role=sm'">每日回访数据监控</a>
-						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/track/queryTrackList'">回访数据统计</a>
+						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/statTrack/queryTrackList'">回访数据统计</a>
 					</div>
 				</div>
 			</div>

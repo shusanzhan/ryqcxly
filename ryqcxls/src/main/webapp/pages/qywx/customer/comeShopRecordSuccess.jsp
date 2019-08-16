@@ -35,6 +35,7 @@
 </head>
 <body>
  <form action="" id="frmId" name="frmId" method="post" target="_self">
+ <s:token></s:token>
 <input type="hidden" value="${customer.dbid }" id="dbid" name="customer.dbid">
 <input type="hidden" value="${param.customerRecordId }" id="customerRecordId" name="customerRecordId">
 <input type="hidden" value="${param.type }" id="type" name="type">

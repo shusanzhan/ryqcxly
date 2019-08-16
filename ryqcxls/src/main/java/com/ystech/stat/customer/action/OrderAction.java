@@ -30,7 +30,7 @@ import com.ystech.xwqr.service.sys.EnterpriseManageImpl;
 import com.ystech.xwqr.set.model.CarSeriy;
 import com.ystech.xwqr.set.service.CarSeriyManageImpl;
 
-@Component("orderAction")
+@Component("statOrderAction")
 @Scope("prototype")
 public class OrderAction extends BaseController{
 	private OrderManageImpl orderManageImpl;

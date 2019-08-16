@@ -17,7 +17,7 @@ import com.ystech.qywx.service.AppMenuManageImpl;
 import com.ystech.qywx.service.AppUtil;
 import com.ystech.qywx.service.QywxAccountManageImpl;
 
-@Component("appAction")
+@Component("appQywxAction")
 @Scope("prototype")
 public class AppAction extends BaseController{
 	private App app;
@@ -109,7 +109,7 @@ public class AppAction extends BaseController{
 				return ;
 			}
 			if(status==true){
-				renderMsg("/app/queryList", "同步应用成功");
+				renderMsg("/appQywx/queryList", "同步应用成功");
 				return ;
 			}
 		} catch (Exception e) {
@@ -135,7 +135,7 @@ public class AppAction extends BaseController{
 				return ;
 			}
 			if(status==true){
-				renderMsg("/app/queryList", "同步应用用户成功");
+				renderMsg("/appQywx/queryList", "同步应用用户成功");
 				return ;
 			}
 		} catch (Exception e) {
@@ -182,7 +182,7 @@ public class AppAction extends BaseController{
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/app/queryList", "保存数据成功！");
+		renderMsg("/appQywx/queryList", "保存数据成功！");
 		return ;
 	}
 
@@ -211,7 +211,7 @@ public class AppAction extends BaseController{
 			return ;
 		}
 		String query = ParamUtil.getQueryUrl(request);
-		renderMsg("/app/queryList"+query, "删除数据成功！");
+		renderMsg("/appQywx/queryList"+query, "删除数据成功！");
 		return;
 	}
 	

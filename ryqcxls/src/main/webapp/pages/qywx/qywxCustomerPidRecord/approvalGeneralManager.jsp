@@ -115,6 +115,7 @@
       </div>
       <div class="modal-body">
        <form id="frmId" name="frmId" method="post" >
+       	<s:token></s:token>
             <input type="hidden" id="status" name="status" value="">
             <input type="hidden" name="customerPidCancelId" id="customerPidCancelId" value="${customerPidCancel.dbid }">
 			<input type="hidden" name="customerId" value="${customer.dbid }" id="customerId"></input>

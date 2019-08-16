@@ -55,6 +55,7 @@
 </div>
 <div style="margin: 0 auto;width: 92%;margin-top: 20px;">
 <form class="form-inline" action="" name="frmId" id="frmId" method="post" >
+	<s:token></s:token>
    	<input type="hidden" name="red" id="red" value="1">
    	<input type="hidden" name="customerRecord.dbid" id="customerRecordDbid" value="${customerRecord.dbid }">
 	<div class="form-group">
