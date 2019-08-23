@@ -17,7 +17,7 @@
 <div class="location">
      	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
      	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/spread/spreadGroupList'">分组管理</a>-
+<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/memSpread/spreadGroupList'">分组管理</a>-
 <a href="javascript:void(-1);">
 	<c:if test="${empty(spreadGroup) }">添加分组</c:if>
 	<c:if test="${!empty(spreadGroup) }">编辑分组</c:if>
@@ -46,11 +46,11 @@
 	</form>
 	<div class="formButton">
 		<c:if test="${empty(spreadGroup) }">
-			<a href="javascript:void(-1)"	onclick="$('#type').val(1);$.utile.submitForm('frmId','${ctx}/spread/saveSpreadGroup')"	class="but butSave">保存返回</a> 
-			<a href="javascript:void(-1)"	onclick="$('#type').val(2);$.utile.submitForm('frmId','${ctx}/spread/saveSpreadGroup')"	class="but butSave">保存继续</a> 
+			<a href="javascript:void(-1)"	onclick="$('#type').val(1);$.utile.submitForm('frmId','${ctx}/memSpread/saveSpreadGroup')"	class="but butSave">保存返回</a> 
+			<a href="javascript:void(-1)"	onclick="$('#type').val(2);$.utile.submitForm('frmId','${ctx}/memSpread/saveSpreadGroup')"	class="but butSave">保存继续</a> 
 		</c:if>
 		<c:if test="${!empty(spreadGroup) }">
-			<a href="javascript:void(-1)"	onclick="$('#type').val(1);$.utile.submitForm('frmId','${ctx}/spread/saveSpreadGroup')"	class="but butSave">保存</a> 
+			<a href="javascript:void(-1)"	onclick="$('#type').val(1);$.utile.submitForm('frmId','${ctx}/memSpread/saveSpreadGroup')"	class="but butSave">保存</a> 
 		</c:if>
 	    <a href="javascript:void(-1)"	onclick="window.history.go(-1)" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>

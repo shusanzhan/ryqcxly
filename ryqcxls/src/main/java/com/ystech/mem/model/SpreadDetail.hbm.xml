@@ -48,7 +48,6 @@
             <column name="status" />
         </property>
         <many-to-one name="weixinGzuserinfo" class="com.ystech.weixin.model.WeixinGzuserinfo" column="weixinGzuserinfoId" not-found="ignore" fetch="select"></many-to-one>
-        <many-to-one name="spreadGroup" class="com.ystech.mem.model.SpreadGroup" column="groupId" not-found="ignore" fetch="select"></many-to-one>
         <many-to-one name="spread" class="com.ystech.mem.model.Spread" column="spreadId" not-found="ignore" fetch="select"></many-to-one>
         <many-to-one name="memberShipLevel" class="com.ystech.mem.model.MemberShipLevel" column="memberShipLevelId" not-found="ignore" fetch="select"></many-to-one>
        <one-to-one name="weixinKeyWordRole" property-ref="spreadDetail"></one-to-one>

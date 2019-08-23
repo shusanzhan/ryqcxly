@@ -965,9 +965,6 @@ public class WechatService {
 				if(null!=spread){
 					spreadDetailRecord.setSpreadId(spread.getDbid());
 				}
-				if(null!=spreadDetail.getSpreadGroup()){
-					spreadDetailRecord.setSpreadGroupId(spreadDetail.getSpreadGroup().getDbid());
-				}
 				spreadDetailRecord.setSpreadDetailId(spreadDetail.getDbid());
 				spreadDetailRecordManageImpl.save(spreadDetailRecord);
 				

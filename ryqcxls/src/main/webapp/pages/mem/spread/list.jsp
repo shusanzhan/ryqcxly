@@ -18,7 +18,7 @@
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script src="${ctx }/widgets/artDialogMaster/dist/dialog-min.js"></script>
 <script src="${ctx }/widgets/artDialogMaster/dist/dialog-plus-min.js"></script>
-<script src="${ctx }/pages/pllm/spread/spread.js?now=${now}"></script>
+<script src="${ctx }/pages/mem/spread/spread.js?now=${now}"></script>
 <style type="text/css">
 	.clearfix{
 		width: 99%;
@@ -42,14 +42,14 @@
 	    margin-bottom: 0px;
 	}
 </style>
-<title>渠道管理</title>
+<title>参数二维码</title>
 </head>
 <body class="bodycolor">
 
 <div class="location">
 	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
 	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-	<a href="javascript:void(-1);" onclick="">渠道管理</a>
+	<a href="javascript:void(-1);" onclick="">参数二维码</a>
 </div>
 <div class="app">
 	<div class="app-inner clearfix">
@@ -60,26 +60,17 @@
 				            <div class="clearfix">
 				                <a href="javascript:;" class="js-nav-add-rule ui-btn ui-btn-success pull-left" onclick="editSpreadDetail()">新建二维码</a>
 				                <div class="common-helps-entry pull-left">
-				                	<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/spread/queryList" method="post">
+				                	<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/memSpread/queryList" method="post">
 						                <input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 									    <input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 					                	<table cellpadding="0" cellspacing="0" class="searchTable" border="1" >
 								  			<tr>
-								  				<td><label>渠道：</label></td>
+								  				<td><label>类型：</label></td>
 								  				<td>
 								  					<select id="spreadId" name="spreadId" class="text small" onchange="$('#searchPageForm')[0].submit()">
 								  						<option value="-1">请选择...</option>
 								  						<c:forEach items="${spreads }" var="spread2">
 									  						<option value="${spread2.dbid }" ${param.spreadId==spread2.dbid?'selected="selected"':'' } >${spread2.name }</option>
-								  						</c:forEach>
-								  					</select>
-												</td>
-								  				<td><label>分组：</label></td>
-								  				<td>
-								  					<select id="spreadGroupId2" name="spreadGroupId" class="text small" onchange="$('#searchPageForm')[0].submit()">
-								  						<option value="-1">请选择...</option>
-								  						<c:forEach items="${spreadGroups }" var="spreadGruop">
-									  						<option value="${spreadGruop.dbid }" ${param.spreadGroupId==spreadGruop.dbid?'selected="selected"':'' } >${spreadGruop.name }</option>
 								  						</c:forEach>
 								  					</select>
 												</td>
@@ -124,11 +115,10 @@
 										   		 <div class="long-dashed"></div>
 												    <div class="rule-keywords">
 												        <div class="rule-inner">
-												            <a href="javascript:;" class="pull-right opt js-download-qrcode" onclick="window.location.href='${ctx}/spread/downloand?dbid=${spreadDetail.dbid}'">下载二维码</a>
+												            <a href="javascript:;" class="pull-right opt js-download-qrcode" onclick="window.location.href='${ctx}/memSpread/downloand?dbid=${spreadDetail.dbid}'">下载二维码</a>
 												            <h4>扫带参数二维码：</h4>
 												            <h5 class="ta-c" >&nbsp;&nbsp;</h5>
 												            <h5 class="ta-c" id="spreadDetailSpread${spreadDetail.dbid }">渠道：${spreadDetail.spread.name }</h5>
-												            <h5 class="ta-c" id="spreadDetailspreadGroup${spreadDetail.dbid }">分组：${spreadDetail.spreadGroup.name }</h5>
 												            
 												            <div class="qrcode-container loading">
 												                <img src="${spreadDetail.qrcode }">
@@ -275,7 +265,7 @@
 </div>
 <div id="app-help-container" class="show-help" >
 	<div class="help-container-head">
-	    <span>经纪人分类</span>
+	    <span>分类</span>
 	    <i class="app-help-icon app-help-icon-close"></i>
 	    <a href="javascript:void(-1)"  onclick="addSpread()" class="pull-right">
 	         创建 <i class="app-help-icon app-help-icon-more"></i>
@@ -290,11 +280,9 @@
 		          </div>
 		           <div class="rule-opts" style="float: right;padding-right: 12px;">
 		                <a href="javascript:;" class="js-edit-rule" onclick="editSpread(${spread.dbid})">编辑</a>
-		                <span>-</span>
-		                <a href="javascript:;" class="js-edit-rule" onclick="window.location.href='${ctx}/agentSet/edit?spreadId=${spread.dbid}'">设置奖励</a>
 		                <c:if test="${spread.status==2 }">
 			                <span>-</span>
-			                <a href="javascript:;" class="js-disable-rule" onclick="deleteSpread('${ctx}/spread/delete?dbids=${spread.dbid}','${spread.dbid}')">删除</a>
+			                <a href="javascript:;" class="js-disable-rule" onclick="deleteSpread('${ctx}/memSpread/delete?dbids=${spread.dbid}','${spread.dbid}')">删除</a>
 		                </c:if>
 			        </div>
 			        <div style="clear: both;"></div>
@@ -303,38 +291,7 @@
 		        	<p>
 			        	<span style="color: #999999;">引流：${spread.spreadNum }</span>&nbsp;&nbsp;
 			        	<span style="color: #999999;">扫码：${spread.scanCodeNum }</span>
-			        	<span style="color: #999999;">分组数：${fn:length(spread.spreadGroups) }</span>
 			       </p>
-					<p><a href="javascript:void(-1)" onclick="addSpreadGroup(${spread.dbid})" >创建分组</a></p>
-		        	 <div id="spreadDetail${spread.dbid }" class="keyword-list">
-		        	 	<c:forEach var="spreadGroup" items="${spread.spreadGroups }">
-			        	 	<div class="keyword input-append" id="${spread.dbid }${spreadGroup.dbid}">
-							    <a href="javascript:;" class="close--circle" onclick="deleteSpreadGroup('${ctx}/spread/deleteSpreadGroup?dbids=${spreadGroup.dbid}','${spread.dbid}${spreadGroup.dbid}')">×</a>
-							   	<span style="color: #000;font-size: 12px;" onclick="eidtSpreadGroup(${spread.dbid },${spreadGroup.dbid})" id="${spread.dbid }${spreadGroup.dbid}Name">${spreadGroup.name }</span>
-							</div>
-							<!-- 编辑弹窗 -->
-							<div class="frmContent" id="spreadGroupId${spread.dbid }${spreadGroup.dbid}" style="display: none;">
-								<form action="" name="frmId2" id="frmId${spread.dbid }${spreadGroup.dbid}"  target="_self">
-									<s:token></s:token>
-									<input type="hidden" name="spreadGroup.dbid" id="spreadGroupDbid" value="${spreadGroup.dbid }">
-									<input type="hidden" name="spreadId" id="spreadId" value="${spread.dbid }">
-									<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
-										<tr height="42">
-											<td class="formTableTdLeft">名称:&nbsp;</td>
-											<td ><input type="text" name="spreadGroup.name" id="spreadGroupName${spread.dbid }${spreadGroup.dbid}"
-												value="${spreadGroup.name }" class="largex text" title="名称"	checkType="string,2,12" tip="长度在2到12个字符之间，不能与已有渠道重复"><span style="color: red;">*</span></td>
-										</tr>
-										<tr height="32">
-											<td class="formTableTdLeft">备注:&nbsp;</td>
-											<td>
-												<textarea class="text textarea"  name="spreadGroup.note" id="spreadGroupNote" checkType="string,1,200" canEmpty="Y" tip="请控制在200字以内" placeholder="请控制在200字以内">${spreadGroup.note }</textarea>
-											</td>
-										</tr>
-									</table>
-								</form>
-							</div>
-		        	 	</c:forEach>
-					</div>
 		        </div>
 		        <div class="help-body-split-line"></div>
 		    </div>
@@ -350,11 +307,6 @@
 				<td class="formTableTdLeft">名称:&nbsp;</td>
 				<td ><input type="text" name="spread.name" id="spreadName"
 					value="${spread.name }" class="largex text" title="名称"	checkType="string,2,12" tip="长度在2到12个字符之间，不能与已有渠道重复"><span style="color: red;">*</span></td>
-			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">政策链接:&nbsp;</td>
-				<td ><input type="text" name="spread.policyStateMentUrl" id="policyStateMentUrl"
-					value="${spread.policyStateMentUrl }" class="largex text" title="政策链接"	checkType="url" tip="政策链接"><span style="color: red;">*</span></td>
 			</tr>
 			<tr height="32">
 				<td class="formTableTdLeft">备注:&nbsp;</td>
@@ -408,23 +360,12 @@
 		<s:token></s:token>
 		<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 92%;">
 			<tr height="42">
-				<td class="formTableTdLeft">渠道名称:&nbsp;</td>
+				<td class="formTableTdLeft">类型:&nbsp;</td>
 				<td >
 					<select id="spreadGroupId" name="spreadGroupId" class="largeX text" checkType="integer,1" tip="请选择分组">
 						<option value="0">请选择...</option>
 						<c:forEach var="spread" items="${spreads }">
 							<option value="${spread.dbid }"  >${spread.name }</option>
-						</c:forEach>
-					</select>
-				</td>
-			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">分组:&nbsp;</td>
-				<td >
-					<select id="spreadGroupId" name="spreadGroupId" class="largeX text" checkType="integer,1" tip="请选择分组">
-						<option value="0">请选择...</option>
-						<c:forEach var="spreadGroup" items="${spreadGroups }">
-							<option value="${spreadGroup.dbid }" ${spreadGroup.dbid==spreadDetail.spreadGroup.dbid?'selected="selected"':'' } >${spreadGroup.name }</option>
 						</c:forEach>
 					</select>
 				</td>

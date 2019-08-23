@@ -23,24 +23,13 @@
 			<tr height="42">
 				<td class="formTableTdLeft">渠道名称:&nbsp;</td>
 				<td >
-					<select id="spreadId" name="spreadId" class="largeX text" checkType="integer,1" tip="请选渠道名称" onchange="ajaxSpreadGroup(this.value)">
+					<select id="spreadId" name="spreadId" class="largeX text" checkType="integer,1" tip="请选渠道名称" >
 						<option value="0">请选择...</option>
 						<c:forEach var="spread" items="${spreads }">
 							<option value="${spread.dbid }" ${spread.dbid==spreadDetail.spread.dbid?'selected="selected"':'' } >${spread.name }</option>
 						</c:forEach>
 					</select>
 					
-				</td>
-			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">分组:&nbsp;</td>
-				<td >
-					<select id="spreadGroupId" name="spreadGroupId" class="largeX text" checkType="integer,1" tip="请选择分组">
-						<option value="0">请选择...</option>
-						<c:forEach var="spreadGroup" items="${spreadGroups }">
-							<option value="${spreadGroup.dbid }" ${spreadGroup.dbid==spreadDetail.spreadGroup.dbid?'selected="selected"':'' } >${spreadGroup.name }</option>
-						</c:forEach>
-					</select>
 				</td>
 			</tr>
 			<tr height="42">
@@ -61,7 +50,7 @@
 <script type="text/javascript">
 	function ajaxSpreadGroup(spreadId){
 		$("#spreadGroupId").empty();
-		$.post('${ctx}/spread/ajaxSpreadGroup?spreadId='+spreadId+"&date="+new Date,{},function (data){
+		$.post('${ctx}/memSpread/ajaxSpreadGroup?spreadId='+spreadId+"&date="+new Date,{},function (data){
 			$("#spreadGroupId").append(data);
 		})
 	}

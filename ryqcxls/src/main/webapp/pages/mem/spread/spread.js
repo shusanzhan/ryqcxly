@@ -325,10 +325,6 @@ function addSpread(){
 				'<td class="formTableTdLeft">名称:&nbsp;</td>'+
 				'<td ><input type="text" name="spread.name" id="name" value="" class="largex text" title="名称"	checkType="string,2,12" tip="长度在2到12个字符之间，不能与已有渠道重复"><span style="color: red;">*</span></td>'+
 			'</tr>'+
-			'<tr height="42">'+
-				'<td class="formTableTdLeft">政策链接:&nbsp;</td>'+
-				'<td ><input type="text" name="spread.policyStateMentUrl" id="policyStateMentUrl" value="" class="largex text" title="政策链接"	checkType="url" tip="政策链接"></td>'+
-			'</tr>'+
 			'<tr height="32">'+
 			'	<td class="formTableTdLeft">备注:&nbsp;</td>'+
 			'	<td>'+
@@ -350,7 +346,7 @@ function addSpread(){
 				var validata = validateForm(frmId);
 				if (validata == true) {
 					var params = getParam(frmId);
-			    	$.post("${ctx}/spread/save",params,function callBack(data) {
+			    	$.post("${ctx}/memSpread/save",params,function callBack(data) {
 						if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 							var message=data[0].message; 
 							$("#spreadDiv").append(message);
@@ -371,7 +367,7 @@ function addSpread(){
 }
 //编辑渠道
 function editSpread(dbid){
-	$.post("${ctx}/spread/ajaxEdit?dbid="+dbid+"&date="+new Date(),{},function(data){
+	$.post("${ctx}/memSpread/ajaxEdit?dbid="+dbid+"&date="+new Date(),{},function(data){
 		var text='<div class="frmContent" >'+
 			'<form action="" name="frmIdN" id="frmIdN"  target="_self">'+
 			'<input type="hidden" name="spread.dbid" id="dbid" value="'+data.dbid+'">'+
@@ -379,10 +375,6 @@ function editSpread(dbid){
 				'<tr height="42">'+
 					'<td class="formTableTdLeft">名称:&nbsp;</td>'+
 					'<td ><input type="text" name="spread.name" id="name" value="'+data.name+'" class="largex text" title="名称"	checkType="string,2,12" tip="长度在2到12个字符之间，不能与已有渠道重复"><span style="color: red;">*</span></td>'+
-				'</tr>'+
-				'<tr height="42">'+
-					'<td class="formTableTdLeft">政策链接:&nbsp;</td>'+
-					'<td ><input type="text" name="spread.policyStateMentUrl" id="policyStateMentUrl" value="'+data.policyStateMentUrl+'" class="largex text" title="政策链接"	checkType="url" tip="政策链接"></td>'+
 				'</tr>'+
 				'<tr height="32">'+
 				'	<td class="formTableTdLeft">备注:&nbsp;</td>'+
@@ -405,7 +397,7 @@ function editSpread(dbid){
 					var validata = validateForm(frmId);
 					if (validata == true) {
 						var params = getParam(frmId);
-				    	$.post("${ctx}/spread/save",params,function callBack(data) {
+				    	$.post("${ctx}/memSpread/save",params,function callBack(data) {
 							if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 								var message=data[0].message; 
 								$("#spread"+dbid).text(message);
@@ -477,10 +469,10 @@ function addSpreadGroup(spreadId){
 				if (validata == true) {
 					var spreadGroupName=$("#spreadGroupName").val();
 					var params = getParam(frmId)+"&spreadId="+spreadId;
-					$.post("${ctx}/spread/saveSpreadGroup",params,function callBack(data) {
+					$.post("${ctx}/memSpread/saveSpreadGroup",params,function callBack(data) {
 						if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 							var groupStr='<div class="keyword input-append" id="'+data[0].params+'">'+
-									'<a href="javascript:;" class="close--circle" onclick="deleteSpreadGroup(\'${ctx}/spread/deleteSpreadGroup?dbids='+data[0].params2+'\','+data[0].params+')">×</a>'+
+									'<a href="javascript:;" class="close--circle" onclick="deleteSpreadGroup(\'${ctx}/memSpread/deleteSpreadGroup?dbids='+data[0].params2+'\','+data[0].params+')">×</a>'+
 									'<span style="color: #000;font-size:12px;">'+spreadGroupName+'</span>'+
 									'</div>';
 							$("#spreadDetail"+spreadId).append(groupStr);
@@ -517,7 +509,7 @@ function eidtSpreadGroup(spreadId,groupId){
 				if (validata == true) {
 					var params = getParam(frmId);
 					var spreadGroupName=$("#spreadGroupName"+spreadId+groupId).val();
-					$.post("${ctx}/spread/saveSpreadGroup",params,function callBack(data) {
+					$.post("${ctx}/memSpread/saveSpreadGroup",params,function callBack(data) {
 						if (data[0].mark == 0) {// 返回标志为0表示添加数据成功
 							$("#"+spreadId+groupId+"Name").text("");
 							$("#"+spreadId+groupId+"Name").text(spreadGroupName);

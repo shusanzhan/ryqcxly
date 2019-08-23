@@ -10,9 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
-import org.json.JSONArray;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +25,6 @@ import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
 import com.ystech.cust.model.Customer;
 import com.ystech.cust.model.CustomerLastBussi;
-import com.ystech.cust.model.CustomerPidBookingRecord;
 import com.ystech.cust.service.CustomerMangeImpl;
 import com.ystech.mem.model.Coupon;
 import com.ystech.mem.model.CouponCode;
@@ -42,7 +38,6 @@ import com.ystech.mem.model.PointRecord;
 import com.ystech.mem.model.Reward;
 import com.ystech.mem.model.Spread;
 import com.ystech.mem.model.TradingSnapshot;
-import com.ystech.mem.model.UseCarArea;
 import com.ystech.mem.service.CouponCodeManageImpl;
 import com.ystech.mem.service.CouponManageImpl;
 import com.ystech.mem.service.CouponMemberManageImpl;
@@ -54,7 +49,8 @@ import com.ystech.mem.service.MemberShipLevelManagImpl;
 import com.ystech.mem.service.OnlineBookingManageImpl;
 import com.ystech.mem.service.PointRecordManageImpl;
 import com.ystech.mem.service.RewardManageImpl;
-import com.ystech.mem.service.SpreadDetailUtil;
+import com.ystech.mem.service.SpreadDetailManageImpl;
+import com.ystech.mem.service.SpreadManageImpl;
 import com.ystech.mem.service.TradingSnapshotManageImpl;
 import com.ystech.mem.service.UseCarAreaManageImpl;
 import com.ystech.qywx.service.RedBagManageImpl;
@@ -101,7 +97,7 @@ public class MemberWechatAction extends BaseController{
 	private EnterpriseManageImpl enterpriseManageImpl;
 	private AgentSetManageImpl agentSetManageImpl;
 	private RewardManageImpl rewardManageImpl;
-	private SpreadDetailUtil spreadDetailUtil;
+	private SpreadDetailManageImpl spreadDetailManageImpl;
 	private RedBagManageImpl redBagManageImpl;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
 	private WeixinAccesstokenManageImpl weixinAccesstokenManageImpl;
@@ -147,8 +143,9 @@ public class MemberWechatAction extends BaseController{
 		this.couponMemberManageImpl = couponMemberManageImpl;
 	}
 	@Resource
-	public void setSpreadDetailUtil(SpreadDetailUtil spreadDetailUtil) {
-		this.spreadDetailUtil = spreadDetailUtil;
+	public void setSpreadDetailManageImpl(
+			SpreadDetailManageImpl spreadDetailManageImpl) {
+		this.spreadDetailManageImpl = spreadDetailManageImpl;
 	}
 	@Resource
 	public void setUseCarAreaManageImpl(UseCarAreaManageImpl useCarAreaManageImpl) {
@@ -376,7 +373,7 @@ public class MemberWechatAction extends BaseController{
 			registerSendPoint(member2);
 			
 			//经纪人认证后生成他的专属二维码
-			boolean craeateBooleanStatus = spreadDetailUtil.saveSpreadDetail(member2);
+			boolean craeateBooleanStatus = spreadDetailManageImpl.saveSpreadDetail(member2);
 			if(craeateBooleanStatus==true){
 				log.info("生成经纪人专属二维码成功！");
 			}else{

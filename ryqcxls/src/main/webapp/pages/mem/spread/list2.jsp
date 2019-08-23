@@ -23,11 +23,11 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/spread/add'">添加</a>
-		<a class="but butCancle" href="javascript:void();" onclick="window.location.href='${ctx}/spread/add'">删除</a>
+		<a class="but button" href="javascript:void();" onclick="window.location.href='${ctx}/memSpread/add'">添加</a>
+		<a class="but butCancle" href="javascript:void();" onclick="window.location.href='${ctx}/memSpread/add'">删除</a>
    </div>
   	<div class="seracrhOperate">
-  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/spread/queryList" method="post">
+  		<form name="searchPageForm" id="searchPageForm" action="${ctx}/memSpread/queryList" method="post">
 		<input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 		<input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
    		</form>
@@ -59,14 +59,14 @@
 						${spreadGroup.name },
 					</c:forEach>
 				</c:if>
-				<a href="#" style="color: #2b7dbc" class="aedit" onclick="window.location.href='${ctx }/spread/spreadGroupList?spreadId=${spread.dbid}'">管理</a>
+				<a href="#" style="color: #2b7dbc" class="aedit" onclick="window.location.href='${ctx }/memSpread/spreadGroupList?spreadId=${spread.dbid}'">管理</a>
 			</td>
 			<td>
 				<a href="#" class="aedit" onclick="window.location.href='${ctx }/spreadDetail/queryList?spreadId=${spread.dbid}'">二维码</a>
 				|
-				<a href="#" class="aedit" onclick="window.location.href='${ctx }/spread/edit?dbid=${spread.dbid}'">编辑</a>
+				<a href="#" class="aedit" onclick="window.location.href='${ctx }/memSpread/edit?dbid=${spread.dbid}'">编辑</a>
 				|
-				<a href="#" class="aedit" onclick="$.utile.deleteById('${ctx }/spread/delete?dbids=${spread.dbid}')">删除</a>
+				<a href="#" class="aedit" onclick="$.utile.deleteById('${ctx }/memSpread/delete?dbids=${spread.dbid}')">删除</a>
 		</tr>
 	</c:forEach>
 </table>

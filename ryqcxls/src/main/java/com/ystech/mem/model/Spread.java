@@ -21,13 +21,9 @@ public class Spread implements java.io.Serializable {
 	private Date modifyDate;
 	private Integer weixinAccountId;
 	private Integer countNum;
-	//政策说明URL
-	private String policyStateMentUrl;
 	private Integer enterpriseId;
 	//1、系统默认；2、系统创建
 	private Integer status;
-	private WeixinKeyWord weixinKeyWord;
-	private Set<SpreadGroup> spreadGroups=new HashSet<SpreadGroup>();
 	public Spread() {
 	}
 
@@ -105,14 +101,6 @@ public class Spread implements java.io.Serializable {
 		this.weixinAccountId = weixinAccountId;
 	}
 
-	public Set<SpreadGroup> getSpreadGroups() {
-		return spreadGroups;
-	}
-
-	public void setSpreadGroups(Set<SpreadGroup> spreadGroups) {
-		this.spreadGroups = spreadGroups;
-	}
-
 	public Integer getCountNum() {
 		return countNum;
 	}
@@ -137,20 +125,4 @@ public class Spread implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public String getPolicyStateMentUrl() {
-		return policyStateMentUrl;
-	}
-
-	public void setPolicyStateMentUrl(String policyStateMentUrl) {
-		this.policyStateMentUrl = policyStateMentUrl;
-	}
-
-	public WeixinKeyWord getWeixinKeyWord() {
-		return weixinKeyWord;
-	}
-
-	public void setWeixinKeyWord(WeixinKeyWord weixinKeyWord) {
-		this.weixinKeyWord = weixinKeyWord;
-	}
-	
 }

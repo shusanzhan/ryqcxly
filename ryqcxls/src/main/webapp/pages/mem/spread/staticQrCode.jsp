@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="${ctx }/widgets/artDialogMaster/css/ui-dialog.css">
 <script src="${ctx }/widgets/artDialogMaster/dist/dialog-min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/My97DatePicker/WdatePicker.js"></script>
-<script src="${ctx }/pages/pllm/spread/spread.js"></script>
+<script src="${ctx }/pages/pllm/memSpread/spread.js"></script>
 <style type="text/css">
 	body{
 		background: #000;
@@ -81,7 +81,7 @@ function addDate(days){
 		<div class="app-init-container">
 			<div class="js-app-inner app-inner-wrap" style="display: block;">
 				<div id="js-filter" class="filter-wrap has-bar" style="margin: 5px;padding-top: 12px;">
-				<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/spread/staticQrCode" method="post">
+				<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/memSpread/staticQrCode" method="post">
 					<input type="hidden" id="quickday" name="quickday" value="${param.quickday }">
 				 <table style="margin-top: 12px;">
 					    <tbody>

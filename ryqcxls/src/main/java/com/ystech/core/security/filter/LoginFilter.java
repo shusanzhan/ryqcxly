@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
 		// 获得用户请求的URI
 		String path = servletRequest.getRequestURI();
 		if(path.indexOf("/css/")>-1||path.indexOf("/img/")>-1||path.indexOf("/images/")>-1||path.indexOf(".js")>-1||
-				path.indexOf("/widgets/")>-1||path.indexOf("/main/login")>-1||path.indexOf("/MP_verify_IKh97cgksnIp8rhJ.txt")>-1||path.indexOf("/main/modifyPassword")>-1||path.indexOf("/main/saveModifyPassword")>-1||
+				path.indexOf("/widgets/")>-1||path.indexOf("/main/login")>-1||path.indexOf("/MP_verify_dGFQsO46hzGaKcLe.txt")>-1||path.indexOf("/main/modifyPassword")>-1||path.indexOf("/main/saveModifyPassword")>-1||
 				path.indexOf("/pages/login/login.jsp")>-1||path.indexOf("/j_spring_security_check")>-1||path.indexOf("enterpriseAuth")>-1
 				||path.indexOf("archives")>-1||path.indexOf("swfUpload")>-1||path.indexOf("enterpriseAssistant")>-1||path.indexOf("qywx")>-1
 				||path.indexOf("Wechat")>-1||path.indexOf("wechat")>-1){

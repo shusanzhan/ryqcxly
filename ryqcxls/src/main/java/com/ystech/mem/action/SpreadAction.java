@@ -14,7 +14,6 @@ import net.sf.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.ystech.agent.model.AgentSet;
 import com.ystech.agent.service.AgentSetManageImpl;
 import com.ystech.core.dao.Page;
 import com.ystech.core.security.SecurityUserHolder;
@@ -24,10 +23,8 @@ import com.ystech.core.util.PathUtil;
 import com.ystech.core.web.BaseController;
 import com.ystech.mem.model.Spread;
 import com.ystech.mem.model.SpreadDetail;
-import com.ystech.mem.model.SpreadGroup;
 import com.ystech.mem.service.SpreadDetailManageImpl;
 import com.ystech.mem.service.SpreadDetailRecordManageImpl;
-import com.ystech.mem.service.SpreadGroupManageImpl;
 import com.ystech.mem.service.SpreadManageImpl;
 import com.ystech.weixin.model.WeixinAccount;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
@@ -41,8 +38,6 @@ public class SpreadAction extends BaseController{
 	private SpreadManageImpl spreadManageImpl;
 	private SpreadDetailManageImpl spreadDetailManageImpl;
 	private SpreadDetail spreadDetail;
-	private SpreadGroup spreadGroup;
-	private SpreadGroupManageImpl spreadGroupManageImpl;
 	private SpreadDetailRecordManageImpl spreadDetailRecordManageImpl;
 	private WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
@@ -59,12 +54,6 @@ public class SpreadAction extends BaseController{
 	public void setSpreadDetail(SpreadDetail spreadDetail) {
 		this.spreadDetail = spreadDetail;
 	}
-	public SpreadGroup getSpreadGroup() {
-		return spreadGroup;
-	}
-	public void setSpreadGroup(SpreadGroup spreadGroup) {
-		this.spreadGroup = spreadGroup;
-	}
 	@Resource
 	public void setSpreadManageImpl(SpreadManageImpl spreadManageImpl) {
 		this.spreadManageImpl = spreadManageImpl;
@@ -72,10 +61,6 @@ public class SpreadAction extends BaseController{
 	@Resource
 	public void setSpreadDetailManageImpl(SpreadDetailManageImpl spreadDetailManageImpl) {
 		this.spreadDetailManageImpl = spreadDetailManageImpl;
-	}
-	@Resource
-	public void setSpreadGroupManageImpl(SpreadGroupManageImpl spreadGroupManageImpl) {
-		this.spreadGroupManageImpl = spreadGroupManageImpl;
 	}
 	@Resource
 	public void setSpreadDetailRecordManageImpl(SpreadDetailRecordManageImpl spreadDetailRecordManageImpl) {
@@ -142,16 +127,13 @@ public class SpreadAction extends BaseController{
 		String name = request.getParameter("name");
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			String sql="select * from mem_Spread where enterpriseId="+enterprise.getDbid();
-			if(spreadId>0){
-				List<Spread> spreads=spreadManageImpl.executeSql(sql,null);
-				request.setAttribute("spreads", spreads);
-				List<SpreadGroup> spreadGroups = spreadGroupManageImpl.findBy("spread.dbid", spreadId);
-				request.setAttribute("spreadGroups", spreadGroups);
-			}else{
-				List<SpreadGroup> spreadGroups = spreadGroupManageImpl.getAll();
-				request.setAttribute("spreadGroups", spreadGroups);
+			String sql="select * from mem_Spread where 1=1 ";
+			if(enterprise.getDbid()>0){
+				sql=sql+" AND enterpriseId="+enterprise.getDbid();
 			}
+			List<Spread> spreads = spreadManageImpl.executeSql(sql, null);
+			request.setAttribute("spreads", spreads);
+			
 			String sql2="select * from mem_spreaddetail spreadd where 1=1 ";
 			List params=new ArrayList();
 			if(enterprise.getDbid()>0){
@@ -189,9 +171,6 @@ public class SpreadAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", -1);
 		try {
-			List<SpreadGroup> spreadGroups = spreadGroupManageImpl.findBy("spread.dbid", spreadId);
-			request.setAttribute("spreadGroups", spreadGroups);
-			
 			Spread spread2 = spreadManageImpl.get(spreadId);
 			request.setAttribute("spread", spread2);
 		} catch (Exception e) {
@@ -213,34 +192,10 @@ public class SpreadAction extends BaseController{
 			Spread spread2 = spreadManageImpl.get(spreadId);
 			request.setAttribute("spread", spread2);
 			
-			SpreadGroup spreadGroup2 = spreadGroupManageImpl.get(dbid);
-			request.setAttribute("spreadGroup", spreadGroup2);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return "editSpreadGroup";
-	}
-	/**
-	 * 功能描述：保存分组
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void saveSpreadGroup() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", -1);
-		try {
-			Spread spread2 = spreadManageImpl.get(spreadId);
-			spreadGroup.setSpread(spread2);;
-			spreadGroupManageImpl.save(spreadGroup);
-		} catch (Exception e) {
-			// TODO: handle exception
-			renderErrorMsg(e, "");
-			return ;
-		}
-		renderMsgParams("/spread/spreadGroupList?spreadId="+spreadId, "保存数据成功！",spreadId+""+spreadGroup.getDbid(),spreadGroup.getDbid()+"");
-		return;
 	}
 	/**
 	 * 功能描述： 参数描述： 逻辑描述：
@@ -286,7 +241,6 @@ public class SpreadAction extends BaseController{
 			request.setAttribute("spread", spread2);
 			object.put("dbid", spread2.getDbid());
 			object.put("name", spread2.getName());
-			object.put("policyStateMentUrl", spread2.getPolicyStateMentUrl());
 			object.put("note", spread2.getNote());
 		}
 		renderJson(object.toString());
@@ -304,10 +258,8 @@ public class SpreadAction extends BaseController{
 		HttpServletRequest request = getRequest();
 		String cString="";
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null!=weixinAccount){
 				Integer dbid = spread.getDbid();
 				if(dbid==null||dbid<=0){
 					spread.setWeixinAccountId(weixinAccount.getDbid());
@@ -317,7 +269,6 @@ public class SpreadAction extends BaseController{
 					spread.setCreateDate(new Date());
 					spread.setModifyDate(new Date());
 					spreadManageImpl.save(spread);
-					
 					List<Spread> all = spreadManageImpl.getAll();
 					cString=createSperad(spread, all.size());
 				}else{
@@ -325,7 +276,6 @@ public class SpreadAction extends BaseController{
 					spread2.setName(spread.getName());
 					spread2.setNote(spread.getNote());
 					spread2.setModifyDate(new Date());
-					spread2.setPolicyStateMentUrl(spread.getPolicyStateMentUrl());
 					spreadManageImpl.save(spread2);
 					cString=spread2.getName();
 				}
@@ -357,11 +307,6 @@ public class SpreadAction extends BaseController{
 		if(null!=dbids&&dbids.length>0){
 			try {
 				for (Integer dbid : dbids) {
-					List<SpreadGroup> spreadGroups = spreadGroupManageImpl.findBy("spread.dbid", dbid);
-					if(null!=spreadGroups&&spreadGroups.size()>0){
-						renderErrorMsg(new Throwable("删除渠道失败，该渠道下包含分组信息，请先删除分组！"), "");
-						return ;
-					}
 					spreadManageImpl.deleteById(dbid);
 				}
 			} catch (Exception e) {
@@ -376,34 +321,6 @@ public class SpreadAction extends BaseController{
 		}
 		String query = ParamUtil.getQueryUrl(request);
 		renderMsg("/spread/queryList"+query, "删除数据成功！");
-		return;
-	}
-	/**
-	 * 功能描述： 
-	 * 参数描述： 
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void deleteSpreadGroup() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer[] dbids = ParamUtil.getIntArraryByDbids(request,"dbids");
-		if(null!=dbids&&dbids.length>0){
-			try {
-				for (Integer dbid : dbids) {
-					spreadGroupManageImpl.deleteById(dbid);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.error(e);
-				renderErrorMsg(e, "");
-				return ;
-			}
-		}else{
-			renderErrorMsg(new Throwable("未选中数据！"), "");
-			return ;
-		}
-		renderMsg("/spread/spreadGroupList?spreadId=", "删除数据成功！");
 		return;
 	}
 	/**
@@ -590,9 +507,7 @@ public class SpreadAction extends BaseController{
 					+ "</div>"
 					+ " <div class=\"rule-opts\" style=\"float: right;padding-right: 12px;\">"
 					+ "  <a href=\"javascript:;\" class=\"js-edit-rule\" onclick=\"editSpread("+spread.getDbid()+")\">编辑</a> "
-					+ " 	<span>-</span>"
-					+ "		 <a href=\"javascript:;\" class=\"js-edit-rule\" onclick=\"window.location.href='${ctx}/agentSet/edit?spreadId="+spread.getDbid()+"'\">设置奖励</a>"
-				;
+					+ " 	<span>-</span>";
 		if(spread.getStatus()==2){
 			text=text+ " 	<span>-</span>"
 					+ "		<a href=\"javascript:;\" class=\"js-disable-rule\" onclick=\"deleteSpread('${ctx}/spread/delete?dbids="+spread.getDbid()+"','"+spread.getDbid()+"')\">删除</a>";
@@ -606,7 +521,6 @@ public class SpreadAction extends BaseController{
 					+ "     <span style=\"color: #999999;\">扫码："+spread.getScanCodeNum()+"</span>"
 					+ "     <span style=\"color: #999999;\">分组数：0</span>"
 					+"</p>"
-					+ "<p><a href=\"javascript:void(-1)\" onclick=\"addSpreadGroup("+spread.getDbid()+")\" >创建分组</a></p>"
 							+ "<div id=\"spreadDetail"+spread.getDbid()+"\" class=\"keyword-list\">"
 							+ "</div>"
 					+ "</div>"
@@ -614,31 +528,6 @@ public class SpreadAction extends BaseController{
 		+ "<div class=\"help-body-split-line\"></div>"
 		+ "</div>";
 		return text;
-	}
-	/**
-	 * 功能描述：
-	 * 参数描述：
-	 * 逻辑描述：
-	 * @return
-	 * @throws Exception
-	 */
-	public void ajaxSpreadGroup() throws Exception {
-		HttpServletRequest request = this.getRequest();
-		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", -1);
-		StringBuffer buffer=new StringBuffer();
-		try {
-			List<SpreadGroup> spreadGroups = spreadGroupManageImpl.findBy("spread.dbid", spreadId);
-			buffer.append("<option value=\"0\">请选择...</option>");
-			for (SpreadGroup spreadGroup : spreadGroups) {
-				buffer.append("<option value='"+spreadGroup.getDbid()+"'>"+spreadGroup.getName()+"</option>");
-			}
-		} catch (Exception e) {
-			buffer.append("<option value=\"0\">请选择...</option>");
-			renderText(buffer.toString());
-			return;
-		}
-		renderText(buffer.toString());
-		return;
 	}
 	/**
 	 * 功能描述：

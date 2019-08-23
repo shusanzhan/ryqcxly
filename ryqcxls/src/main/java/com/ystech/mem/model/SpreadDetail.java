@@ -36,7 +36,6 @@ public class SpreadDetail implements java.io.Serializable {
 	
 	private WeixinKeyWordRole weixinKeyWordRole;
 	
-	private SpreadGroup spreadGroup;
 	private Spread spread;
 	
 	//启用状态1、为启用；2、失效
@@ -149,13 +148,6 @@ public class SpreadDetail implements java.io.Serializable {
 		this.orderNum = orderNum;
 	}
 
-	public SpreadGroup getSpreadGroup() {
-		return spreadGroup;
-	}
-
-	public void setSpreadGroup(SpreadGroup spreadGroup) {
-		this.spreadGroup = spreadGroup;
-	}
 
 	public Spread getSpread() {
 		return spread;

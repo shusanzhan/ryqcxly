@@ -32,10 +32,8 @@ import com.ystech.core.web.BaseController;
 import com.ystech.mem.model.MemberShipLevel;
 import com.ystech.mem.model.Spread;
 import com.ystech.mem.model.SpreadDetail;
-import com.ystech.mem.model.SpreadGroup;
 import com.ystech.mem.service.MemberShipLevelManagImpl;
 import com.ystech.mem.service.SpreadDetailManageImpl;
-import com.ystech.mem.service.SpreadGroupManageImpl;
 import com.ystech.mem.service.SpreadManageImpl;
 import com.ystech.weixin.core.util.WeixinUtil;
 import com.ystech.weixin.model.WeixinAccesstoken;
@@ -51,7 +49,6 @@ import com.ystech.xwqr.model.sys.Enterprise;
 public class SpreadDetailAction extends BaseController{
 	private SpreadDetailManageImpl spreadDetailManageImpl;
 	private SpreadManageImpl spreadManageImpl;
-	private SpreadGroupManageImpl spreadGroupManageImpl;
 	private SpreadDetail spreadDetail;
 	private WeixinAccesstokenManageImpl weixinAccesstokenManageImpl;
 	private MemberShipLevelManagImpl memberShipLevelManagImpl;
@@ -74,10 +71,6 @@ public class SpreadDetailAction extends BaseController{
 	@Resource
 	public void setSpreadManageImpl(SpreadManageImpl spreadManageImpl) {
 		this.spreadManageImpl = spreadManageImpl;
-	}
-	@Resource
-	public void setSpreadGroupManageImpl(SpreadGroupManageImpl spreadGroupManageImpl) {
-		this.spreadGroupManageImpl = spreadGroupManageImpl;
 	}
 	@Resource
 	public void setWeixinAccesstokenManageImpl(WeixinAccesstokenManageImpl weixinAccesstokenManageImpl) {
@@ -109,7 +102,7 @@ public class SpreadDetailAction extends BaseController{
 			Spread spread = spreadManageImpl.get(spreadId);
 			request.setAttribute("spread", spread);
 			
-			String sql="select * from pllm_s_SpreadDetail where spreadId=?";
+			String sql="select * from pllm_s_SpreadDetail where spreadId=? ";
 			List params=new ArrayList();
 			params.add(spreadId);
 			Page<SpreadDetail> page=spreadDetailManageImpl.pagedQuerySql(pageNo, pageSize,SpreadDetail.class, sql, params.toArray());
@@ -149,9 +142,6 @@ public class SpreadDetailAction extends BaseController{
 				
 				request.setAttribute("spread", spreadDetail2.getSpread());
 				
-				List<SpreadGroup> spreadGroups = spreadGroupManageImpl.findBy("spread.dbid", spreadDetail2.getSpread().getDbid());
-				request.setAttribute("spreadGroups", spreadGroups);
-				
 			}
 		} catch (Exception e) {
 		}
@@ -173,78 +163,72 @@ public class SpreadDetailAction extends BaseController{
 		Integer spreadGroupId = ParamUtil.getIntParam(request, "spreadGroupId", 1);
 		try{
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=weixinAccounts&&weixinAccounts.size()>0){
-				WeixinAccount weixinAccount = weixinAccounts.get(0);
-				Spread spread = spreadManageImpl.get(spreadId);
-				spreadDetail.setSpread(spread);
-				SpreadGroup spreadGroup = spreadGroupManageImpl.get(spreadGroupId);
-				spreadDetail.setSpreadGroup(spreadGroup);
-				Integer dbid = spreadDetail.getDbid();
-				if(dbid==null||dbid<=0){
-					String formatFile = DateUtil.formatFile(new Date());
-					String calcMD5 = Md5.calcMD5(formatFile);
-					spreadDetail.setCreateDate(new Date());
-					spreadDetail.setModifyDate(new Date());
-					spreadDetail.setSpreadNum(0);
-					spreadDetail.setScanNum(0);
-					spreadDetail.setStatus(1);
-					spreadDetail.setSceneStr(calcMD5);
-					spreadDetailManageImpl.save(spreadDetail);
-					
-					//设置回复规则
-					WeixinKeyWordRole weixinKeyWordRole=new WeixinKeyWordRole();
-					weixinKeyWordRole.setCreateDate(new Date());
-					weixinKeyWordRole.setModifyDate(new Date());
-					//参数二维码
-					weixinKeyWordRole.setType(2);
-					weixinKeyWordRole.setSpreadDetail(spreadDetail);
-					weixinKeyWordRole.setName(spreadDetail.getName());
-					weixinKeyWordRole.setAccountid(weixinAccount.getDbid());
-					weixinKeyWordRoleManageImpl.save(weixinKeyWordRole);
-					
-					WeixinAccesstoken accessToken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
-					String createQrCodeUrl = WeixinUtil.CREATEQRCODE.replace("ACCESS_TOKEN", accessToken.getAccessToken());
-					String json="{\"action_name\":\"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \""+calcMD5+"\"}}}";
-					JSONObject jsonObject = WeixinUtil.httpRequest(createQrCodeUrl, "POST", json);
-					if(null!=jsonObject){
-						String ticket = jsonObject.getString("ticket");
-						String ticketUrl = URLEncoder.encode(ticket, "UTF-8");
-						String showCodeUrl = WeixinUtil.SHOWQRCODE.replace("TICKET", ticketUrl);
-						File resourceFile = FileNameUtil.getResourceFile(spreadDetail.getSceneStr()+".jpg");
-						saveUrlFile(showCodeUrl,resourceFile);
-						String filePath = resourceFile.getAbsolutePath();
-						String replace = filePath.replaceAll("\\\\", "/").replace(PathUtil.getWebRootPath(), "");
-						spreadDetail.setTicket(ticket);
-						spreadDetail.setQrcode(replace);
-						spreadDetailManageImpl.save(spreadDetail);
-					}
-					//生成前台html
-					String createQrCode = createQrCode(spreadDetail,weixinKeyWordRole);
-					renderMsg(createQrCode, " 二维码创建成功");
-				}else{
-					SpreadDetail spreadDetail2 = spreadDetailManageImpl.get(dbid);
-					if(null==spreadDetail2.getSceneStr()||spreadDetail2.getSceneStr().trim().length()<=0){
-						String formatFile = DateUtil.formatFile(new Date());
-						String calcMD5 = Md5.calcMD5(formatFile);
-						spreadDetail2.setSceneStr(calcMD5);
-					}
-					spreadDetail2.setName(spreadDetail.getName());
-					spreadDetail2.setSpread(spreadDetail.getSpread());
-					spreadDetail2.setSpreadGroup(spreadDetail.getSpreadGroup());
-					spreadDetail2.setOrderNum(spreadDetail.getOrderNum());
-					spreadDetail2.setNote(spreadDetail.getNote());
-					spreadDetailManageImpl.save(spreadDetail2);
-					
-					JSONObject text=new JSONObject();
-					text.put("name", spreadDetail2.getName());
-					text.put("groupName", spreadDetail2.getSpreadGroup().getName());
-					text.put("spreadName", spreadDetail2.getSpread().getName());
-					renderMsg(text.toString(), "更新数据成功");
-				}
-			}else{
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(weixinAccount==null){
 				renderErrorMsg(new Throwable("无公众号信息"), "");
 				return ;
+			}
+			Spread spread = spreadManageImpl.get(spreadId);
+			spreadDetail.setSpread(spread);
+			Integer dbid = spreadDetail.getDbid();
+			if(dbid==null||dbid<=0){
+				String formatFile = DateUtil.formatFile(new Date());
+				String calcMD5 = Md5.calcMD5(formatFile);
+				spreadDetail.setCreateDate(new Date());
+				spreadDetail.setModifyDate(new Date());
+				spreadDetail.setSpreadNum(0);
+				spreadDetail.setScanNum(0);
+				spreadDetail.setStatus(1);
+				spreadDetail.setSceneStr(calcMD5);
+				spreadDetailManageImpl.save(spreadDetail);
+				
+				//设置回复规则
+				WeixinKeyWordRole weixinKeyWordRole=new WeixinKeyWordRole();
+				weixinKeyWordRole.setCreateDate(new Date());
+				weixinKeyWordRole.setModifyDate(new Date());
+				//参数二维码
+				weixinKeyWordRole.setType(2);
+				weixinKeyWordRole.setSpreadDetail(spreadDetail);
+				weixinKeyWordRole.setName(spreadDetail.getName());
+				weixinKeyWordRole.setAccountid(weixinAccount.getDbid());
+				weixinKeyWordRoleManageImpl.save(weixinKeyWordRole);
+				
+				WeixinAccesstoken accessToken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl, weixinAccount);
+				String createQrCodeUrl = WeixinUtil.CREATEQRCODE.replace("ACCESS_TOKEN", accessToken.getAccessToken());
+				String json="{\"action_name\":\"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \""+calcMD5+"\"}}}";
+				JSONObject jsonObject = WeixinUtil.httpRequest(createQrCodeUrl, "POST", json);
+				if(null!=jsonObject){
+					String ticket = jsonObject.getString("ticket");
+					String ticketUrl = URLEncoder.encode(ticket, "UTF-8");
+					String showCodeUrl = WeixinUtil.SHOWQRCODE.replace("TICKET", ticketUrl);
+					File resourceFile = FileNameUtil.getResourceFile(spreadDetail.getSceneStr()+".jpg");
+					saveUrlFile(showCodeUrl,resourceFile);
+					String filePath = resourceFile.getAbsolutePath();
+					String replace = filePath.replaceAll("\\\\", "/").replace(PathUtil.getWebRootPath(), "");
+					spreadDetail.setTicket(ticket);
+					spreadDetail.setQrcode(replace);
+					spreadDetailManageImpl.save(spreadDetail);
+				}
+				//生成前台html
+				String createQrCode = createQrCode(spreadDetail,weixinKeyWordRole);
+				renderMsg(createQrCode, " 二维码创建成功");
+			}else{
+				SpreadDetail spreadDetail2 = spreadDetailManageImpl.get(dbid);
+				if(null==spreadDetail2.getSceneStr()||spreadDetail2.getSceneStr().trim().length()<=0){
+					String formatFile = DateUtil.formatFile(new Date());
+					String calcMD5 = Md5.calcMD5(formatFile);
+					spreadDetail2.setSceneStr(calcMD5);
+				}
+				spreadDetail2.setName(spreadDetail.getName());
+				spreadDetail2.setSpread(spreadDetail.getSpread());
+				spreadDetail2.setOrderNum(spreadDetail.getOrderNum());
+				spreadDetail2.setNote(spreadDetail.getNote());
+				spreadDetailManageImpl.save(spreadDetail2);
+				
+				JSONObject text=new JSONObject();
+				text.put("name", spreadDetail2.getName());
+				text.put("spreadName", spreadDetail2.getSpread().getName());
+				renderMsg(text.toString(), "更新数据成功");
 			}
 		}catch (Exception e) {
 			log.error(e);
@@ -281,7 +265,7 @@ public class SpreadDetailAction extends BaseController{
 							buffer.append("  <a href=\"javascript:;\" class=\"pull-right opt js-download-qrcode\" onclick=\"window.location.href='${ctx}/spread/downloand?dbid="+spreadDetail.getDbid()+"'\">下载二维码</a>");
 							buffer.append(" <h4>扫带参数二维码：</h4>");
 							buffer.append(" <h5 class=\"ta-c\" id=\"spreadDetailSpread"+spreadDetail.getDbid()+"\">渠道："+spreadDetail.getSpread().getName()+"</h5>");
-							buffer.append(" <h5 class=\"ta-c\" id=\"spreadDetailspreadGroup"+spreadDetail.getDbid()+"\">分组："+spreadDetail.getSpreadGroup().getName()+"</h5>");
+							buffer.append(" <h5 class=\"ta-c\" id=\"spreadDetailspreadGroup"+spreadDetail.getDbid()+"\"></h5>");
 							buffer.append(" <div class=\"qrcode-container loading\">");
 								buffer.append(" <img src=\""+spreadDetail.getQrcode()+"\">");
 							buffer.append(" </div>");

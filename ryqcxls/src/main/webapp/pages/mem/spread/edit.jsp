@@ -17,7 +17,7 @@
 <div class="location">
      	<img src="${ctx}/images/homeIcon.png"/> &nbsp;
      	<a href="javascript:void(-1);" onclick="window.parent.location.href='${ctx}/main/index'">首页</a>-
-<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/spread/queryList'">渠道管理</a>-
+<a href="javascript:void(-1);" onclick="window.location.href='${ctx}/memSpread/queryList'">渠道管理</a>-
 <a href="javascript:void(-1);">
 	<c:if test="${empty(spread) }">添加渠道</c:if>
 	<c:if test="${!empty(spread) }">编辑渠道</c:if>
@@ -34,11 +34,6 @@
 				<td ><input type="text" name="spread.name" id="name"
 					value="${spread.name }" class="largex text" title="名称"	checkType="string,2,12" tip="长度在2到12个字符之间，不能与已有渠道重复"><span style="color: red;">*</span></td>
 			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">政策链接:&nbsp;</td>
-				<td ><input type="text" name="spread.policyStateMentUrl" id="policyStateMentUrl"
-					value="${spread.policyStateMentUrl }" class="largex text" title="政策链接"	checkType="url" tip="政策链接"><span style="color: red;">*</span></td>
-			</tr>
 			<tr height="32">
 				<td class="formTableTdLeft">备注:&nbsp;</td>
 				<td>
@@ -48,7 +43,7 @@
 		</table>
 	</form>
 	<div class="formButton">
-		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/spread/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
+		<a href="javascript:void(-1)"	onclick="$.utile.submitForm('frmId','${ctx}/memSpread/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
 	    <a href="javascript:void(-1)"	onclick="window.history.go(-1)" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
 	</div>
