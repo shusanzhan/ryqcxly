@@ -43,6 +43,7 @@ import com.ystech.weixin.service.WeixinAccesstokenManageImpl;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
 import com.ystech.weixin.service.WeixinKeyWordRoleManageImpl;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.service.sys.EnterpriseManageImpl;
 
 @Component("spreadDetailAction")
 @Scope("prototype")
@@ -54,6 +55,7 @@ public class SpreadDetailAction extends BaseController{
 	private MemberShipLevelManagImpl memberShipLevelManagImpl;
 	private WeixinKeyWordRoleManageImpl weixinKeyWordRoleManageImpl;
 	private WeixinAccountManageImpl weixinAccountManageImpl;
+	private EnterpriseManageImpl enterpriseManageImpl;
 	public SpreadDetail getSpreadDetail() {
 		return spreadDetail;
 	}
@@ -85,6 +87,10 @@ public class SpreadDetailAction extends BaseController{
 	public void setWeixinKeyWordRoleManageImpl(WeixinKeyWordRoleManageImpl weixinKeyWordRoleManageImpl) {
 		this.weixinKeyWordRoleManageImpl = weixinKeyWordRoleManageImpl;
 	}
+	@Resource
+	public void setEnterpriseManageImpl(EnterpriseManageImpl enterpriseManageImpl) {
+		this.enterpriseManageImpl = enterpriseManageImpl;
+	}
 	/**
 	 * 功能描述：
 	 * 参数描述： 
@@ -102,7 +108,7 @@ public class SpreadDetailAction extends BaseController{
 			Spread spread = spreadManageImpl.get(spreadId);
 			request.setAttribute("spread", spread);
 			
-			String sql="select * from pllm_s_SpreadDetail where spreadId=? ";
+			String sql="select * from mem_SpreadDetail where spreadId=? ";
 			List params=new ArrayList();
 			params.add(spreadId);
 			Page<SpreadDetail> page=spreadDetailManageImpl.pagedQuerySql(pageNo, pageSize,SpreadDetail.class, sql, params.toArray());
@@ -161,11 +167,16 @@ public class SpreadDetailAction extends BaseController{
 		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", 1);
 		Integer type = ParamUtil.getIntParam(request, "type", 1);
 		Integer spreadGroupId = ParamUtil.getIntParam(request, "spreadGroupId", 1);
+		Integer enterpriseId = ParamUtil.getIntParam(request, "enterpriseId", 1);
 		try{
-			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
 			if(weixinAccount==null){
 				renderErrorMsg(new Throwable("无公众号信息"), "");
+				return ;
+			}
+			Enterprise enterprise2 = enterpriseManageImpl.get(enterpriseId);
+			if(enterprise2==null){
+				renderErrorMsg(new Throwable("无公经销商信息"), "");
 				return ;
 			}
 			Spread spread = spreadManageImpl.get(spreadId);
@@ -180,6 +191,7 @@ public class SpreadDetailAction extends BaseController{
 				spreadDetail.setScanNum(0);
 				spreadDetail.setStatus(1);
 				spreadDetail.setSceneStr(calcMD5);
+				spreadDetail.setEnterpriseId(enterpriseId);
 				spreadDetailManageImpl.save(spreadDetail);
 				
 				//设置回复规则
@@ -223,6 +235,7 @@ public class SpreadDetailAction extends BaseController{
 				spreadDetail2.setSpread(spreadDetail.getSpread());
 				spreadDetail2.setOrderNum(spreadDetail.getOrderNum());
 				spreadDetail2.setNote(spreadDetail.getNote());
+				spreadDetail2.setEnterpriseId(enterpriseId);
 				spreadDetailManageImpl.save(spreadDetail2);
 				
 				JSONObject text=new JSONObject();
@@ -244,7 +257,7 @@ public class SpreadDetailAction extends BaseController{
 	 * @return
 	 */
 	private String createQrCode(SpreadDetail spreadDetail,WeixinKeyWordRole weixinKeyWordRole){
-		long num = spreadDetailManageImpl.countSqlResult("select count(*) from pllm_s_spreaddetail",null);
+		long num = spreadDetailManageImpl.countSqlResult("select count(*) from mem_spreaddetail",null);
 		StringBuffer buffer=new StringBuffer();
 		buffer.append("<div class=\"rule-group\" id=\"rule-group"+spreadDetail.getDbid()+"\">");
 			buffer.append("<div class=\"rule-meta\">");

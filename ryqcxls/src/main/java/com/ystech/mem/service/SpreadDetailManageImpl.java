@@ -118,6 +118,7 @@ public class SpreadDetailManageImpl extends HibernateEntityDao<SpreadDetail>{
 			spreadDetail.setSpreadNum(0);
 			spreadDetail.setScanNum(0);
 			spreadDetail.setStatus(1);
+			spreadDetail.setEnterpriseId(enterprise.getDbid());
 			spreadDetail.setSceneStr(calcMD5);
 			spreadDetail.setWeixinGzuserinfo(weixinGzuserinfo);
 			spreadDetailManageImpl.save(spreadDetail);

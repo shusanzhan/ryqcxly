@@ -47,6 +47,9 @@
         <property name="status" type="java.lang.Integer">
             <column name="status" />
         </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
         <many-to-one name="weixinGzuserinfo" class="com.ystech.weixin.model.WeixinGzuserinfo" column="weixinGzuserinfoId" not-found="ignore" fetch="select"></many-to-one>
         <many-to-one name="spread" class="com.ystech.mem.model.Spread" column="spreadId" not-found="ignore" fetch="select"></many-to-one>
         <many-to-one name="memberShipLevel" class="com.ystech.mem.model.MemberShipLevel" column="memberShipLevelId" not-found="ignore" fetch="select"></many-to-one>

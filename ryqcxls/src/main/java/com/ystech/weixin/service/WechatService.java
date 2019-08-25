@@ -432,6 +432,7 @@ public class WechatService {
 			SpreadDetail spreadDetail = saveSpreadDetail(requestMap,1,weixinGzuserinfo);
 			//参数二维码不为空优先返回参数二维码设置回复内容
 			if(null!=spreadDetail){
+				weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getDbid());
 				WeixinKeyWordRole weixinKeyWordRole = spreadDetail.getWeixinKeyWordRole();
 				if(null!=weixinKeyWordRole){
 					WeixinKeyAutoresponse weixinKeyAutoRespose = getWeixinKeyAutoRespose(weixinKeyWordRole);
@@ -534,6 +535,7 @@ public class WechatService {
 		SpreadDetail spreadDetail = saveSpreadDetail(requestMap,2,weixinGzuserinfo);
 		//参数二维码不为空优先返回参数二维码设置回复内容
 		if(null!=spreadDetail){
+			weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getDbid());
 			WeixinKeyWordRole weixinKeyWordRole = spreadDetail.getWeixinKeyWordRole();
 			if(null!=weixinKeyWordRole){
 				WeixinKeyAutoresponse weixinKeyAutoRespose = getWeixinKeyAutoRespose(weixinKeyWordRole);

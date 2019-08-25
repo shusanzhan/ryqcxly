@@ -93,7 +93,7 @@ public class SpreadAction extends BaseController{
 		String name = request.getParameter("name");
 		try {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
-			String sql="select * from pllm_S_Spread where 1=1 ";
+			String sql="select * from mem_Spread where 1=1 ";
 			List params=new ArrayList();
 			if(enterprise.getDbid()>0){
 				sql=sql+" AND enterpriseId=? ";
@@ -358,15 +358,15 @@ public class SpreadAction extends BaseController{
 			}
 			
 			//扫描次数
-			String scanCountSql="SELECT COUNT(*) FROM pllm_s_spreaddetailrecord WHERE 1=1 "+dateSql;
+			String scanCountSql="SELECT COUNT(*) FROM mem_spreaddetailrecord WHERE 1=1 "+dateSql;
 			Object scanCount = spreadManageImpl.count(scanCountSql, null);
 			request.setAttribute("scanCount", scanCount);
 			//扫描人数
-			String scanGzUserCountSql="SELECT COUNT(*) FROM pllm_s_spreaddetailrecord WHERE 1=1 "+dateSql;
+			String scanGzUserCountSql="SELECT COUNT(*) FROM mem_spreaddetailrecord WHERE 1=1 "+dateSql;
 			Object scanGzUserCount = spreadManageImpl.count(scanGzUserCountSql, null);
 			request.setAttribute("scanGzUserCount", scanGzUserCount);
 			//新增人数
-			String scanNewGzUserCountSql="SELECT COUNT(*) FROM pllm_s_spreaddetailrecord WHERE 1=1 and type=1 "+dateSql;
+			String scanNewGzUserCountSql="SELECT COUNT(*) FROM mem_spreaddetailrecord WHERE 1=1 and type=1 "+dateSql;
 			Object scanNewGzUserCount = spreadManageImpl.count(scanNewGzUserCountSql, null);
 			request.setAttribute("scanNewGzUserCount", scanNewGzUserCount);
 			
@@ -395,7 +395,7 @@ public class SpreadAction extends BaseController{
 			
 			
 			//扫描记录
-			/*String scanSql="SELECT * FROM pllm_s_spreaddetailrecord WHERE 1=1 "+dateSql;
+			/*String scanSql="SELECT * FROM mem_spreaddetailrecord WHERE 1=1 "+dateSql;
 			List<SpreadDetailRecord> spreadDetailRecords = spreadDetailRecordManageImpl.executeSql(scanSql, null);
 			request.setAttribute("spreadDetailRecords", spreadDetailRecords);*/
 			
@@ -417,8 +417,8 @@ public class SpreadAction extends BaseController{
 	 */
 	public List<Spread> createSpreadTable(List<Spread> spreads,String dateSql) throws Exception {
 		for (Spread spread : spreads) {
-			String countSql="SELECT COUNT(*) FROM pllm_s_spreaddetailrecord WHERE 1=1 and spreadId="+spread.getDbid()+"  "+dateSql;
-			String newSql="SELECT COUNT(*) FROM pllm_s_spreaddetailrecord WHERE 1=1 and spreadId="+spread.getDbid()+" and type=1 "+dateSql;
+			String countSql="SELECT COUNT(*) FROM mem_spreaddetailrecord WHERE 1=1 and spreadId="+spread.getDbid()+"  "+dateSql;
+			String newSql="SELECT COUNT(*) FROM mem_spreaddetailrecord WHERE 1=1 and spreadId="+spread.getDbid()+" and type=1 "+dateSql;
 			BigInteger countNum = spreadManageImpl.count(countSql,null);
 			BigInteger countNewNum = spreadManageImpl.count(newSql,null);
 			if(null!=countNum){

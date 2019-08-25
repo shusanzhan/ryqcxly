@@ -19,11 +19,11 @@ public class SpreadManageImpl extends HibernateEntityDao<Spread>{
 		String sql="SELECT "
 				+ "sre.`name`,IFNULL(A.countNum,0) AS countNum "
 				+ "FROM  "
-				+ "pllm_s_spread sre "
+				+ "mem_spread sre "
 				+ "LEFT JOIN "
 				+ "( "
 				+ "SELECT spread.dbid,COUNT(spread.dbid) AS countNum FROM "
-				+ "pllm_s_spreaddetailrecord sr,pllm_s_spread spread "
+				+ "mem_spreaddetailrecord sr,mem_spread spread "
 				+ "WHERE "
 				+ "sr.spreadId=spread.dbid "+dateSql
 				+ "GROUP BY "

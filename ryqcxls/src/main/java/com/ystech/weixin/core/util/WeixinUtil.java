@@ -504,6 +504,7 @@ public class WeixinUtil {
                          WeixinAccesstoken ticketAccessToken = getTicketAccessToken(accessToken);
                          saveAccessToken(ticketAccessToken,weixinAccesstokenManageImpl);
                      } catch (Exception e) {
+                    	e.printStackTrace();
                          accessToken = null;
                          // 获取token失败
                          String wrongMessage = "获取token失败 errcode:{} errmsg:{}"+jsonObject.getInt("errcode")+jsonObject.getString("errmsg");

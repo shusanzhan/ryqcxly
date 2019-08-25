@@ -84,8 +84,8 @@ public class MemberWechatAction extends BaseController{
 	private MemberManageImpl memberManageImpl;
 	private UserManageImpl userManageImpl;
 	private CouponMemberManageImpl couponMemberManageImpl;
-	private Member member;
 	private MemberInfo memberInfo;
+	private Member member;
 	private PointRecordManageImpl pointRecordManageImpl;
 	private MemberInfoManageImpl memberInfoManageImpl;
 	private MemberCarInfoManageImpl memberCarInfoManageImpl;
@@ -299,7 +299,7 @@ public class MemberWechatAction extends BaseController{
 			}
 			//经纪人设置信息
 			AgentSet agentSet=null;
-			Enterprise enterprise = member.getEnterprise();
+			Enterprise enterprise = member2.getEnterprise();
 			Spread spread = member2.getSpread();
 			if((null!=enterprise)&&null!=spread){
 				List<AgentSet> agentSets = agentSetManageImpl.find("from AgentSet where enterpriseId=? AND spreadId=? ", new Object[]{enterprise.getDbid(),spread.getDbid()});

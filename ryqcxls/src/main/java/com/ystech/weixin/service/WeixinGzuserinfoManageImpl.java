@@ -185,6 +185,21 @@ public class WeixinGzuserinfoManageImpl extends HibernateEntityDao<WeixinGzuseri
 		}
 		return weixinGzuserinfo;
 	}
+	/**
+	 * 功能描述：更新关注用户的经销商信息
+	 * 参数描述：
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public WeixinGzuserinfo updateEnterprise(WeixinGzuserinfo weixinGzuserinfo,int enterpriseId) {
+		if(null==weixinGzuserinfo){
+			return null;
+		}
+		weixinGzuserinfo.setEnterpriseId(enterpriseId);
+		save(weixinGzuserinfo);
+		return weixinGzuserinfo;
+	}
 	//批量同步数据
 	public WeixinGzuserinfo saveGzuserinfo(String openId,String accessToken,Integer accountId){
 		try {
@@ -485,7 +500,6 @@ public class WeixinGzuserinfoManageImpl extends HibernateEntityDao<WeixinGzuseri
 				member.setModifyTime(new Date());
 				//设置企业号ID
 				Enterprise enterprise = enterpriseManageImpl.get(weixinGzuserinfo.getEnterpriseId());
-				member.setEnterprise(enterprise);
 				member.setMicroId(weixinGzuserinfo.getOpenid());
 				//是否同步到微信平台
 				member.setWeixinGzuserinfo(weixinGzuserinfo);
