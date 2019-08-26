@@ -32,7 +32,7 @@
         <property name="appId" type="java.lang.Integer">
             <column name="appId" />
         </property>
-        <property name="security" type="java.lang.Integer">
+        <property name="security" type="string">
             <column name="security" />
         </property>
     </class>

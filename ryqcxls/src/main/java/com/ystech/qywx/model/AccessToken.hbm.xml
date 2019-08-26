@@ -20,5 +20,8 @@
         <property name="expiresIn" type="java.lang.Integer">
             <column name="expires_in" />
         </property>
+        <property name="appId" type="java.lang.Integer">
+            <column name="appId" />
+        </property>
     </class>
 </hibernate-mapping>

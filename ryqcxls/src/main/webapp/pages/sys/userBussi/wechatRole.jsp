@@ -42,7 +42,7 @@
 			</thead>
 				<tr height="32" align="center">
 					<td>${user.userId }</td>
-					<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; ${user.staff.sex }</td>
+					<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; </td>
 					<td align="left" style="text-align: left;">${user.department.name }</td>
 					<td align="left">${user.mobilePhone }</td>
 					<td align="left">${user.email }</td>
@@ -77,7 +77,7 @@
 					</td>
 				</tr>
 			</table>
-	<div class="frmTitle" onclick="showOrHiden('contactTable')">红包权限状态</div>
+	<%-- <div class="frmTitle" onclick="showOrHiden('contactTable')">红包权限状态</div>
 	<c:if test="${empty(appUser) }">
 		还未配置用户红包权限。
 		<a href="JavaScript:void(-1)" style="color: #2b7dbc" onclick="window.open('${ctx}}/app/queryList')">同步应用用户</a>
@@ -102,7 +102,7 @@
 		</thead>
 		<tr height="32" align="center">
 			<td>${user.userId }</td>
-			<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; ${user.staff.sex }</td>
+			<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; </td>
 			<td align="left" style="text-align: left;">${user.department.name }</td>
 			<td align="left">${user.mobilePhone }</td>
 			<td align="left">${user.email }</td>
@@ -127,7 +127,7 @@
 			</td>
 		</tr>
 	</table>	
-	</c:if>
+	</c:if> --%>
 		
 	</form>
 </div>

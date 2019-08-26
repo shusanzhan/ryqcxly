@@ -432,7 +432,7 @@ public class WechatService {
 			SpreadDetail spreadDetail = saveSpreadDetail(requestMap,1,weixinGzuserinfo);
 			//参数二维码不为空优先返回参数二维码设置回复内容
 			if(null!=spreadDetail){
-				weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getDbid());
+				weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getEnterpriseId());
 				WeixinKeyWordRole weixinKeyWordRole = spreadDetail.getWeixinKeyWordRole();
 				if(null!=weixinKeyWordRole){
 					WeixinKeyAutoresponse weixinKeyAutoRespose = getWeixinKeyAutoRespose(weixinKeyWordRole);
@@ -535,7 +535,7 @@ public class WechatService {
 		SpreadDetail spreadDetail = saveSpreadDetail(requestMap,2,weixinGzuserinfo);
 		//参数二维码不为空优先返回参数二维码设置回复内容
 		if(null!=spreadDetail){
-			weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getDbid());
+			weixinGzuserinfoManageImpl.updateEnterprise(weixinGzuserinfo, spreadDetail.getEnterpriseId());
 			WeixinKeyWordRole weixinKeyWordRole = spreadDetail.getWeixinKeyWordRole();
 			if(null!=weixinKeyWordRole){
 				WeixinKeyAutoresponse weixinKeyAutoRespose = getWeixinKeyAutoRespose(weixinKeyWordRole);
@@ -823,7 +823,6 @@ public class WechatService {
 				return weixinKeyWord;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
@@ -971,7 +970,7 @@ public class WechatService {
 				spreadDetailRecordManageImpl.save(spreadDetailRecord);
 				
 				//如果设置会员标签、会员等级
-				Member member = weixinGzuserinfo.getMember();
+				Member member = memberManageImpl.findByOpenId(weixinGzuserinfo.getOpenid());
 				if(null!=member){
 					MemberShipLevel memberShipLevel = spreadDetail.getMemberShipLevel();
 					if(null!=memberShipLevel){
@@ -998,7 +997,7 @@ public class WechatService {
 	 */
 	private void sendAgentMessage(WeixinGzuserinfo weixinGzuserinfo){
 		if(null!=weixinGzuserinfo){
-			Member member = weixinGzuserinfo.getMember();
+			Member member = memberManageImpl.findByOpenId(weixinGzuserinfo.getOpenid());
 			if(null!=member){
 				String sql="SELECT * FROM weixin_keyword where (keyword='"+KEY_WORD+"' AND matchingType=1 ) or (keyword LIKE '%"+KEY_WORD+"%' AND matchingType=2)";
 				List<WeixinKeyWord> weixinKeyWords = weixinKeyWordManageImpl.executeSql(sql,null);

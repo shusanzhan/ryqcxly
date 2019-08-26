@@ -35,7 +35,6 @@ public class WeixinGzuserinfo implements java.io.Serializable {
 	private SpreadDetail spreadDetail;
 	//会员类型 1、默认；2、渠道商
 	private Integer memType;
-	private Member member;
 	private Integer enterpriseId;
 	public WeixinGzuserinfo() {
 	}
@@ -227,13 +226,6 @@ public class WeixinGzuserinfo implements java.io.Serializable {
 		this.spreadDetail = spreadDetail;
 	}
 
-	public Member getMember() {
-		return member;
-	}
-
-	public void setMember(Member member) {
-		this.member = member;
-	}
 
 	public Integer getMemType() {
 		return memType;

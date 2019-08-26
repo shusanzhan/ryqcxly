@@ -196,8 +196,17 @@ public class WeixinGzuserinfoManageImpl extends HibernateEntityDao<WeixinGzuseri
 		if(null==weixinGzuserinfo){
 			return null;
 		}
+		logger.error("begin:updateEnterprise,enterpriseId:"+enterpriseId);
 		weixinGzuserinfo.setEnterpriseId(enterpriseId);
 		save(weixinGzuserinfo);
+		Member member = memberManageImpl.findByOpenId(weixinGzuserinfo.getOpenid());
+		if(member!=null){
+			Enterprise enterprise = enterpriseManageImpl.get(enterpriseId);
+			member.setEnterprise(enterprise);
+			memberManageImpl.save(member);
+		}
+		
+		logger.error("end:updateEnterprise,enterpriseId:"+enterpriseId);
 		return weixinGzuserinfo;
 	}
 	//批量同步数据

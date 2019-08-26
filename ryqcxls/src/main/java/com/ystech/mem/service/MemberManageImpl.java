@@ -302,5 +302,18 @@ public class MemberManageImpl extends HibernateEntityDao<Member>{
 		member.setOveragePiont(overagePiont);
 		save(member);
 	}
-	
+	/**
+	 * 通过微信open查询会员
+	 * @param openId
+	 * @return
+	 */
+	public Member findByOpenId(String openId){
+		Member member=null;
+		List<Member> members = findBy("microId", openId);
+		if(members!=null&&!members.isEmpty()){
+			member = members.get(0);
+		}
+		return member;
+		
+	}
 }

@@ -740,7 +740,6 @@ public class MemberAction extends BaseController{
 			try {
 				for (Integer dbid : dbids) {
 					pointRecordManageImpl.deleteByMemberId("delete from mem_pointRecord where memberId="+dbid);
-					couponMemberManageImpl.deleteByMemberId("delete from mem_couponMember where memberId="+dbid);
 					memberManageImpl.deleteById(dbid);
 				}
 			} catch (Exception e) {
