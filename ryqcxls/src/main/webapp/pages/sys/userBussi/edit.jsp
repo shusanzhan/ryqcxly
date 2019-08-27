@@ -59,7 +59,7 @@ $(document).ready(function(){
 			<tr height="42">
 				<td class="formTableTdLeft" style="width: 120px;">用户ID:&nbsp;</td>
 				<td >
-					<input type="text" name="user.userId" id="userId" ${empty(userAdmin)==true?'':'readonly="readonly"'}  value="${userAdmin.userId }" class="large text" title="用户ID" checkType="string,3,20" tip="用户名不能为空,并且5-20个字符"><span style="color: red;">*</span></td>
+					<input type="text" name="user.userId" id="userId" ${empty(userAdmin)==true?'':'readonly="readonly"'}  value="${userAdmin.userId }" class="large text" title="用户ID" placeholder="请输入手机号" checkType="mobilePhone"  tip="用户名为手机号，请输入正确的手机号"><span style="color: red;">*</span></td>
 				<td class="formTableTdLeft" style="width: 120px;">姓名:&nbsp;</td>
 				<td >
 					<input type="text" name="user.realName" id="realName"	value="${userAdmin.realName }" class="large text" title="姓名"	checkType="string,1,10" tip="真实名称不能为空"><span style="color: red;">*</span>
@@ -117,11 +117,6 @@ $(document).ready(function(){
 				</tr>
 			</c:if>
 			<tr height="32">
-				<td class="formTableTdLeft" style="width: 120px;">手机:&nbsp;</td>
-				<td>
-					<input type="text" name="user.mobilePhone" id="mobilePhone"	value="${userAdmin.mobilePhone }" class="large text"  checkType="mobilePhone" tip="请输入正确的手机号">
-					<span style="color: red;">*</span>
-				</td>
 				<td class="formTableTdLeft" style="width: 120px;">座机:&nbsp;</td>
 				<td><input type="text" name="user.phone" id="phone"		value="${userAdmin.phone }" class="large text"  checkType="phone"  canEmpty="Y" tip="请输入正确的座机号"></td>
 			</tr>

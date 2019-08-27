@@ -12,7 +12,7 @@ public class TagRoleUser {
 		userlist=new String[users.size()];
 		int i=0;
 		for (User user : users) {
-			userlist[i]=user.getUserId();
+			userlist[i]="R"+user.getUserId();
 			i++;
 		}
 	}

@@ -230,7 +230,7 @@ public class AddressUtil  {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
 			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
-			String user_update_url = QywxUtil.user_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", user.getUserId());
+			String user_update_url = QywxUtil.user_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID","R"+user.getUserId());
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "GET", null);
 			if(null!=httpRequest){
 				if(null!=httpRequest){
@@ -279,7 +279,7 @@ public class AddressUtil  {
 				int i=0;
 				for (User user2 : users) {
 					i++;
-					String user_update_url = QywxUtil.user_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", user2.getUserId());
+					String user_update_url = QywxUtil.user_get_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", "R"+user2.getUserId());
 					JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "GET", null);
 					if(null!=httpRequest){
 						if(null!=httpRequest){
@@ -324,7 +324,7 @@ public class AddressUtil  {
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
 			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
-			String user_update_url = QywxUtil.user_delete_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", user.getUserId());
+			String user_update_url = QywxUtil.user_delete_url.replace("ACCESS_TOKEN", accessToken.getAccessToken()).replace("USERID", "R"+user.getUserId());
 			JSONObject httpRequest = QywxUtil.httpRequest(user_update_url, "GET", null);
 			if(null!=httpRequest){
 				if(null!=httpRequest){
@@ -349,7 +349,7 @@ public class AddressUtil  {
 	private String josnUser(User user){
 		if(null!=user){
 			JSONObject jsonObject=new JSONObject();
-			jsonObject.put("userid", user.getUserId());
+			jsonObject.put("userid","R"+user.getUserId());
 			jsonObject.put("name", user.getRealName());
 			if(null!=user.getDepartment()){
 				jsonObject.put("department","["+user.getDepartment().getDbid()+"]");

@@ -47,7 +47,7 @@ public class AppUserUtil {
 			QywxAccount qywxAccount = qywxAccountManageImpl.findUnique("from QywxAccount", null);
 			AccessToken accessToken = QywxUtil.getAccessToken(accessTokenManageImpl, qywxAccount.getGroupId(), qywxAccount.getSecurity(),qywxAccount.getAppId());
 			String agent_list_url = QywxUtil.convert_to_openid.replace("ACCESS_TOKEN", accessToken.getAccessToken());
-			String json="{\"userid\": \""+appUser.getUser().getUserId()+"\",\"agentid\":"+app.getAppId()+"}";
+			String json="{\"userid\": \"R"+appUser.getUser().getUserId()+"\",\"agentid\":"+app.getAppId()+"}";
 			JSONObject httpRequest = QywxUtil.httpRequest(agent_list_url, "POST", json);
 			if(null!=httpRequest){
 				ErrorMessage errorMessage = ErrorMessageUtil.paraseErrorMessage(httpRequest);

@@ -234,6 +234,7 @@ public class UserBussiAction extends BaseController{
 				user.setPassword(calcMD5);
 				user.setEnterprise(enterprise);
 				user.setUserState(1);
+				user.setMobilePhone(user.getUserId());
 				user.setApprovalCpidStatus(User.APPROVALCOMM);
 				user.setAdminType(User.ADMINTYPEADCOMM);
 				user.setQueryOtherDataStatus(User.QUERYCOMM);
@@ -252,7 +253,7 @@ public class UserBussiAction extends BaseController{
 			}else{
 				User user2 = userManageImpl.get(dbid);
 				user2.setEmail(user.getEmail());
-				user2.setMobilePhone(user.getMobilePhone());
+				user2.setMobilePhone(user.getUserId());
 				user2.setPhone(user.getPhone());
 				user2.setWechatId(user.getWechatId());
 				user2.setRealName(user.getRealName());

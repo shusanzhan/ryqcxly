@@ -126,7 +126,8 @@ public class EnterpriseAuthAction extends BaseController{
 						if(null!=userId&&userId.trim().length()>0){
 							System.err.println("getuserinfo接口返回值："+httpRequest);
 							System.err.println("userId值："+userId);
-							List<User> users = userManageImpl.findBy("userId", userId);
+							String replace = userId.replace("R","");
+							List<User> users = userManageImpl.findBy("userId", replace);
 							System.err.println("users已经运行完成"+userId);
 							if(null!=users&&users.size()>0){
 								User user2 = users.get(0);
