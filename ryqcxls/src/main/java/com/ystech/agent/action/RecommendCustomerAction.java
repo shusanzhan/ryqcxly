@@ -1650,7 +1650,7 @@ public class RecommendCustomerAction extends BaseController{
 			WeixinGzuserinfo weixinGzuserinfo = member.getWeixinGzuserinfo();
 			WeixinGzuserinfo parent = weixinGzuserinfo.getParent();
 			if(null!=parent){
-				Member member2 = parent.getMember();
+				Member member2 = memberManageImpl.findByOpenId(parent.getOpenid());
 				request.setAttribute("parentMember", member2);
 			}
 			Integer agentSuccessNum = member.getAgentSuccessNum();
@@ -1721,7 +1721,7 @@ public class RecommendCustomerAction extends BaseController{
 					if(null!=weixinGzuserinfo){
 						WeixinGzuserinfo parent = weixinGzuserinfo.getParent();
 						if(null!=parent){
-							Member parentMember = parent.getMember();
+							Member parentMember = memberManageImpl.findByOpenId(parent.getOpenid());
 							if(null!=parentMember){
 								saveRewardAgentPrent(recommendCustomer,parentMember, member, agentSet);
 							}

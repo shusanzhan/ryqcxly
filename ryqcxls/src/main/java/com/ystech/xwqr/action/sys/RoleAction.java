@@ -68,19 +68,7 @@ public class RoleAction extends BaseController{
 	}
 	public void save() throws Exception {
 		try{
-			Integer dbid = role.getDbid();
-			if(dbid==null){
-				role.setCreateTime(new Date());
-				role.setModifyTime(new Date());
-				roleManageImpl.save(role);
-			}else{
-				Role role2 = roleManageImpl.get(dbid);
-				role2.setModifyTime(new Date());
-				role2.setName(role.getName());
-				role2.setRoleType(role.getRoleType());
-				role2.setState(role.getState());
-				roleManageImpl.save(role2);
-			}
+			roleManageImpl.saveRole(role);
 		}catch (Exception e) {
 			e.printStackTrace();
 			renderErrorMsg(e, "");

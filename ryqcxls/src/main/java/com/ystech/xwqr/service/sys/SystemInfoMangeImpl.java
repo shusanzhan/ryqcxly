@@ -9,13 +9,19 @@ import com.ystech.xwqr.model.sys.SystemInfo;
 
 @Component("systemInfoMangeImpl")
 public class SystemInfoMangeImpl extends HibernateEntityDao<SystemInfo>{
-	public SystemInfo getSystemInfo(){
-		//用户配置信息
-		SystemInfo systemInfo=null;
-		List<SystemInfo> systemInfos =getAll();
-		if(null!=systemInfos){
-			systemInfo=systemInfos.get(0);
+	public boolean isSynQywx(){
+		List<SystemInfo> systemInfos = getAll();
+		if(null==systemInfos||systemInfos.isEmpty()){
+			return false;
 		}
-		return systemInfo;
+		SystemInfo systemInfo = systemInfos.get(0);
+		if(null==systemInfo){
+			return false;
+		}
+		if(systemInfo.getWxUserStatus()==2){
+			return true;
+		}
+		return false;
 	}
+	
 }

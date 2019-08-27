@@ -17,6 +17,9 @@
         <property name="roleType" type="java.lang.Integer">
             <column name="roleType" />
         </property>
+        <property name="sysWeixinStatus" type="java.lang.Integer">
+            <column name="sysWeixinStatus" />
+        </property>
         <property name="note" type="string">
             <column name="note" length="200" />
         </property>

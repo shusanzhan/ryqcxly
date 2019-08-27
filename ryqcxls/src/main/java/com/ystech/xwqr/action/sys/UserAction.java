@@ -293,15 +293,13 @@ public class UserAction extends BaseController{
 						return ;
 					}
 					userManageImpl.deleteById(dbid);
-					SystemInfo systemInfo = systemInfoMangeImpl.getSystemInfo();
+					boolean synQywx = systemInfoMangeImpl.isSynQywx();
 					//同步用户资料到微信判断
-					if(null!=systemInfo){
-						if(systemInfo.getWxUserStatus()==2){
-							boolean stopUser = addressUtil.deleteUser(user);
-							if(stopUser==false){
-								renderMsg("/user/queryList"+query, "删除数据成功,同步微信端数据失败！");
-								return ;
-							}
+					if(synQywx){
+						boolean stopUser = addressUtil.deleteUser(user);
+						if(stopUser==false){
+							renderMsg("/user/queryList"+query, "删除数据成功,同步微信端数据失败！");
+							return ;
 						}
 					}
 				}
@@ -445,15 +443,13 @@ public class UserAction extends BaseController{
 					}
 				}
 				userManageImpl.save(user2);
-				SystemInfo systemInfo = systemInfoMangeImpl.getSystemInfo();
+				boolean synQywx = systemInfoMangeImpl.isSynQywx();
 				//同步用户资料到微信判断
-				if(null!=systemInfo){
-					if(systemInfo.getWxUserStatus()==2){
-						boolean stopUser = addressUtil.stopUser(user2);
-						if(stopUser==false){
-							renderMsg("/user/queryList"+query, "设置成功,同步微信端数据失败！");
-							return ;
-						}
+				if(synQywx){
+					boolean stopUser = addressUtil.stopUser(user2);
+					if(stopUser==false){
+						renderMsg("/user/queryList"+query, "设置成功,同步微信端数据失败！");
+						return ;
 					}
 				}
 				
@@ -547,6 +543,14 @@ public class UserAction extends BaseController{
 				user2.setRoles(roles);
 				userManageImpl.save(user2);
 				userDetailsManageImpl.loadUserByUsername(user2.getUserId());
+				boolean synQywx = systemInfoMangeImpl.isSynQywx();
+				if(synQywx){
+					for (Role rol : roles) {
+						List<User> users=new ArrayList<User>();
+						users.add(user2);
+						roleManageImpl.addTagUsers(rol, users);
+					}
+				}
 				renderMsg("/user/queryList", user2.getUserId()+"分配角色成功！");
 			}
 			else{

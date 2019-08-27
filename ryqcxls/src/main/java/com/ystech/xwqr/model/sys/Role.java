@@ -20,6 +20,8 @@ public class Role implements java.io.Serializable {
 	private Date createTime;
 	//修改时间
 	private Date modifyTime;
+	//微信用户是否同步 1、未同步；2、已结同步
+	private Integer sysWeixinStatus;
 	public Role() {
 	}
 
@@ -99,6 +101,14 @@ public class Role implements java.io.Serializable {
 
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
+	}
+
+	public Integer getSysWeixinStatus() {
+		return sysWeixinStatus;
+	}
+
+	public void setSysWeixinStatus(Integer sysWeixinStatus) {
+		this.sysWeixinStatus = sysWeixinStatus;
 	}
 	
 	

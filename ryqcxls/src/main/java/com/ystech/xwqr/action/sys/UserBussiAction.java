@@ -367,52 +367,12 @@ public class UserBussiAction extends BaseController{
 		Set<Role> roles=new HashSet<Role>();
 		try{
 			if(dbid>0){
-				User user2 = userManageImpl.get(dbid);
-				roles.clear();
-				if(null!=roleIds&&roleIds.length>0){
-					for (Integer roId : roleIds) {
-						Role role = roleManageImpl.get(roId);
-						roles.add(role);
-					}
-				}
-				user2.setRoles(roles);
-				//设置查询其他公司数据权限
-				if(null!=companyIds&&companyIds.length>0){
-					String compIds=new String();
-					for (Integer companyId : companyIds) {
-						compIds=compIds+companyId+",";
-					}
-					int lastIndexOf = compIds.lastIndexOf(",");
-					String substring = compIds.substring(0, lastIndexOf);
-					user2.setCompnayIds(substring);
-				}
-				if(approvalCpidStatus>0){
-					user2.setApprovalCpidStatus(approvalCpidStatus);
-				}else{
-					user2.setApprovalCpidStatus(User.APPROVALCOMM);
-				}
-				if(queryOtherDataStatus>0){
-					user2.setQueryOtherDataStatus(queryOtherDataStatus);
-				}else{
-					user2.setQueryOtherDataStatus(User.QUERYCOMM);
-				}
-				if(selfApproval>0){
-					user2.setSelfApproval(selfApproval);
-				}else{
-					user2.setSelfApproval(User.QUERYCOMM);
-				}
-				if(approvalMoney==0){
-					user2.setApprovalMoney(0);
-				}else{
-					user2.setApprovalMoney(approvalMoney);
-				}
-				userManageImpl.save(user2);
-				userDetailsManageImpl.loadUserByUsername(user2.getUserId());
+				User user2 = userManageImpl.saveUserRole(dbid, roleIds, companyIds);
 				if(type==1){
-					renderMsg("/userBussi/queryBussiList", user2.getUserId()+"权限分配成功！");
+					renderMsg("/userBussi/queryBussiList", dbid+"权限分配成功！");
 				}
 				if(type==2){
-					renderMsg("/userBussi/wechatRole?userId="+user2.getDbid(), user2.getUserId()+"权限分配成功！");
+					renderMsg("/userBussi/wechatRole?userId="+dbid, user2.getUserId()+"权限分配成功！");
 				}
 			}else{
 				renderErrorMsg(new Throwable("请选择分配权限用户"), "");
@@ -634,15 +594,13 @@ public class UserBussiAction extends BaseController{
 					}
 				}
 				userManageImpl.save(user2);
-				SystemInfo systemInfo = systemInfoMangeImpl.getSystemInfo();
+				boolean synQywx = systemInfoMangeImpl.isSynQywx();
 				//同步用户资料到微信判断
-				if(null!=systemInfo){
-					if(systemInfo.getWxUserStatus()==2){
-						boolean stopUser = addressUtil.stopUser(user2);
-						if(stopUser==false){
-							renderMsg("/userBussi/queryBussiList"+query, "设置成功,同步微信端数据失败！");
-							return ;
-						}
+				if(synQywx){
+					boolean stopUser = addressUtil.stopUser(user2);
+					if(stopUser==false){
+						renderMsg("/userBussi/queryBussiList"+query, "设置成功,同步微信端数据失败！");
+						return ;
 					}
 				}
 				

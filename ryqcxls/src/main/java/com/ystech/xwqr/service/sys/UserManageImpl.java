@@ -1,18 +1,79 @@
 package com.ystech.xwqr.service.sys;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
 import com.ystech.core.dao.HibernateEntityDao;
 import com.ystech.core.dao.Page;
 import com.ystech.core.security.SecurityUserHolder;
+import com.ystech.core.security.service.UserDetailsManageImpl;
 import com.ystech.core.util.CommState;
 import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.Role;
 import com.ystech.xwqr.model.sys.User;
 @Component("userManageImpl")
 public class UserManageImpl extends HibernateEntityDao<User>{
+	private RoleManageImpl roleManageImpl;
+	private SystemInfoMangeImpl systemInfoMangeImpl;
+	private UserDetailsManageImpl userDetailsManageImpl;
+	@Resource
+	public void setRoleManageImpl(RoleManageImpl roleManageImpl) {
+		this.roleManageImpl = roleManageImpl;
+	}
+	@Resource
+	public void setSystemInfoMangeImpl(SystemInfoMangeImpl systemInfoMangeImpl) {
+		this.systemInfoMangeImpl = systemInfoMangeImpl;
+	}
+	@Resource
+	public void setUserDetailsManageImpl(UserDetailsManageImpl userDetailsManageImpl) {
+		this.userDetailsManageImpl = userDetailsManageImpl;
+	}
+	public User saveUserRole(Integer userId,Integer[] roleIds,Integer[] companyIds){
+		Set<Role> roles=new HashSet<Role>();
+		User user2 = get(userId);
+		Set<Role> resRoles = user2.getRoles();
+		
+		roles.clear();
+		if(null!=roleIds&&roleIds.length>0){
+			for (Integer roId : roleIds) {
+				Role role = roleManageImpl.get(roId);
+				roles.add(role);
+			}
+		}
+		user2.setRoles(roles);
+		//设置查询其他公司数据权限
+		if(null!=companyIds&&companyIds.length>0){
+			String compIds=new String();
+			for (Integer companyId : companyIds) {
+				compIds=compIds+companyId+",";
+			}
+			int lastIndexOf = compIds.lastIndexOf(",");
+			String substring = compIds.substring(0, lastIndexOf);
+			user2.setCompnayIds(substring);
+		}
+		save(user2);
+		userDetailsManageImpl.loadUserByUsername(user2.getUserId());
+		
+		boolean synQywx = systemInfoMangeImpl.isSynQywx();
+		if(synQywx){
+			//删除之前标签
+			List<User> users=new ArrayList<User>();
+			users.add(user2);
+			for (Role role : resRoles) {
+				roleManageImpl.delTagUsers(role, users);
+			}
+			for (Role rol : roles) {
+				roleManageImpl.addTagUsers(rol, users);
+			}
+		}
+		return user2;
+	}
 	/**
 	 * @param userName
 	 * @param pa

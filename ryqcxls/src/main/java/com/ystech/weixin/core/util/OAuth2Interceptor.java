@@ -16,11 +16,14 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import com.ystech.mem.model.Member;
+import com.ystech.mem.service.MemberManageImpl;
 import com.ystech.weixin.model.WeixinGzuserinfo;
 import com.ystech.weixin.service.WeixinGzuserinfoManageImpl;
 
 public class OAuth2Interceptor extends AbstractInterceptor {
 	private WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl;
+	private MemberManageImpl memberManageImpl;
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -40,7 +43,8 @@ public class OAuth2Interceptor extends AbstractInterceptor {
 		//第一步：先判断session中是否包含user，包含user直接跳转到目标页面
 		if(null!=weixinGzuserinfo){
 			session.setAttribute("weixinGzuserinfo", weixinGzuserinfo);
-			session.setAttribute("member", weixinGzuserinfo.getMember());
+			Member member = memberManageImpl.findByOpenId(weixinGzuserinfo.getOpenid());
+			session.setAttribute("member", member);
 			return invocation.invoke();
 		}else{
 			//第二步：判断session中不含user，通过cookie获取user，如果cookie中不包含user，在向微信端发送请求
@@ -108,5 +112,10 @@ public class OAuth2Interceptor extends AbstractInterceptor {
 	public void setWeixinGzuserinfoManageImpl(
 			WeixinGzuserinfoManageImpl weixinGzuserinfoManageImpl) {
 		this.weixinGzuserinfoManageImpl = weixinGzuserinfoManageImpl;
+	}
+
+    @Resource
+	public void setMemberManageImpl(MemberManageImpl memberManageImpl) {
+		this.memberManageImpl = memberManageImpl;
 	}
 }

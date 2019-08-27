@@ -196,14 +196,12 @@ public class DepartmentAction extends BaseController{
 			Department department2 = departmentManageImpl.get(dbid);
 			departmentManageImpl.deleteById(dbid);
 			//同步删除微信端部门
-			SystemInfo systemInfo = systemInfoMangeImpl.getSystemInfo();
-			if(null!=systemInfo){
-				if(systemInfo.getWxUserStatus()==2){
-					boolean createDepartment = departmentWexinUtil.deleteDepartment(department2);
-					if(createDepartment==false){
-						renderMsg("", "删除数据成功,但同步部门微信企业号失败！");
-						return ;
-					}
+			boolean synQywx = systemInfoMangeImpl.isSynQywx();
+			if(synQywx){
+				boolean createDepartment = departmentWexinUtil.deleteDepartment(department2);
+				if(createDepartment==false){
+					renderMsg("", "删除数据成功,但同步部门微信企业号失败！");
+					return ;
 				}
 			}
 		} catch (Exception e) {

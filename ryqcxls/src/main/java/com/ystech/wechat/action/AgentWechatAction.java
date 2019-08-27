@@ -538,7 +538,8 @@ public class AgentWechatAction extends BaseController{
 			request.setAttribute("spreadDetail", spreadDetail);
 			if(null!=spreadDetail){
 				WeixinGzuserinfo weixinGzuserinfo = spreadDetail.getWeixinGzuserinfo();
-				request.setAttribute("member", weixinGzuserinfo.getMember());
+				Member member = memberManageImpl.findByOpenId(weixinGzuserinfo.getOpenid());
+				request.setAttribute("member", member);
 				if(null!=weixinGzuserinfo){
 					WeixinAccount weixinAccount = weixinAccountManageImpl.get(weixinGzuserinfo.getAccountid());
 					WeixinAccesstoken accessToken = WeixinUtil.getAccessToken(weixinAccesstokenManageImpl,weixinAccount);

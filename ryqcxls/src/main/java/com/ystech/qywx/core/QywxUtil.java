@@ -103,6 +103,21 @@ public class QywxUtil {
     //发送红包 接口
     public static String sendredpack="https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
     
+    
+    //创建tag
+    public static String tag_create="https://qyapi.weixin.qq.com/cgi-bin/tag/create?access_token=ACCESS_TOKEN";
+    //更新tag
+    public static String tag_update="https://qyapi.weixin.qq.com/cgi-bin/tag/update?access_token=ACCESS_TOKEN";
+    //删除tag
+    public static String tag_delete="https://qyapi.weixin.qq.com/cgi-bin/tag/delete?access_token=ACCESS_TOKEN&tagid=TAGID";
+    //增加标签成员
+    public static String tag_addtagusers="https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers?access_token=ACCESS_TOKEN";
+    //删除标签成员
+    public static String tag_deltagusers="https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers?access_token=ACCESS_TOKEN";
+    
+    
+    
+    
     /**
      * 发起https请求并获取结果
      * 
