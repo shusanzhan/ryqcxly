@@ -77,58 +77,6 @@
 					</td>
 				</tr>
 			</table>
-	<%-- <div class="frmTitle" onclick="showOrHiden('contactTable')">红包权限状态</div>
-	<c:if test="${empty(appUser) }">
-		还未配置用户红包权限。
-		<a href="JavaScript:void(-1)" style="color: #2b7dbc" onclick="window.open('${ctx}}/app/queryList')">同步应用用户</a>
-		|
-		<a href="JavaScript:void(-1)" style="color: #2b7dbc" onclick="window.open('https://qy.weixin.qq.com/cgi-bin/loginpage')">微信企业号</a>
-	</c:if>
-	<c:if test="${!empty(appUser) }">
-		<table width="100%" border="0" class="mainTable" cellpadding="0" cellspacing="0">
-		<thead  class="TableHeader">
-			<tr>
-				<td class="span2">用户Id</td>
-				<td class="span2">名字</td>
-				<td class="span2">部门</td>
-				<td class="span2">手机</td>
-				<td class="span2">邮箱</td>
-				<td class="span2">微信Id</td>
-				<td class="span2">openId</td>
-				<td class="span2">appId</td>
-				<td class="span2">状态</td>
-				<td class="span2">操作</td>
-			</tr>
-		</thead>
-		<tr height="32" align="center">
-			<td>${user.userId }</td>
-			<td align="left" style="text-align: left;">${user.realName }&nbsp;&nbsp; </td>
-			<td align="left" style="text-align: left;">${user.department.name }</td>
-			<td align="left">${user.mobilePhone }</td>
-			<td align="left">${user.email }</td>
-			<td align="left">${user.wechatId }</td>
-			<td style="text-align: center;">${appUser.openId} </td>
-			<td style="text-align: center;">${appUser.redBagAppId} </td>
-			<td style="text-align: center;">
-				<c:if test="${appUser.status==1 }">
-					<span style="color: red">未生成</span>
-				</c:if>
-				<c:if test="${appUser.status==2 }">
-					<span style="color: green">已生成</span>
-				</c:if>
-			</td>
-			<td>
-				<c:if test="${appUser.status==1 }">
-					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/appUser/saveOpenId?appId=${app.dbid}&appUserId=${appUser.dbid }','searchPageForm','确定生成OPENID？')">生成openId</a>
-				</c:if>
-				<c:if test="${appUser.status==2 }">
-					<a href="javascript:void(-1)" class="aedit" onclick="$.utile.operatorDataByDbid('${ctx}/appUser/saveOpenId?appId=${app.dbid}&appUserId=${appUser.dbid }','searchPageForm','确定生成OPENID？')">更新openId</a>
-				</c:if>
-			</td>
-		</tr>
-	</table>	
-	</c:if> --%>
-		
 	</form>
 </div>
 <div class="formButton">
