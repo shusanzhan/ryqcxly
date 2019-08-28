@@ -6,6 +6,8 @@ package com.ystech.xwqr.service.sys;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +23,26 @@ import com.ystech.xwqr.model.sys.Enterprise;
  */
 @Component("departmentManageImpl")
 public class DepartmentManageImpl extends HibernateEntityDao<Department>{
-
+	private EnterpriseManageImpl enterpriseManageImpl;
+	@Resource
+	public void setEnterpriseManageImpl(EnterpriseManageImpl enterpriseManageImpl) {
+		this.enterpriseManageImpl = enterpriseManageImpl;
+	}
+	/**
+	 * 功能描述：
+	 * @param enterprise
+	 */
+	public void createDepartmentByEnterprise(Enterprise enterprise){
+		Department department=new Department();
+		department.setBussiType(Department.BUSSITYPEADMIN);
+		department.setDiscription("");
+		department.setEnterprise(enterprise);
+		department.setName(enterprise.getName());
+		department.setParentId(Department.ROOT);
+		department.setPhone(department.getFax());
+		department.setType(Department.TYPEBRANCH);
+		save(department);
+	}
 	/**
 	 * @return
 	 */
@@ -114,13 +135,8 @@ public class DepartmentManageImpl extends HibernateEntityDao<Department>{
 		JSONObject jObject = new JSONObject();
 		jObject.put("icon","/widgets/ztree/css/zTreeStyle/img/diy/1_open.png");// 根节点
 		jObject.put("root", "root");
-		if(enterprise!=null&&enterprise.getDbid()>0){
-			jObject.put("id", enterprise.getDbid());
-			jObject.put("name", enterprise.getName());
-		}else{
-			jObject.put("id", 0);
-			jObject.put("name","根节点");
-		}
+		jObject.put("id", 0);
+		jObject.put("name","根节点");
 		jObject.put("open", true);
 		List<Department> departments = queryByEnterpriseId(enterprise);
 		jObject.put("children",makeJSONObject(departments, 0));

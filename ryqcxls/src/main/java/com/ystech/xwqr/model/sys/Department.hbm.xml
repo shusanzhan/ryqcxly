@@ -20,7 +20,7 @@
         <property name="phone" type="string">
             <column name="phone" length="50" />
         </property>
-        <property name="parentId" type="java.lang.Integer" insert="false" update="false">
+        <property name="parentId" type="java.lang.Integer" >
         	<column name="parentId"></column>
         </property>
         <property name="suqNo" type="java.lang.Integer">

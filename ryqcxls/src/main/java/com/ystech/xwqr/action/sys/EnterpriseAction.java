@@ -144,6 +144,7 @@ public class EnterpriseAction extends BaseController{
 				enterprise.setBeginDate(new Date());
 				enterprise.setBackNetStatus(CommState.STATE_NORMAL);
 				enterpriseManageImpl.save(enterprise);
+				departmentManageImpl.createDepartmentByEnterprise(enterprise);
 			}else{
 				//更新基础分店基础数据
 				Enterprise enterprise2 = enterpriseManageImpl.get(enterprise.getDbid());

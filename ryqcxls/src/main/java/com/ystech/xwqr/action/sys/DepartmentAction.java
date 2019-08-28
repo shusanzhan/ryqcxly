@@ -326,7 +326,6 @@ public class DepartmentAction extends BaseController{
 	 */
 	public void editResourceJson() {
 		try {
-			User currentUser = SecurityUserHolder.getCurrentUser();
 			Enterprise company = SecurityUserHolder.getEnterprise();
 			JSONObject jsonObject = departmentManageImpl.makeJSONSuperObject(company);
 			renderJson(jsonObject.toString());
