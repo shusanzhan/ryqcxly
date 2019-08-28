@@ -124,7 +124,6 @@ $(document).ready(function(){
 		</table>
 	</form>
 	<div class="formButton">
-		<a href="javascript:void(-1)"	onclick="$('#type').val(1);$.utile.submitForm('frmId','${ctx}/userBussi/save')"	class="but butSave">保&nbsp;&nbsp;存</a> 
 		<a href="javascript:void(-1)"	onclick="$('#type').val(2);$.utile.submitForm('frmId','${ctx}/userBussi/save')"	class="but butSave">保存分配权限</a> 
 	    <a href="javascript:void(-1)"	onclick="window.history.go(-1)" class="but butCancle">取&nbsp;&nbsp;消</a>
 	</div>
@@ -163,7 +162,6 @@ function autoCompany(id){
 }
 
 function onRecordSelect2(event, data, formatted) {
-		alert(data.dbid);
 		$("#enterpriseName").val(data.name);
 		$("#enterpriseId").val(data.dbid);
 }

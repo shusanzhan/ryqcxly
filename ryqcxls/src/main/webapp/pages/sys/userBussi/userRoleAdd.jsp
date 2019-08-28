@@ -59,61 +59,6 @@
 		<tbody id="TableBody">
 		</tbody>
 	</table>
-	<div class="frmTitle" onclick="showOrHiden('contactTable')">查询数据权限</div>
-	<table width="100%" class="mainTable" border="0" id="TableList" style="margin: 0 auto;">
-		<thead class="TableHeader" id="TableHeader">
-			<tr>
-				<td class="sn" style="text-align: left;padding-left:12px;"><input type='checkbox' id="selectAllCheck" onclick="selectAll(this,'companyId')" />全选</td>
-				<td class="span5">公司名称</td>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="enterprise" items="${enterprises }">
-				<tr height='32' align='left'>
-					<c:set value="false" var="status"></c:set>
-					<c:forEach var="dbid" items="${compnayArrarys }">
-						<c:if test="${enterprise.dbid==dbid }">
-							<c:set var="status" value="true"></c:set>
-						</c:if>
-					</c:forEach>
-					<c:if test="${status==true }">
-						<td style='text-align: left;padding-left:12px;'><input type='checkbox' name='companyId' id='id1' value='${enterprise.dbid}' checked='checked'/></td>
-					</c:if>
-					<c:if test="${status==false }">
-						<td style='text-align: left;padding-left:12px;'><input type='checkbox' name='companyId' id='id1' value='${enterprise.dbid}'/></td>
-					</c:if>
-					<td style='text-align: left;'>${enterprise.name}</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<div class="frmTitle" onclick="showOrHiden('contactTable')">其他权限</div>
-	<table width="100%" class="mainTable" border="0" id="TableList" style="margin: 0 auto;">
-		<tbody>
-			<tr height='32'>
-				<td style="text-align: left;">
-					<label>是否拥有合同流失权限:<input type="checkbox" id="approvalCpidStatus"  name="approvalCpidStatus" ${user2.approvalCpidStatus==2?'checked="checked"':'' }  value="2"></label>
-				</td>
-			</tr>
-			<tr height='32'>
-				<td style="text-align: left;">
-					<label>查询其他公司数据权限:<input type="checkbox" id="queryOtherDataStatus"  name="queryOtherDataStatus" ${user2.queryOtherDataStatus==2?'checked="checked"':'' }  value="2"></label>
-				</td>
-			</tr>
-			<tr height='32'>
-				<td style="text-align: left;">
-					<label>自我审批权限:<input type="checkbox" id="selfApproval"  name="selfApproval" ${user2.selfApproval==2?'checked="checked"':'' }  value="2"></label>
-				</td>
-			</tr>
-			<c:if test="${systemInfo.grofitAprovalStatus==2 }">
-				<tr height='32'>
-					<td style="text-align: left;">
-						<label>申请权限金额：<input  type="text" id="approvalMoney" name="approvalMoney" value="${user2.approvalMoney }" class="text large"></label><span style="color: red;">-1</span>
-					</td>
-				</tr>
-			</c:if>
-		</tbody>
-	</table>	
 	</form>
 </div>
 <div class="formButton">

@@ -421,14 +421,6 @@
 				<input type="hidden" id="departmentId" name="departmentId" value='${departmentId}'>
 		  		<table cellpadding="0" cellspacing="0" class="searchTable" >
 		  			<tr>
-		  				<td>
-							用户类型:
-							<select id="adminType" name="adminType" class="small text" onchange="$('#searchPageForm')[0].submit()">
-								<option value="0">请选择...</option>
-								<option value="1" ${param.adminType==1?'selected="selected"':'' } >管理员用户</option>
-								<option value="2" ${param.adminType==2?'selected="selected"':'' } >普通用户</option>
-							</select>
-						</td>
 						<td>
 							启用状态&nbsp;
 							<select id="userState" name="userState" class="small text" onchange="$('#searchPageForm')[0].submit()">

@@ -132,8 +132,7 @@
 	</form>
 </div>
 <div class="formButton">
-    <a class="but butSave" href="javascript:void(-1)" onclick="window.location.href='${ctx }/appUserRole/editSingleRole?userId=${user.dbid}'">继续设置红包奖励</a>
- 	<a href="javascript:void(-1)"	onclick="window.history.go(-1)" class="but butCancle">返回</a>
+ 	<a href="javascript:void(-1)"	onclick="window.location.href='${ctx }/userBussi/queryBussiList'" class="but butCancle">返回用户管理</a>
 </div>
 </body>
 <script type="text/javascript">
