@@ -117,16 +117,9 @@ $(document).ready(function(){
 				</tr>
 			</c:if>
 			<tr height="32">
-				<td class="formTableTdLeft" style="width: 120px;">座机:&nbsp;</td>
-				<td><input type="text" name="user.phone" id="phone"		value="${userAdmin.phone }" class="large text"  checkType="phone"  canEmpty="Y" tip="请输入正确的座机号"></td>
-			</tr>
-			<tr height="42">
 			    <td class="formTableTdLeft" style="width: 120px;">邮箱:&nbsp;</td>
 				<td ><input type="text" name="user.email" id="email"
 					value="${userAdmin.email }" class="large text" title="邮箱"	checkType="email" canEmpty="Y" tip="请输入正确的邮箱"></td>
-			    <td class="formTableTdLeft" style="width: 120px;">QQ:&nbsp;</td>
-				<td ><input type="text" name="user.qq" id="qq"
-					value="${userAdmin.qq }" class="large text" title="QQ号"	checkType="string,3,20" canEmpty="Y" tip="请输入正确的QQ号"></td>
 			</tr>
 		</table>
 	</form>

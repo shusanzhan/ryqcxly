@@ -36,34 +36,9 @@
 			<tr height="42">
 				<td class="formTableTdLeft">名称:&nbsp;</td>
 				<td ><input type="text" name="department.name" id="name"
-					value="${department.name }" class="large text" title="部门名称"	checkType="string,1,20" tip="部门名称不能为空"><span style="color: red;">*</span></td>
-			</tr>
-			<c:if test="${fn:contains(sessionScope.user.userId,'super')}" var="status">
-				<tr height="42">
-					<td class="formTableTdLeft">类型:&nbsp;</td>
-					<td >
-						<select id="type" name="department.type"  class="large text" checkType="integer,1" tip="请选择部门类型">
-							<option value="-1">请选择....</option>
-							<option  value="1" ${department.type==1?'selected="selected"':'' } >普通部门</option>
-							<option  value="2" ${department.type==2?'selected="selected"':'' }>分店部门</option>
-						</select>
-						<span style="color: red;">*</span>
-					</td>
-				</tr>
-			</c:if>
-			<c:if test="${status==false}">
-				<input type="hidden" name="department.type" id="type" value="1">
-			</c:if>
-			<tr>
-				<td class="formTableTdLeft">部门业务类型:&nbsp;</td>
-				<td >
-					<select id="bussiType" name="department.bussiType"  class="large text" checkType="integer,1" tip="请选择部门类型">
-						<option value="-1">请选择....</option>
-						<option  value="1" ${department.bussiType==1?'selected="selected"':'' }>后勤部门</option>
-						<option  value="2" ${department.bussiType==2?'selected="selected"':'' }>销售业务部门</option>
-						<option  value="3" ${department.bussiType==3?'selected="selected"':'' }>售后业务部门</option>
-					</select>
-					<span style="color: red;">*</span>
+					value="${department.name }" class="large text" title="部门名称"	checkType="string,1,20" tip="部门名称不能为空"><span style="color: red;">*</span>
+					<input type="hidden" name="department.type" id="type" value="1">	
+					<input type="hidden" name="department.bussiType" id="type" value="1">	
 				</td>
 			</tr>
 			<tr height="42">
@@ -75,15 +50,6 @@
 				<td class="formTableTdLeft">传真:&nbsp;</td>
 				<td ><input type="text" name="department.fax" id="fax"
 					value="${department.fax }" class="large text" title="传真"	checkType="phone" canEmpty="Y" tip="传真格式不对"></td>
-			</tr>
-			<tr height="42">
-				<td class="formTableTdLeft">部门主管:&nbsp;</td>
-				<td ><input type="text" name="managerName" id="managerName"
-					value="${department.manager.realName }" class="large text" title="部门主管" readonly="readonly">
-					<input type="hidden" name="managerId" id="managerId"
-					value="${department.manager.dbid }" class="large text" >
-					 <a href="javascript:void(-1)" onclick="getSelectedUser('managerId','managerName');">选择部门主管</a>
-					</td>
 			</tr>
 			<tr height="42">
 				<td class="formTableTdLeft">序号:&nbsp;</td>

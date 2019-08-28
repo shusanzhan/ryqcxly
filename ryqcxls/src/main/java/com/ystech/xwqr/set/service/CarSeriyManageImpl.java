@@ -24,7 +24,7 @@ public class CarSeriyManageImpl extends HibernateEntityDao<CarSeriy>{
 		if(brandId!=null&&brandId>0){
 			hql=hql+" AND brand.dbid="+brandId;
 		}
-		hql=hql+" status="+CarSeriy.STATUSCOMM;
+		hql=hql+" AND status="+CarSeriy.STATUSCOMM;
 		hql=hql+" order by orderNum";
 		List<CarSeriy> carSeriys = find(hql, null);
 		return carSeriys;

@@ -468,7 +468,13 @@ public class UserBussiAction extends BaseController{
 		return ;
 	}
 	private JSONArray makeJson(Set<Role> roles,User user) throws JSONException{
-		List<Role> roList = roleManageImpl.find("from Role where state=? ", new Object[]{1});
+		User currentUser = SecurityUserHolder.getCurrentUser();
+		List<Role> roList=new ArrayList<Role>(); 
+		if(currentUser.getUserId().equals("super")){
+			roList = roleManageImpl.find("from Role where state=? ", new Object[]{1});
+		}else{
+			roList = roleManageImpl.find("from Role where state=? AND dbid>=10 ", new Object[]{1});
+		}
 		JSONArray jsonArray=null;
 		if(null!=roList&&roList.size()>0){
 			jsonArray=new JSONArray();
