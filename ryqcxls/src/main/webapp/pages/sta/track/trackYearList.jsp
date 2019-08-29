@@ -77,12 +77,12 @@
 <div class="line"></div>
 <div class="listOperate">
 	<div class="operate">
-		<a href="javascript:void(-1)"  onclick="window.location.href='${ctx}/track/queryTrackList'" style="color: #2b7dbc;">客户回访月统计</a>
+		<a href="javascript:void(-1)"  onclick="window.location.href='${ctx}/statTrack/queryTrackList'" style="color: #2b7dbc;">客户回访月统计</a>
 		<span style="color:#2b7dbc ">|</span> 
 		<a href="javascript:void(-1)"  onclick="window.history.go(-1)" style="color: #2b7dbc;">返回</a> 
    </div>
   	<div class="seracrhOperate" style="margin: 20px 1px;">
-  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/track/queryTrackYearList" method="post" >
+  		<form name="searchPageForm" id="searchPageForm"  action="${ctx}/statTrack/queryTrackYearList" method="post" >
 		<table cellpadding="0" cellspacing="0" class="searchTable" >
   			<c:if test="${fn:length(enterprises)>1 }">
 	  				<tr>

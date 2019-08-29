@@ -219,6 +219,7 @@ public class StatCustomerInvitationAction extends BaseController{
 			request.setAttribute("beginDate", beginDate);
 			request.setAttribute("endDate", endDate);
 		}catch(Exception e){
+			e.printStackTrace();
 			request.setAttribute("error", "系统发生异常，异常内容"+e.getMessage());
 			return "error";
 		}
@@ -707,21 +708,26 @@ public class StatCustomerInvitationAction extends BaseController{
 		StringBuffer dataBuf=new StringBuffer();
 		StringBuffer datacreatorFolderNumBuf=new StringBuffer();
 		int i=0;
+		StatCustomerRecordUser maxCount=null;
+		StatCustomerRecordUser maxCreateCount=null;
 		int size = customerInfromStaSets.size();
-		StatCustomerRecordUser maxCount=customerInfromStaSets.get(0);
-		for (StatCustomerRecordUser carSerCount : customerInfromStaSets) {
-			if(maxCount.getTotalNum()<carSerCount.getTotalNum()){
-				maxCount=carSerCount;
+		if(!customerInfromStaSets.isEmpty()){
+			maxCount=customerInfromStaSets.get(0);
+			for (StatCustomerRecordUser carSerCount : customerInfromStaSets) {
+				if(maxCount.getTotalNum()<carSerCount.getTotalNum()){
+					maxCount=carSerCount;
+				}
 			}
-		}
-		StatCustomerRecordUser maxCreateCount=customerInfromStaSets.get(0);
-		for (StatCustomerRecordUser carSerCount : customerInfromStaSets) {
-			if(maxCreateCount.getCreatorFolderNum()<carSerCount.getCreatorFolderNum()){
-				maxCreateCount=carSerCount;
+			maxCreateCount=customerInfromStaSets.get(0);
+			for (StatCustomerRecordUser carSerCount : customerInfromStaSets) {
+				if(maxCreateCount.getCreatorFolderNum()<carSerCount.getCreatorFolderNum()){
+					maxCreateCount=carSerCount;
+				}
 			}
 		}
 		dataBuf.append("[");
 		datacreatorFolderNumBuf.append("[");
+		
 		for (StatCustomerRecordUser carSerCount : customerInfromStaSets) {
 			i++;
 			dataBuf.append("{"
@@ -759,10 +765,13 @@ public class StatCustomerInvitationAction extends BaseController{
 		StringBuffer dataBuf=new StringBuffer();
 		int i=0;
 		int size = carSerCountTotals.size();
-		CarSerCount maxCount=carSerCountTotals.get(0);
-		for (CarSerCount carSerCount : carSerCountTotals) {
-			if(maxCount.getCountNum()<carSerCount.getCountNum()){
-				maxCount=carSerCount;
+		CarSerCount maxCount=null;
+		if(!carSerCountTotals.isEmpty()){
+			maxCount=carSerCountTotals.get(0);
+			for (CarSerCount carSerCount : carSerCountTotals) {
+				if(maxCount.getCountNum()<carSerCount.getCountNum()){
+					maxCount=carSerCount;
+				}
 			}
 		}
 		dataBuf.append("[");

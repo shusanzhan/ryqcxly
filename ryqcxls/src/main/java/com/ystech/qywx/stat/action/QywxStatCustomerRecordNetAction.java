@@ -444,10 +444,13 @@ public class QywxStatCustomerRecordNetAction extends BaseController{
 		StringBuffer dataBuf=new StringBuffer();
 		int i=0;
 		int size = carSerCountTotals.size();
-		CarSerCount maxCount=carSerCountTotals.get(0);
-		for (CarSerCount carSerCount : carSerCountTotals) {
-			if(maxCount.getCountNum()<carSerCount.getCountNum()){
-				maxCount=carSerCount;
+		CarSerCount maxCount=null;
+		if(!carSerCountTotals.isEmpty()){
+			maxCount=carSerCountTotals.get(0);
+			for (CarSerCount carSerCount : carSerCountTotals) {
+				if(maxCount.getCountNum()<carSerCount.getCountNum()){
+					maxCount=carSerCount;
+				}
 			}
 		}
 		dataBuf.append("[");

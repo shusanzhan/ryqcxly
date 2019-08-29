@@ -28,7 +28,7 @@ import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.EnterpriseManageImpl;
 
-@Component("trackAction")
+@Component("statTrackAction")
 @Scope("prototype")
 public class TrackAction extends BaseController{
 	private EnterpriseManageImpl enterpriseManageImpl;

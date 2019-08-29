@@ -746,7 +746,7 @@ public class UserBussiAction extends BaseController{
 			String sql="select * from sys_user where 1=1 ";
 			Enterprise enterprise2 = currentUser.getEnterprise();
 			if(null!=enterprise2){
-				sql=sql+" and enterpriseId="+enterprise.getDbid();
+				sql=sql+" and enterpriseId="+enterprise2.getDbid();
 			}
 			sql=sql+" and (userId like ?  or realName like ? ) limit "+limit;
 			users= userManageImpl.executeSql(sql, new Object[]{"%"+pingyin+"%","%"+pingyin+"%"});

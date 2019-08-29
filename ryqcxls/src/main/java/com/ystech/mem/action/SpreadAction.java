@@ -167,6 +167,52 @@ public class SpreadAction extends BaseController{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
+	public String queryCompList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer pageSize = ParamUtil.getIntParam(request, "pageSize", 10);
+		Integer pageNo = ParamUtil.getIntParam(request, "currentPage", 1);
+		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", -1);
+		Integer spreadGroupId = ParamUtil.getIntParam(request, "spreadGroupId", -1);
+		String name = request.getParameter("name");
+		try {
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			String sql="select * from mem_Spread where 1=1 ";
+			if(enterprise.getDbid()>0){
+				sql=sql+" AND enterpriseId="+enterprise.getDbid();
+			}
+			List<Spread> spreads = spreadManageImpl.executeSql(sql, null);
+			request.setAttribute("spreads", spreads);
+			
+			String sql2="select * from mem_spreaddetail spreadd where 1=1 AND enterpriseId="+enterprise.getDbid();
+			List params=new ArrayList();
+			if(spreadId>0){
+				sql2=sql2+" and spreadId= ? ";
+				params.add(spreadId);
+			}
+			if(spreadGroupId>0){
+				sql2=sql2+" and groupId= ? ";
+				params.add(spreadGroupId);
+			}
+			if(null!=name&&name.trim().length()>0){
+				sql2=sql2+" and name like ? ";
+				params.add("%"+name+"%");
+			}
+			sql2=sql2+" order by createDate DESC";
+			Page<SpreadDetail> page = spreadDetailManageImpl.pagedQuerySql(pageNo, pageSize,SpreadDetail.class, sql2, params.toArray());
+			request.setAttribute("page", page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "compList";
+	}
+	/**
+	 * 功能描述：
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
 	public String spreadGroupList() throws Exception {
 		HttpServletRequest request = this.getRequest();
 		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", -1);

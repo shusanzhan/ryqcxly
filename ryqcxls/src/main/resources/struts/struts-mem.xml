@@ -90,6 +90,7 @@
 		</action>
 		<action name="memSpread" class="memSpreadAction">
            <result name="list">/pages/mem/spread/list.jsp</result>
+           <result name="compList">/pages/mem/spread/compList.jsp</result>
            <result name="myList">/pages/mem/spread/myList.jsp</result>
            <result name="edit">/pages/mem/spread/edit.jsp</result>
            <result name="editSpreadGroup">/pages/mem/spread/editSpreadGroup.jsp</result>

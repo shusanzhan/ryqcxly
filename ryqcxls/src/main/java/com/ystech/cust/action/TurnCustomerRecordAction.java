@@ -142,6 +142,10 @@ public class TurnCustomerRecordAction extends BaseController{
 		try{
 			List params=new ArrayList();
 			String sql="select * from cust_TurnCustomerRecord where 1=1 ";
+			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			if(enterprise.getDbid()>0){
+				sql=sql+" AND operatorId="+currentUser.getDbid();
+			}
 			if(null!=operatorName&&operatorName.trim().length()>0){
 				sql=sql+" and operatorName like ? ";
 				params.add("%"+operatorName+"%");

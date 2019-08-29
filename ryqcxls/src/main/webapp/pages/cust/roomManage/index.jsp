@@ -18,45 +18,6 @@
 <div id="content" style="margin-left: 0">
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class="span12 center" style="text-align: center;">					
-				<ul class="stat-boxes">
-					<li>
-						<div class="left peity_bar_good"><span>2,4,9,7,12,10,12</span></div>
-						<div class="right">
-							<strong>${newsCount}</strong>
-							新增客户
-						</div>
-					</li>
-					<li>
-						<div class="left peity_bar_neutral"><span>20,15,18,14,10,9,9,9</span></div>
-						<div class="right">
-							<strong>${canncelCount }</strong>
-							流失客户
-						</div>
-					</li>
-					<li>
-						<div class="left peity_bar_bad"><span>3,5,9,7,12,20,10</span></div>
-						<div class="right">
-							<strong>${orderCount }</strong>
-							订单客户
-						</div>
-					</li>
-					<li>
-						<div class="left peity_line_good"><span>12,6,9,23,14,10,17</span></div>
-						<div class="right">
-							<strong>${waitingCar }</strong>
-							待交车客户
-						</div>
-					</li>
-					<li>
-						<div class="left peity_bar_bad"><span>2,6,9,2,14,10,17</span></div>
-						<div class="right">
-							<strong>${customerSuccess }</strong>
-							成交客户
-						</div>
-					</li>
-				</ul>
-			</div>	
 		</div>
 		<div class="row-fluid">
 			<div class="span12">
@@ -108,7 +69,7 @@
 						<h5>订单分析</h5>
 					</div>
 					<div class="widget-content">
-						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/qywxRoomManageSaleReport/customerOrder'">留存订单</a>
+						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/qywxOrderStatic/order?type=1&role=gm'">留存订单</a>
 						<a href="javascript:void(-1)" class="label label-info" style="padding: 8px 12px;margin-right: 12px;" onclick="window.location.href='${ctx}/statOrder/queryOrderList'">订单报表</a>
 					</div>
 				</div>

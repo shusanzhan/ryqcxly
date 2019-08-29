@@ -167,7 +167,7 @@ public class SpreadDetailAction extends BaseController{
 		Integer spreadId = ParamUtil.getIntParam(request, "spreadId", 1);
 		Integer type = ParamUtil.getIntParam(request, "type", 1);
 		Integer spreadGroupId = ParamUtil.getIntParam(request, "spreadGroupId", 1);
-		Integer enterpriseId = ParamUtil.getIntParam(request, "enterpriseId", 1);
+		Integer enterpriseId = ParamUtil.getIntParam(request, "enterpriseId", -1);
 		try{
 			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
 			if(weixinAccount==null){
@@ -176,7 +176,7 @@ public class SpreadDetailAction extends BaseController{
 			}
 			Enterprise enterprise2 = enterpriseManageImpl.get(enterpriseId);
 			if(enterprise2==null){
-				renderErrorMsg(new Throwable("无公经销商信息"), "");
+				renderErrorMsg(new Throwable("无经销商信息"), "");
 				return ;
 			}
 			Spread spread = spreadManageImpl.get(spreadId);
