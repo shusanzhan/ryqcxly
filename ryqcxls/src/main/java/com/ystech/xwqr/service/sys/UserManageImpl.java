@@ -177,4 +177,9 @@ public class UserManageImpl extends HibernateEntityDao<User>{
 		String uselSql="UPDATE sys_user SET userState="+CommState.STATE_NORMAL+" WHERE enterpriseId="+enterprise.getDbid();
 		executeSql(uselSql);
 	}
+	public List<User> findBySendWechatMessageUser(Enterprise enterprise){
+		String sql="select * from sys_user where 1=1 AND  positionNames like  '%销售经理%' AND enterpriseId="+enterprise.getDbid();
+		List<User> users = executeSql(sql, null);
+		return users;
+	}
 }

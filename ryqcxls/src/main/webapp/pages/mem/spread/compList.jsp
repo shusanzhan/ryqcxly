@@ -59,12 +59,12 @@
 				        <div class="ui-box" style="position: relative;padding-top: 12px;">
 				            <div class="clearfix">
 				                <div class="common-helps-entry pull-left">
-				                	<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/memSpread/queryList" method="post">
+				                	<form name="searchPageForm" id="searchPageForm" class="form-horizontal" action="${ctx}/memSpread/queryCompList" method="post">
 						                <input type="hidden" id="currentPage" name="currentPage" value='${page.currentPageNo}'>
 									    <input type="hidden" id="paramPageSize" name="pageSize" value='${page.pageSize}'>
 					                	<table cellpadding="0" cellspacing="0" class="searchTable" border="1" >
 								  			<tr>
-								  				<td><label>类型：</label></td>
+								  				<%-- <td><label>类型：</label></td>
 								  				<td>
 								  					<select id="spreadId" name="spreadId" class="text small" onchange="$('#searchPageForm')[0].submit()">
 								  						<option value="-1">请选择...</option>
@@ -72,7 +72,7 @@
 									  						<option value="${spread2.dbid }" ${param.spreadId==spread2.dbid?'selected="selected"':'' } >${spread2.name }</option>
 								  						</c:forEach>
 								  					</select>
-												</td>
+												</td> --%>
 								  				<td><label>名称：</label></td>
 								  				<td>
 								  					<input type="text" id="name" name="name" value="${param.name }" class="text small">
@@ -152,9 +152,9 @@
 																</div>
 												            </div>
 												            <hr class="dashed">
-												            <div class="opt">
+												        <%--     <div class="opt">
 												                <a href="javascript:;" class="js-add-keyword" onclick="editKey('',${spreadDetail.dbid })" id="editKey${spreadDetail.dbid }">+ 添加关键词</a>
-												            </div>
+												            </div> --%>
 												        </div>
 												    </div>
 												    <div class="rule-replies">
@@ -195,10 +195,10 @@
 												                </ol>
 												            </div>
 												            <hr class="dashed">
-												            <div class="opt">
+												        <%--     <div class="opt">
 												                <a class="js-add-reply add-reply-menu" id="js-add-reply${weixinKeyWordRole.dbid }" href="javascript:;" onclick="message(${weixinKeyWordRole.dbid })">+ 添加一条回复</a>
 												                <span class="disable-opt hide">最多十条回复</span>
-												            </div>
+												            </div> --%>
 												        </div>
 												    </div>
 												    <div class="rule-tags">
@@ -216,9 +216,9 @@
 												                </div>
 												            </div>
 												            <hr class="dashed">
-												            <div class="opt">
+												          <%--   <div class="opt">
 												                <a data-index="8" class="js-edit-tag" href="javascript:;" id="js-edit-tag${spreadDetail.dbid}" onclick="setSpreadDetailTags(${spreadDetail.dbid})">+ 添加标签组</a>
-												            </div>
+												            </div> --%>
 												        </div>
 												    </div>
 												    <div class="rule-level">
@@ -241,10 +241,10 @@
 																	</c:if>
 												                </div>
 												            </div>
-												            <hr class="dashed">
+												           <%--  <hr class="dashed">
 												            <div class="opt">
 												                <a class="js-edit-level" href="javascript:;" id="js-edit-level${spreadDetail.dbid }" onclick="editMemberShipLevel(${spreadDetail.dbid })">+ 设置等级</a>
-												            </div>
+												            </div> --%>
 												        </div>
 												    </div>
 											</div>

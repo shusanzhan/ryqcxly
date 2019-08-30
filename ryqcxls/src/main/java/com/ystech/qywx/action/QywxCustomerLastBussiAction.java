@@ -44,6 +44,7 @@ import com.ystech.cust.service.TimeoutsTrackRecordManageImpl;
 import com.ystech.qywx.core.QywxSendMessageUtil;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
+import com.ystech.xwqr.service.sys.UserManageImpl;
 import com.ystech.xwqr.set.model.Brand;
 import com.ystech.xwqr.set.model.CarColor;
 import com.ystech.xwqr.set.model.CarModel;
@@ -80,6 +81,7 @@ public class QywxCustomerLastBussiAction extends BaseController{
 	private CustomerTractUtile customerTractUtile;
 	private RecommendCustomerManageImpl recommendCustomerManageImpl;
 	private QywxSendMessageUtil qywxSendMessageUtil;
+	private UserManageImpl userManageImpl;
 	@Resource
 	public void setCustomerOperatorLogManageImpl(
 			CustomerOperatorLogManageImpl customerOperatorLogManageImpl) {
@@ -383,19 +385,15 @@ public class QywxCustomerLastBussiAction extends BaseController{
 				customer2.setCustomerPhase(customerPhase);
 				
 				  //发送微信消息 已经结束
+				String dis="客户姓名："+customer2.getName()+",流失原因："+customerFlowReasonStr;
 				if(null!=customer2.getUser()){
-					User user = customer2.getUser();
-					User parent = user.getParent();
-					String touser="";
-					if(null!=parent){
-						touser=parent.getUserId();
+					User user2 = customer2.getUser();
+					List<User> users = userManageImpl.findBySendWechatMessageUser(user2.getEnterprise());
+					for (User user : users) {
+						String touser = "R"+user.getUserId();
+						String url="/qywxCustomerOutFlow/outFlowDetail?dbid="+customer2.getDbid()+"&type=1";
+						qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "客户流失审批通知", request);
 					}
-					if(user.getSelfApproval()==User.SELFAPPROVALYEAS){
-						touser=user.getUserId();
-					}
-					String url="/qywxCustomerOutFlow/outFlowDetail?dbid="+customer2.getDbid()+"&type=1";
-					String dis="客户姓名："+customer2.getName()+",流失原因："+customerFlowReasonStr;
-					qywxSendMessageUtil.sendMessageSingle(touser, url, dis, "客户流失审批通知", request);
 				}
 			}
 			

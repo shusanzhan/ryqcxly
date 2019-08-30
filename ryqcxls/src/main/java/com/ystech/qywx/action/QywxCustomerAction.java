@@ -364,6 +364,8 @@ public class QywxCustomerAction extends BaseController{
 				request.setAttribute("customerInfromSelect", customerInfromSelect);
 			}
 			
+			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
+			request.setAttribute("carColors", carColors);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
