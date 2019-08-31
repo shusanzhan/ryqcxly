@@ -40,5 +40,5 @@
 		<p>长按二维码选择识别二维码,关注本公众号</p>
 	</div>
 </div>
-<div class="weui-toptips bg-warning weui-toptips_visible" style="display: block; opacity: 1;" onclick="document.getElementById('mcover').style.display='block';">为提供给您更好的服务，请点击关注成都瑞一公众号</div>
+<div class="weui-toptips bg-warning weui-toptips_visible" style="display: block; opacity: 1;" onclick="document.getElementById('mcover').style.display='block';">为提供给您更好的服务，请点击关注成都瑞一新零售公众号</div>
 </c:if>

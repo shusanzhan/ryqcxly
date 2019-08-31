@@ -104,7 +104,7 @@ window.shareData = {
 	"imgUrl":"${spreadDetail.qrcode }",
 	"link": urlWeb+"/agentWechat/shareSpreadDetail?sceneStr=${spreadDetail.sceneStr}",
 	"title": "我的专属二维码",
-	"intro": "瑞一经纪人",
+	"intro": "瑞一新零售经纪人",
 	"type":"1"
 };
 wx.config({

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>瑞一奇瑞经纪人【${member.name }】专属二维码</title>
+<title>瑞一新零售奇瑞经纪人【${member.name }】专属二维码</title>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 <!-- Mobile Devices Support @begin -->
@@ -53,7 +53,7 @@
 				<img src="${spreadDetail.qrcode }" width="80%" style="margin: 0 auto;"></img>
 			</div>
 			<div class="" style="width: 80%;margin: 0 auto;margin-top: 12px;font-size: 20px;text-align: center;color: red; ">
-				请扫描【${member.name }】，加入瑞一经纪人
+				请扫描【${member.name }】，加入瑞一新零售经纪人
 			</div>
 		</c:if>
 	</div>
@@ -68,7 +68,7 @@ window.shareData = {
 	"imgUrl": urlWeb+"${share.shareImage}",
 	"link": urlWeb+"/agentWechat/shareSpreadDetail?sceneStr=${spreadDetail.sceneStr}",
 	"title": "${member.name }经纪人专属二维码",
-	"intro": "瑞一经纪人",
+	"intro": "瑞一新零售经纪人",
 	"type":"1"
 };
 wx.config({

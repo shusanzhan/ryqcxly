@@ -23,7 +23,7 @@
     <style type="text/css">
     	
    	</style>
-<title>瑞一经纪人</title>
+<title>瑞一新零售经纪人</title>
 </head>
 <body>
 <div class="order" style="">
@@ -124,14 +124,6 @@
                                 <p>推荐手册</p>
                             </a>
                         </li>
-                        <c:if test="${!empty(member.spread) }">
-	                         <li>
-	                            <a href="${member.spread.policyStateMentUrl }">
-	                                <img src="${ctx }/img/weixin/memberDis.png">
-	                                <p>推荐政策</p>
-	                            </a>
-	                        </li>
-                        </c:if>
                          <li>
                             <a href="${ctx}/newsItemWechat/readNewsItem?dbid=24">
                                 <img src="${ctx }/img/weixin/contact.png">

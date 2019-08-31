@@ -613,7 +613,7 @@ public class MemberAction extends BaseController{
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/member/queryList?parentMenu=3", "保存数据成功！");
+		renderMsg("/memMember/queryList?parentMenu=3", "保存数据成功！");
 		return ;
 	}
 	/**
@@ -754,14 +754,14 @@ public class MemberAction extends BaseController{
 		}
 		String query = ParamUtil.getQueryUrl(request);
 		if(type==1){
-			renderMsg("/member/queryList"+query+"&parentMenu=3", "删除数据成功！");
+			renderMsg("/memMember/queryList"+query+"&parentMenu=3", "删除数据成功！");
 			return ;
 		}
 		if(type==2){
-			renderMsg("/member/duplicateData", "删除数据成功！");
+			renderMsg("/memMember/duplicateData", "删除数据成功！");
 			return ;
 		}
-		renderMsg("/member/queryList"+query+"&parentMenu=3", "删除数据成功！");
+		renderMsg("/memMember/queryList"+query+"&parentMenu=3", "删除数据成功！");
 		return;
 	}
 	/**
@@ -864,7 +864,7 @@ public class MemberAction extends BaseController{
 			return ;
 		}
 		String queryUrl = ParamUtil.getQueryUrl(request);
-		renderMsg("/member/queryList"+queryUrl, "设置权限成功");
+		renderMsg("/memMember/queryList"+queryUrl, "设置权限成功");
 		return;
 	}
 	/**
@@ -1123,7 +1123,7 @@ public class MemberAction extends BaseController{
 			renderErrorMsg(new Throwable("设置失败"),"");
 			return ;
 		}
-		renderMsg("/member/queryList"+query, "设置成功  "+mess);
+		renderMsg("/memMember/queryList"+query, "设置成功  "+mess);
 		return;
 	}
 	
@@ -1192,10 +1192,10 @@ public class MemberAction extends BaseController{
 			return ;
 		}
 		if(type==1){
-			renderMsg("/member/queryList", "设置标签成功！");
+			renderMsg("/memMember/queryList", "设置标签成功！");
 		}
 		if(type==2){
-			renderMsg("/member/information?dbid="+dbid+"&type=1", "设置标签成功！");
+			renderMsg("/memMember/information?dbid="+dbid+"&type=1", "设置标签成功！");
 		}
 		return;
 	}
