@@ -154,7 +154,7 @@ function ajaxCompanyArea(sel){
 
 function autoUser(id){
 	var id1 = "#"+id;
-		$(id1).autocomplete("${ctx}/user/ajaxUser",{
+		$(id1).autocomplete("${ctx}/userBussi/ajaxUser",{
 			max: 20,      
 	        width: 130,    
 	        matchSubset:false,   

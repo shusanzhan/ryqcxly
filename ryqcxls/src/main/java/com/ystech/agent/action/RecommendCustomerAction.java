@@ -811,11 +811,14 @@ public class RecommendCustomerAction extends BaseController{
 			
 			Enterprise enterprise = enterpriseManageImpl.get(recommendCustomer2.getEnterpriseId());
 			request.setAttribute("enterprise", enterprise);
-			
+			AgentSet agentSet=null;
 			List<AgentSet> agentSets = agentSetManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null!=agentSets&&agentSets.size()>0){
-				request.setAttribute("agentSet", agentSets.get(0));
+			if(agentSets==null||agentSets.isEmpty()){
+				agentSet= agentSetManageImpl.get(1);
+			}else{
+				agentSet=agentSets.get(0);
 			}
+			request.setAttribute("agentSet", agentSet);
 			
 			List<User> users = userManageImpl.findBy("enterprise.dbid",enterprise.getDbid());
 			request.setAttribute("users", users);

@@ -64,7 +64,7 @@
         </div>
         <div class="weui_cell weui_cell_select weui_select_after">
             <div class="weui_cell_hd" style="width: 80px">
-               	推荐车型
+               	推荐车型${fn:length(carSeriys) }
             </div>
             <div class="weui_cell_bd weui_cell_primary">
                 <select class="weui_select" name="carSeriyId" id="carSeriyId" checkType="integer,1">
