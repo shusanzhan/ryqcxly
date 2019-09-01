@@ -80,7 +80,7 @@ public class SpreadDetailManageImpl extends HibernateEntityDao<SpreadDetail>{
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean saveSpreadDetail(Member member) throws Exception {
+	public boolean saveSpreadDetail(Member member){
 		try{
 			WeixinGzuserinfo weixinGzuserinfo = member.getWeixinGzuserinfo();
 			if(null==weixinGzuserinfo){
@@ -97,12 +97,11 @@ public class SpreadDetailManageImpl extends HibernateEntityDao<SpreadDetail>{
 				LogUtil.info("二维码生成失败，会员企业号信息为空。");
 				return false;
 			}
-			List<WeixinAccount> weixinAccounts = weixinAccountManageImpl.findBy("enterpriseId", enterprise.getDbid());
-			if(null==weixinAccounts||weixinAccounts.size()<=0){
+			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
+			if(null==weixinAccount){
 				LogUtil.info("二维码生成失败，微信公众信息为空。");
 				return false;
 			}
-			WeixinAccount weixinAccount = weixinAccounts.get(0);
 			List<Spread> spreads = spreadManageImpl.find("from Spread where weixinAccountId=? AND name='"+Spread.COMMJJR+"'", new Object[]{weixinAccount.getDbid()});
 			SpreadDetail spreadDetail=new SpreadDetail();
 			if(null!=spreads&&spreads.size()>0){

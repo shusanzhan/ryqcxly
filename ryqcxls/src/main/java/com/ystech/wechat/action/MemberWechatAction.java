@@ -302,7 +302,7 @@ public class MemberWechatAction extends BaseController{
 			Enterprise enterprise = member2.getEnterprise();
 			Spread spread = member2.getSpread();
 			if((null!=enterprise)&&null!=spread){
-				List<AgentSet> agentSets = agentSetManageImpl.find("from AgentSet where enterpriseId=? AND spreadId=? ", new Object[]{enterprise.getDbid(),spread.getDbid()});
+				List<AgentSet> agentSets = agentSetManageImpl.find("from AgentSet where enterprise.dbid=? ", new Object[]{enterprise.getDbid()});
 				if(null!=agentSets&&agentSets.size()>0){
 					agentSet = agentSets.get(0);
 				}
@@ -373,7 +373,9 @@ public class MemberWechatAction extends BaseController{
 			registerSendPoint(member2);
 			
 			//经纪人认证后生成他的专属二维码
+			log.info("begin 二维码成功！");
 			boolean craeateBooleanStatus = spreadDetailManageImpl.saveSpreadDetail(member2);
+			log.info("end 二维码成功！");
 			if(craeateBooleanStatus==true){
 				log.info("生成经纪人专属二维码成功！");
 			}else{
