@@ -58,7 +58,17 @@
         </div>
         <div class="leftPre"></div>
     </a>
-    <a href="${ctx }/agentWechat/memberCenter" class="weui_media_box weui_media_appmsg">
+     <a href="${ctx}/agentWechat/mySpreadDetail" class="weui_media_box weui_media_appmsg">
+        <div class="weui_media_hd">
+            <img class="weui_media_appmsg_thumb" src="${ctx }/img/weixin/product_item48.png" alt="" >
+        </div>
+        <div class="weui_media_bd">
+            <h4 class="weui_media_title">专属二维码</h4>
+            <p class="weui_media_desc"></p>
+        </div>
+         <div class="leftPre"></div>
+    </a>
+     <a href="${ctx }/agentWechat/memberCenter" class="weui_media_box weui_media_appmsg">
         <div class="weui_media_hd">
             <img class="weui_media_appmsg_thumb" src=" ${ctx }/img/weixin/product_item34.png" alt="" >
         </div>
@@ -67,16 +77,6 @@
             <p class="weui_media_desc"></p>
         </div>
         <div class="leftPre"></div>
-    </a>
-     <a href="${ctx }/carModelWechat/carModelList" class="weui_media_box weui_media_appmsg">
-        <div class="weui_media_hd">
-            <img class="weui_media_appmsg_thumb" src="${ctx }/img/weixin/product_item39.png" alt="" >
-        </div>
-        <div class="weui_media_bd">
-            <h4 class="weui_media_title">车型介绍</h4>
-            <p class="weui_media_desc"></p>
-        </div>
-         <div class="leftPre"></div>
     </a>
 </div>
 <br>

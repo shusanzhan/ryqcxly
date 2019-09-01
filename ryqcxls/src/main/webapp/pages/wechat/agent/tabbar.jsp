@@ -17,12 +17,6 @@
 		            </div>
 		            <p class="weui_tabbar_label">推荐客户</p>
 		        </a>
-		        <a href="${ctx}/agentWechat/mySpreadDetail" class="weui_tabbar_item">
-		            <div class="weui_tabbar_icon">
-		                <img src="${ctx}/pages/wechat/WeUI/example/images/icon_nav_article.png" alt="">
-		            </div>
-		            <p class="weui_tabbar_label">专属二维码</p>
-		        </a>
 		        <a href="${ctx }/agentWechat/memberCenter" class="weui_tabbar_item">
 		            <div class="weui_tabbar_icon">
 		                <img src="${ctx}/pages/wechat/WeUI/example/images/icon_nav_cell.png" alt="">

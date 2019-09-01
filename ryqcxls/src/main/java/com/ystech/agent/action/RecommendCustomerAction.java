@@ -40,6 +40,7 @@ import com.ystech.cust.model.CustomerBussi;
 import com.ystech.cust.model.CustomerInfrom;
 import com.ystech.cust.model.CustomerLastBussi;
 import com.ystech.cust.model.CustomerPhase;
+import com.ystech.cust.model.CustomerRecord;
 import com.ystech.cust.model.CustomerShoppingRecord;
 import com.ystech.cust.service.BuyCarBudgetManageImpl;
 import com.ystech.cust.service.BuyCarCareManageImpl;
@@ -812,7 +813,7 @@ public class RecommendCustomerAction extends BaseController{
 			Enterprise enterprise = enterpriseManageImpl.get(recommendCustomer2.getEnterpriseId());
 			request.setAttribute("enterprise", enterprise);
 			AgentSet agentSet=null;
-			List<AgentSet> agentSets = agentSetManageImpl.findBy("enterpriseId", enterprise.getDbid());
+			List<AgentSet> agentSets = agentSetManageImpl.findBy("enterprise.dbid", enterprise.getDbid());
 			if(agentSets==null||agentSets.isEmpty()){
 				agentSet= agentSetManageImpl.get(1);
 			}else{
@@ -962,42 +963,38 @@ public class RecommendCustomerAction extends BaseController{
 		try {
 			RecommendCustomer recommendCustomer2 = recommendCustomerManageImpl.get(dbid);
 			request.setAttribute("recommendCustomer", recommendCustomer2);
-			
 			Enterprise enterprise = SecurityUserHolder.getEnterprise();
+			request.setAttribute("enterprise", enterprise);
 			//地域信息
 			List<Area> areas = areaManageImpl.find("from Area where area.dbid IS NULL", new Object[]{});
 			request.setAttribute("areas", areas);
-			
-			if(null!=recommendCustomer2.getArea()){
-				String areaSelect = areaSelect(recommendCustomer2.getArea());
-				request.setAttribute("areaSelect", areaSelect);
-			}
-			List<Department> departments = departmentManageImpl.getAll();
-			request.setAttribute("departments", departments);
-			
 			//购车类型
 			List<BuyCarType> buyCarTypes = buyCarTypeManageImpl.getAll();
 			request.setAttribute("buyCarTypes", buyCarTypes);
+			//意向车型
+			if(null!=recommendCustomer2&&recommendCustomer2.getDbid()>0){
+				Brand brand = recommendCustomer2.getBrand();
+				if(null!=brand){
+					//意向车型
+					List<CarSeriy>  carSeriys= carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(), brand.getDbid());
+					request.setAttribute("carSeriys", carSeriys);
+				}
+				CarSeriy carSeriy = recommendCustomer2.getCarSeriy();
+				if(null!=carSeriy){
+					List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brand.getDbid(), carSeriy.getDbid());
+					request.setAttribute("carModels", carModels);
+				}
+			}
+			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
+			request.setAttribute("carColors", carColors);
 			//品牌
-			List<Brand> brands = brandManageImpl.getAll();
+			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
-			Brand brand = recommendCustomer2.getBrand();
-			if(null!=brand){
-				//意向车型
-				List<CarSeriy>  carSeriys= carSeriyManageImpl.find("from CarSeriy where brand.dbid=? and status=?", new Object[]{brand.getDbid(),CarSeriy.STATUSCOMM});
-				request.setAttribute("carSeriys", carSeriys);
-			}
-			CarSeriy carSeriy = recommendCustomer2.getCarSeriy();
-			if(null!=carSeriy){
-				List<CarModel> carModels = carModelManageImpl.find("from CarModel where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
-				request.setAttribute("carModels", carModels);
-			}
 			//意向级别
-			List<CustomerPhase> customerPhases = customerPhaseManageImpl.findBy("type",CustomerPhase.TYPESHOW);
+			List<CustomerPhase> customerPhases = customerPhaseManageImpl.findBy("type", CustomerPhase.TYPESHOW);
 			request.setAttribute("customerPhases", customerPhases);
-			
-			
-			String customerInfromSelect = customerInfromManageImpl.getCustomerInfrom(null);
+			CustomerInfrom customerInfrom = customerInfromManageImpl.get(12);
+			String customerInfromSelect = customerInfromManageImpl.getCustomerInfrom(customerInfrom);
 			request.setAttribute("customerInfromSelect", customerInfromSelect);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1041,39 +1038,18 @@ public class RecommendCustomerAction extends BaseController{
 		Integer red = ParamUtil.getIntParam(request, "red", 0);
 		Integer recommendCustomerId = ParamUtil.getIntParam(request, "recommendCustomerId", -1);
 		Integer customerInfromId = ParamUtil.getIntParam(request, "customerInfromId", -1);
+		Integer tryCarStatus = ParamUtil.getIntParam(request, "tryCarStatus", 1);
 		try{
 			//验证添加相同的客户信息
 			User currentUser = SecurityUserHolder.getCurrentUser();
-			Integer lastResult = ParamUtil.getIntParam(request, "lastResult", -1);
 			//修改推荐客户状态为登记客户
 			RecommendCustomer recommendCustomer2 = recommendCustomerManageImpl.get(recommendCustomerId);
-			//客户来源
-			if(customerInfromId>0){
-				CustomerInfrom customerInfrom = customerInfromManageImpl.get(customerInfromId);
-				customer.setCustomerType(null);;
-				customer.setCustomerInfrom(customerInfrom);
-				CustomerInfrom parent = customerInfrom.getParent();
-				if(null==parent){
-					customerShoppingRecord.setComeType(customerInfrom.getDbid());
-				}else{
-					customerShoppingRecord.setComeType(parent.getDbid());
-				}
-			}
+			//验证添加相同的客户信息
 			/**保持customer 信息**/
 			String no = customer.getSn();
 			if(null==no||no.trim().length()<=0){
 				no=DateUtil.generatedName(new Date());
 				customer.setSn(no);
-			}
-			Customer customer2 = validateCustomer(customer.getMobilePhone(), currentUser.getDbid());
-			if(null!=customer2){
-				if(customer2.getUser().getDbid()==(int)currentUser.getDbid()){
-					renderErrorMsg(new Throwable("您已添加该客户，请确认!"), "");
-					return ;
-				}else{
-					renderErrorMsg(new Throwable("【"+customer2.getBussiStaff()+"】销售顾问已接待该客户，请确认!"), "");
-					return ;
-				}
 			}
 			if(null==customer.getDbid()||customer.getDbid()<=0){
 				//客户最终状态
@@ -1081,35 +1057,11 @@ public class RecommendCustomerAction extends BaseController{
 				//客户订单状态
 				customer.setOrderContractStatus(Customer.ORDERNOT);
 			}
-			customer.setArea(recommendCustomer2.getArea());
-			//车辆品牌
-			Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
-			Brand brand=null;
-			if(brandId>0){
-				brand = brandManageImpl.get(brandId);
-				customerBussi.setBrand(brand);
-			}
-			//意向车型
-			Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
-			CarModel carModel=null;
-			if(carModelId>0){
-				 carModel = carModelManageImpl.get(carModelId);
-				 customerBussi.setCarModel(carModel);
-			}
-			//意向车型
-			Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
-			CarSeriy carSeriy=null;
-			if(carSeriyId>0){
-				 carSeriy = carSeriyManageImpl.get(carSeriyId);
-				 customerBussi.setCarSeriy(carSeriy);
-			}
+			//设置互动次数
+			customer.setTrackNum(0);
+			
 			customer.setUser(currentUser);
 			customer.setBussiStaff(currentUser.getRealName());
-			if(null!=currentUser.getDepartment()){
-				customer.setDepartment(currentUser.getDepartment());
-				customer.setSuccessDepartment(currentUser.getDepartment());
-				customer.setEnterprise(currentUser.getEnterprise());
-			}
 			//设置客户追踪状态
 			Integer customerPhaseId = ParamUtil.getIntParam(request, "customerPhaseId", -1);
 			CustomerPhase customerPhase=null;
@@ -1119,14 +1071,12 @@ public class RecommendCustomerAction extends BaseController{
 				customer.setFirstCustomerPhase(customerPhase);
 				//需修改状态
 				customer.setCustomerPhase(customerPhase);
-				
 				//如果意向级别为O级 那么设置客户的状态为成交状态
 				if(null!=customerPhase){
 					if(customerPhase.getName().equals("O")){
-						customer.setLastResult(lastResult);
+						customer.setLastResult(1);
 					}
 				}
-			
 			}
 			if(null!=customer.getIcard()&&customer.getIcard().trim().length()>0){
 				String icard = customer.getIcard();
@@ -1137,13 +1087,35 @@ public class RecommendCustomerAction extends BaseController{
 					customer.setNbirthday(DateUtil.string2Date(birthDay));
 					String gender = CheckIdCardUtils.getGenderByIdCard(icard);
 					if(gender.equals("M")){
-						customer.setAge(1);
+						customer.setSex("男");
 					}
 					if(gender.equals("F")){
-						customer.setAge(2);
+						customer.setSex("女");
 					}
 				}
 			}
+			//客户来源
+			if(customerInfromId>0){
+				CustomerInfrom customerInfrom = customerInfromManageImpl.get(customerInfromId);
+				customer.setCustomerInfrom(customerInfrom);
+				CustomerInfrom parent = customerInfrom.getParent();
+				if(null==parent){
+					customerShoppingRecord.setComeType(customerInfrom.getDbid());
+				}else{
+					customerShoppingRecord.setComeType(parent.getDbid());
+				}
+				
+				//客户来店
+				if(customerInfromId==1){
+					customer.setComeShopDate(new Date());
+					customer.setComeShopNum(1);
+					customer.setComeShopStatus(2);
+				}else{
+					customer.setComeShopNum(0);
+					customer.setComeShopStatus(1);
+				}
+			}
+			
 			
 			Integer areaId = ParamUtil.getIntParam(request, "areaId", -1);
 			if(areaId>0){
@@ -1153,25 +1125,24 @@ public class RecommendCustomerAction extends BaseController{
 			
 			customer.setDepartment(currentUser.getDepartment());
 			customer.setSuccessDepartment(currentUser.getDepartment());
-
-			//**************************************保存最终成交结果***********************************************//
-			if(null!=customerPhase){
-				if(customerPhase.getName().equals("O")){
-					Integer carColor = ParamUtil.getIntParam(request, "carColor", -1);
-					customerBussi.setBrand(brand);
-					customerBussi.setCarModel(carModel);
-					customerBussi.setCarSeriy(carSeriy);
-					if(carColor>0){
-						CarColor carColor2 = carColorManageImpl.get(carColor);
-						customerLastBussi.setCarColor(carColor2);
-					}
-				}
-			}
 			customer.setRecordType(Customer.CUSTOMERTYPECOMM);
+			customer.setKdStatus(Customer.KDCOMM);
+			customer.setDmsStatus(Customer.DMSCOMM);
 			customer.setCreateFolderTime(new Date());
+			//设置邀约人员
+			customer.setInvitationSaler(currentUser);
+			customer.setInvitationSalerName(currentUser.getRealName());
+			//设置接待人员
+			customer.setReceptierSaler(currentUser);
+			customer.setReceptierSalerName(currentUser.getRealName());
 			Enterprise enterprise = currentUser.getEnterprise();
 			customer.setEnterprise(enterprise);
-			customer.setRecommendCustomer(recommendCustomer2);
+			//试乘试驾状态
+			if(tryCarStatus==2){
+				customer.setTryCarDate(new Date());
+			}
+			customer.setTryCarStatus(tryCarStatus);
+			
 			customerMangeImpl.save(customer);
 			//保存客户操作日志
 			customerOperatorLogManageImpl.saveCustomerOperatorLog(customer.getDbid(), "登记客户信息", "");
@@ -1202,6 +1173,28 @@ public class RecommendCustomerAction extends BaseController{
 				customerBussi.setBuyCarType(buyCarType);
 			}
 			
+			//车辆品牌
+			Integer brandId = ParamUtil.getIntParam(request, "brandId", -1);
+			Brand brand=null;
+			if(brandId>0){
+				brand = brandManageImpl.get(brandId);
+				customerBussi.setBrand(brand);
+			}
+			
+			//意向车型
+			Integer carModelId = ParamUtil.getIntParam(request, "carModelId", -1);
+			CarModel carModel=null;
+			if(carModelId>0){
+				 carModel = carModelManageImpl.get(carModelId);
+				customerBussi.setCarModel(carModel);
+			}
+			//意向车型
+			Integer carSeriyId = ParamUtil.getIntParam(request, "carSeriyId", -1);
+			CarSeriy carSeriy=null;
+			if(carSeriyId>0){
+				 carSeriy = carSeriyManageImpl.get(carSeriyId);
+				customerBussi.setCarSeriy(carSeriy);
+			}
 			
 			Integer buyCarBudgetId = ParamUtil.getIntParam(request, "buyCarBudgetId", -1);
 			if(buyCarBudgetId>0){
@@ -1215,11 +1208,24 @@ public class RecommendCustomerAction extends BaseController{
 			}
 			customerBussiManageImpl.save(customerBussi);
 			
-			customerLastBussi.setCustomer(customer);
-			customerLastBussi.setCreateTime(new Date());
-			customerLastBussiManageImpl.save(customerLastBussi);
+			//**************************************保存最终成交结果***********************************************//
+			if(null!=customerPhase){
+				if(customerPhase.getName().equals("O")){
+					Integer carColor = ParamUtil.getIntParam(request, "carColor", -1);
+					customerLastBussi.setBrand(brand);
+					customerLastBussi.setCarModel(carModel);
+					customerLastBussi.setCarSeriy(carSeriy);
+					customerLastBussi.setCustomer(customer);
+					if(carColor>0){
+						CarColor carColor2 = carColorManageImpl.get(carColor);
+						customerLastBussi.setCarColor(carColor2);
+					}
+					customerLastBussi.setCreateTime(new Date());
+					customerLastBussiManageImpl.save(customerLastBussi);
+				}
+			}
 			
-			/**********************************************保存超时信息表********************************************************/
+			
 			//创建客户跟踪任务
 			customerTractUtile.createCustomerToCreateTask(customer);
 			

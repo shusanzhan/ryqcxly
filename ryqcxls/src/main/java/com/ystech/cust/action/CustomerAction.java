@@ -416,18 +416,17 @@ public class CustomerAction extends BaseController{
 				Brand brand = customerRecord.getBrand();
 				if(null!=brand){
 					//意向车型
-					List<CarSeriy>  carSeriys= carSeriyManageImpl.find("from CarSeriy where brand.dbid=? and status=?", new Object[]{brand.getDbid(),CarSeriy.STATUSCOMM});
+					List<CarSeriy>  carSeriys= carSeriyManageImpl.findByEnterpriseIdAndBrandId(enterprise.getDbid(), brand.getDbid());
 					request.setAttribute("carSeriys", carSeriys);
 				}
 				CarSeriy carSeriy = customerRecord.getCarSeriy();
 				if(null!=carSeriy){
-					List<CarModel> carModels = carModelManageImpl.find("from CarModel where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
+					List<CarModel> carModels = carModelManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid(), brand.getDbid(), carSeriy.getDbid());
 					request.setAttribute("carModels", carModels);
-					
-					List<CarColor> carColors = carColorManageImpl.find("from CarColor where carseries.dbid=? and status=?", new Object[]{carSeriy.getDbid(),CarSeriy.STATUSCOMM});
-					request.setAttribute("carColors", carColors);
 				}
 			}
+			List<CarColor> carColors = carColorManageImpl.findByEnterpriseIdAndBrandIdAndCarSeriyId(enterprise.getDbid());
+			request.setAttribute("carColors", carColors);
 			//品牌
 			List<Brand> brands = brandManageImpl.findByEnterpriseId(enterprise.getDbid());
 			request.setAttribute("brands", brands);
