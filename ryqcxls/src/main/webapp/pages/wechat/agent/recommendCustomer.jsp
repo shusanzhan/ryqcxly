@@ -93,9 +93,6 @@
  			<div class="line"></div>
  			<c:set var="sum" value="0"/>
 			<div class="content" onclick="window.location.href='${ctx}/agentWechat/recommendCustomerDetial?recommendCustomerDbid=${recommendCustomer.dbid }'">
-		    		<div class="img" style="width: 120px;">
-			    		<img alt="" src="${recommendCustomer.carSeriy.picture }" width="100%" height="100%" >
-		    		</div>
 		    		<div class="titleOrPrice">
 		    			<h1 class="productTitle" style="">${recommendCustomer.carSeriy.brand.name}${recommendCustomer.carSeriy.name}</h1>
 		    			<div class="det" align="left">
