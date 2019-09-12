@@ -353,6 +353,59 @@ public class CustManageImpl {
 		return custUsers;
 	}
 	/**
+	 * 功能描述：销售顾问统计
+	 * @param enterpriseId
+	 * @return
+	 */
+	public List<CustPhase> findUserByCustPhases(Integer enterpriseId,Integer userId,Integer tryCarStatus,Integer comeShopStatus){
+		String sql="SELECT "
+				+ "custp.dbid,"
+				+ "custp.`name`,"
+				+ "IFNULL(A.totalNum,0) AS totalNum "
+				+ "FROM "
+				+ "cust_customerphase custp "
+				+ "left JOIN "
+				+ "( "
+				+ "	SELECT"
+				+ "		cust.customerPhaseId,"
+				+ "		COUNT(*) AS totalNum"
+				+ "	FROM"
+				+ "		cust_customer cust"
+				+ "	WHERE"
+				+ "		cust.lastResult=0 "; 
+		if(enterpriseId>0){
+			sql=sql+" AND enterpriseId="+enterpriseId;
+		}
+		if(userId>0){
+			sql=sql+" AND userId="+userId;
+		}
+		
+		if(tryCarStatus>0){
+			sql=sql+" AND tryCarStatus="+tryCarStatus;
+		}
+		if(comeShopStatus>0){
+			sql=sql+" AND comeShopStatus="+comeShopStatus;
+		}
+		sql=sql
+				+ "	GROUP BY"
+				+ "		cust.customerPhaseId"
+				+ ")A "
+				+ "ON custp.dbid=A.customerPhaseId ";
+		DatabaseUnitHelper databaseUnitHelper=new DatabaseUnitHelper();
+		List<CustPhase> custUsers=new ArrayList<CustPhase>();
+		try {
+			Connection jdbcConnection = databaseUnitHelper.getJdbcConnection();
+			Statement createStatement = jdbcConnection.createStatement();
+			ResultSet resultSet = createStatement.executeQuery(sql);
+			custUsers = ResultSetUtil.getDateResult(custUsers, resultSet, CustPhase.class);
+			createStatement.close();
+			jdbcConnection.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return custUsers;
+	}
+	/**
 	 * 功能描述：客户级别-车型统计
 	 * @param custUsers
 	 * @param enterpriseId

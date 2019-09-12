@@ -876,7 +876,7 @@ public class CustomerTrackAction extends BaseController{
 		try{
 			User currentUser = SecurityUserHolder.getCurrentUser();
 			//查询今日需要回访客户
-			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerTodayTrack(currentUser);
+			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerTodayTrack(-1,currentUser.getDbid());
 			request.setAttribute("customerTracks", customerTracks);
 		}
 		catch (Exception e) {

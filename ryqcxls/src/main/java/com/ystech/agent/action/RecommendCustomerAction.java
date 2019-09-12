@@ -1141,6 +1141,7 @@ public class RecommendCustomerAction extends BaseController{
 			if(tryCarStatus==2){
 				customer.setTryCarDate(new Date());
 			}
+			customer.setRecommendCustomer(recommendCustomer2);
 			customer.setTryCarStatus(tryCarStatus);
 			
 			customerMangeImpl.save(customer);

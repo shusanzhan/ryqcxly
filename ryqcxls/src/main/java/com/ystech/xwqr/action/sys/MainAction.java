@@ -5,6 +5,7 @@ package com.ystech.xwqr.action.sys;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,17 @@ import com.ystech.core.util.DateUtil;
 import com.ystech.core.util.Md5;
 import com.ystech.core.util.ParamUtil;
 import com.ystech.core.web.BaseController;
+import com.ystech.cust.model.Customer;
+import com.ystech.cust.model.CustomerPhase;
+import com.ystech.cust.model.CustomerPidBookingRecord;
+import com.ystech.cust.model.CustomerTrack;
+import com.ystech.cust.model.OrderContract;
+import com.ystech.cust.service.CustomerMangeImpl;
+import com.ystech.cust.service.CustomerTrackManageImpl;
+import com.ystech.stat.customer.model.CustPhase;
+import com.ystech.stat.customer.service.CustManageImpl;
+import com.ystech.xwqr.model.sys.Enterprise;
+import com.ystech.xwqr.model.sys.Role;
 import com.ystech.xwqr.model.sys.SystemInfo;
 import com.ystech.xwqr.model.sys.User;
 import com.ystech.xwqr.service.sys.DepartmentManageImpl;
@@ -40,6 +52,9 @@ public class MainAction extends BaseController{
 	private DepartmentManageImpl departmentManageImpl;
 	private SystemInfoMangeImpl systemInfoMangeImpl;
 	private UserManageImpl userManageImpl;
+	private CustomerTrackManageImpl customerTrackManageImpl;
+	private CustomerMangeImpl customerMangeImpl;
+	private CustManageImpl custManageImpl;
 	@Resource
 	public void setResourceManageImpl(ResourceManageImpl resourceManageImpl) {
 		this.resourceManageImpl = resourceManageImpl;
@@ -58,6 +73,19 @@ public class MainAction extends BaseController{
 	@Resource
 	public void setUserManageImpl(UserManageImpl userManageImpl) {
 		this.userManageImpl = userManageImpl;
+	}
+	@Resource
+	public void setCustomerTrackManageImpl(
+			CustomerTrackManageImpl customerTrackManageImpl) {
+		this.customerTrackManageImpl = customerTrackManageImpl;
+	}
+	@Resource
+	public void setCustomerMangeImpl(CustomerMangeImpl customerMangeImpl) {
+		this.customerMangeImpl = customerMangeImpl;
+	}
+	@Resource
+	public void setCustManageImpl(CustManageImpl custManageImpl) {
+		this.custManageImpl = custManageImpl;
 	}
 	/**
 	 * 功能描述：
@@ -167,10 +195,29 @@ public class MainAction extends BaseController{
 	 */
 	public String salerContent() throws Exception {
 		User currentUser = SecurityUserHolder.getCurrentUser();
-		Date start=DateUtil.string2Date(DateUtil.getNowMonthFirstDay()) ;
-		Date end=DateUtil.nextDay(new Date());
 		try{
 			Integer userId = currentUser.getDbid();
+			Integer enterpriseId = currentUser.getEnterprise().getDbid();
+			Set<Role> roles = currentUser.getRoles();
+			for (Role role : roles) {
+				if(role.getName().equals("分店管理员")){
+					userId=-1;
+					break;
+				}
+			}
+			List<CustPhase> custPhases = custManageImpl.findUserByCustPhases(enterpriseId,userId, -1, -1);
+			request.setAttribute("custPhases", custPhases);
+			String pieCustPhaseData = pieCustPhaseData(custPhases);
+			request.setAttribute("pieCustPhaseData", pieCustPhaseData);
+			//查询今日需要回访客户
+			List<CustomerTrack> todayCustomerTracks = customerTrackManageImpl.findBySalerTodayTrack(enterpriseId,userId);
+			request.setAttribute("todayCustomerTracks", todayCustomerTracks);
+			
+			
+			//最近3天需跟进客户
+			List<CustomerTrack> threeCustomerTracks = customerTrackManageImpl.findBySalerThreeDayTrack(enterpriseId,userId);
+			request.setAttribute("threeCustomerTracks", threeCustomerTracks);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
@@ -255,6 +302,40 @@ public class MainAction extends BaseController{
 	 */
 	public String serviceContent() throws Exception {
 		return "serviceContent";
+	}
+	/**
+	 * 功能描述：客户等级
+	 * @param statCustomerRecordTimes
+	 */
+	private String pieCustPhaseData(List<CustPhase> custPhases) {
+		StringBuffer dataBuf=new StringBuffer();
+		if(custPhases.isEmpty()){
+			return "[]";
+		}
+		int size = custPhases.size();
+		int i=0;
+		CustPhase maxCount = custPhases.get(0);
+		for (CustPhase temp : custPhases) {
+			if(maxCount.getTotalNum()<temp.getTotalNum()){
+				maxCount=temp;
+			}
+		}
+		dataBuf.append("[");
+		for (CustPhase temp : custPhases) {
+			i++;
+			dataBuf.append("{"
+					+ "name:\""+temp.getName()+"\","
+					+"y:"+temp.getTotalNum());
+			if(temp.getName().equals(maxCount.getName())){
+				dataBuf.append(",sliced: true,selected: true");
+			}
+			dataBuf.append("}");
+			if(i!=size){
+				dataBuf.append(",");
+			}
+		}
+		dataBuf.append("]");
+		return dataBuf.toString();
 	}
 	/**
 	 * 功能描述：

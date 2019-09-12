@@ -752,7 +752,7 @@ public class QywxCustomerTrackAction extends BaseController{
 		try {
 			User sessionUser = getSessionUser();
 			//查询今日需要回访客户
-			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerTodayTrack(sessionUser);
+			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerTodayTrack(-1,sessionUser.getDbid());
 			request.setAttribute("customerTracks", customerTracks);
 			
 		} catch (Exception e) {
@@ -792,7 +792,7 @@ public class QywxCustomerTrackAction extends BaseController{
 		HttpServletRequest request = this.getRequest();
 		try {
 			User sessionUser = getSessionUser();
-			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerThreeDayTrack(sessionUser);
+			List<CustomerTrack> customerTracks = customerTrackManageImpl.findBySalerThreeDayTrack(-1,sessionUser.getDbid());
 			request.setAttribute("customerTracks", customerTracks);
 		} catch (Exception e) {
 			e.printStackTrace();

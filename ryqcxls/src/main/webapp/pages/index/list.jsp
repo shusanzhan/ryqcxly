@@ -103,21 +103,6 @@
     		<c:if test="${fn:contains(role.name,'超级')||fn:contains(role.name,'客服部')  }" var="cjstatus">
 	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/adminContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
 	 		</c:if>
-    		<c:if test="${fn:contains(role.name,'副总')  }" var="fzstatus">
-	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/mangerContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
-	 		</c:if>
-    		<c:if test="${fn:contains(role.name,'总经理')  }" var="zjstatus">
-	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/generalMangerContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
-	 		</c:if>
-    		<c:if test="${fn:contains(role.name,'物流') }" var="wlstatus">
-	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/wlbContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
-	 		</c:if>
-    		<c:if test="${fn:contains(role.name,'市场部') }" var="scstatus">
-	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/serviceContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
-	 		</c:if>
-    		<c:if test="${fn:contains(role.name,'售后') }" var="shstatus">
-	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/serviceContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
-	 		</c:if>
 	 		<c:if test="${gwstatus==false&&cjstatus==false&&fzstatus==false&&zjstatus==false&&wlstatus==false&&scstatus==false&&shstatus==false }">
 	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/salerContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
 	 		</c:if>

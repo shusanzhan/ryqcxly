@@ -27,43 +27,21 @@ color: #FFFFFF;
 	<div class="row-fluid">
 		<div style="text-align: center;" class="span12 center">					
 			<ul class="stat-boxes">
-				<li>
-					<div class="right">
-						<strong>${newsCount }</strong>
-						新登记
-					</div>
-				</li>
-				<li>
-					<div class="right">
-						<strong>${canncelCount }</strong>
-						流失客户
-					</div>
-				</li>
-				<li>
-					<div class="right">
-						<strong>${orderCount }</strong>
-						订单客户
-					</div>
-				</li>
-				<li>
-					<div class="right">
-						<strong>${waitingCar }</strong>
-						待交车客户
-					</div>
-				</li>
-				<li>
-					<div class="right">
-					<strong>${customerSuccess }</strong>
-						成交客户
-					</div>
-				</li>
+				<c:forEach var="custPhase" items="${custPhases }">
+					<li>
+						<div class="right">
+							<strong>${custPhase.totalNum }</strong>
+							${custPhase.name }
+						</div>
+					</li>
+				</c:forEach>
 			</ul>
 		</div>	
 	</div>
 	<div class="row-fluid">
 			<div class="span12">
 			<div class="widget-box">
-				<div id="container1" style="min-width: 310px; height: 300px; max-width: 620px; margin: 0 auto"></div>
+				<div id="pieCustPhaseData" style="min-width: 310px; height: 300px; max-width: 620px; margin: 0 auto"></div>
 			</div>
 		</div>
 	</div>
@@ -163,183 +141,49 @@ color: #FFFFFF;
 			</div>
 		</div>
 	</div> 
-	<div class="row-fluid">
-	<div class="span6">
-			<div class="widget-box">
-				<div class="widget-title"><span class="icon"><i class="icon-file"></i></span><h5>最近一周登记客户</h5><span class="label label-info tip-left" data-original-title="${fn:length(customers) } 客户">${fn:length(customers) }</span></div>
-				<div class="widget-content nopadding">
-					<table class="table table-bordered">
-					<c:if test="${empty(customers) }">
-						<thead>
-							<tr>最近无登记客户
-							</tr>
-						</thead>
-					</c:if>
-					<c:if test="${!empty(customers) }">
-						<thead>
-							<tr>
-								<th>姓名</th>
-								<th>联系电话</th>
-								<th>意向级别</th>
-								<th>成交状态</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:forEach var="customer" items="${customers }" end="8">
-							<tr>
-								<td style="text-align: center;">${customer.name }</td>
-								<td style="text-align: center;">${customer.mobilePhone }</td>
-								<td style="text-align: center;">${customer.customerPhase.name }</td>
-								<td style="text-align: center;">
-									<c:if test="${customer.lastResult==0 }">
-										客户登记
-									</c:if>
-									<c:if test="${customer.lastResult==1 }">
-										客户成交
-									</c:if>
-									<c:if test="${customer.lastResult==2 }">
-										客户流失（其他）
-									</c:if>
-									<c:if test="${customer.lastResult==3 }">
-										客户流失（取消）
-									</c:if>
-								</td>
-							</tr>
-						</c:forEach>
-						</tbody>
-						</c:if>
-					</table>
-					<ul class="recent-posts" style="margin-top: 5px;">
-						<li class="viewall">
-							<a href="${ctx }/customer/customerShoppingRecordqueryList" class="tip-top" data-original-title="点击查看更多"> 点击查看更多 </a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="span6">
-			<div class="widget-box">
-				<div class="widget-title"><span class="icon"><i class="icon-file"></i></span><h5>待交车客户</h5><span class="label label-info tip-left" data-original-title="${fn:length(waitingdCars) } 待交车客户">${fn:length(waitingdCars) }</span></div>
-				<div class="widget-content nopadding">
-					<table class="table table-bordered">
-					<c:if test="${empty(waitingdCars) }">
-						<thead>
-							<tr>
-								<th>加油哦！还没有待交车</th>
-							</tr>
-						</thead>
-					</c:if>
-					<c:if test="${!empty(waitingdCars) }">
-						<thead>
-							<tr>
-								<th>姓名</th>
-								<th>联系电话</th>
-								<th>物流状态</th>
-								<th width="120">交车日期</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="customer" items="${waitingdCars }" end="7">
-								<tr>
-									<td style="text-align: center;">${customer.name }</td>
-									<td style="text-align: center;">${customer.mobilePhone }</td>
-									<td>
-									<c:if test="${customer.customerPidBookingRecord.wlStatus ==0 }">
-										未交物流部
-									</c:if>
-									<c:if test="${customer.customerPidBookingRecord.wlStatus ==1 }">
-										等待处理
-									</c:if>
-									<c:if test="${customer.customerPidBookingRecord.wlStatus ==2 }">
-										已经处理
-									</c:if>
-									</td>
-									<td>
-										<fmt:formatDate value="${customer.customerPidBookingRecord.bookingDate }" pattern="yyyy年MM月dd日 HH:mm" />
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</c:if>
-					</table>
-						<ul class="recent-comments">
-						<li class="viewall">
-								<a href="${ctx }/customerPidBookingRecord/queryWatingList" class="tip-top" data-original-title="View all comments"> 点击查看更多 </a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 </body>
-<script src="${ctx}/widgets/bootstrap3/jquery.min.js"></script>
-<script src="${ctx }/widgets/highcharts/highcharts.js"></script>
-<script src="${ctx }/widgets/highcharts/modules/exporting.js"></script>
-<script src="${ctx}/widgets/bootstrap3/bootstrap.min.js"></script>
-<script src="${ctx}/widgets/bootstrap3/jquery.ui.custom.js"></script>
-<script src="${ctx}/widgets/bootstrap3/jquery.peity.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/jquery.min.js"></script>
+<script src="${ctx }/widgets/bootstrap3/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/utile/utile.js"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/artDialog.js?skin=default"></script>
 <script type="text/javascript" src="${ctx }/widgets/artDialog/plugins/iframeTools.source.js"></script>
-<!-- <script type="text/javascript">
-window.onresize=function(){
-	 $("#contentUrl").width(window.document.documentElement.clientWidth-145+"px");
-}
-</script> -->
+<script src="${ctx }/widgets/highcharts/highcharts.js"></script>
+<script src="${ctx }/widgets/highcharts/modules/exporting.js"></script>
 <script type="text/javascript">
 $(function () {
-		 var data=eval("[ ['O',${levelCO}],['H',${levelCH}], ['A',${levelCA}], ['B',${levelCB}], ['C',${levelCC}]]");
-		 $('#container1').highcharts({
-	         chart: {
-	             type: 'column'
-	         },
-	         title: {
-	             text: '我的各级客户量'
-	         },
-	       
-	         xAxis: {
-	             type: 'category',
-	             labels: {
-	                 rotation: -45,
-	                 align: 'right',
-	                 style: {
-	                     fontSize: '13px',
-	                     fontFamily: 'Verdana, sans-serif'
-	                 }
-	             }
-	         },
-	         yAxis: {
-	             min: 0,
-	             title: {
-	                 text: '客户量（人）'
-	             }
-	         },
-	         legend: {
-	             enabled: false
-	         },
-	         tooltip: {
-	             pointFormat: ': <b>{point.y:.1f} 人</b>',
-	         },
-	         series: [{
-	             name: 'Population',
-	             data: data,
-	             dataLabels: {
-	                 enabled: true,
-	                 rotation: -90,
-	                 color: '#FFFFFF',
-	                 align: 'right',
-	                 x: 4,
-	                 y: 10,
-	                 style: {
-	                     fontSize: '13px',
-	                     fontFamily: 'Verdana, sans-serif',
-	                     textShadow: '0 0 3px black'
-	                 }
-	             }
-	         }]
-	     });
-		 
-});
-</script> 
+	$('#pieCustPhaseData').highcharts({
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie'
+		},
+		title: {
+			text: '基盘客户等级占比统计分析'
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					style: {
+						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					}
+				}
+			}
+		},
+		series: [{
+			name: '客户级别',
+			colorByPoint: true,
+			data: ${pieCustPhaseData}
+		}]
+	});
+})
+	</script>
 </html>

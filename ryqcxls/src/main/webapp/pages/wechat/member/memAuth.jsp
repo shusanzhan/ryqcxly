@@ -25,12 +25,12 @@
     
     <style type="text/css">
     </style>
-<title>会员认证</title>
+<title>经纪人注册</title>
 </head>
 <body>
 <div class="title">
     <a class="btn-back" onclick="window.history.go(-1)" href="javascript:void(0)"><i class="icon icon-2-1"></i></a>
-    <h3>会员认证</h3>
+    <h3>经纪人注册</h3>
 </div>
 <br>
 <br>

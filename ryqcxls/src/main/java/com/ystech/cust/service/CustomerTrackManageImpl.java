@@ -40,8 +40,19 @@ public class CustomerTrackManageImpl extends HibernateEntityDao<CustomerTrack>{
 	 * @param currentUser
 	 * @return
 	 */
-	public List<CustomerTrack> findBySalerTodayTrack(User currentUser){
-		String sql="select * from cust_customertrack where nextReservationTime<=date_sub(curdate(),interval -1 day) AND taskDealStatus=1 AND userId="+currentUser.getDbid()+"  AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+	public List<CustomerTrack> findBySalerTodayTrack(int enterpriseId,int userId){
+		String sql="select * from cust_customertrack custt left JOIN "
+				+ " sys_user user "
+				+ " ON user.dbid=custt.userId "
+				+ "where "
+				+ " nextReservationTime<=date_sub(curdate(),interval -1 day) AND taskDealStatus=1  AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+		if(userId>0){
+			sql =sql +" AND custt.userId="+userId;
+		}
+		if(enterpriseId>0){
+			sql =sql +" AND user.enterpriseId="+enterpriseId;
+		}
+		sql =sql +"  order by nextReservationTime ";
 		List<CustomerTrack> customerTracks = executeSql(sql, null);
 		return customerTracks;
 	}
@@ -88,14 +99,19 @@ public class CustomerTrackManageImpl extends HibernateEntityDao<CustomerTrack>{
 	 * @param saler
 	 * @return
 	 */
-	public List<CustomerTrack> findBySalerThreeDayTrack(User saler){
-		String sql="select "
-				+ " * "
-				+ "from cust_customertrack  " +
-				" where " +
-				" userId="+saler.getDbid()+" AND taskDealStatus="+CustomerTrack.TASKDEALSTATUSCREATE
-				+ " AND nextReservationTime<date_sub(curdate(),interval -4 day) AND nextReservationTime>date_sub(curdate(),interval -1 day) AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE+
-				"  order by nextReservationTime ";
+	public List<CustomerTrack> findBySalerThreeDayTrack(int enterpriseId,int userId){
+		String sql="select * from cust_customertrack custt left JOIN "
+				+ " sys_user user "
+				+ " ON user.dbid=custt.userId "
+				+ "where "
+				+ " nextReservationTime<date_sub(curdate(),interval -4 day) AND nextReservationTime>date_sub(curdate(),interval -1 day) AND taskDealStatus=1  AND customerPhaseType="+CustomerTrack.CUSTOMERPAHSEONE;
+		if(userId>0){
+			sql =sql +" AND custt.userId="+userId;
+		}
+		if(enterpriseId>0){
+			sql =sql +" AND user.enterpriseId="+enterpriseId;
+		}
+		sql =sql +"  order by nextReservationTime ";
 		List<CustomerTrack> customerTracks = executeSql(sql, null);
 		return customerTracks;
 	}
