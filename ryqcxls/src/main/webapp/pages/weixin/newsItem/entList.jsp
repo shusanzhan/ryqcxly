@@ -22,7 +22,13 @@
 	<a href="${ctx }/main/index" title="经纪人政策" class="tip-bottom"><i
 		class="icon-home"></i>经纪人政策</a>
 </div>
-
+<c:if test="${empty(weixinNewstemplates) }">
+	<div class="alert alert-error">
+			<strong>提示:</strong>
+			<p>1、您为添加自己的经纪人推荐政策说明，系统将采用默认的经纪人推荐政策说明！</p>
+			<p>2、默认经纪人推荐政策<a href="javascript:void(-1)" onclick="window.open('${ctx }/newsItemWechat/readNewsItem?dbid=23')">查看</a></p>
+	</div>
+</c:if>
 <div class="block-wrap">
   <div class="tj msg-list">
     <!-- list开始 -->
