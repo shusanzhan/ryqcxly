@@ -22,6 +22,7 @@
 	<h1>推荐客户</h1>
 	<ul>
 		<li><a href="${ctx }/carModelWechat/carModelList">报名推荐指南</a></li>
+		<li><a href="${ctx }/memberWechat/readNewsItem">推荐规则</a></li>
 		<li><a href="${ctx }/agentWechat/jionIn?code=36c32f92fe5458abe53ce7b908031073&openId=oVrJCuOcJcSUtqFKabDqwzZIVUWc">推荐规则</a></li>
 	</ul>
 	<h1>经纪人中心</h1>

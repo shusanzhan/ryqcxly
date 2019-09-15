@@ -62,6 +62,8 @@
 			<result name="editMore">/pages/weixin/newsItem/editMore.jsp</result>
 			<result name="list">/pages/weixin/newsItem/list.jsp</result>
 			<result name="selectNewsItem">/pages/weixin/newsItem/selectNewsItem.jsp</result>
+			<result name="entList">/pages/weixin/newsItem/entList.jsp</result>
+			<result name="entEdit">/pages/weixin/newsItem/entEdit.jsp</result>
 		</action>	
 		<action name="wechatNewsItem" class="wechatNewsItemAction">
 			<result name="edit">/pages/weixin/wechatNewsItem/edit.jsp</result>

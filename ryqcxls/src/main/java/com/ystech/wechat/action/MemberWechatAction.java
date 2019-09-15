@@ -58,9 +58,12 @@ import com.ystech.weixin.core.util.WeixinUtil;
 import com.ystech.weixin.model.WeixinAccesstoken;
 import com.ystech.weixin.model.WeixinAccount;
 import com.ystech.weixin.model.WeixinGzuserinfo;
+import com.ystech.weixin.model.WeixinNewsitem;
 import com.ystech.weixin.model.template.WeixinSendTemplateMessageUtil;
 import com.ystech.weixin.service.WeixinAccesstokenManageImpl;
 import com.ystech.weixin.service.WeixinAccountManageImpl;
+import com.ystech.weixin.service.WeixinNewsitemManageImpl;
+import com.ystech.weixin.service.WeixinNewstemplateManageImpl;
 import com.ystech.xwqr.model.sys.Area;
 import com.ystech.xwqr.model.sys.Enterprise;
 import com.ystech.xwqr.model.sys.User;
@@ -105,6 +108,8 @@ public class MemberWechatAction extends BaseController{
 	private MemPointrecordSetManageImpl memPointrecordSetManageImpl;
 	private UseCarAreaManageImpl useCarAreaManageImpl;
 	private CustomerMangeImpl customerMangeImpl;
+	private WeixinNewsitemManageImpl weixinNewsitemManageImpl;
+	private WeixinNewstemplateManageImpl weixinNewstemplateManageImpl;
 	
 	public MemberCarInfo getMemberCarInfo() {
 		return memberCarInfo;
@@ -150,6 +155,11 @@ public class MemberWechatAction extends BaseController{
 	@Resource
 	public void setUseCarAreaManageImpl(UseCarAreaManageImpl useCarAreaManageImpl) {
 		this.useCarAreaManageImpl = useCarAreaManageImpl;
+	}
+	@Resource
+	public void setWeixinNewsitemManageImpl(
+			WeixinNewsitemManageImpl weixinNewsitemManageImpl) {
+		this.weixinNewsitemManageImpl = weixinNewsitemManageImpl;
 	}
 	public Member getMember() {
 		return member;
@@ -1007,6 +1017,37 @@ public class MemberWechatAction extends BaseController{
 		return "myCoupon";
 	}
 	/**
+	 * 功能描述：
+	 * 参数描述：
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	public String readNewsItem() {
+		HttpServletRequest request = this.getRequest();
+		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		try {
+			Member member2 = getMemberBy();
+			WeixinNewsitem weixinNewsitem = weixinNewsitemManageImpl.getWeixinNewsitem(member2);
+			if(null==weixinNewsitem){
+				return "error";
+			}
+			Integer readNum = weixinNewsitem.getReadNum();
+			if(null!=readNum){
+				readNum=readNum+1;
+			}else{
+				readNum=0;
+			}
+			weixinNewsitem.setReadNum(readNum);
+			weixinNewsitemManageImpl.save(weixinNewsitem);
+			request.setAttribute("weixinNewsitem", weixinNewsitem);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+		}
+		return "readNewsItem";
+	}
+	/**
 	 * @param request
 	 */
 	private Member getMemberBy() {
@@ -1163,6 +1204,7 @@ public class MemberWechatAction extends BaseController{
 		}
 		return;
 	}
+	
 	/**
 	 * 功能描述：注册送积分
 	 * @param member

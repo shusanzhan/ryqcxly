@@ -90,6 +90,7 @@
           <form id="appmsg-form" method="post" class="form" enctype="multipart/form-data">
 	          <input id="action" name="action" type="hidden" value="add" />
 	           <input type="hidden" name="type" id="type" value="2">
+	           <input type="hidden" id="tempType" name="tempType" value="1"> 
 	          <div class="msg-content" style="width: 100%;">
 		            <label>标题<span class="maroon">*</span><span class="help-inline">(不能超过64个字)</span></label>
 		            <div class="msg-item msg-input">

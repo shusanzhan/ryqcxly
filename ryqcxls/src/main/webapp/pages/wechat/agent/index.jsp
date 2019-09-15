@@ -45,7 +45,7 @@
 <br>
 <br> -->
 <div class="content">
-    <div class="banner"><img src="${ctx }/img/weixin/prowzx_top.jpg?" width="100%"></div>
+    <div class="banner"><img src="${ctx }/img/weixin/prowzx_top.png?1" width="100%"></div>
 </div>
 <div class="weui_panel_bd">
     <a  href="${ctx }/recommendCustomerWechat/recommendCustomer" class="weui_media_box weui_media_appmsg">

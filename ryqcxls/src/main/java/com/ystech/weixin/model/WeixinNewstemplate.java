@@ -15,6 +15,8 @@ public class WeixinNewstemplate implements java.io.Serializable {
 	private String templatename;//名称
 	private String type;//类型
 	private String accountid;//账号ID
+	private Integer enterpriseId;//分公司ID
+	private Integer tempType;//超级用户添加
 	private Set weixinNewsitems = new HashSet(0);
 
 	public WeixinNewstemplate() {
@@ -80,5 +82,22 @@ public class WeixinNewstemplate implements java.io.Serializable {
 	public void setWeixinNewsitems(Set weixinNewsitems) {
 		this.weixinNewsitems = weixinNewsitems;
 	}
+
+	public Integer getTempType() {
+		return tempType;
+	}
+
+	public void setTempType(Integer tempType) {
+		this.tempType = tempType;
+	}
+
+	public Integer getEnterpriseId() {
+		return enterpriseId;
+	}
+
+	public void setEnterpriseId(Integer enterpriseId) {
+		this.enterpriseId = enterpriseId;
+	}
+	
 
 }

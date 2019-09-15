@@ -70,6 +70,7 @@
      		<result name="modifyPhone">/pages/wechat/member/modifyPhone.jsp</result>
      		<result name="memAuth">/pages/wechat/member/memAuth.jsp</result>
      		<result name="carMasterAuth">/pages/wechat/agent/carMasterAuth.jsp</result>
+     		<result name="readNewsItem">/pages/wechat/member/readNewsItem.jsp</result>
      		<interceptor-ref name="oAuth2Stack"></interceptor-ref>
 		</action>
 		<action name="onlineBookingWechat" class="onlineBookingWechatAction">

@@ -42,6 +42,7 @@
       <div class="msg-editer-wrapper" style="width: 100%;">
         <div class="msg-editer" style="width: 100%;">
           <form id="frmId" name="frmid" method="post">
+          <input type="hidden" id="tempType" name="tempType" value="1"> 
           <input type="hidden" id="dbid" name="weixinNewsitem.dbid" value="${weixinNewsitem.dbid }"> 
            <input type="hidden" id="readNum" name="weixinNewsitem.readNum" value="${weixinNewsitem.readNum }"> 
           <input type="hidden" id="dbid" name="weixinNewsitem.createDate" value="${weixinNewsitem.createDate }"> 

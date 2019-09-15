@@ -200,7 +200,7 @@ public class MainAction extends BaseController{
 			Integer enterpriseId = currentUser.getEnterprise().getDbid();
 			Set<Role> roles = currentUser.getRoles();
 			for (Role role : roles) {
-				if(role.getName().equals("分店管理员")){
+				if(role.getName().equals("经销商管理员")){
 					userId=-1;
 					break;
 				}

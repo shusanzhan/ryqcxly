@@ -78,7 +78,51 @@ public class WeixinNewsItemAction extends BaseController{
 		}
 		return "list";
 	}
+	/**
+	 * 功能描述：
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public String queryEntList() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		try{
+			List<WeixinNewstemplate> weixinNewstemplates = weixinNewstemplateManageImpl.queryByEnt();
+			request.setAttribute("weixinNewstemplates", weixinNewstemplates);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "entList";
+	}
 
+	/**
+	 * 功能描述： 
+	 * 参数描述： 
+	 * 逻辑描述：
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String entEdit() throws Exception {
+		HttpServletRequest request = this.getRequest();
+		Integer dbid = ParamUtil.getIntParam(request, "dbid", -1);
+		if(dbid>0){
+			WeixinNewstemplate weixinNewstemplate = weixinNewstemplateManageImpl.get(dbid);
+			request.setAttribute("weixinNewstemplate", weixinNewstemplate);
+			Set<WeixinNewsitem> weixinNewsitems = weixinNewstemplate.getWeixinNewsitems();
+			if(null!=weixinNewsitems&&weixinNewsitems.size()>0){
+				int i=0;
+				for (WeixinNewsitem weixinNewsitem : weixinNewsitems) {
+					if(i==0){
+						request.setAttribute("weixinNewsitem", weixinNewsitem);
+					}
+				}
+			}
+		}
+		return "entEdit";
+	}
 	/**
 	 * 功能描述： 
 	 * 参数描述： 
@@ -160,6 +204,8 @@ public class WeixinNewsItemAction extends BaseController{
 		HttpServletRequest request = getRequest();
 		Integer type = ParamUtil.getIntParam(request, "type", 1);
 		Integer weixinNewstemplateDbid = ParamUtil.getIntParam(request, "weixinNewstemplateDbid", -1);
+		Integer tempType = ParamUtil.getIntParam(request, "tempType", -1);
+		Enterprise enterprise = SecurityUserHolder.getEnterprise();
 		try{
 			WeixinAccount weixinAccount = weixinAccountManageImpl.findByWeixinAccount();
 			if(null!=weixinAccount){
@@ -172,6 +218,12 @@ public class WeixinNewsItemAction extends BaseController{
 					String addtime = DateUtil.format2(new Date());
 					weixinNewstemplate.setAddtime(addtime);
 					weixinNewstemplate.setType(type+"");
+				}
+				weixinNewstemplate.setTempType(tempType);
+				if(enterprise.getDbid()>0){
+					weixinNewstemplate.setEnterpriseId(enterprise.getDbid());
+				}else{
+					weixinNewstemplate.setEnterpriseId(0);
 				}
 				weixinNewstemplate.setAccountid(weixinAccount.getDbid()+"");
 				weixinNewstemplate.setTemplatename(weixinNewsitem.getTitle());
@@ -208,7 +260,12 @@ public class WeixinNewsItemAction extends BaseController{
 			renderErrorMsg(e, "");
 			return ;
 		}
-		renderMsg("/weixinNewsItem/queryList", "保存数据成功！");
+		if(tempType==1){
+			renderMsg("/weixinNewsItem/queryList", "保存数据成功！");
+		}
+		if(tempType==2){
+			renderMsg("/weixinNewsItem/queryEntList", "保存数据成功！");
+		}
 		return ;
 	}
 	/**
@@ -293,6 +350,7 @@ public class WeixinNewsItemAction extends BaseController{
 	 */
 	public void delete() throws Exception {
 		HttpServletRequest request = this.getRequest();
+		Integer tempType = ParamUtil.getIntParam(request, "tempType", 1);
 		Integer[] dbids = ParamUtil.getIntArraryByDbids(request,"dbids");
 		if(null!=dbids&&dbids.length>0){
 			try {
@@ -310,7 +368,11 @@ public class WeixinNewsItemAction extends BaseController{
 			return ;
 		}
 		String query = ParamUtil.getQueryUrl(request);
-		renderMsg("/weixinNewsItem/queryList"+query, "删除数据成功！");
+		if(tempType==2){
+			renderMsg("/weixinNewsItem/queryEntList", "删除数据成功！");
+		}else{
+			renderMsg("/weixinNewsItem/queryList"+query, "删除数据成功！");
+		}
 		return;
 	}
 	

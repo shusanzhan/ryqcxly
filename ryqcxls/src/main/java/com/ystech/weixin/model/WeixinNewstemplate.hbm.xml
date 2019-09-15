@@ -17,6 +17,12 @@
         <property name="type" type="string">
             <column name="type" />
         </property>
+        <property name="tempType" type="java.lang.Integer">
+            <column name="tempType" />
+        </property>
+        <property name="enterpriseId" type="java.lang.Integer">
+            <column name="enterpriseId" />
+        </property>
         <property name="accountid" type="string">
             <column name="accountid" length="100" />
         </property>

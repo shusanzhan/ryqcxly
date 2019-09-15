@@ -103,7 +103,7 @@
     		<c:if test="${fn:contains(role.name,'超级')||fn:contains(role.name,'客服部')  }" var="cjstatus">
 	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/adminContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
 	 		</c:if>
-	 		<c:if test="${gwstatus==false&&cjstatus==false&&fzstatus==false&&zjstatus==false&&wlstatus==false&&scstatus==false&&shstatus==false }">
+	 		<c:if test="${gwstatus==false&&cjstatus==false}">
 	 			<iframe id="contentUrl" name="contentUrl" src="${ctx }/main/salerContent" scrolling="auto"  frameborder="0" class="contentUrl"  ></iframe>
 	 		</c:if>
 	 	</c:forEach>
