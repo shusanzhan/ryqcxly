@@ -20,15 +20,15 @@ public class WeixinNewsitemManageImpl extends HibernateEntityDao<WeixinNewsitem>
 		if(null!=member){
 			Enterprise enterprise = member.getEnterprise();
 			if(null!=enterprise){
-				sql=sql+" AND wnt.enterpriseId="+enterprise.getDbid();
-				weixinNewsitems = executeSql(sql, null);
+				String sql2=sql+" AND wnt.enterpriseId="+enterprise.getDbid();
+				weixinNewsitems = executeSql(sql2, null);
 			}
 		}
 		if(null==weixinNewsitems||weixinNewsitems.isEmpty()){
 			sql=sql+" AND wnt.enterpriseId=0";
 			weixinNewsitems = executeSql(sql, null);
 		}
-		if(null==weixinNewsitems){
+		if(null==weixinNewsitems||weixinNewsitems.isEmpty()){
 			return null;
 		}
 		return weixinNewsitems.get(0);

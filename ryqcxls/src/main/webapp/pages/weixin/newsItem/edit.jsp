@@ -48,6 +48,7 @@
           <input type="hidden" id="dbid" name="weixinNewsitem.createDate" value="${weixinNewsitem.createDate }"> 
           <input type="hidden" id="weixinNewstemplateDbid" name="weixinNewstemplateDbid" value="${weixinNewstemplate.dbid }"> 
           <input type="hidden" id="type" name="type" value="1"> 
+          <input type="hidden" id="tempType" name="tempType" value="1"> 
           <div class="msg-content" style="width: 100%;">
 	          <div class="control-group">
 				<label class="control-label">

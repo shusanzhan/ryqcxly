@@ -112,12 +112,12 @@
                                 <p>我的积分</p>
                             </a>
                         </li>
-                        <%--  <li>
-                            <a href="${ctx}/agentWechat/mySpreadDetail">
-                                <img src="${ctx }/img/weixin/memberAddress.png">
-                                <p>专属二维码</p>
+                       <li>
+                            <a href="${ctx}/memberWechat/readNewsItem">
+                                <img src="${ctx }/img/weixin/memberDis.png">
+                                <p>推荐政策</p>
                             </a>
-                        </li> --%>
+                        </li>
                          <li>
                             <a href="${ctx}/newsItemWechat/readNewsItem?dbid=17">
                                 <img src="${ctx }/img/weixin/agentsc.png">
@@ -137,14 +137,9 @@
                             </a>
                         </li>
                        
-                      <!--     <li>
-                            <a href="${ctx}/wechatMember/memberExplain">
-                                <img src="${ctx }/img/weixin/memberDis.png">
-                                <p>会员说明</p>
-                            </a>
-                        </li>
+                     
                         
-                        <li>
+                       <!-- <li>
                             <a href="${ctx}/wechatFanli/index?wechat_id=${param.wechat_id}&menu=5">
                                 <img src="${ctx }/img/weixin/fanli.png">
                                 <p>我的收益</p>
